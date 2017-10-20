@@ -1,0 +1,20 @@
+record(bo, "$(P):$(R)") {    
+    field(DESC, "$(DESC)")
+    field(SCAN, "Passive")
+    field(PINI, "YES")
+    field(DTYP, "asynUInt32Digital")
+    field(OUT,  "@asynMask($(PORT),$(ADDR),0x01)$(PARAM)")
+    field(ZNAM, "$(ZNAM)")
+    field(ONAM, "$(ONAM)")
+    field(FLNK, "$(P):$(R)_RBV")
+}
+
+record(bi, "$(P):$(R)_RBV") {    
+    field(DESC, "$(DESC)")
+    field(SCAN, "$(SCAN)")
+    field(PINI, "YES")
+    field(DTYP, "asynUInt32Digital")
+    field(INP,  "@asynMask($(PORT),$(ADDR),0x01)$(PARAM)")
+    field(ZNAM, "$(ZNAM)")
+    field(ONAM, "$(ONAM)")
+}

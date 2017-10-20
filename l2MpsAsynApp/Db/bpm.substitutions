@@ -1,0 +1,101 @@
+file "longin.template" { pattern
+{ R,                    DESC,                               PARAM,                  ADDR,       PINI,   SCAN        }
+{ X_THRNUM,       "Bay $(BAY) X Threshold number",    BPM_THRNUM_$(BAY)0000,  "$(BAY)",   "YES",  "Passive"   }  
+{ Y_THRNUM,       "Bay $(BAY) Y Threshold number",    BPM_THRNUM_$(BAY)1000,  "$(BAY)",   "YES",  "Passive"   }    
+{ C_THRNUM,       "Bay $(BAY) C Threshold number",    BPM_THRNUM_$(BAY)2000,  "$(BAY)",   "YES",  "Passive"   }    
+
+{ X_THRCNT,       "Bay $(BAY) X Threshold count",     BPM_THRCNT_$(BAY)0000,   "$(BAY)",   "YES",  "Passive"   }    
+{ Y_THRCNT,       "Bay $(BAY) Y Threshold count",     BPM_THRCNT_$(BAY)1000,   "$(BAY)",   "YES",  "Passive"   }    
+{ C_THRCNT,       "Bay $(BAY) C Threshold count",     BPM_THRCNT_$(BAY)2000,   "$(BAY)",   "YES",  "Passive"   }    
+
+{ X_BYTEMAP,      "Bay $(BAY) X Threshold byte map",  BPM_BYTEMAP_$(BAY)0000,  "$(BAY)",   "YES",  "Passive"   }   
+{ Y_BYTEMAP,      "Bay $(BAY) Y Threshold byte map",  BPM_BYTEMAP_$(BAY)1000,  "$(BAY)",   "YES",  "Passive"   }   
+{ C_BYTEMAP,      "Bay $(BAY) C Threshold byte map",  BPM_BYTEMAP_$(BAY)2000,  "$(BAY)",   "YES",  "Passive"   }   
+
+}
+
+file "bi.template" { pattern
+{ R,                    DESC,                               PARAM,                  ADDR,       ZNAM,       ONAM,       PINI,   SCAN        }
+
+{ X_IDLEEN,       "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_$(BAY)0000,  "$(BAY)",   "Disabled",  "Enabled",  "YES",  "Passive"   }
+{ Y_IDLEEN,       "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_$(BAY)1000,  "$(BAY)",   "Disabled",  "Enabled",  "YES",  "Passive"   }
+{ C_IDLEEN,       "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_$(BAY)2000,  "$(BAY)",   "Disabled",  "Enabled",  "YES",  "Passive"   }
+
+{ X_ALTEN,        "Bay $(BAY) ALT table enabled",     BPM_ALTEN_$(BAY)0000,   "$(BAY)",   "Disabled",  "Enabled",  "YES",  "Passive"   }
+{ Y_ALTEN,        "Bay $(BAY) ALT table enabled",     BPM_ALTEN_$(BAY)1000,   "$(BAY)",   "Disabled",  "Enabled",  "YES",  "Passive"   }
+{ C_ALTEN,        "Bay $(BAY) ALT table enabled",     BPM_ALTEN_$(BAY)2000,   "$(BAY)",   "Disabled",  "Enabled",  "YES",  "Passive"   }
+
+{ X_LCLS1EN,      "Bay $(BAY) LCLS1 table enabled",   BPM_LCLS1EN_$(BAY)0000, "$(BAY)",   "Disabled",  "Enabled",  "YES",  "Passive"   }
+{ Y_LCLS1EN,      "Bay $(BAY) LCLS1 table enabled",   BPM_LCLS1EN_$(BAY)1000, "$(BAY)",   "Disabled",  "Enabled",  "YES",  "Passive"   }
+{ C_LCLS1EN,      "Bay $(BAY) LCLS1 table enabled",   BPM_LCLS1EN_$(BAY)2000, "$(BAY)",   "Disabled",  "Enabled",  "YES",  "Passive"   }
+
+}
+
+
+file "thr.template" { pattern
+{ R,                    DESC,                                   APP,        EGU,    PREC,   CH,     TABLE,  THR,    }
+{ X_LCLS1_T0,     "BPM, Bay $(BAY), X, LCLS1, Threshold", "BPM",      "mm",   "2",    "0",    "0",    "0",    }
+{ Y_LCLS1_T0,     "BPM, Bay $(BAY), Y, LCLS1, Threshold", "BPM",      "mm",   "2",    "1",    "0",    "0",    }
+{ C_LCLS1_T0,     "BPM, Bay $(BAY), C, LCLS1, Threshold", "BPM",      "Nel",  "2",    "2",    "0",    "0",    }
+
+{ X_IDLE_T0,      "BPM, Bay $(BAY), X, IDLE, Threshold",  "BPM",      "mm",   "2",    "0",    "1",    "0",    }
+{ Y_IDLE_T0,      "BPM, Bay $(BAY), Y, IDLE, Threshold",  "BPM",      "mm",   "2",    "1",    "1",    "0",    }
+{ C_IDLE_T0,      "BPM, Bay $(BAY), C, IDLE, Threshold",  "BPM",      "Nel",  "2",    "2",    "1",    "0",    }
+
+{ X_STD_T0,       "BPM, Bay $(BAY), X, STD, Threshold 0", "BPM",      "mm",   "2",    "0",    "2",    "0",    }
+{ X_STD_T1,       "BPM, Bay $(BAY), X, STD, Threshold 1", "BPM",      "mm",   "2",    "0",    "2",    "1",    }
+{ X_STD_T2,       "BPM, Bay $(BAY), X, STD, Threshold 2", "BPM",      "mm",   "2",    "0",    "2",    "2",    }
+{ X_STD_T3,       "BPM, Bay $(BAY), X, STD, Threshold 3", "BPM",      "mm",   "2",    "0",    "2",    "3",    }
+{ X_STD_T4,       "BPM, Bay $(BAY), X, STD, Threshold 4", "BPM",      "mm",   "2",    "0",    "2",    "4",    }
+{ X_STD_T5,       "BPM, Bay $(BAY), X, STD, Threshold 5", "BPM",      "mm",   "2",    "0",    "2",    "5",    }
+{ X_STD_T6,       "BPM, Bay $(BAY), X, STD, Threshold 6", "BPM",      "mm",   "2",    "0",    "2",    "6",    }
+{ X_STD_T7,       "BPM, Bay $(BAY), X, STD, Threshold 7", "BPM",      "mm",   "2",    "0",    "2",    "7",    }
+{ Y_STD_T0,       "BPM, Bay $(BAY), Y, STD, Threshold 0", "BPM",      "mm",   "2",    "1",    "2",    "0",    }
+{ Y_STD_T1,       "BPM, Bay $(BAY), Y, STD, Threshold 1", "BPM",      "mm",   "2",    "1",    "2",    "1",    }
+{ Y_STD_T2,       "BPM, Bay $(BAY), Y, STD, Threshold 2", "BPM",      "mm",   "2",    "1",    "2",    "2",    }
+{ Y_STD_T3,       "BPM, Bay $(BAY), Y, STD, Threshold 3", "BPM",      "mm",   "2",    "1",    "2",    "3",    }
+{ Y_STD_T4,       "BPM, Bay $(BAY), Y, STD, Threshold 4", "BPM",      "mm",   "2",    "1",    "2",    "4",    }
+{ Y_STD_T5,       "BPM, Bay $(BAY), Y, STD, Threshold 5", "BPM",      "mm",   "2",    "1",    "2",    "5",    }
+{ Y_STD_T6,       "BPM, Bay $(BAY), Y, STD, Threshold 6", "BPM",      "mm",   "2",    "1",    "2",    "6",    }
+{ Y_STD_T7,       "BPM, Bay $(BAY), Y, STD, Threshold 7", "BPM",      "mm",   "2",    "1",    "2",    "7",    }
+{ C_STD_T0,       "BPM, Bay $(BAY), C, STD, Threshold 0", "BPM",      "Nel",  "2",    "2",    "2",    "0",    }
+{ C_STD_T1,       "BPM, Bay $(BAY), C, STD, Threshold 1", "BPM",      "Nel",  "2",    "2",    "2",    "1",    }
+{ C_STD_T2,       "BPM, Bay $(BAY), C, STD, Threshold 2", "BPM",      "Nel",  "2",    "2",    "2",    "2",    }
+{ C_STD_T3,       "BPM, Bay $(BAY), C, STD, Threshold 3", "BPM",      "Nel",  "2",    "2",    "2",    "3",    }
+{ C_STD_T4,       "BPM, Bay $(BAY), C, STD, Threshold 4", "BPM",      "Nel",  "2",    "2",    "2",    "4",    }
+{ C_STD_T5,       "BPM, Bay $(BAY), C, STD, Threshold 5", "BPM",      "Nel",  "2",    "2",    "2",    "5",    }
+{ C_STD_T6,       "BPM, Bay $(BAY), C, STD, Threshold 6", "BPM",      "Nel",  "2",    "2",    "2",    "6",    }
+{ C_STD_T7,       "BPM, Bay $(BAY), C, STD, Threshold 7", "BPM",      "Nel",  "2",    "2",    "2",    "7",    }
+
+{ X_ALT_T0,       "BPM, Bay $(BAY), X, ALT, Threshold 0", "BPM",      "mm",   "2",    "0",    "3",    "0",    }
+{ X_ALT_T1,       "BPM, Bay $(BAY), X, ALT, Threshold 1", "BPM",      "mm",   "2",    "0",    "3",    "1",    }
+{ X_ALT_T2,       "BPM, Bay $(BAY), X, ALT, Threshold 2", "BPM",      "mm",   "2",    "0",    "3",    "2",    }
+{ X_ALT_T3,       "BPM, Bay $(BAY), X, ALT, Threshold 3", "BPM",      "mm",   "2",    "0",    "3",    "3",    }
+{ X_ALT_T4,       "BPM, Bay $(BAY), X, ALT, Threshold 4", "BPM",      "mm",   "2",    "0",    "3",    "4",    }
+{ X_ALT_T5,       "BPM, Bay $(BAY), X, ALT, Threshold 5", "BPM",      "mm",   "2",    "0",    "3",    "5",    }
+{ X_ALT_T6,       "BPM, Bay $(BAY), X, ALT, Threshold 6", "BPM",      "mm",   "2",    "0",    "3",    "6",    }
+{ X_ALT_T7,       "BPM, Bay $(BAY), X, ALT, Threshold 7", "BPM",      "mm",   "2",    "0",    "3",    "7",    }
+{ Y_ALT_T0,       "BPM, Bay $(BAY), Y, ALT, Threshold 0", "BPM",      "mm",   "2",    "1",    "3",    "0",    }
+{ Y_ALT_T1,       "BPM, Bay $(BAY), Y, ALT, Threshold 1", "BPM",      "mm",   "2",    "1",    "3",    "1",    }
+{ Y_ALT_T2,       "BPM, Bay $(BAY), Y, ALT, Threshold 2", "BPM",      "mm",   "2",    "1",    "3",    "2",    }
+{ Y_ALT_T3,       "BPM, Bay $(BAY), Y, ALT, Threshold 3", "BPM",      "mm",   "2",    "1",    "3",    "3",    }
+{ Y_ALT_T4,       "BPM, Bay $(BAY), Y, ALT, Threshold 4", "BPM",      "mm",   "2",    "1",    "3",    "4",    }
+{ Y_ALT_T5,       "BPM, Bay $(BAY), Y, ALT, Threshold 5", "BPM",      "mm",   "2",    "1",    "3",    "5",    }
+{ Y_ALT_T6,       "BPM, Bay $(BAY), Y, ALT, Threshold 6", "BPM",      "mm",   "2",    "1",    "3",    "6",    }
+{ Y_ALT_T7,       "BPM, Bay $(BAY), Y, ALT, Threshold 7", "BPM",      "mm",   "2",    "1",    "3",    "7",    }
+{ C_ALT_T0,       "BPM, Bay $(BAY), C, ALT, Threshold 0", "BPM",      "Nel",  "2",    "2",    "3",    "0",    }
+{ C_ALT_T1,       "BPM, Bay $(BAY), C, ALT, Threshold 1", "BPM",      "Nel",  "2",    "2",    "3",    "1",    }
+{ C_ALT_T2,       "BPM, Bay $(BAY), C, ALT, Threshold 2", "BPM",      "Nel",  "2",    "2",    "3",    "2",    }
+{ C_ALT_T3,       "BPM, Bay $(BAY), C, ALT, Threshold 3", "BPM",      "Nel",  "2",    "2",    "3",    "3",    }
+{ C_ALT_T4,       "BPM, Bay $(BAY), C, ALT, Threshold 4", "BPM",      "Nel",  "2",    "2",    "3",    "4",    }
+{ C_ALT_T5,       "BPM, Bay $(BAY), C, ALT, Threshold 5", "BPM",      "Nel",  "2",    "2",    "3",    "5",    }
+{ C_ALT_T6,       "BPM, Bay $(BAY), C, ALT, Threshold 6", "BPM",      "Nel",  "2",    "2",    "3",    "6",    }
+{ C_ALT_T7,       "BPM, Bay $(BAY), C, ALT, Threshold 7", "BPM",      "Nel",  "2",    "2",    "3",    "7",    }
+}
+
+file "scale.template" { pattern
+{ CH,     SCALE_PV,                 "SCAN"      }
+{ "X",    "$(P):X$(BAY)_FWSCL",     "5 second"  }
+{ "Y",    "$(P):Y$(BAY)_FWSCL",     "5 second"  }
+{ "C",    "$(P):C$(BAY)_FWSCL",     "5 second"  }
+}

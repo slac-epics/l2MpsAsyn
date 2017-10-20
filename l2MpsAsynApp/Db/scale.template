@@ -1,0 +1,64 @@
+#### SCALE PVS ####
+record(calcout, "$(P):$(CH)$(BAY)-SF") {
+    field(SCAN, "$(SCAN)")
+    field(INPA, "$(SCALE_PV)")
+    field(CALC, "A")
+    field(PINI, "YES")
+    field(OOPT, "On Change")
+    field(OUT,  "$(P):$(CH)$(BAY)-SF2 PP")
+}
+
+record(calcout, "$(P):$(CH)$(BAY)-SF2") {
+    field(SCAN, "Passive")
+    field(INPA, "$(SCALE_PV)")
+    field(CALC, "A")
+    field(PINI, "YES")
+    field(OOPT, "When Non-zero")
+    field(OUT,  "$(P):$(CH)$(BAY)-SF3 PP")
+}
+
+record(dfanout, "$(P):$(CH)$(BAY)-SF3") {
+    field(SCAN, "Passive")
+    field(OUTA, "$(P):$(CH)$(BAY)_LCLS1-SF PP")
+    field(OUTB, "$(P):$(CH)$(BAY)_IDLE-SF PP")
+    field(OUTC, "$(P):$(CH)$(BAY)_STD-SF PP")
+    field(OUTD, "$(P):$(CH)$(BAY)_ALT-SF PP")
+}
+
+#### Fanout scale factor to LCLS1 table PVs ####
+record(dfanout, "$(P):$(CH)$(BAY)_LCLS1-SF") {
+    field(SCAN, "Passive")
+    field(OUTA, "$(P):$(CH)$(BAY)_LCLS1_T0-SF2 PP")
+}
+
+#### Fanout scale factor to IDLE table PVs ####
+record(dfanout, "$(P):$(CH)$(BAY)_IDLE-SF") {
+    field(SCAN, "Passive")
+    field(OUTA, "$(P):$(CH)$(BAY)_IDLE_T0-SF2 PP")
+}
+
+#### Fanout scale factor to STD table PVs ####
+record(dfanout, "$(P):$(CH)$(BAY)_STD-SF") {
+    field(SCAN, "Passive")
+    field(OUTA, "$(P):$(CH)$(BAY)_STD_T0-SF2 PP")
+    field(OUTB, "$(P):$(CH)$(BAY)_STD_T1-SF2 PP")
+    field(OUTC, "$(P):$(CH)$(BAY)_STD_T2-SF2 PP")
+    field(OUTD, "$(P):$(CH)$(BAY)_STD_T3-SF2 PP")
+    field(OUTE, "$(P):$(CH)$(BAY)_STD_T4-SF2 PP")
+    field(OUTF, "$(P):$(CH)$(BAY)_STD_T5-SF2 PP")
+    field(OUTG, "$(P):$(CH)$(BAY)_STD_T6-SF2 PP")
+    field(OUTH, "$(P):$(CH)$(BAY)_STD_T7-SF2 PP")
+}
+
+#### Fanout scale factor to ALT table PVs ####
+record(dfanout, "$(P):$(CH)$(BAY)_ALT-SF") {
+    field(SCAN, "Passive")
+    field(OUTA, "$(P):$(CH)$(BAY)_ALT_T0-SF2 PP")
+    field(OUTB, "$(P):$(CH)$(BAY)_ALT_T1-SF2 PP")
+    field(OUTC, "$(P):$(CH)$(BAY)_ALT_T2-SF2 PP")
+    field(OUTD, "$(P):$(CH)$(BAY)_ALT_T3-SF2 PP")
+    field(OUTE, "$(P):$(CH)$(BAY)_ALT_T4-SF2 PP")
+    field(OUTF, "$(P):$(CH)$(BAY)_ALT_T5-SF2 PP")
+    field(OUTG, "$(P):$(CH)$(BAY)_ALT_T6-SF2 PP")
+    field(OUTH, "$(P):$(CH)$(BAY)_ALT_T7-SF2 PP")
+}

@@ -1,0 +1,16 @@
+record(longout, "$(P):$(R)") {
+    field(DESC, "$(DESC)")
+    field(SCAN, "Passive")
+    field(PINI, "YES")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR))$(PARAM)")
+    field(FLNK, "$(P):$(R)_RBV")
+}
+
+record(longin, "$(P):$(R)_RBV") {
+    field(DESC, "$(DESC)")
+    field(SCAN, "$(SCAN)")
+    field(PINI, "YES")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR))$(PARAM)")
+}

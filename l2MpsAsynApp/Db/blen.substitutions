@@ -1,0 +1,44 @@
+file "longin.template" { pattern
+{ R,                    DESC,                               PARAM,                      ADDR,       PINI,   SCAN        }
+{ B$(BAY)_THRNUM,       "Bay $(BAY) Threshold number",       BLEN_THRNUM_$(BAY)0000,     "$(BAY)",   "YES",  "Passive"   }  
+{ B$(BAY)_THRCNT,       "Bay $(BAY) Threshold count",        BLEN_THRCNT_$(BAY)0000,     "$(BAY)",   "YES",  "Passive"   }    
+{ B$(BAY)_BYTEMAP,      "Bay $(BAY) Threshold byte map",     BLEN_BYTEMAP_$(BAY)0000,    "$(BAY)",   "YES",  "Passive"   }   
+}
+
+file "bi.template" { pattern
+{ R,                    DESC,                               PARAM,                      ADDR,       ZNAM,       ONAM,       PINI,   SCAN        }
+{ B$(BAY)_IDLEEN,       "Bay $(BAY) IDLE table enabled",    BLEN_IDLEEN_$(BAY)0000,     "$(BAY)",   "Disabled",  "Enabled",  "YES",  "Passive"   }
+{ B$(BAY)_ALTEN,        "Bay $(BAY) ALT table enabled",     BLEN_ALTEN_$(BAY)0000,      "$(BAY)",   "Disabled",  "Enabled",  "YES",  "Passive"   }
+{ B$(BAY)_LCLS1EN,      "Bay $(BAY) LCLS1 table enabled",   BLEN_LCLS1EN_$(BAY)0000,    "$(BAY)",   "Disabled",  "Enabled",  "YES",  "Passive"   }
+}
+
+
+file "thr.template" { pattern
+{ R,                    DESC,                                   APP,        CH,     TABLE,  THR,    }
+{ B$(BAY)_LCLS1_T0,     "BLEN, Bay $(BAY), LCLS1, Threshold",   "BLEN",     "0",    "0",    "0",    }
+
+{ B$(BAY)_IDLE_T0,      "BLEN, Bay $(BAY), IDLE, Threshold",    "BLEN",     "0",    "1",    "0",    }
+
+{ B$(BAY)_STD_0,        "BLEN, Bay $(BAY), STD, Threshold 0",   "BLEN",     "0",    "2",    "0",    }
+{ B$(BAY)_STD_1,        "BLEN, Bay $(BAY), STD, Threshold 1",   "BLEN",     "0",    "2",    "1",    }
+{ B$(BAY)_STD_2,        "BLEN, Bay $(BAY), STD, Threshold 2",   "BLEN",     "0",    "2",    "2",    }
+{ B$(BAY)_STD_3,        "BLEN, Bay $(BAY), STD, Threshold 3",   "BLEN",     "0",    "2",    "3",    }
+{ B$(BAY)_STD_4,        "BLEN, Bay $(BAY), STD, Threshold 4",   "BLEN",     "0",    "2",    "4",    }
+{ B$(BAY)_STD_5,        "BLEN, Bay $(BAY), STD, Threshold 5",   "BLEN",     "0",    "2",    "5",    }
+{ B$(BAY)_STD_6,        "BLEN, Bay $(BAY), STD, Threshold 6",   "BLEN",     "0",    "2",    "6",    }
+{ B$(BAY)_STD_7,        "BLEN, Bay $(BAY), STD, Threshold 7",   "BLEN",     "0",    "2",    "7",    }
+
+{ B$(BAY)_ALT_T0,       "BLEN, Bay $(BAY), ALT, Threshold 0",   "BLEN",     "0",    "3",    "0",    }
+{ B$(BAY)_ALT_T1,       "BLEN, Bay $(BAY), ALT, Threshold 1",   "BLEN",     "0",    "3",    "1",    }
+{ B$(BAY)_ALT_T2,       "BLEN, Bay $(BAY), ALT, Threshold 2",   "BLEN",     "0",    "3",    "2",    }
+{ B$(BAY)_ALT_T3,       "BLEN, Bay $(BAY), ALT, Threshold 3",   "BLEN",     "0",    "3",    "3",    }
+{ B$(BAY)_ALT_T4,       "BLEN, Bay $(BAY), ALT, Threshold 4",   "BLEN",     "0",    "3",    "4",    }
+{ B$(BAY)_ALT_T5,       "BLEN, Bay $(BAY), ALT, Threshold 5",   "BLEN",     "0",    "3",    "5",    }
+{ B$(BAY)_ALT_T6,       "BLEN, Bay $(BAY), ALT, Threshold 6",   "BLEN",     "0",    "3",    "6",    }
+{ B$(BAY)_ALT_T7,       "BLEN, Bay $(BAY), ALT, Threshold 7",   "BLEN",     "0",    "3",    "7",    }
+}
+
+file "scale.template" { pattern
+{ CH,     SCALE_PV,                     "SCAN"      }
+{ "B",    "$(P):BPM:B$(BAY):X_FWSCL",   "5 second"  }
+}
