@@ -1,0 +1,13 @@
+bin/
+lib/
+include/
+db/
+O.*/
+dbd/
+startup/
+cfg/
+*~
+RELEASE_SITE
+display/
+restore/
+*swp
