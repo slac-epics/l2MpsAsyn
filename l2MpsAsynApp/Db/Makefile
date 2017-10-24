@@ -13,6 +13,7 @@ include $(TOP)/configure/CONFIG
 DB += mps.db
 DB += bpm.db
 DB += blen.db
+DB += bcm.db
 DB += blm.db
 
 #----------------------------------------------------
