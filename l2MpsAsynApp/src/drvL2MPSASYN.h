@@ -18,27 +18,31 @@
 #define DRIVER_NAME         "L2MPS"
 
 // MPS node parameters
-#define appIdString         "APP_ID"
-#define mpsEnString         "MPS_EN"
-#define lcl1ModeString      "LCLS1_MODE"
-#define byteCountString     "BYTE_COUNT"
-#define digitalEnString     "DIGITAL_EN"
-#define beamDestMaskString  "BEAM_DEST_MASK"
-#define altDestMaskString   "ALT_DEST_MASK"
-#define appTypeString       "APP_TYPE"
-#define txLinkUpCntString   "TX_LINK_UP_CNT"
-#define rxLinkUpCntString   "RX_LINK_UP_CNT"
-#define txLinkUpString      "TX_LINK_UP"
-#define rxLinkUpString      "RX_LINK_UP"
-#define rollOverEnString    "ROLL_OVER_EN"
-#define mpsSlotString       "MPS_SLOT"
-#define pllLockedString     "PLL_LOCKED"
-
-#define txPktSentCntString     "TX_PKT_SENT_CNT"
-#define rxPktRcvdSentCntString "RX_PKT_RCV_CNT"
+#define appIdString             "APP_ID"
+#define mpsEnString             "MPS_EN"
+#define lcl1ModeString          "LCLS1_MODE"
+#define byteCountString         "BYTE_COUNT"
+#define digitalEnString         "DIGITAL_EN"
+#define beamDestMaskString      "BEAM_DEST_MASK"
+#define altDestMaskString       "ALT_DEST_MASK"
+#define appTypeString           "APP_TYPE"
+#define txLinkUpCntString       "TX_LINK_UP_CNT"
+#define rxLinkUpCntString       "RX_LINK_UP_CNT"
+#define txLinkUpString          "TX_LINK_UP"
+#define rxLinkUpString          "RX_LINK_UP"
+#define rollOverEnString        "ROLL_OVER_EN"
+#define mpsSlotString           "MPS_SLOT"
+#define pllLockedString         "PLL_LOCKED"
+#define txPktSentCntString      "TX_PKT_SENT_CNT"
+#define rxPktRcvdSentCntString  "RX_PKT_RCV_CNT"
+#define mpsMsgCntString         "LAST_MSG_CNT"
+#define mpsLastMsgAppIdString   "LAST_MSG_APPID"
+#define mpsLastMsgTmstmpString  "LAST_MSG_TMSTMP"
+#define mpsLastMsgLclsString    "LAST_MSG_LCLS"
+#define mpsLastMsgByteString    "LAST_MSG_BYTE"
 
 #define MAX_SIGNALS         (2)     // Max number of parameter list (number of bays)
-#define NUM_PARAMS          (1000)  // Max number of paramters
+#define NUM_PARAMS          (1500)  // Max number of paramters
 
 // Number of AMC bays on a carrier
 const uint8_t numberOfBays = 2;
@@ -117,6 +121,13 @@ class L2MPS : public asynPortDriver {
         int txPktSentCntValue_;
         std::array<int, numberOfRxLinks> rxPktRcvdSentCntValue_;
         
+        int mpsMsgCntValue_;
+        int mpsLastMsgAppIdValue_;
+        int mpsLastMsgTmstmpValue_;
+        int mpsLastMsgLclsValue_;
+        std::vector<int> mpsLastMsgByteValue_;
+
+
         // BPM application fuction maps
         bpm_fmap_r32_t  fMapBpmR32;
         bpm_fmap_w32_t  fMapBpmW32;

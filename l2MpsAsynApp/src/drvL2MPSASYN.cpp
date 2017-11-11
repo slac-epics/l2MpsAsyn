@@ -289,21 +289,26 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
         std::string appType_ = node_->getAppType();
 
         // Create parameters fpor the MPS node
-        createParam(appIdString,        asynParamInt32,         &appIdValue_)       ;
-        createParam(byteCountString,    asynParamInt32,         &byteCountValue_    );
-        createParam(beamDestMaskString, asynParamInt32,         &beamDestMaskValue_ );
-        createParam(altDestMaskString,  asynParamInt32,         &altDestMaskValue_  );
-        createParam(mpsEnString,        asynParamUInt32Digital, &mpsEnValue_        );
-        createParam(lcl1ModeString,     asynParamUInt32Digital, &lcl1ModeValue_     );
-        createParam(digitalEnString,    asynParamUInt32Digital, &digitalEnValue_    );
-        createParam(appTypeString,      asynParamOctet,         &appTypeValue_      );
-        createParam(rollOverEnString,   asynParamInt32,         &rollOverEnValue_   );
-        createParam(mpsSlotString,      asynParamUInt32Digital, &mpsSlotValue_      );
-        createParam(pllLockedString,    asynParamUInt32Digital, &pllLockedValue_    );
-        createParam(txLinkUpString,     asynParamUInt32Digital, &txLinkUpValue_     );
-        createParam(txLinkUpCntString,  asynParamInt32,         &txLinkUpCntValue_  );
+        createParam(appIdString,            asynParamInt32,         &appIdValue_)       ;
+        createParam(byteCountString,        asynParamInt32,         &byteCountValue_    );
+        createParam(beamDestMaskString,     asynParamInt32,         &beamDestMaskValue_ );
+        createParam(altDestMaskString,      asynParamInt32,         &altDestMaskValue_  );
+        createParam(mpsEnString,            asynParamUInt32Digital, &mpsEnValue_        );
+        createParam(lcl1ModeString,         asynParamUInt32Digital, &lcl1ModeValue_     );
+        createParam(digitalEnString,        asynParamUInt32Digital, &digitalEnValue_    );
+        createParam(appTypeString,          asynParamOctet,         &appTypeValue_      );
+        createParam(rollOverEnString,       asynParamInt32,         &rollOverEnValue_   );
+        createParam(mpsSlotString,          asynParamUInt32Digital, &mpsSlotValue_      );
+        createParam(pllLockedString,        asynParamUInt32Digital, &pllLockedValue_    );
+        createParam(txLinkUpString,         asynParamUInt32Digital, &txLinkUpValue_     );
+        createParam(txLinkUpCntString,      asynParamInt32,         &txLinkUpCntValue_  );
 
-        createParam(txPktSentCntString, asynParamInt32,         &txPktSentCntValue_  );
+        createParam(txPktSentCntString,     asynParamInt32,         &txPktSentCntValue_  );
+
+        createParam(mpsMsgCntString,        asynParamInt32,         &mpsMsgCntValue_        );
+        createParam(mpsLastMsgAppIdString,  asynParamInt32,         &mpsLastMsgAppIdValue_  );
+        createParam(mpsLastMsgTmstmpString, asynParamInt32,         &mpsLastMsgTmstmpValue_ );
+        createParam(mpsLastMsgLclsString,   asynParamUInt32Digital, &mpsLastMsgLclsValue_   );
 
         for (std::size_t i {0}; i < numberOfRxLinks; ++i)
         {
@@ -319,6 +324,16 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
             paramName.str("");
             paramName << rxPktRcvdSentCntString << "_" << i;
             createParam(paramName.str().c_str(), asynParamInt32, &rxPktRcvdSentCntValue_[i]);
+        }
+
+        for (std::size_t i {0}; i < node_->getLastMsgByteSize(); ++i)
+        {
+            int paramIndex;
+            std::stringstream paramName;
+            paramName.str("");
+            paramName << mpsLastMsgByteString << "_" << i;
+            createParam(paramName.str().c_str(), asynParamInt32, &paramIndex);
+            mpsLastMsgByteValue_.push_back(paramIndex);
         }
         
         std::string dbParams = "P=" + std::string(recordPrefixMps_) + ",PORT=" + std::string(portName_);
@@ -514,6 +529,9 @@ asynStatus L2MPS::readInt32(asynUser *pasynUser, epicsInt32 *value)
         // Rx Link Up Counter iterator
         std::array<int, numberOfRxLinks>::iterator it;
 
+        // Last message byte iterator
+        std::vector<int>::iterator mpsLastMsgByte_it;
+
         bpm_fmap_r32_t::iterator bpm_it;
         blen_fmap_r32_t::iterator blen_it;
         bcm_fmap_r32_t::iterator bcm_it;
@@ -575,6 +593,22 @@ asynStatus L2MPS::readInt32(asynUser *pasynUser, epicsInt32 *value)
         else if (function == rollOverEnValue_)
         {
             *value = (epicsInt32)node_->getRollOverEn();
+        }
+        else if (function == mpsMsgCntValue_)
+        {
+            *value = (epicsInt32)node_->getMpsMsgCount();
+        }
+        else if (function == mpsLastMsgAppIdValue_)
+        {
+            *value = (epicsInt32)node_->getLastMsgAppId();
+        }
+        else if (function == mpsLastMsgTmstmpValue_)
+        {
+            *value = (epicsInt32)node_->getLastMsgTimeStamp();
+        }
+        else if ((mpsLastMsgByte_it = std::find(mpsLastMsgByteValue_.begin(), mpsLastMsgByteValue_.end(), function)) != mpsLastMsgByteValue_.end())
+        {
+            *value = (epicsInt32)node_->getLastMsgByte(mpsLastMsgByte_it - mpsLastMsgByteValue_.begin());   
         }
         else
         {    
@@ -746,6 +780,11 @@ asynStatus L2MPS::readUInt32Digital(asynUser *pasynUser, epicsUInt32 *value, epi
         {
             *value = (epicsUInt32)(node_->getPllLocked() & mask);
             setUIntDigitalParam(addr, function, *value, mask);  
+        }
+        else if (function == mpsLastMsgLclsValue_)
+        {
+            *value = (epicsUInt32)(node_->getLastMsgLcls() & mask);
+            setUIntDigitalParam(addr, function, *value, mask);              
         }
         else
         {
