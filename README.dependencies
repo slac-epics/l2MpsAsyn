@@ -1,0 +1,20 @@
+# l2MpsAsyn dependencies
+
+This module depends on the following external packages:
+- l2Mps
+- CPSW (framework)
+- BOOST
+- YAML-CPP
+
+and on the following EPICS modules:
+- Asyn
+- yamlLoader
+
+For the external packages you need to define the their location on:
+
+configure/CONFIG_SITE
+
+At the time of writing we have this packages on the SLAC afs are:
+/afs/slac/g/lcls/package/cpsw/framework
+/afs/slac/g/lcls/package/boost
+/afs/slac/g/lcls/package/yaml-cpp
