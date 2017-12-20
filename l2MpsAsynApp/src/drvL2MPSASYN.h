@@ -40,6 +40,8 @@
 #define mpsLastMsgTmstmpString  "LAST_MSG_TMSTMP"
 #define mpsLastMsgLclsString    "LAST_MSG_LCLS"
 #define mpsLastMsgByteString    "LAST_MSG_BYTE"
+#define mpsSlatRstCntString     "SALT_RST_CNT"
+#define mpsSlatRstPllString     "SALT_RST_PLL"
 
 #define MAX_SIGNALS         (2)     // Max number of parameter list (number of bays)
 #define NUM_PARAMS          (1500)  // Max number of paramters
@@ -126,6 +128,8 @@ class L2MPS : public asynPortDriver {
         int mpsLastMsgTmstmpValue_;
         int mpsLastMsgLclsValue_;
         std::vector<int> mpsLastMsgByteValue_;
+        int mpsSlatRstCntValue_;
+        int mpsSlatRstPlltValue_;
 
 
         // BPM application fuction maps

@@ -309,6 +309,8 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
         createParam(mpsLastMsgAppIdString,  asynParamInt32,         &mpsLastMsgAppIdValue_  );
         createParam(mpsLastMsgTmstmpString, asynParamInt32,         &mpsLastMsgTmstmpValue_ );
         createParam(mpsLastMsgLclsString,   asynParamUInt32Digital, &mpsLastMsgLclsValue_   );
+        createParam(mpsSlatRstCntString,    asynParamUInt32Digital, &mpsSlatRstCntValue_    );
+        createParam(mpsSlatRstPllString,    asynParamUInt32Digital, &mpsSlatRstPlltValue_   );
 
         for (std::size_t i {0}; i < numberOfRxLinks; ++i)
         {
@@ -857,6 +859,14 @@ asynStatus L2MPS::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epi
         else if (function == lcl1ModeValue_)
         {
             node_->setLcls1Mode(value & mask);
+        }
+        else if (function == mpsSlatRstCntValue_)
+        {
+            node_->resetSaltCnt();
+        }
+        else if (function == mpsSlatRstPlltValue_)
+        {
+            node_->resetSaltPll();
         }
         else
         {

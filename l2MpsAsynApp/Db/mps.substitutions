@@ -67,6 +67,12 @@ file "bi.template" { pattern
 { lastMsgLcls,      "LCLS flag in the last message",            LAST_MSG_LCLS,  "0",    "Disabled", "Enabled",  "YES",  "1 second"  }
 }
 
+file "bo.template" { pattern
+{ R,                DESC,                                       PARAM,          ADDR,   ZNAM,       ONAM,       PINI,   SCAN        }
+{ SALT_RST_CNT,     "Reset all the SALT status counters",       SALT_RST_CNT,   "0",    "",         "",         "NO",  "Passive"    }
+{ SALT_RST_PLL,     "Reset the PLL",                            SALT_RST_PLL,   "0",    "",         "",         "NO",  "Passive"    }
+}
+
 file "RegRW.template" { pattern
 { R,                    DESC,                                   PARAM,              ADDR,   SCAN        }
 { BEAM_DEST_MASK,       "One bit per dest for BPM or kicker",   BEAM_DEST_MASK,     "",     "Passive"   }    
