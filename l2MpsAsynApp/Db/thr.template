@@ -2,8 +2,8 @@
 
 record(ai,  "$(P):$(R)_L_R") {
     field(DESC, "$(DESC)")
-    field(SCAN, "Passive")
-    field(PINI, "YES")
+    field(SCAN, "I/O Intr")
+    field(PINI, "NO")
     field(DTYP, "asynInt32")
     field(LINR, "SLOPE")
     field(ESLO,  "1")
@@ -15,32 +15,32 @@ record(ai,  "$(P):$(R)_L_R") {
 record(ao, "$(P):$(R)_L_W") {
     field(DESC, "$(DESC)")
     field(SCAN, "Passive")
-    field(PINI, "YES")
+    field(PINI, "NO")
     field(DTYP, "asynInt32")
     field(LINR, "SLOPE")
     field(ESLO,  "1")  
     field(EGU,  "$(EGU)")
     field(PREC, "$(PREC)")
-    field(FLNK, "$(P):$(R)_L_R")
+    #field(FLNK, "$(P):$(R)_L_R")
     field(OUT,  "@asyn($(PORT),$(BAY))$(APP)_THR_$(BAY)$(CH)$(TABLE)0$(THR)")
 }
 
-record(bi,      "$(P):$(R)_L_EN_R") {
+record(bi, "$(P):$(R)_L_EN_R") {
     field(DESC, "$(DESC)")
-    field(SCAN, "Passive")
-    field(PINI, "YES")
+    field(SCAN, "I/O Intr")
+    field(PINI, "NO")
     field(DTYP, "asynUInt32Digital")
     field(INP,  "@asynMask($(PORT),$(BAY),0x01)$(APP)_THREN_$(BAY)$(CH)$(TABLE)0$(THR)")
     field(ZNAM, "Disabled")
     field(ONAM, "Enabled")
 }
 
-record(bo,      "$(P):$(R)_L_EN_W") {
+record(bo, "$(P):$(R)_L_EN_W") {
     field(DESC, "$(DESC)")
     field(SCAN, "Passive")
-    field(PINI, "YES")
+    field(PINI, "NO")
     field(DTYP, "asynUInt32Digital")
-    field(FLNK, "$(P):$(R)_L_EN_R")
+    #field(FLNK, "$(P):$(R)_L_EN_R")
     field(OUT,  "@asynMask($(PORT),$(BAY),0x01)$(APP)_THREN_$(BAY)$(CH)$(TABLE)0$(THR)")
     field(ZNAM, "Disable")
     field(ONAM, "Enable")
@@ -50,8 +50,8 @@ record(bo,      "$(P):$(R)_L_EN_W") {
 
 record(ai,  "$(P):$(R)_H_R") {
     field(DESC, "$(DESC)")
-    field(SCAN, "Passive")
-    field(PINI, "YES")
+    field(SCAN, "I/O Intr")
+    field(PINI, "NO")
     field(DTYP, "asynInt32")
     field(LINR, "SLOPE")
     field(ESLO,  "1")  
@@ -63,20 +63,20 @@ record(ai,  "$(P):$(R)_H_R") {
 record(ao, "$(P):$(R)_H_W") {
     field(DESC, "$(DESC)")
     field(SCAN, "Passive")
-    field(PINI, "YES")
+    field(PINI, "NO")
     field(DTYP, "asynInt32")
     field(LINR, "SLOPE")
     field(ESLO,  "1")  
     field(EGU,  "$(EGU)")
     field(PREC, "$(PREC)")
-    field(FLNK, "$(P):$(R)_H_R")
+    #field(FLNK, "$(P):$(R)_H_R")
     field(OUT,  "@asyn($(PORT),$(BAY))$(APP)_THR_$(BAY)$(CH)$(TABLE)1$(THR)")
 }
 
 record(bi,      "$(P):$(R)_H_EN_R") {
     field(DESC, "$(DESC)")
-    field(SCAN, "Passive")
-    field(PINI, "YES")
+    field(SCAN, "I/O Intr")
+    field(PINI, "NO")
     field(DTYP, "asynUInt32Digital")
     field(INP,  "@asynMask($(PORT),$(BAY),0x01)$(APP)_THREN_$(BAY)$(CH)$(TABLE)1$(THR)")
     field(ZNAM, "Disabled")
@@ -86,9 +86,9 @@ record(bi,      "$(P):$(R)_H_EN_R") {
 record(bo,      "$(P):$(R)_H_EN_W") {
     field(DESC, "$(DESC)")
     field(SCAN, "Passive")
-    field(PINI, "YES")
+    field(PINI, "NO")
     field(DTYP, "asynUInt32Digital")
-    field(FLNK, "$(P):$(R)_H_EN_R")
+    #field(FLNK, "$(P):$(R)_H_EN_R")
     field(OUT,  "@asynMask($(PORT),$(BAY),0x01)$(APP)_THREN_$(BAY)$(CH)$(TABLE)1$(THR)")
     field(ZNAM, "Disable")
     field(ONAM, "Enable")
@@ -97,8 +97,8 @@ record(bo,      "$(P):$(R)_H_EN_W") {
 #### SCALE PVS ####
 record(dfanout, "$(P):$(R)-SF2") {
     field(SCAN, "Passive")
-    field(OUTA, "$(P):$(R)_L_R.ESLO PP")
-    field(OUTB, "$(P):$(R)_L_W.ESLO PP")
-    field(OUTC, "$(P):$(R)_H_R.ESLO PP")
-    field(OUTD, "$(P):$(R)_H_W.ESLO PP")
+    #field(OUTA, "$(P):$(R)_L_R.ESLO PP")
+    #field(OUTB, "$(P):$(R)_L_W.ESLO PP")
+    #field(OUTC, "$(P):$(R)_H_R.ESLO PP")
+    #field(OUTD, "$(P):$(R)_H_W.ESLO PP")
 }

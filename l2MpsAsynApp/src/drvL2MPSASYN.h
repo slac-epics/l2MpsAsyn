@@ -79,6 +79,24 @@ typedef std::map<std::string, std::pair<BlmW32_t, blm_channel_t>> blm_fmap_w32_t
 typedef std::map<std::string, std::pair<BlmR1_t,  blm_channel_t>> blm_fmap_r1_t;
 typedef std::map<std::string, std::pair<BlmW1_t,  blm_channel_t>> blm_fmap_w1_t;
 
+typedef std::pair<int,int>                       thr_param_t;
+// typedef std::map<thr_channel_t, thr_param_t>     thr_paramMap_t;
+// typedef std::map<thr_table_t, thr_param_t>     thr_paramMap_t;
+
+typedef std::map<thr_table_t, thr_param_t> thr_chParam_t;
+struct  thr_paramMap_t
+{
+    int  ch;
+    int  count;
+    int  byteMap;
+    int  idleEn;
+    int  altEn;
+    int  lcls1En;
+    thr_chParam_t data;  
+};
+typedef std::map<_blm_channel_t, thr_paramMap_t> blm_paramMap_t;
+
+
 class L2MPS : public asynPortDriver {
     public:
         // Constructor
@@ -91,10 +109,13 @@ class L2MPS : public asynPortDriver {
         virtual asynStatus writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epicsUInt32 mask);
         virtual asynStatus readOctet(asynUser *pasynUser, char *value, size_t maxChars, size_t *nActual, int *eomReason);
 
+        void BlmCB(int bay, _blm_dataMap_t data);
+
+        // static void setBlmCB(int bay, _blm_channel_t blm_ch, thr_map_t data);
+        static void setBlmCB(int bay, _blm_dataMap_t data);
+
+
     private:
-
-        
-
         const char *driverName_;               // Name of the driver (passed from st.cmd)
         const char *portName_;
         std::string recordPrefixMps_;
@@ -156,6 +177,9 @@ class L2MPS : public asynPortDriver {
         blm_fmap_r1_t   fMapBlmR1;
         blm_fmap_w1_t   fMapBlmW1;
 
+        // std::map< std::pair< _blm_channel_t ,thr_channel_t>, std::pair<int,int>> myBlmTestMap;
+        blm_paramMap_t _blmParamMap;
+
         // BPM application init 
         void InitBpmMaps(const int bay);
         void InitBlenMaps(const int bay);
@@ -181,9 +205,8 @@ class L2MPS : public asynPortDriver {
         void createBcmParam(const std::string param, const int bay, const bcm_channel_t ch, T pFuncR, U pFuncW);
 
         // BLM parameter creators
-        template <typename T>
-        void createBlmParam(const std::string param, const int bay, const blm_channel_t ch, T pFuncR);
-        template <typename T, typename U>
-        void createBlmParam(const std::string param, const int bay, const blm_channel_t ch, T pFuncR, U pFuncW);
-};
+        void createBlmInfoParam(const std::string& param, const int& bay, const blm_channel_t& ch, asynParamType paramType, int& paramIndex);
 
+        template <typename T, typename U>
+        void createBlmThrParam(const int bay, const blm_channel_t ch, thr_chParam_t& thrChParamMap, const T pFuncW1, const U pFuncW32);
+};
