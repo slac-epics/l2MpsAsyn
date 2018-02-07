@@ -1,32 +1,32 @@
 file "longin.template" { pattern
 { R,                DESC,                                       PARAM,                      ADDR,       PINI,   SCAN        }
-{ C0I0_THRNUM,      "Bay $(BAY) Ch 0 Int 0 Threshold number",   BLM_THRNUM_$(BAY)00000,     "$(BAY)",   "NO",  "I/O Intr"   }  
-{ C1I0_THRNUM,      "Bay $(BAY) Ch 1 Int 0 Threshold number",   BLM_THRNUM_$(BAY)10000,     "$(BAY)",   "NO",  "I/O Intr"   }  
-{ C2I0_THRNUM,      "Bay $(BAY) Ch 2 Int 0 Threshold number",   BLM_THRNUM_$(BAY)20000,     "$(BAY)",   "NO",  "I/O Intr"   }  
+{ C0I0_THRNUM,      "Bay $(BAY) Ch 0 Int 0 Threshold number",   BLM_THRNUM_$(BAY)0000,     "$(BAY)",   "NO",  "I/O Intr"   }  
+{ C1I0_THRNUM,      "Bay $(BAY) Ch 1 Int 0 Threshold number",   BLM_THRNUM_$(BAY)1000,     "$(BAY)",   "NO",  "I/O Intr"   }  
+{ C2I0_THRNUM,      "Bay $(BAY) Ch 2 Int 0 Threshold number",   BLM_THRNUM_$(BAY)2000,     "$(BAY)",   "NO",  "I/O Intr"   }  
 
-{ C0I0_THRCNT,      "Bay $(BAY) Ch 0 Int0 Threshold count",     BLM_THRCNT_$(BAY)00000,     "$(BAY)",   "NO",  "I/O Intr"   }    
-{ C1I0_THRCNT,      "Bay $(BAY) Ch 1 Int0 Threshold count",     BLM_THRCNT_$(BAY)10000,     "$(BAY)",   "NO",  "I/O Intr"   }    
-{ C2I0_THRCNT,      "Bay $(BAY) Ch 2 Int0 Threshold count",     BLM_THRCNT_$(BAY)20000,     "$(BAY)",   "NO",  "I/O Intr"   }    
+{ C0I0_THRCNT,      "Bay $(BAY) Ch 0 Int0 Threshold count",     BLM_THRCNT_$(BAY)0000,     "$(BAY)",   "NO",  "I/O Intr"   }    
+{ C1I0_THRCNT,      "Bay $(BAY) Ch 1 Int0 Threshold count",     BLM_THRCNT_$(BAY)1000,     "$(BAY)",   "NO",  "I/O Intr"   }    
+{ C2I0_THRCNT,      "Bay $(BAY) Ch 2 Int0 Threshold count",     BLM_THRCNT_$(BAY)2000,     "$(BAY)",   "NO",  "I/O Intr"   }    
 
-{ C0I0_BYTEMAP,     "Bay $(BAY) Ch 0 Int 0 Threshold byte map", BLM_BYTEMAP_$(BAY)00000,    "$(BAY)",   "NO",  "I/O Intr"   }   
-{ C1I0_BYTEMAP,     "Bay $(BAY) Ch 1 Int 0 Threshold byte map", BLM_BYTEMAP_$(BAY)10000,    "$(BAY)",   "NO",  "I/O Intr"   }   
-{ C2I0_BYTEMAP,     "Bay $(BAY) Ch 2 Int 0 Threshold byte map", BLM_BYTEMAP_$(BAY)20000,    "$(BAY)",   "NO",  "I/O Intr"   }   
+{ C0I0_BYTEMAP,     "Bay $(BAY) Ch 0 Int 0 Threshold byte map", BLM_BYTEMAP_$(BAY)0000,    "$(BAY)",   "NO",  "I/O Intr"   }   
+{ C1I0_BYTEMAP,     "Bay $(BAY) Ch 1 Int 0 Threshold byte map", BLM_BYTEMAP_$(BAY)1000,    "$(BAY)",   "NO",  "I/O Intr"   }   
+{ C2I0_BYTEMAP,     "Bay $(BAY) Ch 2 Int 0 Threshold byte map", BLM_BYTEMAP_$(BAY)2000,    "$(BAY)",   "NO",  "I/O Intr"   }   
 
 }
 
 file "bi.template" { pattern
 { R,                DESC,                                           PARAM,                      ADDR,       ZNAM,       ONAM,       PINI,   SCAN        }
-{ C0I0_IDLEEN,      "Bay $(BAY) Ch 0 Int 0 IDLE table enabled",     BLM_IDLEEN_$(BAY)00000,     "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
-{ C1I0_IDLEEN,      "Bay $(BAY) Ch 1 Int 0 IDLE table enabled",     BLM_IDLEEN_$(BAY)10000,     "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
-{ C2I0_IDLEEN,      "Bay $(BAY) Ch 2 Int 0 IDLE table enabled",     BLM_IDLEEN_$(BAY)20000,     "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
+{ C0I0_IDLEEN,      "Bay $(BAY) Ch 0 Int 0 IDLE table enabled",     BLM_IDLEEN_$(BAY)0000,     "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
+{ C1I0_IDLEEN,      "Bay $(BAY) Ch 1 Int 0 IDLE table enabled",     BLM_IDLEEN_$(BAY)1000,     "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
+{ C2I0_IDLEEN,      "Bay $(BAY) Ch 2 Int 0 IDLE table enabled",     BLM_IDLEEN_$(BAY)2000,     "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
 
-{ C0I0_ALTEN,       "Bay $(BAY) Ch 0 Int 0 ALT table enabled",      BLM_ALTEN_$(BAY)00000,      "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
-{ C1I0_ALTEN,       "Bay $(BAY) Ch 1 Int 0 ALT table enabled",      BLM_ALTEN_$(BAY)10000,      "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
-{ C2I0_ALTEN,       "Bay $(BAY) Ch 2 Int 0 ALT table enabled",      BLM_ALTEN_$(BAY)20000,      "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
+{ C0I0_ALTEN,       "Bay $(BAY) Ch 0 Int 0 ALT table enabled",      BLM_ALTEN_$(BAY)0000,      "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
+{ C1I0_ALTEN,       "Bay $(BAY) Ch 1 Int 0 ALT table enabled",      BLM_ALTEN_$(BAY)1000,      "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
+{ C2I0_ALTEN,       "Bay $(BAY) Ch 2 Int 0 ALT table enabled",      BLM_ALTEN_$(BAY)2000,      "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
 
-{ C0I0_LCLS1EN,     "Bay $(BAY) Ch 0 Int 0 LCLS1 table enabled",    BLM_LCLS1EN_$(BAY)00000,    "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
-{ C1I0_LCLS1EN,     "Bay $(BAY) Ch 1 Int 0 LCLS1 table enabled",    BLM_LCLS1EN_$(BAY)10000,    "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
-{ C2I0_LCLS1EN,     "Bay $(BAY) Ch 2 Int 0 LCLS1 table enabled",    BLM_LCLS1EN_$(BAY)20000,    "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
+{ C0I0_LCLS1EN,     "Bay $(BAY) Ch 0 Int 0 LCLS1 table enabled",    BLM_LCLS1EN_$(BAY)0000,    "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
+{ C1I0_LCLS1EN,     "Bay $(BAY) Ch 1 Int 0 LCLS1 table enabled",    BLM_LCLS1EN_$(BAY)1000,    "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
+{ C2I0_LCLS1EN,     "Bay $(BAY) Ch 2 Int 0 LCLS1 table enabled",    BLM_LCLS1EN_$(BAY)2000,    "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
 
 }
 

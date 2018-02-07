@@ -204,7 +204,7 @@ void L2MPS::createBlmInfoParam(const std::string& param, const int& bay, const b
     int index;
     std::stringstream pName;
     pName.str("");
-    pName << param << "_" << bay << ch[0] << ch[1]  << ch[2] << ch[3] << ch[4];
+    pName << param << "_" << bay << ch[0] << ch[1]  << ch[2] << ch[3];
     
     createParam(bay, pName.str().c_str(), paramType, &index);
 
@@ -216,21 +216,21 @@ void L2MPS::createBlmInfoParam(const std::string& param, const int& bay, const b
 template <>
 void L2MPS::createBlmThrParam(const int bay, const blm_channel_t ch, thr_chParam_t& thrChParamMap, BlmW1_t pFuncW1, BlmW32_t pFuncW32)
 {
-    int index, indexEn;
-    std::stringstream pName;
-    pName.str("");
-    pName << "_" << bay << ch[0] << ch[1]  << ch[2] << ch[3] << ch[4];
+    // int index, indexEn;
+    // std::stringstream pName;
+    // pName.str("");
+    // pName << "_" << bay << ch[0] << ch[1]  << ch[2] << ch[3];
     
-    createParam(bay, ("BLM_THR"   + pName.str()).c_str(), asynParamInt32,         &index);
-    createParam(bay, ("BLM_THREN" + pName.str()).c_str(), asynParamUInt32Digital, &indexEn);
+    // createParam(bay, ("BLM_THR"   + pName.str()).c_str(), asynParamInt32,         &index);
+    // createParam(bay, ("BLM_THREN" + pName.str()).c_str(), asynParamUInt32Digital, &indexEn);
 
-    fMapBlmW1.insert(  std::make_pair( ("BLM_THREN" + pName.str()), std::make_pair( pFuncW1,  ch ) ) );
-    fMapBlmW32.insert( std::make_pair( ("BLM_THR"   + pName.str()), std::make_pair( pFuncW32, ch ) ) );
+    // fMapBlmW1.insert(  std::make_pair( ("BLM_THREN" + pName.str()), std::make_pair( pFuncW1,  ch ) ) );
+    // fMapBlmW32.insert( std::make_pair( ("BLM_THR"   + pName.str()), std::make_pair( pFuncW32, ch ) ) );
 
-    thr_table_t    tt = thr_table_t{{ch[2], ch[3], ch[4]}};
-    thr_param_t    tp = std::make_pair(index,indexEn);
+    // thr_table_t    tt = thr_table_t{{ch[2], ch[3]}};
+    // thr_param_t    tp = std::make_pair(index,indexEn);
 
-    thrChParamMap.insert(std::make_pair(tt, tp));
+    // thrChParamMap.insert(std::make_pair(tt, tp));
 }
 
 // BLEN callback functon
@@ -249,7 +249,7 @@ void L2MPS::BlmCB(int bay, _blm_dataMap_t data)
         blm_paramMap_t::iterator param_blmIt = _blmParamMap.find(data_blmIt->first);
         if (param_blmIt != _blmParamMap.end())
         {   
-            thr_chInfo_t thrInfo = (data_blmIt->second).info;
+            thr_chInfoData_t thrInfo = (data_blmIt->second).info;
             setIntegerParam(bay,     (param_blmIt->second).ch,        thrInfo.ch);    
             setIntegerParam(bay,     (param_blmIt->second).count,     thrInfo.count);    
             setIntegerParam(bay,     (param_blmIt->second).byteMap,   thrInfo.byteMap);    
@@ -260,13 +260,15 @@ void L2MPS::BlmCB(int bay, _blm_dataMap_t data)
             _blm_channel_t data_blmCh = data_blmIt->first;
             thr_chData_t  data_thr   = (data_blmIt->second).data;
 
-            // std::cout << "    L2MPS::BlmCB: inside BlmDataMap, BlmData size is = " << data_thr.size() << std::endl;
+           _blm_channel_t param_blmCh = param_blmIt->first;
+            thr_chParam_t param_thr   = (param_blmIt->second).data;
 
+            // std::cout << "    L2MPS::BlmCB: inside BlmDataMap, BlmData size is = " << data_thr.size() << std::endl;
             for (thr_chData_t::iterator data_thrIt = data_thr.begin(); data_thrIt != data_thr.end(); ++data_thrIt)
             {
                 // thr_channel_t data_thrCh = data_thrIt->first;
-                thr_table_t data_thrCh = data_thrIt->first;
-                thr_tableData_t    data_data  = data_thrIt->second;
+                thr_table_t     data_thrCh = data_thrIt->first;
+                thr_tableData_t data_data  = data_thrIt->second;
 
                 // std::cout << "      Looking for BLM (" << data_blmCh[0] << "," << data_blmCh[1] << ")" << std::endl; 
 
@@ -275,29 +277,33 @@ void L2MPS::BlmCB(int bay, _blm_dataMap_t data)
                 // blm_paramMap_t::iterator param_blmIt = (blmParamMap->second).data.find(data_blmCh);
                 // if (param_blmIt != (blmParamMap->second).data.end())
                 // {
-                    _blm_channel_t param_blmCh = param_blmIt->first;
-                    thr_paramMap_t param_thr   = param_blmIt->second;
+ 
 
                     // std::cout << "        Looking for THR (" << data_thrCh[0] << "," << data_thrCh[1] << "," << data_thrCh[2] << ")" << std::endl; 
 
-                    thr_chParam_t::iterator param_thrIt = param_thr.data.find(data_thrCh);
+                    thr_chParam_t::iterator param_thrIt = param_thr.find(data_thrCh);
 
-                    if (param_thrIt != param_thr.data.end())
+                    if (param_thrIt != param_thr.end())
                     {
                         // thr_channel_t param_thrCh = param_thrIt->first;
-                        thr_table_t param_thrCh = param_thrIt->first;
-                        thr_param_t   param_param = param_thrIt->second;
+                        thr_table_t         param_thrCh = param_thrIt->first;
+                        thr_tableParam_t    param_param = param_thrIt->second;
 
                         // printf("BLM channel (%d,%d), Threshodl channel (%d,%d,%d) : \n", data_blmCh[0], data_blmCh[1], data_thrCh[0], data_thrCh[1], data_thrCh[2]);
                         // printf("Setting parameter %d (%d) with value %d (%d)\n", std::get<0>(param_param), std::get<1>(param_param), std::get<0>(data_data), std::get<1>(data_data));
 
-                        setIntegerParam(bay, std::get<0>(param_param), std::get<0>(data_data));    
-                        setUIntDigitalParam(bay, std::get<1>(param_param), std::get<1>(data_data), 0xFFFFFFFF, 0x1);
-
+                        // setIntegerParam(bay, std::get<0>(param_param), std::get<0>(data_data));    
+                        // setUIntDigitalParam(bay, std::get<1>(param_param), std::get<1>(data_data), 0xFFFFFFFF, 0x1);
+                        setUIntDigitalParam(bay, param_param.minEn, data_data.minEn, 0xFFFFFFFF, 0x1);
+                        setUIntDigitalParam(bay, param_param.maxEn, data_data.maxEn, 0xFFFFFFFF, 0x1);
+                        setIntegerParam(bay, param_param.min, data_data.min);    
+                        setIntegerParam(bay, param_param.max, data_data.max);    
                         // setIntegerParam(bay, std::get<0>(it4->second), std::get<0>(it2->second));    
                         // setUIntDigitalParam(bay, std::get<1>(it4->second), std::get<1>(it2->second), 0xFFFFFFFF);
                         // callParamCallbacks(bay);
                     }
+                    else
+                        printf("Threshold not found!\n");
                     // else
                         // std::cout << "        THR not found" << std::endl;
                 // }
@@ -452,100 +458,100 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
 void L2MPS::InitBpmMaps(const int bay)
 {
 
-    for (int i = 0; i < numBpmChs; ++i)
-    {
-        createBpmParam(std::string("BPM_THRNUM"),   bay, std::array<int,4>{{i, 0, 0, 0}}, &IMpsBpm::getCh);
-        createBpmParam(std::string("BPM_THRCNT"),   bay, std::array<int,4>{{i, 0, 0, 0}}, &IMpsBpm::getThrCount);
-        createBpmParam(std::string("BPM_BYTEMAP"),  bay, std::array<int,4>{{i, 0, 0, 0}}, &IMpsBpm::getByteMap);
+    // for (int i = 0; i < numBpmChs; ++i)
+    // {
+    //     createBpmParam(std::string("BPM_THRNUM"),   bay, std::array<int,4>{{i, 0, 0, 0}}, &IMpsBpm::getCh);
+    //     createBpmParam(std::string("BPM_THRCNT"),   bay, std::array<int,4>{{i, 0, 0, 0}}, &IMpsBpm::getThrCount);
+    //     createBpmParam(std::string("BPM_BYTEMAP"),  bay, std::array<int,4>{{i, 0, 0, 0}}, &IMpsBpm::getByteMap);
 
-        createBpmParam(std::string("BPM_IDLEEN"),   bay, std::array<int,4>{{i,0, 0, 0}},  &IMpsBpm::getIdleEn);
-        createBpmParam(std::string("BPM_ALTEN"),    bay, std::array<int,4>{{i,0, 0, 0}},  &IMpsBpm::getAltEn);
-        createBpmParam(std::string("BPM_LCLS1EN"),  bay, std::array<int,4>{{i,0, 0, 0}},  &IMpsBpm::getLcls1En);
+    //     createBpmParam(std::string("BPM_IDLEEN"),   bay, std::array<int,4>{{i,0, 0, 0}},  &IMpsBpm::getIdleEn);
+    //     createBpmParam(std::string("BPM_ALTEN"),    bay, std::array<int,4>{{i,0, 0, 0}},  &IMpsBpm::getAltEn);
+    //     createBpmParam(std::string("BPM_LCLS1EN"),  bay, std::array<int,4>{{i,0, 0, 0}},  &IMpsBpm::getLcls1En);
 
-        for (int j = 0; j < numThrTables; ++j)
-        {
-            for (int k = 0; k < numThrLimits; ++k)
-            {
-                for (int m = 0; m < numThrCounts[j]; ++m)
-                {
-                    createBpmParam(std::string("BPM_THR"),      bay, std::array<int,4>{{i, j, k, m}}, &IMpsBpm::getThreshold,   &IMpsBpm::setThreshold);
-                    createBpmParam(std::string("BPM_THREN"),    bay, std::array<int,4>{{i, j, k, m}}, &IMpsBpm::getThresholdEn, &IMpsBpm::setThresholdEn);
-                }
-            }
-        }
-    }
+    //     for (int j = 0; j < numThrTables; ++j)
+    //     {
+    //         for (int k = 0; k < numThrLimits; ++k)
+    //         {
+    //             for (int m = 0; m < numThrCounts[j]; ++m)
+    //             {
+    //                 createBpmParam(std::string("BPM_THR"),      bay, std::array<int,4>{{i, j, k, m}}, &IMpsBpm::getThreshold,   &IMpsBpm::setThreshold);
+    //                 createBpmParam(std::string("BPM_THREN"),    bay, std::array<int,4>{{i, j, k, m}}, &IMpsBpm::getThresholdEn, &IMpsBpm::setThresholdEn);
+    //             }
+    //         }
+    //     }
+    // }
 
-    std::stringstream bpmDbParams;
-    bpmDbParams.str("");
-    bpmDbParams << "P=" << std::string(recordPrefixBay_[bay]);
-    bpmDbParams << ",PORT=" << std::string(portName_);
-    bpmDbParams << ",BAY=" << bay;
-    dbLoadRecords("db/bpm.db", bpmDbParams.str().c_str());
+    // std::stringstream bpmDbParams;
+    // bpmDbParams.str("");
+    // bpmDbParams << "P=" << std::string(recordPrefixBay_[bay]);
+    // bpmDbParams << ",PORT=" << std::string(portName_);
+    // bpmDbParams << ",BAY=" << bay;
+    // dbLoadRecords("db/bpm.db", bpmDbParams.str().c_str());
 }
 
 void L2MPS::InitBlenMaps(const int bay)
 {
 
-    createBlenParam(std::string("BLEN_THRNUM"),   bay, std::array<int,3>{{0, 0, 0}}, &IMpsBlen::getCh);
-    createBlenParam(std::string("BLEN_THRCNT"),   bay, std::array<int,3>{{0, 0, 0}}, &IMpsBlen::getThrCount);
-    createBlenParam(std::string("BLEN_BYTEMAP"),  bay, std::array<int,3>{{0, 0, 0}}, &IMpsBlen::getByteMap);
+    // createBlenParam(std::string("BLEN_THRNUM"),   bay, std::array<int,3>{{0, 0, 0}}, &IMpsBlen::getCh);
+    // createBlenParam(std::string("BLEN_THRCNT"),   bay, std::array<int,3>{{0, 0, 0}}, &IMpsBlen::getThrCount);
+    // createBlenParam(std::string("BLEN_BYTEMAP"),  bay, std::array<int,3>{{0, 0, 0}}, &IMpsBlen::getByteMap);
 
-    createBlenParam(std::string("BLEN_IDLEEN"),   bay, std::array<int,3>{{0, 0, 0}},  &IMpsBlen::getIdleEn);
-    createBlenParam(std::string("BLEN_ALTEN"),    bay, std::array<int,3>{{0, 0, 0}},  &IMpsBlen::getAltEn);
-    createBlenParam(std::string("BLEN_LCLS1EN"),  bay, std::array<int,3>{{0, 0, 0}},  &IMpsBlen::getLcls1En);
+    // createBlenParam(std::string("BLEN_IDLEEN"),   bay, std::array<int,3>{{0, 0, 0}},  &IMpsBlen::getIdleEn);
+    // createBlenParam(std::string("BLEN_ALTEN"),    bay, std::array<int,3>{{0, 0, 0}},  &IMpsBlen::getAltEn);
+    // createBlenParam(std::string("BLEN_LCLS1EN"),  bay, std::array<int,3>{{0, 0, 0}},  &IMpsBlen::getLcls1En);
 
-    for (int j = 0; j < numThrTables; ++j)
-    {
-        for (int k = 0; k < numThrLimits; ++k)
-        {
-            for (int m = 0; m < numThrCounts[j]; ++m)
-            {
-                createBlenParam(std::string("BLEN_THR"),      bay, std::array<int,3>{{j, k, m}}, &IMpsBlen::getThreshold,   &IMpsBlen::setThreshold);
-                createBlenParam(std::string("BLEN_THREN"),    bay, std::array<int,3>{{j, k, m}}, &IMpsBlen::getThresholdEn, &IMpsBlen::setThresholdEn);
-            }
-        }
-    }
+    // for (int j = 0; j < numThrTables; ++j)
+    // {
+    //     for (int k = 0; k < numThrLimits; ++k)
+    //     {
+    //         for (int m = 0; m < numThrCounts[j]; ++m)
+    //         {
+    //             createBlenParam(std::string("BLEN_THR"),      bay, std::array<int,3>{{j, k, m}}, &IMpsBlen::getThreshold,   &IMpsBlen::setThreshold);
+    //             createBlenParam(std::string("BLEN_THREN"),    bay, std::array<int,3>{{j, k, m}}, &IMpsBlen::getThresholdEn, &IMpsBlen::setThresholdEn);
+    //         }
+    //     }
+    // }
     
-    std::stringstream blenDbParams;
-    blenDbParams.str("");
-    blenDbParams << "P=" << std::string(recordPrefixBay_[bay]);
-    blenDbParams << ",PORT=" << std::string(portName_);
-    blenDbParams << ",BAY=" << bay;
-    dbLoadRecords("db/blen.db", blenDbParams.str().c_str());
+    // std::stringstream blenDbParams;
+    // blenDbParams.str("");
+    // blenDbParams << "P=" << std::string(recordPrefixBay_[bay]);
+    // blenDbParams << ",PORT=" << std::string(portName_);
+    // blenDbParams << ",BAY=" << bay;
+    // dbLoadRecords("db/blen.db", blenDbParams.str().c_str());
 }
 
 void L2MPS::InitBcmMaps(const int bay)
 {
 
-    for (int i = 0; i < numBcmChs; ++i)
-    {
-        createBcmParam(std::string("BCM_THRNUM"),   bay, std::array<int,4>{{i, 0, 0, 0}}, &IMpsBcm::getCh);
-        createBcmParam(std::string("BCM_THRCNT"),   bay, std::array<int,4>{{i, 0, 0, 0}}, &IMpsBcm::getThrCount);
-        createBcmParam(std::string("BCM_BYTEMAP"),  bay, std::array<int,4>{{i, 0, 0, 0}}, &IMpsBcm::getByteMap);
+    // for (int i = 0; i < numBcmChs; ++i)
+    // {
+    //     createBcmParam(std::string("BCM_THRNUM"),   bay, std::array<int,4>{{i, 0, 0, 0}}, &IMpsBcm::getCh);
+    //     createBcmParam(std::string("BCM_THRCNT"),   bay, std::array<int,4>{{i, 0, 0, 0}}, &IMpsBcm::getThrCount);
+    //     createBcmParam(std::string("BCM_BYTEMAP"),  bay, std::array<int,4>{{i, 0, 0, 0}}, &IMpsBcm::getByteMap);
 
-        createBcmParam(std::string("BCM_IDLEEN"),   bay, std::array<int,4>{{i,0, 0, 0}},  &IMpsBcm::getIdleEn);
-        createBcmParam(std::string("BCM_ALTEN"),    bay, std::array<int,4>{{i,0, 0, 0}},  &IMpsBcm::getAltEn);
-        createBcmParam(std::string("BCM_LCLS1EN"),  bay, std::array<int,4>{{i,0, 0, 0}},  &IMpsBcm::getLcls1En);
+    //     createBcmParam(std::string("BCM_IDLEEN"),   bay, std::array<int,4>{{i,0, 0, 0}},  &IMpsBcm::getIdleEn);
+    //     createBcmParam(std::string("BCM_ALTEN"),    bay, std::array<int,4>{{i,0, 0, 0}},  &IMpsBcm::getAltEn);
+    //     createBcmParam(std::string("BCM_LCLS1EN"),  bay, std::array<int,4>{{i,0, 0, 0}},  &IMpsBcm::getLcls1En);
 
-        for (int j = 0; j < numThrTables; ++j)
-        {
-            for (int k = 0; k < numThrLimits; ++k)
-            {
-                for (int m = 0; m < numThrCounts[j]; ++m)
-                {
-                    createBcmParam(std::string("BCM_THR"),      bay, std::array<int,4>{{i, j, k, m}}, &IMpsBcm::getThreshold,   &IMpsBcm::setThreshold);
-                    createBcmParam(std::string("BCM_THREN"),    bay, std::array<int,4>{{i, j, k, m}}, &IMpsBcm::getThresholdEn, &IMpsBcm::setThresholdEn);
-                }
-            }
-        }
-    }
+    //     for (int j = 0; j < numThrTables; ++j)
+    //     {
+    //         for (int k = 0; k < numThrLimits; ++k)
+    //         {
+    //             for (int m = 0; m < numThrCounts[j]; ++m)
+    //             {
+    //                 createBcmParam(std::string("BCM_THR"),      bay, std::array<int,4>{{i, j, k, m}}, &IMpsBcm::getThreshold,   &IMpsBcm::setThreshold);
+    //                 createBcmParam(std::string("BCM_THREN"),    bay, std::array<int,4>{{i, j, k, m}}, &IMpsBcm::getThresholdEn, &IMpsBcm::setThresholdEn);
+    //             }
+    //         }
+    //     }
+    // }
 
-    std::stringstream bcmDbParams;
-    bcmDbParams.str("");
-    bcmDbParams << "P=" << std::string(recordPrefixBay_[bay]);
-    bcmDbParams << ",PORT=" << std::string(portName_);
-    bcmDbParams << ",BAY=" << bay;
-    dbLoadRecords("db/bcm.db", bcmDbParams.str().c_str());
+    // std::stringstream bcmDbParams;
+    // bcmDbParams.str("");
+    // bcmDbParams << "P=" << std::string(recordPrefixBay_[bay]);
+    // bcmDbParams << ",PORT=" << std::string(portName_);
+    // bcmDbParams << ",BAY=" << bay;
+    // dbLoadRecords("db/bcm.db", bcmDbParams.str().c_str());
 }
 
 void L2MPS::InitBlmMaps(const int bay)
@@ -555,24 +561,52 @@ void L2MPS::InitBlmMaps(const int bay)
         for(int j = 0; j < numBlmIntChs; ++j)
         {
             thr_paramMap_t thrParamMap;
-            createBlmInfoParam(std::string("BLM_THRNUM"),   bay, std::array<int,5>{{i, j, 0, 0, 0}}, asynParamInt32, thrParamMap.ch);
-            createBlmInfoParam(std::string("BLM_THRCNT"),   bay, std::array<int,5>{{i, j, 0, 0, 0}}, asynParamInt32, thrParamMap.count);
-            createBlmInfoParam(std::string("BLM_BYTEMAP"),  bay, std::array<int,5>{{i, j, 0, 0, 0}}, asynParamInt32, thrParamMap.byteMap);
+            createBlmInfoParam(std::string("BLM_THRNUM"),   bay, std::array<int,4>{{i, j, 0, 0}}, asynParamInt32, thrParamMap.ch);
+            createBlmInfoParam(std::string("BLM_THRCNT"),   bay, std::array<int,4>{{i, j, 0, 0}}, asynParamInt32, thrParamMap.count);
+            createBlmInfoParam(std::string("BLM_BYTEMAP"),  bay, std::array<int,4>{{i, j, 0, 0}}, asynParamInt32, thrParamMap.byteMap);
 
-            createBlmInfoParam(std::string("BLM_IDLEEN"),   bay, std::array<int,5>{{i, j, 0, 0, 0}},  asynParamUInt32Digital, thrParamMap.idleEn);
-            createBlmInfoParam(std::string("BLM_ALTEN"),    bay, std::array<int,5>{{i, j, 0, 0, 0}},  asynParamUInt32Digital, thrParamMap.altEn);
-            createBlmInfoParam(std::string("BLM_LCLS1EN"),  bay, std::array<int,5>{{i, j, 0, 0, 0}},  asynParamUInt32Digital, thrParamMap.lcls1En);
+            createBlmInfoParam(std::string("BLM_IDLEEN"),   bay, std::array<int,4>{{i, j, 0, 0}},  asynParamUInt32Digital, thrParamMap.idleEn);
+            createBlmInfoParam(std::string("BLM_ALTEN"),    bay, std::array<int,4>{{i, j, 0, 0}},  asynParamUInt32Digital, thrParamMap.altEn);
+            createBlmInfoParam(std::string("BLM_LCLS1EN"),  bay, std::array<int,4>{{i, j, 0, 0}},  asynParamUInt32Digital, thrParamMap.lcls1En);
 
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
             {
-                for (int m = 0; m < numThrLimits; ++m)
-                {
+                // for (int m = 0; m < numThrLimits; ++m)
+                // {
                     for (int n = 0; n < numThrCounts[k]; ++n)
                     {
-                        createBlmThrParam(bay, std::array<int,5>{{i, j, k, m, n}}, thrChParamMap, &IMpsBlm::setThresholdEn, &IMpsBlm::setThreshold);
+                        // createBlmThrParam(bay, std::array<int,4>{{i, j, k, n}}, thrChParamMap, &IMpsBlm::setThresholdEn, &IMpsBlm::setThreshold);
+int index;
+thr_tableParam_t tp;
+
+std::array<int,4> ch = std::array<int,4>{{i, j, k, n}};
+
+std::stringstream pName;
+pName.str("");
+pName << "_" << bay << i << j  << k << n;
+
+createParam(bay, ("BLM_THRMIN" + pName.str()).c_str(), asynParamInt32, &index);
+tp.min = index;
+fMapBlmW32.insert( std::make_pair( ("BLM_THRMIN" + pName.str()), std::make_pair( &IMpsBlm::setThresholdMin, ch ) ) );
+
+createParam(bay, ("BLM_THRMAX" + pName.str()).c_str(), asynParamInt32, &index);
+tp.max = index;
+fMapBlmW32.insert( std::make_pair( ("BLM_THRMAX" + pName.str()), std::make_pair( &IMpsBlm::setThresholdMax, ch ) ) );
+
+createParam(bay, ("BLM_THRMINEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
+tp.minEn = index;
+fMapBlmW1.insert( std::make_pair( ("BLM_THRMINEN" + pName.str()), std::make_pair( &IMpsBlm::setThresholdMinEn, ch ) ) );
+
+createParam(bay, ("BLM_THRMAXEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
+tp.maxEn = index;
+fMapBlmW1.insert( std::make_pair( ("BLM_THRMAXEN" + pName.str()), std::make_pair( &IMpsBlm::setThresholdMaxEn, ch ) ) );
+
+
+thr_table_t    tt = thr_table_t{{k, n}};
+thrChParamMap.insert(std::make_pair(tt, tp));
                     }
-                }
+                // }
             }
             thrParamMap.data = thrChParamMap;
             _blmParamMap.insert(std::make_pair( _blm_channel_t{{i, j}}, thrParamMap ));

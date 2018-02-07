@@ -79,11 +79,18 @@ typedef std::map<std::string, std::pair<BlmW32_t, blm_channel_t>> blm_fmap_w32_t
 typedef std::map<std::string, std::pair<BlmR1_t,  blm_channel_t>> blm_fmap_r1_t;
 typedef std::map<std::string, std::pair<BlmW1_t,  blm_channel_t>> blm_fmap_w1_t;
 
-typedef std::pair<int,int>                       thr_param_t;
+// typedef std::pair<int,int>                       thr_param_t;
+struct thr_tableParam_t
+{
+    int minEn;
+    int maxEn;
+    int min;
+    int max;
+};
 // typedef std::map<thr_channel_t, thr_param_t>     thr_paramMap_t;
 // typedef std::map<thr_table_t, thr_param_t>     thr_paramMap_t;
 
-typedef std::map<thr_table_t, thr_param_t> thr_chParam_t;
+typedef std::map<thr_table_t, thr_tableParam_t> thr_chParam_t;
 struct  thr_paramMap_t
 {
     int  ch;
