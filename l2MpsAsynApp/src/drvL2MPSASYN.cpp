@@ -198,18 +198,6 @@ void L2MPS::createBcmParam(const std::string param, const int bay, const bcm_cha
     fMapBcmW1.insert( std::make_pair( pName.str(), std::make_pair( pFuncW, ch ) ) );
 }
 
-// BLM parameter creators
-void L2MPS::createBlmInfoParam(const std::string& param, const int& bay, const blm_channel_t& ch, asynParamType paramType, int& paramIndex)
-{
-    int index;
-    std::stringstream pName;
-    pName.str("");
-    pName << param << "_" << bay << ch[0] << ch[1];
-    
-    createParam(bay, pName.str().c_str(), paramType, &index);
-    paramIndex = index;
-}
-
 // BLEN callback functon
 void L2MPS::setBlmCB(int bay, blm_dataMap_t data)
 {
@@ -490,6 +478,10 @@ void L2MPS::InitBcmMaps(const int bay)
 
 void L2MPS::InitBlmMaps(const int bay)
 {
+    int index;
+    std::stringstream pName;
+
+
     for (int i = 0; i < numBlmChs; ++i)
     {
         for(int j = 0; j < numBlmIntChs; ++j)
@@ -497,13 +489,28 @@ void L2MPS::InitBlmMaps(const int bay)
             blm_channel_t thisBlmCh = blm_channel_t{{i, j}};
 
             thr_paramMap_t thrParamMap;
-            createBlmInfoParam(std::string("BLM_THRNUM"),   bay, thisBlmCh, asynParamInt32, thrParamMap.ch);
-            createBlmInfoParam(std::string("BLM_THRCNT"),   bay, thisBlmCh, asynParamInt32, thrParamMap.count);
-            createBlmInfoParam(std::string("BLM_BYTEMAP"),  bay, thisBlmCh, asynParamInt32, thrParamMap.byteMap);
 
-            createBlmInfoParam(std::string("BLM_IDLEEN"),   bay, thisBlmCh,  asynParamUInt32Digital, thrParamMap.idleEn);
-            createBlmInfoParam(std::string("BLM_ALTEN"),    bay, thisBlmCh,  asynParamUInt32Digital, thrParamMap.altEn);
-            createBlmInfoParam(std::string("BLM_LCLS1EN"),  bay, thisBlmCh,  asynParamUInt32Digital, thrParamMap.lcls1En);
+            pName.str("");
+            pName << "_" << bay << i << j;
+
+            createParam(bay, ("BLM_THRNUM" + pName.str()).c_str(), asynParamInt32, &index);
+            thrParamMap.ch = index;
+
+            createParam(bay, ("BLM_THRCNT" + pName.str()).c_str(), asynParamInt32, &index);
+            thrParamMap.count = index;
+
+            createParam(bay, ("BLM_BYTEMAP" + pName.str()).c_str(), asynParamInt32, &index);
+            thrParamMap.byteMap = index;
+
+            createParam(bay, ("BLM_IDLEEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
+            thrParamMap.idleEn = index;
+
+            createParam(bay, ("BLM_IDLEEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
+            thrParamMap.altEn = index;
+
+            createParam(bay, ("BLM_LCLS1EN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
+            thrParamMap.lcls1En = index;
+
 
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
@@ -513,12 +520,8 @@ void L2MPS::InitBlmMaps(const int bay)
                         thr_table_t thisThrTable = thr_table_t{{k,n }};               
                         blmThr_channel_t args = {thisBlmCh, thisThrTable};
 
-                        int index;
                         thr_tableParam_t tp;
 
-                        std::array<int,4> ch = std::array<int,4>{{i, j, k, n}};
-
-                        std::stringstream pName;
                         pName.str("");
                         pName << "_" << bay << i << j  << k << n;
 

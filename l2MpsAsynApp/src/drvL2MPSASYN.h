@@ -201,7 +201,4 @@ class L2MPS : public asynPortDriver {
         void createBcmParam(const std::string param, const int bay, const bcm_channel_t ch, T pFuncR);
         template <typename T, typename U>
         void createBcmParam(const std::string param, const int bay, const bcm_channel_t ch, T pFuncR, U pFuncW);
-
-        // BLM parameter creators
-        void createBlmInfoParam(const std::string& param, const int& bay, const blm_channel_t& ch, asynParamType paramType, int& paramIndex);
 };
