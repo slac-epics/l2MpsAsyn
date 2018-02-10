@@ -74,15 +74,9 @@ typedef std::map<std::string, std::pair<BcmR1_t,  bcm_channel_t>> bcm_fmap_r1_t;
 typedef std::map<std::string, std::pair<BcmW1_t,  bcm_channel_t>> bcm_fmap_w1_t;
 
 // BLM data types
-// typedef std::map<std::string, std::pair<BlmR32_t, blm_channel_t>> blm_fmap_r32_t;
-// typedef std::map<std::string, std::pair<BlmW32_t, blm_channel_t>> blm_fmap_w32_t;
-// typedef std::map<std::string, std::pair<BlmR1_t,  blm_channel_t>> blm_fmap_r1_t;
-// typedef std::map<std::string, std::pair<BlmW1_t,  blm_channel_t>> blm_fmap_w1_t;
-
 typedef std::map<int, std::pair<BlmW32_t, blmThr_channel_t>> blm_fmap_w32_t;
 typedef std::map<int, std::pair<BlmW1_t, blmThr_channel_t>> blm_fmap_w1_t;
 
-// typedef std::pair<int,int>                       thr_param_t;
 struct thr_tableParam_t
 {
     int minEn;
@@ -90,8 +84,6 @@ struct thr_tableParam_t
     int min;
     int max;
 };
-// typedef std::map<thr_channel_t, thr_param_t>     thr_paramMap_t;
-// typedef std::map<thr_table_t, thr_param_t>     thr_paramMap_t;
 
 typedef std::map<thr_table_t, thr_tableParam_t> thr_chParam_t;
 struct  thr_paramMap_t
@@ -120,8 +112,6 @@ class L2MPS : public asynPortDriver {
         virtual asynStatus readOctet(asynUser *pasynUser, char *value, size_t maxChars, size_t *nActual, int *eomReason);
 
         void BlmCB(int bay, blm_dataMap_t data);
-
-        // static void setBlmCB(int bay, blm_channel_t blm_ch, thr_map_t data);
         static void setBlmCB(int bay, blm_dataMap_t data);
 
 
@@ -182,14 +172,10 @@ class L2MPS : public asynPortDriver {
         bcm_fmap_w1_t   fMapBcmW1;
 
         // BLM application fuction maps
-        // blm_fmap_r32_t  fMapBlmR32;
         blm_fmap_w32_t  fMapBlmW32;
-        // blm_fmap_r1_t   fMapBlmR1;
         blm_fmap_w1_t   fMapBlmW1;
 
-        // blm_fmap_w32_t_new fMapBlmW32_new;
 
-        // std::map< std::pair< blm_channel_t ,thr_channel_t>, std::pair<int,int>> myBlmTestMap;
         blm_paramMap_t _blmParamMap;
 
         // BPM application init 
@@ -218,7 +204,4 @@ class L2MPS : public asynPortDriver {
 
         // BLM parameter creators
         void createBlmInfoParam(const std::string& param, const int& bay, const blm_channel_t& ch, asynParamType paramType, int& paramIndex);
-
-        // template <typename T, typename U>
-        // void createBlmThrParam(const int bay, const blm_channel_t ch, thr_chParam_t& thrChParamMap, const T pFuncW1, const U pFuncW32);
 };

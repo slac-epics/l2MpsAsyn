@@ -207,31 +207,8 @@ void L2MPS::createBlmInfoParam(const std::string& param, const int& bay, const b
     pName << param << "_" << bay << ch[0] << ch[1];
     
     createParam(bay, pName.str().c_str(), paramType, &index);
-
-   paramIndex = index;
-
-   printf("Paramter created: %s -> %d\n", pName.str().c_str(), index);
+    paramIndex = index;
 }
-
-// template <>
-// void L2MPS::createBlmThrParam(const int bay, const blm_channel_t ch, thr_chParam_t& thrChParamMap, BlmW1_t pFuncW1, BlmW32_t pFuncW32)
-// {
-//     // int index, indexEn;
-//     // std::stringstream pName;
-//     // pName.str("");
-//     // pName << "_" << bay << ch[0] << ch[1]  << ch[2] << ch[3];
-    
-//     // createParam(bay, ("BLM_THR"   + pName.str()).c_str(), asynParamInt32,         &index);
-//     // createParam(bay, ("BLM_THREN" + pName.str()).c_str(), asynParamUInt32Digital, &indexEn);
-
-//     // fMapBlmW1.insert(  std::make_pair( ("BLM_THREN" + pName.str()), std::make_pair( pFuncW1,  ch ) ) );
-//     // fMapBlmW32.insert( std::make_pair( ("BLM_THR"   + pName.str()), std::make_pair( pFuncW32, ch ) ) );
-
-//     // thr_table_t    tt = thr_table_t{{ch[2], ch[3]}};
-//     // thr_param_t    tp = std::make_pair(index,indexEn);
-
-//     // thrChParamMap.insert(std::make_pair(tt, tp));
-// }
 
 // BLEN callback functon
 void L2MPS::setBlmCB(int bay, blm_dataMap_t data)
@@ -241,8 +218,6 @@ void L2MPS::setBlmCB(int bay, blm_dataMap_t data)
 
 void L2MPS::BlmCB(int bay, blm_dataMap_t data)
 {
-    // std::cout << "L2MPS::BlmCB: BlmDataMap received size is = " << data.size() << std::endl;
-
     for (blm_dataMap_t::iterator data_blmIt = data.begin(); data_blmIt != data.end(); ++data_blmIt)
     {
         // Process the Threshold info
@@ -260,71 +235,30 @@ void L2MPS::BlmCB(int bay, blm_dataMap_t data)
             blm_channel_t data_blmCh = data_blmIt->first;
             thr_chData_t  data_thr   = (data_blmIt->second).data;
 
-           blm_channel_t param_blmCh = param_blmIt->first;
+            blm_channel_t param_blmCh = param_blmIt->first;
             thr_chParam_t param_thr   = (param_blmIt->second).data;
 
-            // std::cout << "    L2MPS::BlmCB: inside BlmDataMap, BlmData size is = " << data_thr.size() << std::endl;
             for (thr_chData_t::iterator data_thrIt = data_thr.begin(); data_thrIt != data_thr.end(); ++data_thrIt)
             {
-                // thr_channel_t data_thrCh = data_thrIt->first;
                 thr_table_t     data_thrCh = data_thrIt->first;
                 thr_tableData_t data_data  = data_thrIt->second;
 
-                // std::cout << "      Looking for BLM (" << data_blmCh[0] << "," << data_blmCh[1] << ")" << std::endl; 
+                thr_chParam_t::iterator param_thrIt = param_thr.find(data_thrCh);
 
-                // blm_paramMap_t::iterator param_blmIt = _blmParamMap.find(data_blmCh);
-               
-                // blm_paramMap_t::iterator param_blmIt = (blmParamMap->second).data.find(data_blmCh);
-                // if (param_blmIt != (blmParamMap->second).data.end())
-                // {
- 
+                if (param_thrIt != param_thr.end())
+                {
+                    thr_table_t         param_thrCh = param_thrIt->first;
+                    thr_tableParam_t    param_param = param_thrIt->second;
 
-                    // std::cout << "        Looking for THR (" << data_thrCh[0] << "," << data_thrCh[1] << "," << data_thrCh[2] << ")" << std::endl; 
-
-                    thr_chParam_t::iterator param_thrIt = param_thr.find(data_thrCh);
-
-                    if (param_thrIt != param_thr.end())
-                    {
-                        // thr_channel_t param_thrCh = param_thrIt->first;
-                        thr_table_t         param_thrCh = param_thrIt->first;
-                        thr_tableParam_t    param_param = param_thrIt->second;
-
-                        // printf("BLM channel (%d,%d), Threshodl channel (%d,%d,%d) : \n", data_blmCh[0], data_blmCh[1], data_thrCh[0], data_thrCh[1], data_thrCh[2]);
-                        // printf("Setting parameter %d (%d) with value %d (%d)\n", std::get<0>(param_param), std::get<1>(param_param), std::get<0>(data_data), std::get<1>(data_data));
-
-                        // setIntegerParam(bay, std::get<0>(param_param), std::get<0>(data_data));    
-                        // setUIntDigitalParam(bay, std::get<1>(param_param), std::get<1>(data_data), 0xFFFFFFFF, 0x1);
-                        setUIntDigitalParam(bay, param_param.minEn, data_data.minEn, 0xFFFFFFFF, 0x1);
-                        setUIntDigitalParam(bay, param_param.maxEn, data_data.maxEn, 0xFFFFFFFF, 0x1);
-                        setIntegerParam(bay, param_param.min, data_data.min);    
-                        setIntegerParam(bay, param_param.max, data_data.max);    
-                        // setIntegerParam(bay, std::get<0>(it4->second), std::get<0>(it2->second));    
-                        // setUIntDigitalParam(bay, std::get<1>(it4->second), std::get<1>(it2->second), 0xFFFFFFFF);
-                        // callParamCallbacks(bay);
-                    }
-                    else
-                        printf("Threshold not found!\n");
-                    // else
-                        // std::cout << "        THR not found" << std::endl;
-                // }
-                // else
-                    // std::cout << "      BLM not found." << std::endl;
-
-                // std::map< std::pair< blm_channel_t ,thr_channel_t>, std::pair<int,int>>::iterator it2 = myBlmTestMap.find(std::make_pair(blm_ch, it->first));
-                
-                // if (it2!=myBlmTestMap.end())
-                // {
-                //     setIntegerParam(bay, std::get<0>(it2->second), std::get<0>(it->second));    
-                //     setUIntDigitalParam(bay, std::get<1>(it2->second), std::get<1>(it->second), 0xFFFFFFFF);
-                //     callParamCallbacks(bay);
-                // }
+                    setUIntDigitalParam(bay, param_param.minEn, data_data.minEn, 0xFFFFFFFF, 0x1);
+                    setUIntDigitalParam(bay, param_param.maxEn, data_data.maxEn, 0xFFFFFFFF, 0x1);
+                    setIntegerParam(bay, param_param.min, data_data.min);    
+                    setIntegerParam(bay, param_param.max, data_data.max);    
+                }
             }
 
             callParamCallbacks(bay);
         }
-        else
-            printf("Channel not found!\n");
-
     } 
 }
  
@@ -574,47 +508,39 @@ void L2MPS::InitBlmMaps(const int bay)
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
             {
-                // for (int m = 0; m < numThrLimits; ++m)
-                // {
                     for (int n = 0; n < numThrCounts[k]; ++n)
                     {
-                        // createBlmThrParam(bay, std::array<int,4>{{i, j, k, n}}, thrChParamMap, &IMpsBlm::setThresholdEn, &IMpsBlm::setThreshold);
+                        thr_table_t thisThrTable = thr_table_t{{k,n }};               
+                        blmThr_channel_t args = {thisBlmCh, thisThrTable};
 
-thr_table_t thisThrTable = thr_table_t{{k,n }};               
-blmThr_channel_t args = {thisBlmCh, thisThrTable};
+                        int index;
+                        thr_tableParam_t tp;
 
-int index;
-thr_tableParam_t tp;
+                        std::array<int,4> ch = std::array<int,4>{{i, j, k, n}};
 
-std::array<int,4> ch = std::array<int,4>{{i, j, k, n}};
+                        std::stringstream pName;
+                        pName.str("");
+                        pName << "_" << bay << i << j  << k << n;
 
-std::stringstream pName;
-pName.str("");
-pName << "_" << bay << i << j  << k << n;
+                        createParam(bay, ("BLM_THRMIN" + pName.str()).c_str(), asynParamInt32, &index);
+                        tp.min = index;
+                        fMapBlmW32.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setThresholdMin,  args) ) );
 
-createParam(bay, ("BLM_THRMIN" + pName.str()).c_str(), asynParamInt32, &index);
-tp.min = index;
-// fMapBlmW32.insert( std::make_pair( ("BLM_THRMIN" + pName.str()), std::make_pair( &IMpsBlm::setThresholdMin, ch ) ) );
-// fMapBlmW32_new.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setThresholdMin,  args) ) );
-fMapBlmW32.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setThresholdMin,  args) ) );
+                        createParam(bay, ("BLM_THRMAX" + pName.str()).c_str(), asynParamInt32, &index);
+                        tp.max = index;
+                        fMapBlmW32.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setThresholdMax, args) ) );
 
-createParam(bay, ("BLM_THRMAX" + pName.str()).c_str(), asynParamInt32, &index);
-tp.max = index;
-fMapBlmW32.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setThresholdMax, args) ) );
+                        createParam(bay, ("BLM_THRMINEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
+                        tp.minEn = index;
+                        fMapBlmW1.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setThresholdMinEn, args ) ) );
 
-createParam(bay, ("BLM_THRMINEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
-tp.minEn = index;
-fMapBlmW1.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setThresholdMinEn, args ) ) );
+                        createParam(bay, ("BLM_THRMAXEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
+                        tp.maxEn = index;
+                        fMapBlmW1.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setThresholdMaxEn, args ) ) );
 
-createParam(bay, ("BLM_THRMAXEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
-tp.maxEn = index;
-fMapBlmW1.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setThresholdMaxEn, args ) ) );
-
-
-thr_table_t    tt = thr_table_t{{k, n}};
-thrChParamMap.insert(std::make_pair(tt, tp));
+                        thr_table_t    tt = thr_table_t{{k, n}};
+                        thrChParamMap.insert(std::make_pair(tt, tp));
                     }
-                // }
             }
             thrParamMap.data = thrChParamMap;
             _blmParamMap.insert(std::make_pair( thisBlmCh, thrParamMap ));
@@ -629,31 +555,6 @@ thrChParamMap.insert(std::make_pair(tt, tp));
     blenDbParams << ",BAY=" << bay;
     dbLoadRecords("db/blm.db", blenDbParams.str().c_str());
 }
-
-// void L2MPS::createBlmThrParams(int bay)
-// {
-//     std::vector<std::pair<blm_channel_t, std::vector<thr_channel_t>>> thrChannels = (boost::any_cast<MpsBlm>(amc[bay]))->getThrChannels();
-//     for (std::vector<std::pair<blm_channel_t, std::vector<thr_channel_t>>>::iterator it = thrChannels.begin(); it != thrChannels.end(); ++it)
-//     {
-//         for (std::vector<thr_channel_t>::iterator it2 = (std::get<1>(*it)).begin(); it2 != (std::get<1>(*it)).end(); ++it2)
-//         {
-//             printf("Channel: (%d, %d; %d, %d, %d)\n", (std::get<0>(*it))[0], (std::get<0>(*it))[1], (*it2)[0], (*it2)[1], (*it2)[2]);
-
-//             int index, indexEn;
-//             std::stringstream pName;
-//             pName.str("");
-//             pName << "_" << bay << (std::get<0>(*it))[0] << (std::get<0>(*it))[1]  << (*it2)[0] << (*it2)[1] << (*it2)[2];
-    
-//             createParam(bay, ("BLM_THR" + pName.str()).c_str(), asynParamInt32, &index);
-//             createParam(bay, ("BLM_THREN" + pName.str()).c_str(), asynParamUInt32Digital, &indexEn);
-
-//             myBlmTestMap.insert( std::make_pair( std::make_pair( (std::get<0>(*it)), *it2) , std::make_pair(index, indexEn) ) );
-
-//             fMapBlmW32.insert( std::make_pair( ("BLM_THR" + pName.str()), std::make_pair( &IMpsBlm::setThreshold, std::array<int,5>{{(std::get<0>(*it))[0], (std::get<0>(*it))[1], (*it2)[0], (*it2)[1], (*it2)[2]}} ) ) );
-//             fMapBlmW1.insert( std::make_pair( ("BLM_THREN" + pName.str()), std::make_pair( &IMpsBlm::setThresholdEn, std::array<int,5>{{(std::get<0>(*it))[0], (std::get<0>(*it))[1], (*it2)[0], (*it2)[1], (*it2)[2]}} ) ) );
-//         }
-//     }
-// }
 
 asynStatus L2MPS::readInt32(asynUser *pasynUser, epicsInt32 *value)
 {
