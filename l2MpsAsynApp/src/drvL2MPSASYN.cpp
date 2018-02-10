@@ -204,7 +204,7 @@ void L2MPS::createBlmInfoParam(const std::string& param, const int& bay, const b
     int index;
     std::stringstream pName;
     pName.str("");
-    pName << param << "_" << bay << ch[0] << ch[1]  << ch[2] << ch[3];
+    pName << param << "_" << bay << ch[0] << ch[1];
     
     createParam(bay, pName.str().c_str(), paramType, &index);
 
@@ -213,37 +213,37 @@ void L2MPS::createBlmInfoParam(const std::string& param, const int& bay, const b
    printf("Paramter created: %s -> %d\n", pName.str().c_str(), index);
 }
 
-template <>
-void L2MPS::createBlmThrParam(const int bay, const blm_channel_t ch, thr_chParam_t& thrChParamMap, BlmW1_t pFuncW1, BlmW32_t pFuncW32)
-{
-    // int index, indexEn;
-    // std::stringstream pName;
-    // pName.str("");
-    // pName << "_" << bay << ch[0] << ch[1]  << ch[2] << ch[3];
+// template <>
+// void L2MPS::createBlmThrParam(const int bay, const blm_channel_t ch, thr_chParam_t& thrChParamMap, BlmW1_t pFuncW1, BlmW32_t pFuncW32)
+// {
+//     // int index, indexEn;
+//     // std::stringstream pName;
+//     // pName.str("");
+//     // pName << "_" << bay << ch[0] << ch[1]  << ch[2] << ch[3];
     
-    // createParam(bay, ("BLM_THR"   + pName.str()).c_str(), asynParamInt32,         &index);
-    // createParam(bay, ("BLM_THREN" + pName.str()).c_str(), asynParamUInt32Digital, &indexEn);
+//     // createParam(bay, ("BLM_THR"   + pName.str()).c_str(), asynParamInt32,         &index);
+//     // createParam(bay, ("BLM_THREN" + pName.str()).c_str(), asynParamUInt32Digital, &indexEn);
 
-    // fMapBlmW1.insert(  std::make_pair( ("BLM_THREN" + pName.str()), std::make_pair( pFuncW1,  ch ) ) );
-    // fMapBlmW32.insert( std::make_pair( ("BLM_THR"   + pName.str()), std::make_pair( pFuncW32, ch ) ) );
+//     // fMapBlmW1.insert(  std::make_pair( ("BLM_THREN" + pName.str()), std::make_pair( pFuncW1,  ch ) ) );
+//     // fMapBlmW32.insert( std::make_pair( ("BLM_THR"   + pName.str()), std::make_pair( pFuncW32, ch ) ) );
 
-    // thr_table_t    tt = thr_table_t{{ch[2], ch[3]}};
-    // thr_param_t    tp = std::make_pair(index,indexEn);
+//     // thr_table_t    tt = thr_table_t{{ch[2], ch[3]}};
+//     // thr_param_t    tp = std::make_pair(index,indexEn);
 
-    // thrChParamMap.insert(std::make_pair(tt, tp));
-}
+//     // thrChParamMap.insert(std::make_pair(tt, tp));
+// }
 
 // BLEN callback functon
-void L2MPS::setBlmCB(int bay, _blm_dataMap_t data)
+void L2MPS::setBlmCB(int bay, blm_dataMap_t data)
 {
     pL2MPS->BlmCB(bay, data);
 }
 
-void L2MPS::BlmCB(int bay, _blm_dataMap_t data)
+void L2MPS::BlmCB(int bay, blm_dataMap_t data)
 {
     // std::cout << "L2MPS::BlmCB: BlmDataMap received size is = " << data.size() << std::endl;
 
-    for (_blm_dataMap_t::iterator data_blmIt = data.begin(); data_blmIt != data.end(); ++data_blmIt)
+    for (blm_dataMap_t::iterator data_blmIt = data.begin(); data_blmIt != data.end(); ++data_blmIt)
     {
         // Process the Threshold info
         blm_paramMap_t::iterator param_blmIt = _blmParamMap.find(data_blmIt->first);
@@ -257,10 +257,10 @@ void L2MPS::BlmCB(int bay, _blm_dataMap_t data)
             setUIntDigitalParam(bay, (param_blmIt->second).altEn,    thrInfo.altEn,    0xFFFFFFFF, 0x1);
             setUIntDigitalParam(bay, (param_blmIt->second).lcls1En,  thrInfo.lcls1En,  0xFFFFFFFF, 0x1);
 
-            _blm_channel_t data_blmCh = data_blmIt->first;
+            blm_channel_t data_blmCh = data_blmIt->first;
             thr_chData_t  data_thr   = (data_blmIt->second).data;
 
-           _blm_channel_t param_blmCh = param_blmIt->first;
+           blm_channel_t param_blmCh = param_blmIt->first;
             thr_chParam_t param_thr   = (param_blmIt->second).data;
 
             // std::cout << "    L2MPS::BlmCB: inside BlmDataMap, BlmData size is = " << data_thr.size() << std::endl;
@@ -310,7 +310,7 @@ void L2MPS::BlmCB(int bay, _blm_dataMap_t data)
                 // else
                     // std::cout << "      BLM not found." << std::endl;
 
-                // std::map< std::pair< _blm_channel_t ,thr_channel_t>, std::pair<int,int>>::iterator it2 = myBlmTestMap.find(std::make_pair(blm_ch, it->first));
+                // std::map< std::pair< blm_channel_t ,thr_channel_t>, std::pair<int,int>>::iterator it2 = myBlmTestMap.find(std::make_pair(blm_ch, it->first));
                 
                 // if (it2!=myBlmTestMap.end())
                 // {
@@ -560,14 +560,16 @@ void L2MPS::InitBlmMaps(const int bay)
     {
         for(int j = 0; j < numBlmIntChs; ++j)
         {
-            thr_paramMap_t thrParamMap;
-            createBlmInfoParam(std::string("BLM_THRNUM"),   bay, std::array<int,4>{{i, j, 0, 0}}, asynParamInt32, thrParamMap.ch);
-            createBlmInfoParam(std::string("BLM_THRCNT"),   bay, std::array<int,4>{{i, j, 0, 0}}, asynParamInt32, thrParamMap.count);
-            createBlmInfoParam(std::string("BLM_BYTEMAP"),  bay, std::array<int,4>{{i, j, 0, 0}}, asynParamInt32, thrParamMap.byteMap);
+            blm_channel_t thisBlmCh = blm_channel_t{{i, j}};
 
-            createBlmInfoParam(std::string("BLM_IDLEEN"),   bay, std::array<int,4>{{i, j, 0, 0}},  asynParamUInt32Digital, thrParamMap.idleEn);
-            createBlmInfoParam(std::string("BLM_ALTEN"),    bay, std::array<int,4>{{i, j, 0, 0}},  asynParamUInt32Digital, thrParamMap.altEn);
-            createBlmInfoParam(std::string("BLM_LCLS1EN"),  bay, std::array<int,4>{{i, j, 0, 0}},  asynParamUInt32Digital, thrParamMap.lcls1En);
+            thr_paramMap_t thrParamMap;
+            createBlmInfoParam(std::string("BLM_THRNUM"),   bay, thisBlmCh, asynParamInt32, thrParamMap.ch);
+            createBlmInfoParam(std::string("BLM_THRCNT"),   bay, thisBlmCh, asynParamInt32, thrParamMap.count);
+            createBlmInfoParam(std::string("BLM_BYTEMAP"),  bay, thisBlmCh, asynParamInt32, thrParamMap.byteMap);
+
+            createBlmInfoParam(std::string("BLM_IDLEEN"),   bay, thisBlmCh,  asynParamUInt32Digital, thrParamMap.idleEn);
+            createBlmInfoParam(std::string("BLM_ALTEN"),    bay, thisBlmCh,  asynParamUInt32Digital, thrParamMap.altEn);
+            createBlmInfoParam(std::string("BLM_LCLS1EN"),  bay, thisBlmCh,  asynParamUInt32Digital, thrParamMap.lcls1En);
 
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
@@ -577,6 +579,10 @@ void L2MPS::InitBlmMaps(const int bay)
                     for (int n = 0; n < numThrCounts[k]; ++n)
                     {
                         // createBlmThrParam(bay, std::array<int,4>{{i, j, k, n}}, thrChParamMap, &IMpsBlm::setThresholdEn, &IMpsBlm::setThreshold);
+
+thr_table_t thisThrTable = thr_table_t{{k,n }};               
+blmThr_channel_t args = {thisBlmCh, thisThrTable};
+
 int index;
 thr_tableParam_t tp;
 
@@ -588,19 +594,21 @@ pName << "_" << bay << i << j  << k << n;
 
 createParam(bay, ("BLM_THRMIN" + pName.str()).c_str(), asynParamInt32, &index);
 tp.min = index;
-fMapBlmW32.insert( std::make_pair( ("BLM_THRMIN" + pName.str()), std::make_pair( &IMpsBlm::setThresholdMin, ch ) ) );
+// fMapBlmW32.insert( std::make_pair( ("BLM_THRMIN" + pName.str()), std::make_pair( &IMpsBlm::setThresholdMin, ch ) ) );
+// fMapBlmW32_new.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setThresholdMin,  args) ) );
+fMapBlmW32.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setThresholdMin,  args) ) );
 
 createParam(bay, ("BLM_THRMAX" + pName.str()).c_str(), asynParamInt32, &index);
 tp.max = index;
-fMapBlmW32.insert( std::make_pair( ("BLM_THRMAX" + pName.str()), std::make_pair( &IMpsBlm::setThresholdMax, ch ) ) );
+fMapBlmW32.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setThresholdMax, args) ) );
 
 createParam(bay, ("BLM_THRMINEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
 tp.minEn = index;
-fMapBlmW1.insert( std::make_pair( ("BLM_THRMINEN" + pName.str()), std::make_pair( &IMpsBlm::setThresholdMinEn, ch ) ) );
+fMapBlmW1.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setThresholdMinEn, args ) ) );
 
 createParam(bay, ("BLM_THRMAXEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
 tp.maxEn = index;
-fMapBlmW1.insert( std::make_pair( ("BLM_THRMAXEN" + pName.str()), std::make_pair( &IMpsBlm::setThresholdMaxEn, ch ) ) );
+fMapBlmW1.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setThresholdMaxEn, args ) ) );
 
 
 thr_table_t    tt = thr_table_t{{k, n}};
@@ -609,7 +617,7 @@ thrChParamMap.insert(std::make_pair(tt, tp));
                 // }
             }
             thrParamMap.data = thrChParamMap;
-            _blmParamMap.insert(std::make_pair( _blm_channel_t{{i, j}}, thrParamMap ));
+            _blmParamMap.insert(std::make_pair( thisBlmCh, thrParamMap ));
 
         }
     }
@@ -624,8 +632,8 @@ thrChParamMap.insert(std::make_pair(tt, tp));
 
 // void L2MPS::createBlmThrParams(int bay)
 // {
-//     std::vector<std::pair<_blm_channel_t, std::vector<thr_channel_t>>> thrChannels = (boost::any_cast<MpsBlm>(amc[bay]))->getThrChannels();
-//     for (std::vector<std::pair<_blm_channel_t, std::vector<thr_channel_t>>>::iterator it = thrChannels.begin(); it != thrChannels.end(); ++it)
+//     std::vector<std::pair<blm_channel_t, std::vector<thr_channel_t>>> thrChannels = (boost::any_cast<MpsBlm>(amc[bay]))->getThrChannels();
+//     for (std::vector<std::pair<blm_channel_t, std::vector<thr_channel_t>>>::iterator it = thrChannels.begin(); it != thrChannels.end(); ++it)
 //     {
 //         for (std::vector<thr_channel_t>::iterator it2 = (std::get<1>(*it)).begin(); it2 != (std::get<1>(*it)).end(); ++it2)
 //         {
@@ -670,7 +678,7 @@ asynStatus L2MPS::readInt32(asynUser *pasynUser, epicsInt32 *value)
         bpm_fmap_r32_t::iterator bpm_it;
         blen_fmap_r32_t::iterator blen_it;
         bcm_fmap_r32_t::iterator bcm_it;
-        blm_fmap_r32_t::iterator blm_it;
+        // blm_fmap_r32_t::iterator blm_it;
 
         // BPM parameters
         if ((bpm_it = fMapBpmR32.find(name)) != fMapBpmR32.end())
@@ -687,11 +695,11 @@ asynStatus L2MPS::readInt32(asynUser *pasynUser, epicsInt32 *value)
         {
             *value = ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_it->second.first))(bcm_it->second.second);   
         }
-        // BLM parameters
-        else if ((blm_it = fMapBlmR32.find(name)) != fMapBlmR32.end())
-        {
-            *value = ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second);   
-        }
+        // // BLM parameters
+        // else if ((blm_it = fMapBlmR32.find(name)) != fMapBlmR32.end())
+        // {
+        //     *value = ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second);   
+        // }
         // MPS node parameters
         else if (function == appIdValue_)   
         {   
@@ -787,6 +795,7 @@ asynStatus L2MPS::writeInt32(asynUser *pasynUser, epicsInt32 value)
         blen_fmap_w32_t::iterator blen_it;
         bcm_fmap_w32_t::iterator bcm_it;
         blm_fmap_w32_t::iterator blm_it;
+        // blm_fmap_w32_t_new::iterator blm_it_new;
 
         // BPM parameters
         if ((bpm_it = fMapBpmW32.find(name)) != fMapBpmW32.end())
@@ -804,10 +813,14 @@ asynStatus L2MPS::writeInt32(asynUser *pasynUser, epicsInt32 value)
             ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_it->second.first))(bcm_it->second.second, value);
         }
         // BLM parameters
-        else if ((blm_it = fMapBlmW32.find(name)) != fMapBlmW32.end())
+        else if ((blm_it = fMapBlmW32.find(function)) != fMapBlmW32.end())
         {
             ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second, value);
         }
+// else if ((blm_it_new = fMapBlmW32_new.find(function)) != fMapBlmW32_new.end())
+// {
+//     ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it_new->second.first))(blm_it_new->second.second, value);
+// }
         // MPS node parameters
         else if (function == beamDestMaskValue_)
         {
@@ -857,7 +870,7 @@ asynStatus L2MPS::readUInt32Digital(asynUser *pasynUser, epicsUInt32 *value, epi
         bpm_fmap_r1_t::iterator bpm_it;
         blen_fmap_r1_t::iterator blen_it;
         bcm_fmap_r1_t::iterator bcm_it;        
-        blm_fmap_r1_t::iterator blm_it;
+        // blm_fmap_r1_t::iterator blm_it;
 
 
         // BPM parameters        
@@ -876,10 +889,10 @@ asynStatus L2MPS::readUInt32Digital(asynUser *pasynUser, epicsUInt32 *value, epi
             *value = ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_it->second.first))(bcm_it->second.second);
         }
         // BLM parameters
-        else if ((blm_it = fMapBlmR1.find(name)) != fMapBlmR1.end())
-        {
-            *value = ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second);
-        }        
+        // else if ((blm_it = fMapBlmR1.find(name)) != fMapBlmR1.end())
+        // {
+        //     *value = ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second);
+        // }        
         // MPS node parameters        
         else if(function == mpsEnValue_)
         {
@@ -978,7 +991,7 @@ asynStatus L2MPS::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epi
             ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_it->second.first))(bcm_it->second.second, (value & mask));
         }
         // BLM parameters        
-        else if ((blm_it = fMapBlmW1.find(name)) != fMapBlmW1.end())
+        else if ((blm_it = fMapBlmW1.find(function)) != fMapBlmW1.end())
         {
             ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second, (value & mask));
         }
