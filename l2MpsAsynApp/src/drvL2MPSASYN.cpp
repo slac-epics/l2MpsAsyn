@@ -369,6 +369,16 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
                 }
             }
         }
+
+        // Start polling threads
+        for(std::size_t i {0}; i < numberOfBays; ++i)
+        {
+            if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_6CH")) | (!appType_.compare("MPS_24CH")))
+            {
+                boost::any_cast<MpsBlm>(amc[i])->startPollThread(1, &setBlmCB);
+            }
+        }
+
     }
     catch (CPSWError &e)
     {
@@ -557,10 +567,6 @@ void L2MPS::InitBlmMaps(const int bay)
     blenDbParams << ",PORT=" << std::string(portName_);
     blenDbParams << ",BAY=" << bay;
     dbLoadRecords("db/blm.db", blenDbParams.str().c_str());
-
-    // Start polling thread
-    boost::any_cast<MpsBlm>(amc[bay])->startPollThread(1, &setBlmCB);
-
 }
 
 asynStatus L2MPS::readInt32(asynUser *pasynUser, epicsInt32 *value)
