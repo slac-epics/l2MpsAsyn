@@ -60,10 +60,8 @@ typedef std::map<int, std::pair<BpmW32_t, bpmThr_channel_t>> bpm_fmap_w32_t;
 typedef std::map<int, std::pair<BpmW1_t,  bpmThr_channel_t>> bpm_fmap_w1_t;
 
 // BLEN data types
-typedef std::map<std::string, std::pair<BlenR32_t, blen_channel_t>> blen_fmap_r32_t;
-typedef std::map<std::string, std::pair<BlenW32_t, blen_channel_t>> blen_fmap_w32_t;
-typedef std::map<std::string, std::pair<BlenR1_t,  blen_channel_t>> blen_fmap_r1_t;
-typedef std::map<std::string, std::pair<BlenW1_t,  blen_channel_t>> blen_fmap_w1_t;
+typedef std::map<int, std::pair<BlenW32_t, blenThr_channel_t>> blen_fmap_w32_t;
+typedef std::map<int, std::pair<BlenW1_t,  blenThr_channel_t>> blen_fmap_w1_t;
 
 // BCM data types
 typedef std::map<int, std::pair<BcmW32_t, bcmThr_channel_t>> bcm_fmap_w32_t;
@@ -71,7 +69,7 @@ typedef std::map<int, std::pair<BcmW1_t,  bcmThr_channel_t>> bcm_fmap_w1_t;
 
 // BLM data types
 typedef std::map<int, std::pair<BlmW32_t, blmThr_channel_t>> blm_fmap_w32_t;
-typedef std::map<int, std::pair<BlmW1_t, blmThr_channel_t>> blm_fmap_w1_t;
+typedef std::map<int, std::pair<BlmW1_t,  blmThr_channel_t>> blm_fmap_w1_t;
 
 struct thr_tableParam_t
 {
@@ -127,6 +125,16 @@ struct cmp {
         catch(const boost::bad_any_cast &)
         {
         }
+
+        try
+        {
+            blen_channel_t left = boost::any_cast<blen_channel_t>(l);
+            blen_channel_t right = boost::any_cast<blen_channel_t>(r);
+            return left < right;
+        }
+        catch(const boost::bad_any_cast &)
+        {
+        }        
 
         std::cout << "paramMap_t error: not comparison found!" << std::endl;
         return false;
@@ -197,9 +205,7 @@ class L2MPS : public asynPortDriver {
         bpm_fmap_w1_t   fMapBpmW1;
 
         // BLEN application fuction maps
-        blen_fmap_r32_t  fMapBlenR32;
         blen_fmap_w32_t  fMapBlenW32;
-        blen_fmap_r1_t   fMapBlenR1;
         blen_fmap_w1_t   fMapBlenW1;
 
         // BCM application fuction maps
@@ -217,10 +223,4 @@ class L2MPS : public asynPortDriver {
         void InitBlenMaps(const int bay);
         void InitBcmMaps(const int bay);
         void InitBlmMaps(const int bay);
-    
-        // BLEN parameter creators
-        template <typename T>
-        void createBlenParam(const std::string param, const int bay, const blen_channel_t ch, T pFuncR);
-        template <typename T, typename U>
-        void createBlenParam(const std::string param, const int bay, const blen_channel_t ch, T pFuncR, U pFuncW);
 };

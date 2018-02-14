@@ -33,61 +33,6 @@
 
 L2MPS *pL2MPS;
 
-// BLEN parameter creators
-template <>
-void L2MPS::createBlenParam(const std::string param, const int bay, const blen_channel_t ch, BlenR32_t pFuncR)
-{
-    int index;
-    std::stringstream pName;
-    pName.str("");
-    pName << param << "_" << bay << "0" << ch[0] << ch[1]  << ch[2];
-    
-    createParam(bay, pName.str().c_str(), asynParamInt32, &index);
-
-    fMapBlenR32.insert( std::make_pair( pName.str(), std::make_pair( pFuncR, ch ) ) );
-}
-
-template <>
-void L2MPS::createBlenParam(const std::string param, const int bay, const blen_channel_t ch, BlenR32_t pFuncR, BlenW32_t pFuncW)
-{
-    int index;
-    std::stringstream pName;
-    pName.str("");
-    pName << param << "_" << bay << "0" << ch[0] << ch[1]  << ch[2];
-    
-    createParam(bay, pName.str().c_str(), asynParamInt32, &index);
-
-    fMapBlenR32.insert( std::make_pair( pName.str(), std::make_pair( pFuncR, ch ) ) );
-    fMapBlenW32.insert( std::make_pair( pName.str(), std::make_pair( pFuncW, ch ) ) );
-}
-
-template <>
-void L2MPS::createBlenParam(const std::string param, const int bay, const blen_channel_t ch, BlenR1_t pFuncR)
-{
-    int index;
-    std::stringstream pName;
-    pName.str("");
-    pName << param << "_" << bay << "0" << ch[0] << ch[1]  << ch[2];
-    
-    createParam(bay, pName.str().c_str(), asynParamUInt32Digital, &index);
-
-    fMapBlenR1.insert( std::make_pair( pName.str(), std::make_pair( pFuncR, ch ) ) );
-}
-
-template <>
-void L2MPS::createBlenParam(const std::string param, const int bay, const blen_channel_t ch, BlenR1_t pFuncR, BlenW1_t pFuncW)
-{
-    int index;
-    std::stringstream pName;
-    pName.str("");
-    pName << param << "_" << bay << "0" << ch[0] << ch[1]  << ch[2];
-    
-    createParam(bay, pName.str().c_str(), asynParamUInt32Digital, &index);
-
-    fMapBlenR1.insert( std::make_pair( pName.str(), std::make_pair( pFuncR, ch ) ) );
-    fMapBlenW1.insert( std::make_pair( pName.str(), std::make_pair( pFuncW, ch ) ) );
-}
-
 // BLM callback functon
 template<typename T>
 void L2MPS::updateParameters(int bay, T data)
@@ -248,7 +193,7 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
                 }
                 else if (!appType_.compare("BLEN"))
                 {
-                    amc[i] = MpsBpmFactory::create(mpsRoot, i);
+                    amc[i] = MpsBlenFactory::create(mpsRoot, i);
                     InitBlenMaps(i);                    
                 }
                 else if (!appType_.compare("BCM"))
@@ -270,6 +215,10 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
             if (!appType_.compare("BPM"))
             {
                 boost::any_cast<MpsBpm>(amc[i])->startPollThread(1, &setCallback);
+            }
+            else if (!appType_.compare("BLEN"))
+            {
+                boost::any_cast<MpsBlen>(amc[i])->startPollThread(1, &setCallback);
             }
             else if (!appType_.compare("BCM"))
             {
@@ -369,33 +318,80 @@ void L2MPS::InitBpmMaps(const int bay)
 
 void L2MPS::InitBlenMaps(const int bay)
 {
+    int index;
+    std::stringstream pName;
 
-    // createBlenParam(std::string("BLEN_THRNUM"),   bay, std::array<int,3>{{0, 0, 0}}, &IMpsBlen::getCh);
-    // createBlenParam(std::string("BLEN_THRCNT"),   bay, std::array<int,3>{{0, 0, 0}}, &IMpsBlen::getThrCount);
-    // createBlenParam(std::string("BLEN_BYTEMAP"),  bay, std::array<int,3>{{0, 0, 0}}, &IMpsBlen::getByteMap);
+    for (int i = 0; i < numBlenChs; ++i)
+    {
+            blen_channel_t thisBlenCh = i;
 
-    // createBlenParam(std::string("BLEN_IDLEEN"),   bay, std::array<int,3>{{0, 0, 0}},  &IMpsBlen::getIdleEn);
-    // createBlenParam(std::string("BLEN_ALTEN"),    bay, std::array<int,3>{{0, 0, 0}},  &IMpsBlen::getAltEn);
-    // createBlenParam(std::string("BLEN_LCLS1EN"),  bay, std::array<int,3>{{0, 0, 0}},  &IMpsBlen::getLcls1En);
+            thr_paramMap_t thrParamMap;
 
-    // for (int j = 0; j < numThrTables; ++j)
-    // {
-    //     for (int k = 0; k < numThrLimits; ++k)
-    //     {
-    //         for (int m = 0; m < numThrCounts[j]; ++m)
-    //         {
-    //             createBlenParam(std::string("BLEN_THR"),      bay, std::array<int,3>{{j, k, m}}, &IMpsBlen::getThreshold,   &IMpsBlen::setThreshold);
-    //             createBlenParam(std::string("BLEN_THREN"),    bay, std::array<int,3>{{j, k, m}}, &IMpsBlen::getThresholdEn, &IMpsBlen::setThresholdEn);
-    //         }
-    //     }
-    // }
-    
-    // std::stringstream blenDbParams;
-    // blenDbParams.str("");
-    // blenDbParams << "P=" << std::string(recordPrefixBay_[bay]);
-    // blenDbParams << ",PORT=" << std::string(portName_);
-    // blenDbParams << ",BAY=" << bay;
-    // dbLoadRecords("db/blen.db", blenDbParams.str().c_str());
+            pName.str("");
+            pName << "_" << bay << i;
+
+            createParam(bay, ("BLEN_THRNUM" + pName.str()).c_str(), asynParamInt32, &index);
+            thrParamMap.ch = index;
+
+            createParam(bay, ("BLEN_THRCNT" + pName.str()).c_str(), asynParamInt32, &index);
+            thrParamMap.count = index;
+
+            createParam(bay, ("BLEN_BYTEMAP" + pName.str()).c_str(), asynParamInt32, &index);
+            thrParamMap.byteMap = index;
+
+            createParam(bay, ("BLEN_IDLEEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
+            thrParamMap.idleEn = index;
+
+            createParam(bay, ("BLEN_ALTEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
+            thrParamMap.altEn = index;
+
+            createParam(bay, ("BLEN_LCLS1EN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
+            thrParamMap.lcls1En = index;
+
+
+            thr_chParam_t thrChParamMap;
+            for (int k = 0; k < numThrTables; ++k)
+            {
+                for (int n = 0; n < numThrCounts[k]; ++n)
+                {
+                    thr_table_t thisThrTable = thr_table_t{{k,n }};               
+                    blenThr_channel_t args = {thisBlenCh, thisThrTable};
+
+                    thr_tableParam_t tp;
+
+                    pName.str("");
+                    pName << "_" << bay << i << k << n;
+
+                    createParam(bay, ("BLEN_THRMIN" + pName.str()).c_str(), asynParamInt32, &index);
+                    tp.min = index;
+                    fMapBlenW32.insert( std::make_pair( index, std::make_pair( &IMpsBlen::setThresholdMin,  args) ) );
+
+                    createParam(bay, ("BLEN_THRMAX" + pName.str()).c_str(), asynParamInt32, &index);
+                    tp.max = index;
+                    fMapBlenW32.insert( std::make_pair( index, std::make_pair( &IMpsBlen::setThresholdMax, args) ) );
+
+                    createParam(bay, ("BLEN_THRMINEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
+                    tp.minEn = index;
+                    fMapBlenW1.insert( std::make_pair( index, std::make_pair( &IMpsBlen::setThresholdMinEn, args ) ) );
+
+                    createParam(bay, ("BLEN_THRMAXEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
+                    tp.maxEn = index;
+                    fMapBlenW1.insert( std::make_pair( index, std::make_pair( &IMpsBlen::setThresholdMaxEn, args ) ) );
+
+                    thr_table_t    tt = thr_table_t{{k, n}};
+                    thrChParamMap.insert(std::make_pair(tt, tp));
+                }
+            }
+            thrParamMap.data = thrChParamMap;
+            _paramMap.insert(std::make_pair( thisBlenCh, thrParamMap ));
+    }
+
+    std::stringstream blenDbParams;
+    blenDbParams.str("");
+    blenDbParams << "P=" << std::string(recordPrefixBay_[bay]);
+    blenDbParams << ",PORT=" << std::string(portName_);
+    blenDbParams << ",BAY=" << bay;
+    dbLoadRecords("db/blen.db", blenDbParams.str().c_str());
 }
 
 void L2MPS::InitBcmMaps(const int bay)
@@ -578,33 +574,8 @@ asynStatus L2MPS::readInt32(asynUser *pasynUser, epicsInt32 *value)
         // Last message byte iterator
         std::vector<int>::iterator mpsLastMsgByte_it;
 
-        // bpm_fmap_r32_t::iterator bpm_it;
-        blen_fmap_r32_t::iterator blen_it;
-        // bcm_fmap_r32_t::iterator bcm_it;
-        // blm_fmap_r32_t::iterator blm_it;
-
-        // BPM parameters
-        // if ((bpm_it = fMapBpmR32.find(name)) != fMapBpmR32.end())
-        // {
-        //     *value = ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second);
-        // }
-        // BLEN parameters
-        if ((blen_it = fMapBlenR32.find(name)) != fMapBlenR32.end())
-        {
-            *value = ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_it->second.first))(blen_it->second.second);   
-        }
-        // // BCM parameters
-        // else if ((bcm_it = fMapBcmR32.find(name)) != fMapBcmR32.end())
-        // {
-        //     *value = ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_it->second.first))(bcm_it->second.second);   
-        // }
-        // // BLM parameters
-        // else if ((blm_it = fMapBlmR32.find(name)) != fMapBlmR32.end())
-        // {
-        //     *value = ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second);   
-        // }
         // MPS node parameters
-        else if (function == appIdValue_)   
+        if (function == appIdValue_)   
         {   
             *value = (epicsInt32)node_->getAppId();
         }
@@ -705,7 +676,7 @@ asynStatus L2MPS::writeInt32(asynUser *pasynUser, epicsInt32 value)
             ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second, value);
         }
         // BLEN parameters
-        else if ((blen_it = fMapBlenW32.find(name)) != fMapBlenW32.end())
+        else if ((blen_it = fMapBlenW32.find(function)) != fMapBlenW32.end())
         {
             ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_it->second.first))(blen_it->second.second, value);
         }
@@ -764,35 +735,9 @@ asynStatus L2MPS::readUInt32Digital(asynUser *pasynUser, epicsUInt32 *value, epi
     {
         // Rx Link Up Counter iterator
         std::array<int, numberOfRxLinks>::iterator it;
-
-        // bpm_fmap_r1_t::iterator bpm_it;
-        blen_fmap_r1_t::iterator blen_it;
-        // bcm_fmap_r1_t::iterator bcm_it;        
-        // blm_fmap_r1_t::iterator blm_it;
-
-
-        // BPM parameters        
-        // if ((bpm_it = fMapBpmR1.find(name)) != fMapBpmR1.end())
-        // {
-        //     *value = ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second);
-        // }
-        // BLEN parameters
-        if ((blen_it = fMapBlenR1.find(name)) != fMapBlenR1.end())
-        {
-            *value = ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_it->second.first))(blen_it->second.second);
-        }
-        // // BCM parameters
-        // else if ((bcm_it = fMapBcmR1.find(name)) != fMapBcmR1.end())
-        // {
-        //     *value = ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_it->second.first))(bcm_it->second.second);
-        // }
-        // BLM parameters
-        // else if ((blm_it = fMapBlmR1.find(name)) != fMapBlmR1.end())
-        // {
-        //     *value = ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second);
-        // }        
+     
         // MPS node parameters        
-        else if(function == mpsEnValue_)
+        if(function == mpsEnValue_)
         {
             *value = (epicsUInt32)(node_->getEnable() & mask);
             setUIntDigitalParam(addr, function, *value, mask);
@@ -879,7 +824,7 @@ asynStatus L2MPS::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epi
             ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second, (value & mask));
         }
         // BLEN parameters        
-        else if ((blen_it = fMapBlenW1.find(name)) != fMapBlenW1.end())
+        else if ((blen_it = fMapBlenW1.find(function)) != fMapBlenW1.end())
         {
             ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_it->second.first))(blen_it->second.second, (value & mask));
         }
