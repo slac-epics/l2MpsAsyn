@@ -33,61 +33,6 @@
 
 L2MPS *pL2MPS;
 
-// BPM parameter creators
-template <>
-void L2MPS::createBpmParam(const std::string param, const int bay, const bpm_channel_t ch, BpmR32_t pFuncR)
-{
-    int index;
-    std::stringstream pName;
-    pName.str("");
-    pName << param << "_" << bay << ch[0] << ch[1]  << ch[2]  << ch[3];
-    
-    createParam(bay, pName.str().c_str(), asynParamInt32, &index);
-
-    fMapBpmR32.insert( std::make_pair( pName.str(), std::make_pair( pFuncR, ch ) ) );
-}
-
-template <>
-void L2MPS::createBpmParam(const std::string param, const int bay, const bpm_channel_t ch, BpmR32_t pFuncR, BpmW32_t pFuncW)
-{
-    int index;
-    std::stringstream pName;
-    pName.str("");
-    pName << param << "_" << bay << ch[0] << ch[1]  << ch[2]  << ch[3];
-    
-    createParam(bay, pName.str().c_str(), asynParamInt32, &index);
-
-    fMapBpmR32.insert( std::make_pair( pName.str(), std::make_pair( pFuncR, ch ) ) );
-    fMapBpmW32.insert( std::make_pair( pName.str(), std::make_pair( pFuncW, ch ) ) );
-}
-
-template <>
-void L2MPS::createBpmParam(const std::string param, const int bay, const bpm_channel_t ch, BpmR1_t pFuncR)
-{
-    int index;
-    std::stringstream pName;
-    pName.str("");
-    pName << param << "_" << bay << ch[0] << ch[1]  << ch[2]  << ch[3];
-    
-    createParam(bay, pName.str().c_str(), asynParamUInt32Digital, &index);
-
-    fMapBpmR1.insert( std::make_pair( pName.str(), std::make_pair( pFuncR, ch ) ) );
-}
-
-template <>
-void L2MPS::createBpmParam(const std::string param, const int bay, const bpm_channel_t ch, BpmR1_t pFuncR, BpmW1_t pFuncW)
-{
-    int index;
-    std::stringstream pName;
-    pName.str("");
-    pName << param << "_" << bay << ch[0] << ch[1]  << ch[2]  << ch[3];
-    
-    createParam(bay, pName.str().c_str(), asynParamUInt32Digital, &index);
-
-    fMapBpmR1.insert( std::make_pair( pName.str(), std::make_pair( pFuncR, ch ) ) );
-    fMapBpmW1.insert( std::make_pair( pName.str(), std::make_pair( pFuncW, ch ) ) );
-}
-
 // BLEN parameter creators
 template <>
 void L2MPS::createBlenParam(const std::string param, const int bay, const blen_channel_t ch, BlenR32_t pFuncR)
@@ -322,7 +267,11 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
         // Start polling threads
         for(std::size_t i {0}; i < numberOfBays; ++i)
         {
-            if (!appType_.compare("BCM"))
+            if (!appType_.compare("BPM"))
+            {
+                boost::any_cast<MpsBpm>(amc[i])->startPollThread(1, &setCallback);
+            }
+            else if (!appType_.compare("BCM"))
             {
                 boost::any_cast<MpsBcm>(amc[i])->startPollThread(1, &setCallback);
             }
@@ -342,36 +291,80 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
 
 void L2MPS::InitBpmMaps(const int bay)
 {
+    int index;
+    std::stringstream pName;
 
-    // for (int i = 0; i < numBpmChs; ++i)
-    // {
-    //     createBpmParam(std::string("BPM_THRNUM"),   bay, std::array<int,4>{{i, 0, 0, 0}}, &IMpsBpm::getCh);
-    //     createBpmParam(std::string("BPM_THRCNT"),   bay, std::array<int,4>{{i, 0, 0, 0}}, &IMpsBpm::getThrCount);
-    //     createBpmParam(std::string("BPM_BYTEMAP"),  bay, std::array<int,4>{{i, 0, 0, 0}}, &IMpsBpm::getByteMap);
+    for (int i = 0; i < numBpmChs; ++i)
+    {
+            bpm_channel_t thisBpmCh = i;
 
-    //     createBpmParam(std::string("BPM_IDLEEN"),   bay, std::array<int,4>{{i,0, 0, 0}},  &IMpsBpm::getIdleEn);
-    //     createBpmParam(std::string("BPM_ALTEN"),    bay, std::array<int,4>{{i,0, 0, 0}},  &IMpsBpm::getAltEn);
-    //     createBpmParam(std::string("BPM_LCLS1EN"),  bay, std::array<int,4>{{i,0, 0, 0}},  &IMpsBpm::getLcls1En);
+            thr_paramMap_t thrParamMap;
 
-    //     for (int j = 0; j < numThrTables; ++j)
-    //     {
-    //         for (int k = 0; k < numThrLimits; ++k)
-    //         {
-    //             for (int m = 0; m < numThrCounts[j]; ++m)
-    //             {
-    //                 createBpmParam(std::string("BPM_THR"),      bay, std::array<int,4>{{i, j, k, m}}, &IMpsBpm::getThreshold,   &IMpsBpm::setThreshold);
-    //                 createBpmParam(std::string("BPM_THREN"),    bay, std::array<int,4>{{i, j, k, m}}, &IMpsBpm::getThresholdEn, &IMpsBpm::setThresholdEn);
-    //             }
-    //         }
-    //     }
-    // }
+            pName.str("");
+            pName << "_" << bay << i;
 
-    // std::stringstream bpmDbParams;
-    // bpmDbParams.str("");
-    // bpmDbParams << "P=" << std::string(recordPrefixBay_[bay]);
-    // bpmDbParams << ",PORT=" << std::string(portName_);
-    // bpmDbParams << ",BAY=" << bay;
-    // dbLoadRecords("db/bpm.db", bpmDbParams.str().c_str());
+            createParam(bay, ("BPM_THRNUM" + pName.str()).c_str(), asynParamInt32, &index);
+            thrParamMap.ch = index;
+
+            createParam(bay, ("BPM_THRCNT" + pName.str()).c_str(), asynParamInt32, &index);
+            thrParamMap.count = index;
+
+            createParam(bay, ("BPM_BYTEMAP" + pName.str()).c_str(), asynParamInt32, &index);
+            thrParamMap.byteMap = index;
+
+            createParam(bay, ("BPM_IDLEEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
+            thrParamMap.idleEn = index;
+
+            createParam(bay, ("BPM_ALTEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
+            thrParamMap.altEn = index;
+
+            createParam(bay, ("BPM_LCLS1EN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
+            thrParamMap.lcls1En = index;
+
+
+            thr_chParam_t thrChParamMap;
+            for (int k = 0; k < numThrTables; ++k)
+            {
+                for (int n = 0; n < numThrCounts[k]; ++n)
+                {
+                    thr_table_t thisThrTable = thr_table_t{{k,n }};               
+                    bpmThr_channel_t args = {thisBpmCh, thisThrTable};
+
+                    thr_tableParam_t tp;
+
+                    pName.str("");
+                    pName << "_" << bay << i << k << n;
+
+                    createParam(bay, ("BPM_THRMIN" + pName.str()).c_str(), asynParamInt32, &index);
+                    tp.min = index;
+                    fMapBpmW32.insert( std::make_pair( index, std::make_pair( &IMpsBpm::setThresholdMin,  args) ) );
+
+                    createParam(bay, ("BPM_THRMAX" + pName.str()).c_str(), asynParamInt32, &index);
+                    tp.max = index;
+                    fMapBpmW32.insert( std::make_pair( index, std::make_pair( &IMpsBpm::setThresholdMax, args) ) );
+
+                    createParam(bay, ("BPM_THRMINEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
+                    tp.minEn = index;
+                    fMapBpmW1.insert( std::make_pair( index, std::make_pair( &IMpsBpm::setThresholdMinEn, args ) ) );
+
+                    createParam(bay, ("BPM_THRMAXEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
+                    tp.maxEn = index;
+                    fMapBpmW1.insert( std::make_pair( index, std::make_pair( &IMpsBpm::setThresholdMaxEn, args ) ) );
+
+                    thr_table_t    tt = thr_table_t{{k, n}};
+                    thrChParamMap.insert(std::make_pair(tt, tp));
+                }
+            }
+            thrParamMap.data = thrChParamMap;
+            _paramMap.insert(std::make_pair( thisBpmCh, thrParamMap ));
+    }
+
+    std::stringstream bpmDbParams;
+    bpmDbParams.str("");
+    bpmDbParams << "P=" << std::string(recordPrefixBay_[bay]);
+    bpmDbParams << ",PORT=" << std::string(portName_);
+    bpmDbParams << ",BAY=" << bay;
+    dbLoadRecords("db/bpm.db", bpmDbParams.str().c_str());    
 }
 
 void L2MPS::InitBlenMaps(const int bay)
@@ -585,18 +578,18 @@ asynStatus L2MPS::readInt32(asynUser *pasynUser, epicsInt32 *value)
         // Last message byte iterator
         std::vector<int>::iterator mpsLastMsgByte_it;
 
-        bpm_fmap_r32_t::iterator bpm_it;
+        // bpm_fmap_r32_t::iterator bpm_it;
         blen_fmap_r32_t::iterator blen_it;
         // bcm_fmap_r32_t::iterator bcm_it;
         // blm_fmap_r32_t::iterator blm_it;
 
         // BPM parameters
-        if ((bpm_it = fMapBpmR32.find(name)) != fMapBpmR32.end())
-        {
-            *value = ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second);
-        }
+        // if ((bpm_it = fMapBpmR32.find(name)) != fMapBpmR32.end())
+        // {
+        //     *value = ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second);
+        // }
         // BLEN parameters
-        else if ((blen_it = fMapBlenR32.find(name)) != fMapBlenR32.end())
+        if ((blen_it = fMapBlenR32.find(name)) != fMapBlenR32.end())
         {
             *value = ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_it->second.first))(blen_it->second.second);   
         }
@@ -707,7 +700,7 @@ asynStatus L2MPS::writeInt32(asynUser *pasynUser, epicsInt32 value)
         blm_fmap_w32_t::iterator blm_it;
 
         // BPM parameters
-        if ((bpm_it = fMapBpmW32.find(name)) != fMapBpmW32.end())
+        if ((bpm_it = fMapBpmW32.find(function)) != fMapBpmW32.end())
         {
             ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second, value);
         }
@@ -772,19 +765,19 @@ asynStatus L2MPS::readUInt32Digital(asynUser *pasynUser, epicsUInt32 *value, epi
         // Rx Link Up Counter iterator
         std::array<int, numberOfRxLinks>::iterator it;
 
-        bpm_fmap_r1_t::iterator bpm_it;
+        // bpm_fmap_r1_t::iterator bpm_it;
         blen_fmap_r1_t::iterator blen_it;
         // bcm_fmap_r1_t::iterator bcm_it;        
         // blm_fmap_r1_t::iterator blm_it;
 
 
         // BPM parameters        
-        if ((bpm_it = fMapBpmR1.find(name)) != fMapBpmR1.end())
-        {
-            *value = ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second);
-        }
+        // if ((bpm_it = fMapBpmR1.find(name)) != fMapBpmR1.end())
+        // {
+        //     *value = ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second);
+        // }
         // BLEN parameters
-        else if ((blen_it = fMapBlenR1.find(name)) != fMapBlenR1.end())
+        if ((blen_it = fMapBlenR1.find(name)) != fMapBlenR1.end())
         {
             *value = ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_it->second.first))(blen_it->second.second);
         }
@@ -881,7 +874,7 @@ asynStatus L2MPS::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epi
         blm_fmap_w1_t::iterator blm_it;
 
         // BPM parameters        
-        if ((bpm_it = fMapBpmW1.find(name)) != fMapBpmW1.end())
+        if ((bpm_it = fMapBpmW1.find(function)) != fMapBpmW1.end())
         {
             ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second, (value & mask));
         }

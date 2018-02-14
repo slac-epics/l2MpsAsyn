@@ -56,10 +56,8 @@ const std::size_t numberOfRxLinks = 14;
 const std::string defaultMpsRootPath("mmio/AmcCarrierCore/AppMps");
 
 // BPM data types
-typedef std::map<std::string, std::pair<BpmR32_t, bpm_channel_t>> bpm_fmap_r32_t;
-typedef std::map<std::string, std::pair<BpmW32_t, bpm_channel_t>> bpm_fmap_w32_t;
-typedef std::map<std::string, std::pair<BpmR1_t,  bpm_channel_t>> bpm_fmap_r1_t;
-typedef std::map<std::string, std::pair<BpmW1_t,  bpm_channel_t>> bpm_fmap_w1_t;
+typedef std::map<int, std::pair<BpmW32_t, bpmThr_channel_t>> bpm_fmap_w32_t;
+typedef std::map<int, std::pair<BpmW1_t,  bpmThr_channel_t>> bpm_fmap_w1_t;
 
 // BLEN data types
 typedef std::map<std::string, std::pair<BlenR32_t, blen_channel_t>> blen_fmap_r32_t;
@@ -114,6 +112,16 @@ struct cmp {
         {
             bcm_channel_t left = boost::any_cast<bcm_channel_t>(l);
             bcm_channel_t right = boost::any_cast<bcm_channel_t>(r);
+            return left < right;
+        }
+        catch(const boost::bad_any_cast &)
+        {
+        }
+
+        try
+        {
+            bpm_channel_t left = boost::any_cast<bpm_channel_t>(l);
+            bpm_channel_t right = boost::any_cast<bpm_channel_t>(r);
             return left < right;
         }
         catch(const boost::bad_any_cast &)
@@ -185,9 +193,7 @@ class L2MPS : public asynPortDriver {
 
 
         // BPM application fuction maps
-        bpm_fmap_r32_t  fMapBpmR32;
         bpm_fmap_w32_t  fMapBpmW32;
-        bpm_fmap_r1_t   fMapBpmR1;
         bpm_fmap_w1_t   fMapBpmW1;
 
         // BLEN application fuction maps
@@ -211,13 +217,7 @@ class L2MPS : public asynPortDriver {
         void InitBlenMaps(const int bay);
         void InitBcmMaps(const int bay);
         void InitBlmMaps(const int bay);
-
-        // BPM parameter creators
-        template <typename T>
-        void createBpmParam(const std::string param, const int bay, const bpm_channel_t ch, T pFuncR);
-        template <typename T, typename U>
-        void createBpmParam(const std::string param, const int bay, const bpm_channel_t ch, T pFuncR, U pFuncW);        
-
+    
         // BLEN parameter creators
         template <typename T>
         void createBlenParam(const std::string param, const int bay, const blen_channel_t ch, T pFuncR);
