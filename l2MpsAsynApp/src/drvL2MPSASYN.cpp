@@ -144,32 +144,30 @@ void L2MPS::createBlenParam(const std::string param, const int bay, const blen_c
 }
 
 // BLM callback functon
-void L2MPS::setBlmCB(int bay, blm_dataMap_t data)
+template<typename T>
+void L2MPS::updateParameters(int bay, T data)
 {
-    pL2MPS->BlmCB(bay, data);
-}
-
-void L2MPS::BlmCB(int bay, blm_dataMap_t data)
-{
-    for (blm_dataMap_t::iterator data_blmIt = data.begin(); data_blmIt != data.end(); ++data_blmIt)
+    typename T::iterator dataIt;
+    for (dataIt = data.begin(); dataIt != data.end(); ++dataIt)
     {
         // Process the Threshold info
-        blm_paramMap_t::iterator param_blmIt = _blmParamMap.find(data_blmIt->first);
-        if (param_blmIt != _blmParamMap.end())
+        paramMap_t::iterator paramIt = _paramMap.find(dataIt->first);
+
+        if (paramIt != _paramMap.end())
         {   
-            thr_chInfoData_t thrInfo = (data_blmIt->second).info;
-            setIntegerParam(bay,     (param_blmIt->second).ch,        thrInfo.ch);    
-            setIntegerParam(bay,     (param_blmIt->second).count,     thrInfo.count);    
-            setIntegerParam(bay,     (param_blmIt->second).byteMap,   thrInfo.byteMap);    
-            setUIntDigitalParam(bay, (param_blmIt->second).idleEn,   thrInfo.idleEn,   0xFFFFFFFF, 0x1);
-            setUIntDigitalParam(bay, (param_blmIt->second).altEn,    thrInfo.altEn,    0xFFFFFFFF, 0x1);
-            setUIntDigitalParam(bay, (param_blmIt->second).lcls1En,  thrInfo.lcls1En,  0xFFFFFFFF, 0x1);
+            thr_chInfoData_t thrInfo = (dataIt->second).info;
+            setIntegerParam(    bay,    (paramIt->second).ch,       thrInfo.ch      );    
+            setIntegerParam(    bay,    (paramIt->second).count,    thrInfo.count   );    
+            setIntegerParam(    bay,    (paramIt->second).byteMap,  thrInfo.byteMap );    
+            setUIntDigitalParam(bay,    (paramIt->second).idleEn,   thrInfo.idleEn,   0xFFFFFFFF, 0x1   );
+            setUIntDigitalParam(bay,    (paramIt->second).altEn,    thrInfo.altEn,    0xFFFFFFFF, 0x1   );
+            setUIntDigitalParam(bay,    (paramIt->second).lcls1En,  thrInfo.lcls1En,  0xFFFFFFFF, 0x1   );
 
-            // blm_channel_t data_blmCh = data_blmIt->first;
-            thr_chData_t  data_thr   = (data_blmIt->second).data;
+            // blm_channel_t data_blmCh = dataIt->first;
+            thr_chData_t  data_thr   = (dataIt->second).data;
 
-            // blm_channel_t param_blmCh = param_blmIt->first;
-            thr_chParam_t param_thr   = (param_blmIt->second).data;
+            // blm_channel_t param_blmCh = paramIt->first;
+            thr_chParam_t param_thr   = (paramIt->second).data;
 
             for (thr_chData_t::iterator data_thrIt = data_thr.begin(); data_thrIt != data_thr.end(); ++data_thrIt)
             {
@@ -195,57 +193,10 @@ void L2MPS::BlmCB(int bay, blm_dataMap_t data)
     } 
 }
 
-
-// BCM callback functon
-void L2MPS::setBcmCB(int bay, bcm_dataMap_t data)
+template<typename T>
+void L2MPS::setCallback(int bay, T data)
 {
-    pL2MPS->BcmCB(bay, data);
-}
-
-void L2MPS::BcmCB(int bay, bcm_dataMap_t data)
-{
-    for (bcm_dataMap_t::iterator data_bcmIt = data.begin(); data_bcmIt != data.end(); ++data_bcmIt)
-    {
-        // Process the Threshold info
-        bcm_paramMap_t::iterator param_bcmIt = _bcmParamMap.find(data_bcmIt->first);
-        if (param_bcmIt != _bcmParamMap.end())
-        {   
-            thr_chInfoData_t thrInfo = (data_bcmIt->second).info;
-            setIntegerParam(bay,     (param_bcmIt->second).ch,      thrInfo.ch);    
-            setIntegerParam(bay,     (param_bcmIt->second).count,   thrInfo.count);    
-            setIntegerParam(bay,     (param_bcmIt->second).byteMap, thrInfo.byteMap);    
-            setUIntDigitalParam(bay, (param_bcmIt->second).idleEn,  thrInfo.idleEn,   0xFFFFFFFF, 0x1);
-            setUIntDigitalParam(bay, (param_bcmIt->second).altEn,   thrInfo.altEn,    0xFFFFFFFF, 0x1);
-            setUIntDigitalParam(bay, (param_bcmIt->second).lcls1En, thrInfo.lcls1En,  0xFFFFFFFF, 0x1);
-
-            // bcm_channel_t data_bcmCh = data_bcmIt->first;
-            thr_chData_t  data_thr   = (data_bcmIt->second).data;
-
-            // bcm_channel_t param_bcmCh = param_bcmIt->first;
-            thr_chParam_t param_thr   = (param_bcmIt->second).data;
-
-            for (thr_chData_t::iterator data_thrIt = data_thr.begin(); data_thrIt != data_thr.end(); ++data_thrIt)
-            {
-                thr_table_t     data_thrCh = data_thrIt->first;
-                thr_tableData_t data_data  = data_thrIt->second;
-
-                thr_chParam_t::iterator param_thrIt = param_thr.find(data_thrCh);
-
-                if (param_thrIt != param_thr.end())
-                {
-                    thr_table_t         param_thrCh = param_thrIt->first;
-                    thr_tableParam_t    param_param = param_thrIt->second;
-
-                    setUIntDigitalParam(bay, param_param.minEn, data_data.minEn, 0xFFFFFFFF, 0x1);
-                    setUIntDigitalParam(bay, param_param.maxEn, data_data.maxEn, 0xFFFFFFFF, 0x1);
-                    setIntegerParam(bay, param_param.min, data_data.min);    
-                    setIntegerParam(bay, param_param.max, data_data.max);    
-                }
-            }
-
-            callParamCallbacks(bay);
-        }
-    } 
+    pL2MPS->updateParameters<T>(bay, data);
 }
 
 L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recordPrefixMps, const std::array<std::string, numberOfBays> recordPrefixBay,  std::string mpsRootPath)
@@ -373,11 +324,11 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
         {
             if (!appType_.compare("BCM"))
             {
-                boost::any_cast<MpsBcm>(amc[i])->startPollThread(1, &setBcmCB);
+                boost::any_cast<MpsBcm>(amc[i])->startPollThread(1, &setCallback);
             }
             else if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_6CH")) | (!appType_.compare("MPS_24CH")))
             {
-                boost::any_cast<MpsBlm>(amc[i])->startPollThread(1, &setBlmCB);
+                boost::any_cast<MpsBlm>(amc[i])->startPollThread(1, &setCallback);
             }
         }
 
@@ -521,7 +472,7 @@ void L2MPS::InitBcmMaps(const int bay)
                 }
             }
             thrParamMap.data = thrChParamMap;
-            _bcmParamMap.insert(std::make_pair( thisBcmCh, thrParamMap ));
+            _paramMap.insert(std::make_pair( thisBcmCh, thrParamMap ));
     }
 
     std::stringstream bcmDbParams;
@@ -602,8 +553,7 @@ void L2MPS::InitBlmMaps(const int bay)
                     }
             }
             thrParamMap.data = thrChParamMap;
-            _blmParamMap.insert(std::make_pair( thisBlmCh, thrParamMap ));
-
+            _paramMap.insert(std::make_pair( thisBlmCh, thrParamMap ));
         }
     }
 

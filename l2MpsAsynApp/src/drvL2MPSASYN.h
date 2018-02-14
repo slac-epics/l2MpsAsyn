@@ -96,9 +96,35 @@ struct  thr_paramMap_t
     thr_chParam_t data;  
 };
 
-typedef std::map<blm_channel_t, thr_paramMap_t> blm_paramMap_t;
+// Paramater map data type
+struct cmp {
+    bool operator()(const boost::any& l, const boost::any& r) 
+    {
+        try
+        {
+            blm_channel_t left = boost::any_cast<blm_channel_t>(l);
+            blm_channel_t right = boost::any_cast<blm_channel_t>(r);
+            return left < right;
+        }
+        catch(const boost::bad_any_cast &)
+        {
+        }
 
-typedef std::map<bcm_channel_t, thr_paramMap_t> bcm_paramMap_t;
+        try
+        {
+            bcm_channel_t left = boost::any_cast<bcm_channel_t>(l);
+            bcm_channel_t right = boost::any_cast<bcm_channel_t>(r);
+            return left < right;
+        }
+        catch(const boost::bad_any_cast &)
+        {
+        }
+
+        std::cout << "paramMap_t error: not comparison found!" << std::endl;
+        return false;
+    }
+};
+typedef std::map<boost::any, thr_paramMap_t, cmp> paramMap_t;
 
 
 class L2MPS : public asynPortDriver {
@@ -113,11 +139,12 @@ class L2MPS : public asynPortDriver {
         virtual asynStatus writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epicsUInt32 mask);
         virtual asynStatus readOctet(asynUser *pasynUser, char *value, size_t maxChars, size_t *nActual, int *eomReason);
 
-        void BlmCB(int bay, blm_dataMap_t data);
-        static void setBlmCB(int bay, blm_dataMap_t data);
+        template<typename T>
+        static void setCallback(int bay, T data);
 
-        void BcmCB(int bay, bcm_dataMap_t data);
-        static void setBcmCB(int bay, bcm_dataMap_t data);
+        template<typename T>
+        void updateParameters(int bay, T data);
+
 
     private:
         const char *driverName_;               // Name of the driver (passed from st.cmd)
@@ -177,9 +204,7 @@ class L2MPS : public asynPortDriver {
         blm_fmap_w32_t  fMapBlmW32;
         blm_fmap_w1_t   fMapBlmW1;
 
-
-        blm_paramMap_t _blmParamMap;
-        bcm_paramMap_t _bcmParamMap;
+        paramMap_t _paramMap;
 
         // BPM application init 
         void InitBpmMaps(const int bay);
