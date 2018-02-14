@@ -68,10 +68,8 @@ typedef std::map<std::string, std::pair<BlenR1_t,  blen_channel_t>> blen_fmap_r1
 typedef std::map<std::string, std::pair<BlenW1_t,  blen_channel_t>> blen_fmap_w1_t;
 
 // BCM data types
-typedef std::map<std::string, std::pair<BcmR32_t, bcm_channel_t>> bcm_fmap_r32_t;
-typedef std::map<std::string, std::pair<BcmW32_t, bcm_channel_t>> bcm_fmap_w32_t;
-typedef std::map<std::string, std::pair<BcmR1_t,  bcm_channel_t>> bcm_fmap_r1_t;
-typedef std::map<std::string, std::pair<BcmW1_t,  bcm_channel_t>> bcm_fmap_w1_t;
+typedef std::map<int, std::pair<BcmW32_t, bcmThr_channel_t>> bcm_fmap_w32_t;
+typedef std::map<int, std::pair<BcmW1_t,  bcmThr_channel_t>> bcm_fmap_w1_t;
 
 // BLM data types
 typedef std::map<int, std::pair<BlmW32_t, blmThr_channel_t>> blm_fmap_w32_t;
@@ -86,6 +84,7 @@ struct thr_tableParam_t
 };
 
 typedef std::map<thr_table_t, thr_tableParam_t> thr_chParam_t;
+
 struct  thr_paramMap_t
 {
     int  ch;
@@ -96,7 +95,10 @@ struct  thr_paramMap_t
     int  lcls1En;
     thr_chParam_t data;  
 };
+
 typedef std::map<blm_channel_t, thr_paramMap_t> blm_paramMap_t;
+
+typedef std::map<bcm_channel_t, thr_paramMap_t> bcm_paramMap_t;
 
 
 class L2MPS : public asynPortDriver {
@@ -114,6 +116,8 @@ class L2MPS : public asynPortDriver {
         void BlmCB(int bay, blm_dataMap_t data);
         static void setBlmCB(int bay, blm_dataMap_t data);
 
+        void BcmCB(int bay, bcm_dataMap_t data);
+        static void setBcmCB(int bay, bcm_dataMap_t data);
 
     private:
         const char *driverName_;               // Name of the driver (passed from st.cmd)
@@ -166,9 +170,7 @@ class L2MPS : public asynPortDriver {
         blen_fmap_w1_t   fMapBlenW1;
 
         // BCM application fuction maps
-        bcm_fmap_r32_t  fMapBcmR32;
         bcm_fmap_w32_t  fMapBcmW32;
-        bcm_fmap_r1_t   fMapBcmR1;
         bcm_fmap_w1_t   fMapBcmW1;
 
         // BLM application fuction maps
@@ -177,6 +179,7 @@ class L2MPS : public asynPortDriver {
 
 
         blm_paramMap_t _blmParamMap;
+        bcm_paramMap_t _bcmParamMap;
 
         // BPM application init 
         void InitBpmMaps(const int bay);
@@ -195,10 +198,4 @@ class L2MPS : public asynPortDriver {
         void createBlenParam(const std::string param, const int bay, const blen_channel_t ch, T pFuncR);
         template <typename T, typename U>
         void createBlenParam(const std::string param, const int bay, const blen_channel_t ch, T pFuncR, U pFuncW);
-
-        // BCM parameter creators
-        template <typename T>
-        void createBcmParam(const std::string param, const int bay, const bcm_channel_t ch, T pFuncR);
-        template <typename T, typename U>
-        void createBcmParam(const std::string param, const int bay, const bcm_channel_t ch, T pFuncR, U pFuncW);
 };
