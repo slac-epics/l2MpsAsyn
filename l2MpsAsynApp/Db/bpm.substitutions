@@ -1,31 +1,31 @@
 file "longin.template" { pattern
 { R,            DESC,                               PARAM,                  ADDR,       PINI,   SCAN        }
-{ X_THRNUM,     "Bay $(BAY) X Threshold number",    BPM_THRNUM_$(BAY)0,     "$(BAY)",   "YES",  "Passive"   }  
-{ Y_THRNUM,     "Bay $(BAY) Y Threshold number",    BPM_THRNUM_$(BAY)1,     "$(BAY)",   "YES",  "Passive"   }    
-{ C_THRNUM,     "Bay $(BAY) C Threshold number",    BPM_THRNUM_$(BAY)2,     "$(BAY)",   "YES",  "Passive"   }    
+{ X_THRNUM,     "Bay $(BAY) X Threshold number",    BPM_THRNUM_$(BAY)0,     "$(BAY)",   "NO",   "I/O Intr"  }  
+{ Y_THRNUM,     "Bay $(BAY) Y Threshold number",    BPM_THRNUM_$(BAY)1,     "$(BAY)",   "NO",   "I/O Intr"  }    
+{ C_THRNUM,     "Bay $(BAY) C Threshold number",    BPM_THRNUM_$(BAY)2,     "$(BAY)",   "NO",   "I/O Intr"  }    
 
-{ X_THRCNT,     "Bay $(BAY) X Threshold count",     BPM_THRCNT_$(BAY)0,     "$(BAY)",   "YES",  "Passive"   }    
-{ Y_THRCNT,     "Bay $(BAY) Y Threshold count",     BPM_THRCNT_$(BAY)1,     "$(BAY)",   "YES",  "Passive"   }    
-{ C_THRCNT,     "Bay $(BAY) C Threshold count",     BPM_THRCNT_$(BAY)2,     "$(BAY)",   "YES",  "Passive"   }    
+{ X_THRCNT,     "Bay $(BAY) X Threshold count",     BPM_THRCNT_$(BAY)0,     "$(BAY)",   "NO",   "I/O Intr"  }    
+{ Y_THRCNT,     "Bay $(BAY) Y Threshold count",     BPM_THRCNT_$(BAY)1,     "$(BAY)",   "NO",   "I/O Intr"  }    
+{ C_THRCNT,     "Bay $(BAY) C Threshold count",     BPM_THRCNT_$(BAY)2,     "$(BAY)",   "NO",   "I/O Intr"  }    
 
-{ X_BYTEMAP,    "Bay $(BAY) X Threshold byte map",  BPM_BYTEMAP_$(BAY)0,    "$(BAY)",   "YES",  "Passive"   }   
-{ Y_BYTEMAP,    "Bay $(BAY) Y Threshold byte map",  BPM_BYTEMAP_$(BAY)1,    "$(BAY)",   "YES",  "Passive"   }   
-{ C_BYTEMAP,    "Bay $(BAY) C Threshold byte map",  BPM_BYTEMAP_$(BAY)2,    "$(BAY)",   "YES",  "Passive"   }   
+{ X_BYTEMAP,    "Bay $(BAY) X Threshold byte map",  BPM_BYTEMAP_$(BAY)0,    "$(BAY)",   "NO",   "I/O Intr"  }   
+{ Y_BYTEMAP,    "Bay $(BAY) Y Threshold byte map",  BPM_BYTEMAP_$(BAY)1,    "$(BAY)",   "NO",   "I/O Intr"  }   
+{ C_BYTEMAP,    "Bay $(BAY) C Threshold byte map",  BPM_BYTEMAP_$(BAY)2,    "$(BAY)",   "NO",   "I/O Intr"  }   
 }
 
 file "bi.template" { pattern
 { R,            DESC,                               PARAM,                  ADDR,       ZNAM,           ONAM,       PINI,   SCAN        }
-{ X_IDLEEN,     "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_$(BAY)0,     "$(BAY)",   "Disabled",     "Enabled",  "YES",  "Passive"   }
-{ Y_IDLEEN,     "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_$(BAY)1,     "$(BAY)",   "Disabled",     "Enabled",  "YES",  "Passive"   }
-{ C_IDLEEN,     "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_$(BAY)2,     "$(BAY)",   "Disabled",     "Enabled",  "YES",  "Passive"   }
+{ X_IDLEEN,     "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_$(BAY)0,     "$(BAY)",   "Disabled",     "Enabled",  "NO",   "I/O Intr"  }
+{ Y_IDLEEN,     "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_$(BAY)1,     "$(BAY)",   "Disabled",     "Enabled",  "NO",   "I/O Intr"  }
+{ C_IDLEEN,     "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_$(BAY)2,     "$(BAY)",   "Disabled",     "Enabled",  "NO",   "I/O Intr"  }
 
-{ X_ALTEN,      "Bay $(BAY) ALT table enabled",     BPM_ALTEN_$(BAY)0,      "$(BAY)",   "Disabled",     "Enabled",  "YES",  "Passive"   }
-{ Y_ALTEN,      "Bay $(BAY) ALT table enabled",     BPM_ALTEN_$(BAY)1,      "$(BAY)",   "Disabled",     "Enabled",  "YES",  "Passive"   }
-{ C_ALTEN,      "Bay $(BAY) ALT table enabled",     BPM_ALTEN_$(BAY)2,      "$(BAY)",   "Disabled",     "Enabled",  "YES",  "Passive"   }
+{ X_ALTEN,      "Bay $(BAY) ALT table enabled",     BPM_ALTEN_$(BAY)0,      "$(BAY)",   "Disabled",     "Enabled",  "NO",   "I/O Intr"  }
+{ Y_ALTEN,      "Bay $(BAY) ALT table enabled",     BPM_ALTEN_$(BAY)1,      "$(BAY)",   "Disabled",     "Enabled",  "NO",   "I/O Intr"  }
+{ C_ALTEN,      "Bay $(BAY) ALT table enabled",     BPM_ALTEN_$(BAY)2,      "$(BAY)",   "Disabled",     "Enabled",  "NO",   "I/O Intr"  }
 
-{ X_LCLS1EN,    "Bay $(BAY) LCLS1 table enabled",   BPM_LCLS1EN_$(BAY)0,    "$(BAY)",   "Disabled",     "Enabled",  "YES",  "Passive"   }
-{ Y_LCLS1EN,    "Bay $(BAY) LCLS1 table enabled",   BPM_LCLS1EN_$(BAY)1,    "$(BAY)",   "Disabled",     "Enabled",  "YES",  "Passive"   }
-{ C_LCLS1EN,    "Bay $(BAY) LCLS1 table enabled",   BPM_LCLS1EN_$(BAY)2,    "$(BAY)",   "Disabled",     "Enabled",  "YES",  "Passive"   }
+{ X_LCLS1EN,    "Bay $(BAY) LCLS1 table enabled",   BPM_LCLS1EN_$(BAY)0,    "$(BAY)",   "Disabled",     "Enabled",  "NO",   "I/O Intr"  }
+{ Y_LCLS1EN,    "Bay $(BAY) LCLS1 table enabled",   BPM_LCLS1EN_$(BAY)1,    "$(BAY)",   "Disabled",     "Enabled",  "NO",   "I/O Intr"  }
+{ C_LCLS1EN,    "Bay $(BAY) LCLS1 table enabled",   BPM_LCLS1EN_$(BAY)2,    "$(BAY)",   "Disabled",     "Enabled",  "NO",   "I/O Intr"  }
 }
 
 
