@@ -56,20 +56,35 @@ const std::size_t numberOfRxLinks = 14;
 const std::string defaultMpsRootPath("mmio/AmcCarrierCore/AppMps");
 
 // BPM data types
+typedef void (IMpsBpm::*BpmW32_t)(const bpmThr_channel_t&, const uint32_t) const;
+typedef void (IMpsBpm::*BpmW1_t)(const bpmThr_channel_t&, const bool) const;
+
 typedef std::map<int, std::pair<BpmW32_t, bpmThr_channel_t>> bpm_fmap_w32_t;
 typedef std::map<int, std::pair<BpmW1_t,  bpmThr_channel_t>> bpm_fmap_w1_t;
 
 // BLEN data types
+typedef void (IMpsBlen::*BlenW32_t)(const blenThr_channel_t&, const uint32_t) const;
+typedef void (IMpsBlen::*BlenW1_t)(const blenThr_channel_t&, const bool) const;
+
 typedef std::map<int, std::pair<BlenW32_t, blenThr_channel_t>> blen_fmap_w32_t;
 typedef std::map<int, std::pair<BlenW1_t,  blenThr_channel_t>> blen_fmap_w1_t;
 
 // BCM data types
+typedef void (IMpsBcm::*BcmW32_t)(const bcmThr_channel_t&, const uint32_t) const;
+typedef void (IMpsBcm::*BcmW1_t)(const bcmThr_channel_t&, const bool) const;
+
 typedef std::map<int, std::pair<BcmW32_t, bcmThr_channel_t>> bcm_fmap_w32_t;
 typedef std::map<int, std::pair<BcmW1_t,  bcmThr_channel_t>> bcm_fmap_w1_t;
 
 // BLM data types
+typedef void (IMpsBlm::*BlmW32_t)(const blmThr_channel_t&, const uint32_t) const;
+typedef void (IMpsBlm::*BlmW1_t)(const blmThr_channel_t&, const bool) const;
+
 typedef std::map<int, std::pair<BlmW32_t, blmThr_channel_t>> blm_fmap_w32_t;
 typedef std::map<int, std::pair<BlmW1_t,  blmThr_channel_t>> blm_fmap_w1_t;
+
+typedef void (IMpsBlm::*blm_setScale_func_t)(const blm_channel_t&, const float) const;
+typedef std::map<int, std::pair<blm_setScale_func_t, blm_channel_t>> blm_scaleFuncMap_t;
 
 struct thr_tableParam_t
 {
