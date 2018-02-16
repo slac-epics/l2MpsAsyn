@@ -1,64 +1,9 @@
-#### SCALE PVS ####
-record(calcout, "$(P):$(CH)-SF") {
+record(ao,      "$(P):$(R)") {
+    field(DESC, "$(DESC)")
     field(SCAN, "$(SCAN)")
-    field(INPA, "$(SCALE_PV)")
-    field(CALC, "A")
-    field(PINI, "YES")
-    field(OOPT, "On Change")
-    field(OUT,  "$(P):$(CH)-SF2 PP")
-}
-
-record(calcout, "$(P):$(CH)-SF2") {
-    field(SCAN, "Passive")
-    field(INPA, "$(SCALE_PV)")
-    field(CALC, "A")
-    field(PINI, "YES")
-    field(OOPT, "When Non-zero")
-    field(OUT,  "$(P):$(CH)-SF3 PP")
-}
-
-record(dfanout, "$(P):$(CH)-SF3") {
-    field(SCAN, "Passive")
-    field(OUTA, "$(P):$(CH)_LCLS1-SF PP")
-    field(OUTB, "$(P):$(CH)_IDLE-SF PP")
-    field(OUTC, "$(P):$(CH)_STD-SF PP")
-    field(OUTD, "$(P):$(CH)_ALT-SF PP")
-}
-
-#### Fanout scale factor to LCLS1 table PVs ####
-record(dfanout, "$(P):$(CH)_LCLS1-SF") {
-    field(SCAN, "Passive")
-    field(OUTA, "$(P):$(CH)_LCLS1_T0-SF2 PP")
-}
-
-#### Fanout scale factor to IDLE table PVs ####
-record(dfanout, "$(P):$(CH)_IDLE-SF") {
-    field(SCAN, "Passive")
-    field(OUTA, "$(P):$(CH)_IDLE_T0-SF2 PP")
-}
-
-#### Fanout scale factor to STD table PVs ####
-record(dfanout, "$(P):$(CH)_STD-SF") {
-    field(SCAN, "Passive")
-    field(OUTA, "$(P):$(CH)_STD_T0-SF2 PP")
-    field(OUTB, "$(P):$(CH)_STD_T1-SF2 PP")
-    field(OUTC, "$(P):$(CH)_STD_T2-SF2 PP")
-    field(OUTD, "$(P):$(CH)_STD_T3-SF2 PP")
-    field(OUTE, "$(P):$(CH)_STD_T4-SF2 PP")
-    field(OUTF, "$(P):$(CH)_STD_T5-SF2 PP")
-    field(OUTG, "$(P):$(CH)_STD_T6-SF2 PP")
-    field(OUTH, "$(P):$(CH)_STD_T7-SF2 PP")
-}
-
-#### Fanout scale factor to ALT table PVs ####
-record(dfanout, "$(P):$(CH)_ALT-SF") {
-    field(SCAN, "Passive")
-    field(OUTA, "$(P):$(CH)_ALT_T0-SF2 PP")
-    field(OUTB, "$(P):$(CH)_ALT_T1-SF2 PP")
-    field(OUTC, "$(P):$(CH)_ALT_T2-SF2 PP")
-    field(OUTD, "$(P):$(CH)_ALT_T3-SF2 PP")
-    field(OUTE, "$(P):$(CH)_ALT_T4-SF2 PP")
-    field(OUTF, "$(P):$(CH)_ALT_T5-SF2 PP")
-    field(OUTG, "$(P):$(CH)_ALT_T6-SF2 PP")
-    field(OUTH, "$(P):$(CH)_ALT_T7-SF2 PP")
+    field(OMSL, "closed_loop")
+    field(OIF,  "Full")
+    field(DOL,  "$(SCALE_PV)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR))$(PARAM)")
 }

@@ -95,3 +95,10 @@ file "thr.template" { pattern
 { C2I0_ALT_T6,      "Bay $(BAY) Ch 2 Int 0 ALT, Threshold 6",     "BLM",      "",     "2",    "20",   "3",    "6",    }
 { C2I0_ALT_T7,      "Bay $(BAY) Ch 2 Int 0 ALT, Threshold 7",     "BLM",      "",     "2",    "20",   "3",    "7",    }
 }
+
+file "scale.template" { pattern
+{ R,                DESC,                                       PARAM,                      SCALE_PV,           ADDR,       SCAN        }
+{ C0I0_SF,          "Bay $(BAY) Ch 0 Int 0 Scale factor",       BLM_SCALE_$(BAY)00,         "$(P):C0I0_FWSCL"   "$(BAY)",   "1 second"  }
+{ C1I0_SF,          "Bay $(BAY) Ch 1 Int 0 Scale factor",       BLM_SCALE_$(BAY)10,         "$(P):C1I0_FWSCL"   "$(BAY)",   "1 second"  }
+{ C2I0_SF,          "Bay $(BAY) Ch 2 Int 0 Scale factor",       BLM_SCALE_$(BAY)20,         "$(P):C2I0_FWSCL"   "$(BAY)",   "1 second"  }
+}

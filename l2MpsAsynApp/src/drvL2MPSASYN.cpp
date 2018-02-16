@@ -507,6 +507,8 @@ void L2MPS::InitBlmMaps(const int bay)
             createParam(bay, ("BLM_LCLS1EN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
             thrParamMap.lcls1En = index;
 
+            createParam(bay, ("BLM_SCALE" + pName.str()).c_str(), asynParamInt32, &index);
+            fMapBlmWScale.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setScaleFactor, thisBlmCh ) ) );
 
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
@@ -669,6 +671,7 @@ asynStatus L2MPS::writeInt32(asynUser *pasynUser, epicsInt32 value)
         blen_fmap_w32_t::iterator blen_it;
         bcm_fmap_w32_t::iterator bcm_it;
         blm_fmap_w32_t::iterator blm_it;
+        blm_scaleFuncMap_t::iterator blm_scaleIt;
 
         // BPM parameters
         if ((bpm_it = fMapBpmW32.find(function)) != fMapBpmW32.end())
@@ -689,6 +692,10 @@ asynStatus L2MPS::writeInt32(asynUser *pasynUser, epicsInt32 value)
         else if ((blm_it = fMapBlmW32.find(function)) != fMapBlmW32.end())
         {
             ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second, value);
+        }
+        else if ((blm_scaleIt = fMapBlmWScale.find(function)) != fMapBlmWScale.end())
+        {
+            ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_scaleIt->second.first))(blm_scaleIt->second.second, value);
         }
         // MPS node parameters
         else if (function == beamDestMaskValue_)

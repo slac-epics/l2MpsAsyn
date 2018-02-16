@@ -230,6 +230,7 @@ class L2MPS : public asynPortDriver {
         // BLM application fuction maps
         blm_fmap_w32_t  fMapBlmW32;
         blm_fmap_w1_t   fMapBlmW1;
+        blm_scaleFuncMap_t fMapBlmWScale;
 
         paramMap_t _paramMap;
 

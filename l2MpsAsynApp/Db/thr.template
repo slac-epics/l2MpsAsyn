@@ -93,12 +93,3 @@ record(bo,      "$(P):$(R)_H_EN_W") {
     field(ZNAM, "Disable")
     field(ONAM, "Enable")
 }
-
-#### SCALE PVS ####
-record(dfanout, "$(P):$(R)-SF2") {
-    field(SCAN, "Passive")
-    #field(OUTA, "$(P):$(R)_L_R.ESLO PP")
-    #field(OUTB, "$(P):$(R)_L_W.ESLO PP")
-    #field(OUTC, "$(P):$(R)_H_R.ESLO PP")
-    #field(OUTD, "$(P):$(R)_H_W.ESLO PP")
-}
