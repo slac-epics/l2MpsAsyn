@@ -37,3 +37,8 @@ file "thr.template" { pattern
 { L_ALT_T6,     "BLEN, Bay $(BAY), ALT, Threshold 6",   "BLEN",     "0",    "3",    "6",    }
 { L_ALT_T7,     "BLEN, Bay $(BAY), ALT, Threshold 7",   "BLEN",     "0",    "3",    "7",    }
 }
+
+file "scale.template" { pattern
+{ R,   			DESC,                           PARAM,                      SCALE_PV,     		ADDR,       SCAN        }
+{ L_SF,	        "Bay $(BAY) Scale factor",   	BLEN_SCALE_$(BAY)00,        "$(P):L_FWSCL"   	"$(BAY)",   "1 second"  }
+}
