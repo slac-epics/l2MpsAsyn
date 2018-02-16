@@ -72,9 +72,9 @@ void L2MPS::updateParameters(int bay, T data)
                     thr_tableParam_t    param_param = param_thrIt->second;
 
                     setUIntDigitalParam(bay, param_param.minEn, data_data.minEn, 0xFFFFFFFF, 0x1);
-                    setUIntDigitalParam(bay, param_param.maxEn, data_data.maxEn, 0xFFFFFFFF, 0x1);
-                    setIntegerParam(bay, param_param.min, data_data.min);    
-                    setIntegerParam(bay, param_param.max, data_data.max);    
+                    setUIntDigitalParam(bay, param_param.maxEn, data_data.maxEn, 0xFFFFFFFF, 0x1); 
+                    setDoubleParam(bay, param_param.min, data_data.min);
+                    setDoubleParam(bay, param_param.max, data_data.max);
                 }
             }
 
@@ -94,13 +94,13 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
             portName,
             MAX_SIGNALS,
             NUM_PARAMS,
-            asynInt32Mask | asynDrvUserMask | asynInt16ArrayMask | asynInt32ArrayMask | asynOctetMask | \
-            asynFloat64ArrayMask | asynUInt32DigitalMask | asynFloat64Mask,                             // Interface Mask
-            asynInt16ArrayMask | asynInt32ArrayMask | asynInt32Mask | asynUInt32DigitalMask,            // Interrupt Mask
-            ASYN_MULTIDEVICE | ASYN_CANBLOCK,                                                           // asynFlags
-            1,                                                                                          // Autoconnect
-            0,                                                                                          // Default priority
-            0),                                                                                         // Default stack size
+            asynInt32Mask | asynDrvUserMask | asynOctetMask | \
+            asynUInt32DigitalMask | asynFloat64Mask,                    // Interface Mask
+            asynInt32Mask | asynUInt32DigitalMask | asynFloat64Mask,    // Interrupt Mask
+            ASYN_MULTIDEVICE | ASYN_CANBLOCK,                           // asynFlags
+            1,                                                          // Autoconnect
+            0,                                                          // Default priority
+            0),                                                         // Default stack size
         portName_(portName),
         driverName_(DRIVER_NAME),
         recordPrefixMps_(recordPrefixMps),
@@ -270,6 +270,8 @@ void L2MPS::InitBpmMaps(const int bay)
             createParam(bay, ("BPM_LCLS1EN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
             thrParamMap.lcls1En = index;
 
+            createParam(bay, ("BPM_SCALE" + pName.str()).c_str(), asynParamInt32, &index);
+            fMapBpmWScale.insert( std::make_pair( index, std::make_pair( &IMpsBpm::setScaleFactor, thisBpmCh ) ) );
 
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
@@ -284,11 +286,11 @@ void L2MPS::InitBpmMaps(const int bay)
                     pName.str("");
                     pName << "_" << bay << i << k << n;
 
-                    createParam(bay, ("BPM_THRMIN" + pName.str()).c_str(), asynParamInt32, &index);
+                    createParam(bay, ("BPM_THRMIN" + pName.str()).c_str(), asynParamFloat64, &index);
                     tp.min = index;
                     fMapBpmW32.insert( std::make_pair( index, std::make_pair( &IMpsBpm::setThresholdMin,  args) ) );
 
-                    createParam(bay, ("BPM_THRMAX" + pName.str()).c_str(), asynParamInt32, &index);
+                    createParam(bay, ("BPM_THRMAX" + pName.str()).c_str(), asynParamFloat64, &index);
                     tp.max = index;
                     fMapBpmW32.insert( std::make_pair( index, std::make_pair( &IMpsBpm::setThresholdMax, args) ) );
 
@@ -348,6 +350,8 @@ void L2MPS::InitBlenMaps(const int bay)
             createParam(bay, ("BLEN_LCLS1EN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
             thrParamMap.lcls1En = index;
 
+            createParam(bay, ("BLEN_SCALE" + pName.str()).c_str(), asynParamInt32, &index);
+            fMapBlenWScale.insert( std::make_pair( index, std::make_pair( &IMpsBlen::setScaleFactor, thisBlenCh ) ) );
 
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
@@ -362,11 +366,11 @@ void L2MPS::InitBlenMaps(const int bay)
                     pName.str("");
                     pName << "_" << bay << i << k << n;
 
-                    createParam(bay, ("BLEN_THRMIN" + pName.str()).c_str(), asynParamInt32, &index);
+                    createParam(bay, ("BLEN_THRMIN" + pName.str()).c_str(), asynParamFloat64, &index);
                     tp.min = index;
                     fMapBlenW32.insert( std::make_pair( index, std::make_pair( &IMpsBlen::setThresholdMin,  args) ) );
 
-                    createParam(bay, ("BLEN_THRMAX" + pName.str()).c_str(), asynParamInt32, &index);
+                    createParam(bay, ("BLEN_THRMAX" + pName.str()).c_str(), asynParamFloat64, &index);
                     tp.max = index;
                     fMapBlenW32.insert( std::make_pair( index, std::make_pair( &IMpsBlen::setThresholdMax, args) ) );
 
@@ -426,6 +430,8 @@ void L2MPS::InitBcmMaps(const int bay)
             createParam(bay, ("BCM_LCLS1EN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
             thrParamMap.lcls1En = index;
 
+            createParam(bay, ("BCM_SCALE" + pName.str()).c_str(), asynParamInt32, &index);
+            fMapBcmWScale.insert( std::make_pair( index, std::make_pair( &IMpsBcm::setScaleFactor, thisBcmCh ) ) );
 
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
@@ -440,11 +446,11 @@ void L2MPS::InitBcmMaps(const int bay)
                     pName.str("");
                     pName << "_" << bay << i << k << n;
 
-                    createParam(bay, ("BCM_THRMIN" + pName.str()).c_str(), asynParamInt32, &index);
+                    createParam(bay, ("BCM_THRMIN" + pName.str()).c_str(), asynParamFloat64, &index);
                     tp.min = index;
                     fMapBcmW32.insert( std::make_pair( index, std::make_pair( &IMpsBcm::setThresholdMin,  args) ) );
 
-                    createParam(bay, ("BCM_THRMAX" + pName.str()).c_str(), asynParamInt32, &index);
+                    createParam(bay, ("BCM_THRMAX" + pName.str()).c_str(), asynParamFloat64, &index);
                     tp.max = index;
                     fMapBcmW32.insert( std::make_pair( index, std::make_pair( &IMpsBcm::setThresholdMax, args) ) );
 
@@ -523,11 +529,11 @@ void L2MPS::InitBlmMaps(const int bay)
                         pName.str("");
                         pName << "_" << bay << i << j  << k << n;
 
-                        createParam(bay, ("BLM_THRMIN" + pName.str()).c_str(), asynParamInt32, &index);
+                        createParam(bay, ("BLM_THRMIN" + pName.str()).c_str(), asynParamFloat64, &index);
                         tp.min = index;
                         fMapBlmW32.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setThresholdMin,  args) ) );
 
-                        createParam(bay, ("BLM_THRMAX" + pName.str()).c_str(), asynParamInt32, &index);
+                        createParam(bay, ("BLM_THRMAX" + pName.str()).c_str(), asynParamFloat64, &index);
                         tp.max = index;
                         fMapBlmW32.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setThresholdMax, args) ) );
 
@@ -667,38 +673,38 @@ asynStatus L2MPS::writeInt32(asynUser *pasynUser, epicsInt32 value)
 
     try
     {
-        bpm_fmap_w32_t::iterator bpm_it;
-        blen_fmap_w32_t::iterator blen_it;
-        bcm_fmap_w32_t::iterator bcm_it;
-        blm_fmap_w32_t::iterator blm_it;
-        blm_scaleFuncMap_t::iterator blm_scaleIt;
+        // bpm_fmap_w32_t::iterator bpm_it;
+        // blen_fmap_w32_t::iterator blen_it;
+        // bcm_fmap_w32_t::iterator bcm_it;
+        // blm_fmap_w32_t::iterator blm_it;
+        // blm_scaleFuncMap_t::iterator blm_scaleIt;
 
-        // BPM parameters
-        if ((bpm_it = fMapBpmW32.find(function)) != fMapBpmW32.end())
-        {
-            ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second, value);
-        }
-        // BLEN parameters
-        else if ((blen_it = fMapBlenW32.find(function)) != fMapBlenW32.end())
-        {
-            ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_it->second.first))(blen_it->second.second, value);
-        }
-        // BCM parameters
-        else if ((bcm_it = fMapBcmW32.find(function)) != fMapBcmW32.end())
-        {
-            ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_it->second.first))(bcm_it->second.second, value);
-        }
-        // BLM parameters
-        else if ((blm_it = fMapBlmW32.find(function)) != fMapBlmW32.end())
-        {
-            ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second, value);
-        }
-        else if ((blm_scaleIt = fMapBlmWScale.find(function)) != fMapBlmWScale.end())
-        {
-            ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_scaleIt->second.first))(blm_scaleIt->second.second, value);
-        }
-        // MPS node parameters
-        else if (function == beamDestMaskValue_)
+        // // BPM parameters
+        // if ((bpm_it = fMapBpmW32.find(function)) != fMapBpmW32.end())
+        // {
+        //     ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second, value);
+        // }
+        // // BLEN parameters
+        // else if ((blen_it = fMapBlenW32.find(function)) != fMapBlenW32.end())
+        // {
+        //     ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_it->second.first))(blen_it->second.second, value);
+        // }
+        // // BCM parameters
+        // else if ((bcm_it = fMapBcmW32.find(function)) != fMapBcmW32.end())
+        // {
+        //     ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_it->second.first))(bcm_it->second.second, value);
+        // }
+        // // BLM parameters
+        // else if ((blm_it = fMapBlmW32.find(function)) != fMapBlmW32.end())
+        // {
+        //     ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second, value);
+        // }
+        // else if ((blm_scaleIt = fMapBlmWScale.find(function)) != fMapBlmWScale.end())
+        // {
+        //     ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_scaleIt->second.first))(blm_scaleIt->second.second, value);
+        // }
+        // // MPS node parameters
+        if (function == beamDestMaskValue_)
         {
             node_->setBeamDestMask(value);
         }
@@ -872,6 +878,72 @@ asynStatus L2MPS::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epi
         status = -1;
         asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writting parameter %s: %s\n", functionName, name, e.getInfo().c_str());           
     }
+    catch (std::runtime_error &e)
+    {
+        status = -1;
+        asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writting parameter %s: %s\n", functionName, name, e.what());
+    }
+
+    return (status == 0) ? asynSuccess : asynError;
+}
+
+asynStatus L2MPS::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
+{
+    int addr;
+    int function = pasynUser->reason;
+    int status=0;
+    const char *name;
+
+    this->getAddress(pasynUser, &addr);
+
+    static const char *functionName = "writeFloat64";
+
+    this->getAddress(pasynUser, &addr);
+
+    getParamName(addr, function, &name);
+
+    try
+    {
+        bpm_fmap_w32_t::iterator bpm_it;
+        blen_fmap_w32_t::iterator blen_it;
+        bcm_fmap_w32_t::iterator bcm_it;
+        blm_fmap_w32_t::iterator blm_it;
+        blm_scaleFuncMap_t::iterator blm_scaleIt;
+
+        // BPM parameters
+        if ((bpm_it = fMapBpmW32.find(function)) != fMapBpmW32.end())
+        {
+            ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second, value);
+        }
+        // BLEN parameters
+        else if ((blen_it = fMapBlenW32.find(function)) != fMapBlenW32.end())
+        {
+            ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_it->second.first))(blen_it->second.second, value);
+        }
+        // BCM parameters
+        else if ((bcm_it = fMapBcmW32.find(function)) != fMapBcmW32.end())
+        {
+            ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_it->second.first))(bcm_it->second.second, value);
+        }
+        // BLM parameters
+        else if ((blm_it = fMapBlmW32.find(function)) != fMapBlmW32.end())
+        {
+            ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second, value);
+        }
+        else if ((blm_scaleIt = fMapBlmWScale.find(function)) != fMapBlmWScale.end())
+        {
+            ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_scaleIt->second.first))(blm_scaleIt->second.second, value);
+        }
+        else
+        {
+            status == asynPortDriver::writeInt32(pasynUser, value);
+        }
+    }
+    catch (CPSWError &e)
+    {
+        status = -1;
+        asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writting parameter %s: %s\n", functionName, name, e.getInfo().c_str());
+    }  
     catch (std::runtime_error &e)
     {
         status = -1;

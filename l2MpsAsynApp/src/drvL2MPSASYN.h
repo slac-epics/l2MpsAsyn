@@ -56,34 +56,39 @@ const std::size_t numberOfRxLinks = 14;
 const std::string defaultMpsRootPath("mmio/AmcCarrierCore/AppMps");
 
 // BPM data types
-typedef void (IMpsBpm::*BpmW32_t)(const bpmThr_channel_t&, const uint32_t) const;
+typedef void (IMpsBpm::*BpmW32_t)(const bpmThr_channel_t&, const float) const;
 typedef void (IMpsBpm::*BpmW1_t)(const bpmThr_channel_t&, const bool) const;
+typedef void (IMpsBpm::*bpm_setScale_func_t)(const bpm_channel_t&, const float) const;
 
 typedef std::map<int, std::pair<BpmW32_t, bpmThr_channel_t>> bpm_fmap_w32_t;
 typedef std::map<int, std::pair<BpmW1_t,  bpmThr_channel_t>> bpm_fmap_w1_t;
+typedef std::map<int, std::pair<bpm_setScale_func_t, bpm_channel_t>> bpm_scaleFuncMap_t;
 
 // BLEN data types
-typedef void (IMpsBlen::*BlenW32_t)(const blenThr_channel_t&, const uint32_t) const;
+typedef void (IMpsBlen::*BlenW32_t)(const blenThr_channel_t&, const float) const;
 typedef void (IMpsBlen::*BlenW1_t)(const blenThr_channel_t&, const bool) const;
+typedef void (IMpsBlen::*blen_setScale_func_t)(const blen_channel_t&, const float) const;
 
 typedef std::map<int, std::pair<BlenW32_t, blenThr_channel_t>> blen_fmap_w32_t;
 typedef std::map<int, std::pair<BlenW1_t,  blenThr_channel_t>> blen_fmap_w1_t;
+typedef std::map<int, std::pair<blen_setScale_func_t, blen_channel_t>> blen_scaleFuncMap_t;
 
 // BCM data types
-typedef void (IMpsBcm::*BcmW32_t)(const bcmThr_channel_t&, const uint32_t) const;
+typedef void (IMpsBcm::*BcmW32_t)(const bcmThr_channel_t&, const float) const;
 typedef void (IMpsBcm::*BcmW1_t)(const bcmThr_channel_t&, const bool) const;
+typedef void (IMpsBcm::*bcm_setScale_func_t)(const bcm_channel_t&, const float) const;
 
 typedef std::map<int, std::pair<BcmW32_t, bcmThr_channel_t>> bcm_fmap_w32_t;
 typedef std::map<int, std::pair<BcmW1_t,  bcmThr_channel_t>> bcm_fmap_w1_t;
+typedef std::map<int, std::pair<bcm_setScale_func_t, bcm_channel_t>> bcm_scaleFuncMap_t;
 
 // BLM data types
-typedef void (IMpsBlm::*BlmW32_t)(const blmThr_channel_t&, const uint32_t) const;
+typedef void (IMpsBlm::*BlmW32_t)(const blmThr_channel_t&, const float) const;
 typedef void (IMpsBlm::*BlmW1_t)(const blmThr_channel_t&, const bool) const;
+typedef void (IMpsBlm::*blm_setScale_func_t)(const blm_channel_t&, const float) const;
 
 typedef std::map<int, std::pair<BlmW32_t, blmThr_channel_t>> blm_fmap_w32_t;
 typedef std::map<int, std::pair<BlmW1_t,  blmThr_channel_t>> blm_fmap_w1_t;
-
-typedef void (IMpsBlm::*blm_setScale_func_t)(const blm_channel_t&, const float) const;
 typedef std::map<int, std::pair<blm_setScale_func_t, blm_channel_t>> blm_scaleFuncMap_t;
 
 struct thr_tableParam_t
@@ -168,6 +173,7 @@ class L2MPS : public asynPortDriver {
         virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
         virtual asynStatus readUInt32Digital(asynUser *pasynUser, epicsUInt32 *value, epicsUInt32 mask);
         virtual asynStatus writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epicsUInt32 mask);
+        virtual asynStatus writeFloat64 (asynUser *pasynUser, epicsFloat64 value);
         virtual asynStatus readOctet(asynUser *pasynUser, char *value, size_t maxChars, size_t *nActual, int *eomReason);
 
         template<typename T>
@@ -216,21 +222,24 @@ class L2MPS : public asynPortDriver {
 
 
         // BPM application fuction maps
-        bpm_fmap_w32_t  fMapBpmW32;
-        bpm_fmap_w1_t   fMapBpmW1;
+        bpm_fmap_w32_t      fMapBpmW32;
+        bpm_fmap_w1_t       fMapBpmW1;
+        bpm_scaleFuncMap_t  fMapBpmWScale;
 
         // BLEN application fuction maps
-        blen_fmap_w32_t  fMapBlenW32;
-        blen_fmap_w1_t   fMapBlenW1;
+        blen_fmap_w32_t     fMapBlenW32;
+        blen_fmap_w1_t      fMapBlenW1;
+        blen_scaleFuncMap_t fMapBlenWScale;
 
         // BCM application fuction maps
-        bcm_fmap_w32_t  fMapBcmW32;
-        bcm_fmap_w1_t   fMapBcmW1;
+        bcm_fmap_w32_t      fMapBcmW32;
+        bcm_fmap_w1_t       fMapBcmW1;
+        bcm_scaleFuncMap_t  fMapBcmWScale;
 
         // BLM application fuction maps
-        blm_fmap_w32_t  fMapBlmW32;
-        blm_fmap_w1_t   fMapBlmW1;
-        blm_scaleFuncMap_t fMapBlmWScale;
+        blm_fmap_w32_t      fMapBlmW32;
+        blm_fmap_w1_t       fMapBlmW1;
+        blm_scaleFuncMap_t  fMapBlmWScale;
 
         paramMap_t _paramMap;
 
