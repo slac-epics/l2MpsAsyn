@@ -101,7 +101,7 @@ struct thr_tableParam_t
 
 typedef std::map<thr_table_t, thr_tableParam_t> thr_chParam_t;
 
-struct  thr_paramMap_t
+struct thr_chInfoParam_t
 {
     int  ch;
     int  count;
@@ -109,7 +109,12 @@ struct  thr_paramMap_t
     int  idleEn;
     int  altEn;
     int  lcls1En;
-    thr_chParam_t data;  
+};
+
+struct  thr_paramMap_t
+{
+    thr_chInfoParam_t info;
+    thr_chParam_t     data;  
 };
 
 // Paramater map data type
