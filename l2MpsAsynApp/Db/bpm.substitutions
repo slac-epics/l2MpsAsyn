@@ -89,3 +89,10 @@ file "thr.template" { pattern
 { C_ALT_T6,     "BPM, Bay $(BAY), C, ALT, Threshold 6",     "BPM",  "Nel",  "2",    "2",    "3",    "6",    }
 { C_ALT_T7,     "BPM, Bay $(BAY), C, ALT, Threshold 7",     "BPM",  "Nel",  "2",    "2",    "3",    "7",    }
 }
+
+file "scale.template" { pattern
+{ R,                DESC,                                       PARAM,                      SCALE_PV,           ADDR,       SCAN        }
+{ X_SF,          	"Bay $(BAY) X Scale factor",       			BPM_SCALE_$(BAY)0,          "$(P):X_FWSCL"   	"$(BAY)",   "1 second"  }
+{ Y_SF,          	"Bay $(BAY) Y Scale factor",       			BPM_SCALE_$(BAY)1,          "$(P):Y_FWSCL"   	"$(BAY)",   "1 second"  }
+{ C_SF,          	"Bay $(BAY) C Scale factor",       			BPM_SCALE_$(BAY)2,          "$(P):C_FWSCL"   	"$(BAY)",   "1 second"  }
+}
