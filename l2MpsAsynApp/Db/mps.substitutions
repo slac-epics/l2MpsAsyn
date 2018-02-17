@@ -1,91 +1,91 @@
 file "longin.template" { pattern
 { R,                    DESC,                                   PARAM,                  ADDR,   PINI,   SCAN        }
-{ APP_ID,               "Application ID",                       APP_ID,                 "",     "YES",  "Passive"   }    
-{ BYTE_COUNT,           "Number of bytes in MPS message",       BYTE_COUNT,             "",     "YES",  "Passive"   }    
-{ ROLL_OVER_EN,         "Status Counter Roll Over Enable",      ROLL_OVER_EN,           "",     "YES",  "1 second" }
-{ TX_LINK_UP_CNT,       "MPS TX LinkUp Counter",                TX_LINK_UP_CNT,         "",     "YES",  "1 second" }    
-{ RX_LINK_UP_CNT_0,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_0,       "",     "YES",  "1 second" }
-{ RX_LINK_UP_CNT_1,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_1,       "",     "YES",  "1 second" }
-{ RX_LINK_UP_CNT_2,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_2,       "",     "YES",  "1 second" }
-{ RX_LINK_UP_CNT_3,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_3,       "",     "YES",  "1 second" }
-{ RX_LINK_UP_CNT_4,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_4,       "",     "YES",  "1 second" }
-{ RX_LINK_UP_CNT_5,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_5,       "",     "YES",  "1 second" }
-{ RX_LINK_UP_CNT_6,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_6,       "",     "YES",  "1 second" }
-{ RX_LINK_UP_CNT_7,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_7,       "",     "YES",  "1 second" }
-{ RX_LINK_UP_CNT_8,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_8,       "",     "YES",  "1 second" }
-{ RX_LINK_UP_CNT_9,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_9,       "",     "YES",  "1 second" }
-{ RX_LINK_UP_CNT_10,    "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_10,      "",     "YES",  "1 second" }
-{ RX_LINK_UP_CNT_11,    "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_11,      "",     "YES",  "1 second" }
-{ RX_LINK_UP_CNT_12,    "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_12,      "",     "YES",  "1 second" }
-{ RX_LINK_UP_CNT_13,    "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_13,      "",     "YES",  "1 second" }
-{ TX_PKT_SENT_CNT,      "MPS TX Packet Sent Counter",           TX_PKT_SENT_CNT,        "",     "YES",  "1 second" }
-{ RX_PKT_RCV_CNT_0,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_0,       "",     "YES",  "1 second" }
-{ RX_PKT_RCV_CNT_1,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_1,       "",     "YES",  "1 second" }
-{ RX_PKT_RCV_CNT_2,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_2,       "",     "YES",  "1 second" }
-{ RX_PKT_RCV_CNT_3,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_3,       "",     "YES",  "1 second" }
-{ RX_PKT_RCV_CNT_4,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_4,       "",     "YES",  "1 second" }
-{ RX_PKT_RCV_CNT_5,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_5,       "",     "YES",  "1 second" }
-{ RX_PKT_RCV_CNT_6,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_6,       "",     "YES",  "1 second" }
-{ RX_PKT_RCV_CNT_7,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_7,       "",     "YES",  "1 second" }
-{ RX_PKT_RCV_CNT_8,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_8,       "",     "YES",  "1 second" }
-{ RX_PKT_RCV_CNT_9,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_9,       "",     "YES",  "1 second" }
-{ RX_PKT_RCV_CNT_10,    "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_10,      "",     "YES",  "1 second" }
-{ RX_PKT_RCV_CNT_11,    "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_11,      "",     "YES",  "1 second" }
-{ RX_PKT_RCV_CNT_12,    "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_12,      "",     "YES",  "1 second" }
-{ RX_PKT_RCV_CNT_13,    "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_13,      "",     "YES",  "1 second" }
-{ msgCnt,               "Mps message counter",                  LAST_MSG_CNT,           "",     "YES",  "1 second" }
-{ lastMsgAppId,         "Mps last message App ID",              LAST_MSG_APPID,         "",     "YES",  "1 second" }
-{ lastMsgTmstmp,        "Mps last message timestamp",           LAST_MSG_TMSTMP,        "",     "YES",  "1 second" }
-{ lastMsgByte0,         "Mps last message byte 0",              LAST_MSG_BYTE_0,        "",     "YES",  "1 second" }
-{ lastMsgByte1,         "Mps last message byte 1",              LAST_MSG_BYTE_1,        "",     "YES",  "1 second" }
-{ lastMsgByte2,         "Mps last message byte 2",              LAST_MSG_BYTE_2,        "",     "YES",  "1 second" }
-{ lastMsgByte3,         "Mps last message byte 3",              LAST_MSG_BYTE_3,        "",     "YES",  "1 second" }
-{ lastMsgByte4,         "Mps last message byte 4",              LAST_MSG_BYTE_4,        "",     "YES",  "1 second" }
-{ lastMsgByte5,         "Mps last message byte 5",              LAST_MSG_BYTE_5,        "",     "YES",  "1 second" }
+{ APP_ID,               "Application ID",                       APP_ID,                 "2",    "NO",   "I/O Intr"  }    
+{ BYTE_COUNT,           "Number of bytes in MPS message",       BYTE_COUNT,             "2",    "NO",   "I/O Intr"  }    
+{ ROLL_OVER_EN,         "Status Counter Roll Over Enable",      ROLL_OVER_EN,           "2",    "NO",   "I/O Intr"  }
+{ TX_LINK_UP_CNT,       "MPS TX LinkUp Counter",                TX_LINK_UP_CNT,         "2",    "NO",   "I/O Intr"  }    
+{ RX_LINK_UP_CNT_0,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_0,       "2",    "NO",   "I/O Intr"  }
+{ RX_LINK_UP_CNT_1,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_1,       "2",    "NO",   "I/O Intr"  }
+{ RX_LINK_UP_CNT_2,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_2,       "2",    "NO",   "I/O Intr"  }
+{ RX_LINK_UP_CNT_3,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_3,       "2",    "NO",   "I/O Intr"  }
+{ RX_LINK_UP_CNT_4,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_4,       "2",    "NO",   "I/O Intr"  }
+{ RX_LINK_UP_CNT_5,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_5,       "2",    "NO",   "I/O Intr"  }
+{ RX_LINK_UP_CNT_6,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_6,       "2",    "NO",   "I/O Intr"  }
+{ RX_LINK_UP_CNT_7,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_7,       "2",    "NO",   "I/O Intr"  }
+{ RX_LINK_UP_CNT_8,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_8,       "2",    "NO",   "I/O Intr"  }
+{ RX_LINK_UP_CNT_9,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_9,       "2",    "NO",   "I/O Intr"  }
+{ RX_LINK_UP_CNT_10,    "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_10,      "2",    "NO",   "I/O Intr"  }
+{ RX_LINK_UP_CNT_11,    "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_11,      "2",    "NO",   "I/O Intr"  }
+{ RX_LINK_UP_CNT_12,    "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_12,      "2",    "NO",   "I/O Intr"  }
+{ RX_LINK_UP_CNT_13,    "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_13,      "2",    "NO",   "I/O Intr"  }
+{ TX_PKT_SENT_CNT,      "MPS TX Packet Sent Counter",           TX_PKT_SENT_CNT,        "2",    "NO",   "I/O Intr"  }
+{ RX_PKT_RCV_CNT_0,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_0,       "2",    "NO",   "I/O Intr"  }
+{ RX_PKT_RCV_CNT_1,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_1,       "2",    "NO",   "I/O Intr"  }
+{ RX_PKT_RCV_CNT_2,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_2,       "2",    "NO",   "I/O Intr"  }
+{ RX_PKT_RCV_CNT_3,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_3,       "2",    "NO",   "I/O Intr"  }
+{ RX_PKT_RCV_CNT_4,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_4,       "2",    "NO",   "I/O Intr"  }
+{ RX_PKT_RCV_CNT_5,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_5,       "2",    "NO",   "I/O Intr"  }
+{ RX_PKT_RCV_CNT_6,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_6,       "2",    "NO",   "I/O Intr"  }
+{ RX_PKT_RCV_CNT_7,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_7,       "2",    "NO",   "I/O Intr"  }
+{ RX_PKT_RCV_CNT_8,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_8,       "2",    "NO",   "I/O Intr"  }
+{ RX_PKT_RCV_CNT_9,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_9,       "2",    "NO",   "I/O Intr"  }
+{ RX_PKT_RCV_CNT_10,    "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_10,      "2",    "NO",   "I/O Intr"  }
+{ RX_PKT_RCV_CNT_11,    "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_11,      "2",    "NO",   "I/O Intr"  }
+{ RX_PKT_RCV_CNT_12,    "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_12,      "2",    "NO",   "I/O Intr"  }
+{ RX_PKT_RCV_CNT_13,    "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_13,      "2",    "NO",   "I/O Intr"  }
+{ msgCnt,               "Mps message counter",                  MSG_CNT,                "2",    "NO",   "I/O Intr"  }
+{ lastMsgAppId,         "Mps last message App ID",              LAST_MSG_APPID,         "2",    "NO",   "I/O Intr"  }
+{ lastMsgTmstmp,        "Mps last message timestamp",           LAST_MSG_TMSTMP,        "2",    "NO",   "I/O Intr"  }
+{ lastMsgByte0,         "Mps last message byte 0",              LAST_MSG_BYTE_0,        "2",    "NO",   "I/O Intr"  }
+{ lastMsgByte1,         "Mps last message byte 1",              LAST_MSG_BYTE_1,        "2",    "NO",   "I/O Intr"  }
+{ lastMsgByte2,         "Mps last message byte 2",              LAST_MSG_BYTE_2,        "2",    "NO",   "I/O Intr"  }
+{ lastMsgByte3,         "Mps last message byte 3",              LAST_MSG_BYTE_3,        "2",    "NO",   "I/O Intr"  }
+{ lastMsgByte4,         "Mps last message byte 4",              LAST_MSG_BYTE_4,        "2",    "NO",   "I/O Intr"  }
+{ lastMsgByte5,         "Mps last message byte 5",              LAST_MSG_BYTE_5,        "2",    "NO",   "I/O Intr"  }
 }
 
 file "bi.template" { pattern
 { R,                DESC,                                       PARAM,          ADDR,   ZNAM,       ONAM,       PINI,   SCAN        }
-{ DIGITAL_EN,       "Application generates digital messages",   DIGITAL_EN,     "0",    "No",       "Yes",      "YES",  "Passive"   }
-{ MPS_SLOT,         "MPS_SLOT_G",                               MPS_SLOT,       "0",   "No",        "Yes",      "YES",  "Passive"   }
-{ PLL_LOCKED,       "MPS PLL Lock Status",                      PLL_LOCKED,     "0",   "No",        "Yes",      "YES",  "Passive"   }
-{ TX_LINK_UP,       "MPS TX LinkUp",                            TX_LINK_UP,     "0",   "Down",      "Up",       "YES",  "1 second"  }
-{ RX_LINK_UP_0,     "MPS RX LinkUp",                            RX_LINK_UP_0,   "0",   "Down",      "Up",       "YES",  "1 second"  }
-{ RX_LINK_UP_1,     "MPS RX LinkUp",                            RX_LINK_UP_1,   "0",   "Down",      "Up",       "YES",  "1 second"  }
-{ RX_LINK_UP_2,     "MPS RX LinkUp",                            RX_LINK_UP_2,   "0",   "Down",      "Up",       "YES",  "1 second"  }
-{ RX_LINK_UP_3,     "MPS RX LinkUp",                            RX_LINK_UP_3,   "0",   "Down",      "Up",       "YES",  "1 second"  }
-{ RX_LINK_UP_4,     "MPS RX LinkUp",                            RX_LINK_UP_4,   "0",   "Down",      "Up",       "YES",  "1 second"  }
-{ RX_LINK_UP_5,     "MPS RX LinkUp",                            RX_LINK_UP_5,   "0",   "Down",      "Up",       "YES",  "1 second"  }
-{ RX_LINK_UP_6,     "MPS RX LinkUp",                            RX_LINK_UP_6,   "0",   "Down",      "Up",       "YES",  "1 second"  }
-{ RX_LINK_UP_7,     "MPS RX LinkUp",                            RX_LINK_UP_7,   "0",   "Down",      "Up",       "YES",  "1 second"  }
-{ RX_LINK_UP_8,     "MPS RX LinkUp",                            RX_LINK_UP_8,   "0",   "Down",      "Up",       "YES",  "1 second"  }
-{ RX_LINK_UP_9,     "MPS RX LinkUp",                            RX_LINK_UP_9,   "0",   "Down",      "Up",       "YES",  "1 second"  }
-{ RX_LINK_UP_10,    "MPS RX LinkUp",                            RX_LINK_UP_10,  "0",   "Down",      "Up",       "YES",  "1 second"  }
-{ RX_LINK_UP_11,    "MPS RX LinkUp",                            RX_LINK_UP_11,  "0",   "Down",      "Up",       "YES",  "1 second"  }
-{ RX_LINK_UP_12,    "MPS RX LinkUp",                            RX_LINK_UP_12,  "0",   "Down",      "Up",       "YES",  "1 second"  }
-{ RX_LINK_UP_13,    "MPS RX LinkUp",                            RX_LINK_UP_13,  "0",   "Down",      "Up",       "YES",  "1 second"  }
-{ lastMsgLcls,      "LCLS flag in the last message",            LAST_MSG_LCLS,  "0",    "Disabled", "Enabled",  "YES",  "1 second"  }
+{ DIGITAL_EN,       "Application generates digital messages",   DIGITAL_EN,     "2",   "No",        "Yes",      "NO",   "I/O Intr"  }
+{ MPS_SLOT,         "MPS_SLOT_G",                               MPS_SLOT,       "2",   "No",        "Yes",      "NO",   "I/O Intr"  }
+{ PLL_LOCKED,       "MPS PLL Lock Status",                      PLL_LOCKED,     "2",   "No",        "Yes",      "NO",   "I/O Intr"  }
+{ TX_LINK_UP,       "MPS TX LinkUp",                            TX_LINK_UP,     "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
+{ RX_LINK_UP_0,     "MPS RX LinkUp",                            RX_LINK_UP_0,   "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
+{ RX_LINK_UP_1,     "MPS RX LinkUp",                            RX_LINK_UP_1,   "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
+{ RX_LINK_UP_2,     "MPS RX LinkUp",                            RX_LINK_UP_2,   "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
+{ RX_LINK_UP_3,     "MPS RX LinkUp",                            RX_LINK_UP_3,   "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
+{ RX_LINK_UP_4,     "MPS RX LinkUp",                            RX_LINK_UP_4,   "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
+{ RX_LINK_UP_5,     "MPS RX LinkUp",                            RX_LINK_UP_5,   "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
+{ RX_LINK_UP_6,     "MPS RX LinkUp",                            RX_LINK_UP_6,   "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
+{ RX_LINK_UP_7,     "MPS RX LinkUp",                            RX_LINK_UP_7,   "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
+{ RX_LINK_UP_8,     "MPS RX LinkUp",                            RX_LINK_UP_8,   "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
+{ RX_LINK_UP_9,     "MPS RX LinkUp",                            RX_LINK_UP_9,   "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
+{ RX_LINK_UP_10,    "MPS RX LinkUp",                            RX_LINK_UP_10,  "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
+{ RX_LINK_UP_11,    "MPS RX LinkUp",                            RX_LINK_UP_11,  "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
+{ RX_LINK_UP_12,    "MPS RX LinkUp",                            RX_LINK_UP_12,  "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
+{ RX_LINK_UP_13,    "MPS RX LinkUp",                            RX_LINK_UP_13,  "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
+{ lastMsgLcls,      "LCLS flag in the last message",            LAST_MSG_LCLS,  "2",    "Disabled", "Enabled",  "NO",   "I/O Intr"  }
 }
 
 file "bo.template" { pattern
 { R,                DESC,                                       PARAM,          ADDR,   ZNAM,       ONAM,       PINI,   SCAN        }
-{ SALT_RST_CNT,     "Reset all the SALT status counters",       SALT_RST_CNT,   "0",    "",         "",         "NO",  "Passive"    }
-{ SALT_RST_PLL,     "Reset the PLL",                            SALT_RST_PLL,   "0",    "",         "",         "NO",  "Passive"    }
+{ SALT_RST_CNT,     "Reset all the SALT status counters",       SALT_RST_CNT,   "2",    "",         "",         "NO",  "I/O Intr"   }
+{ SALT_RST_PLL,     "Reset the PLL",                            SALT_RST_PLL,   "2",    "",         "",         "NO",  "I/O Intr"   }
 }
 
 file "RegRW.template" { pattern
-{ R,                    DESC,                                   PARAM,              ADDR,   SCAN        }
-{ BEAM_DEST_MASK,       "One bit per dest for BPM or kicker",   BEAM_DEST_MASK,     "",     "Passive"   }    
-{ ALT_DEST_MASK,        "One bit per dest for alt table",       ALT_DEST_MASK,      "",     "Passive"   }   
+{ R,                    DESC,                                   PARAM,              ADDR  }
+{ BEAM_DEST_MASK,       "One bit per dest for BPM or kicker",   BEAM_DEST_MASK,     "2"   }    
+{ ALT_DEST_MASK,        "One bit per dest for alt table",       ALT_DEST_MASK,      "2"   }   
 }
 
 file "Enum1BitRW.template" { pattern
-{ R,                DESC,                                       PARAM,          ADDR,   ZNAM,       ONAM,       SCAN        }
-{ MPS_EN,           "MPS Enabled",                              MPS_EN,         "0",    "Disabled", "Enabled",  "Passive"   }
-{ LCLS_MODE,        "LCLS operation mode",                      LCLS1_MODE,     "0",    "LCLS-II",  "LCLS-I",   "Passive"   }
+{ R,                DESC,                                       PARAM,          ADDR,   ZNAM,       ONAM       }
+{ MPS_EN,           "MPS Enabled",                              MPS_EN,         "2",    "Disabled", "Enabled"  }
+{ LCLS_MODE,        "LCLS operation mode",                      LCLS1_MODE,     "2",    "LCLS-II",  "LCLS-I"   }
 }
 
 file "string.template" { pattern
-{ R,              DESC,                             PARAM,          PINI,   SCAN        }
-{ APP_TYPE,       "Application type",               APP_TYPE,       "YES",  "Passive"   }    
+{ R,              DESC,                             PARAM,          ADDR,    PINI,   SCAN        }
+{ APP_TYPE,       "Application type",               APP_TYPE,       "2",     "NO",   "I/O Intr"  }    
 }

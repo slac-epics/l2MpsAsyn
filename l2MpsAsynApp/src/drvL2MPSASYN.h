@@ -18,32 +18,32 @@
 #define DRIVER_NAME         "L2MPS"
 
 // MPS node parameters
-#define appIdString             "APP_ID"
-#define mpsEnString             "MPS_EN"
-#define lcl1ModeString          "LCLS1_MODE"
-#define byteCountString         "BYTE_COUNT"
-#define digitalEnString         "DIGITAL_EN"
-#define beamDestMaskString      "BEAM_DEST_MASK"
-#define altDestMaskString       "ALT_DEST_MASK"
-#define appTypeString           "APP_TYPE"
-#define txLinkUpCntString       "TX_LINK_UP_CNT"
-#define rxLinkUpCntString       "RX_LINK_UP_CNT"
-#define txLinkUpString          "TX_LINK_UP"
-#define rxLinkUpString          "RX_LINK_UP"
-#define rollOverEnString        "ROLL_OVER_EN"
-#define mpsSlotString           "MPS_SLOT"
-#define pllLockedString         "PLL_LOCKED"
-#define txPktSentCntString      "TX_PKT_SENT_CNT"
-#define rxPktRcvdSentCntString  "RX_PKT_RCV_CNT"
-#define mpsMsgCntString         "LAST_MSG_CNT"
-#define mpsLastMsgAppIdString   "LAST_MSG_APPID"
-#define mpsLastMsgTmstmpString  "LAST_MSG_TMSTMP"
-#define mpsLastMsgLclsString    "LAST_MSG_LCLS"
-#define mpsLastMsgByteString    "LAST_MSG_BYTE"
-#define mpsSlatRstCntString     "SALT_RST_CNT"
-#define mpsSlatRstPllString     "SALT_RST_PLL"
+// #define appIdString             "APP_ID"
+// #define mpsEnString             "MPS_EN"
+// #define lcl1ModeString          "LCLS1_MODE"
+// #define byteCountString         "BYTE_COUNT"
+// #define digitalEnString         "DIGITAL_EN"
+// #define beamDestMaskString      "BEAM_DEST_MASK"
+// #define altDestMaskString       "ALT_DEST_MASK"
+// #define appTypeString           "APP_TYPE"
+// #define txLinkUpCntString       "TX_LINK_UP_CNT"
+// #define rxLinkUpCntString       "RX_LINK_UP_CNT"
+// #define txLinkUpString          "TX_LINK_UP"
+// #define rxLinkUpString          "RX_LINK_UP"
+// #define rollOverEnString        "ROLL_OVER_EN"
+// #define mpsSlotString           "MPS_SLOT"
+// #define pllLockedString         "PLL_LOCKED"
+// #define txPktSentCntString      "TX_PKT_SENT_CNT"
+// #define rxPktRcvdSentCntString  "RX_PKT_RCV_CNT"
+// #define mpsMsgCntString         "LAST_MSG_CNT"
+// #define mpsLastMsgAppIdString   "LAST_MSG_APPID"
+// #define mpsLastMsgTmstmpString  "LAST_MSG_TMSTMP"
+// #define mpsLastMsgLclsString    "LAST_MSG_LCLS"
+// #define mpsLastMsgByteString    "LAST_MSG_BYTE"
+// #define mpsSlatRstCntString     "SALT_RST_CNT"
+// #define mpsSlatRstPllString     "SALT_RST_PLL"
 
-#define MAX_SIGNALS         (2)     // Max number of parameter list (number of bays)
+#define MAX_SIGNALS         (3)     // Max number of parameter list (number of bays)
 #define NUM_PARAMS          (1500)  // Max number of paramters
 
 // Number of AMC bays on a carrier
@@ -90,6 +90,37 @@ typedef void (IMpsBlm::*blm_setScale_func_t)(const blm_channel_t&, const float) 
 typedef std::map<int, std::pair<BlmW32_t, blmThr_channel_t>> blm_fmap_w32_t;
 typedef std::map<int, std::pair<BlmW1_t,  blmThr_channel_t>> blm_fmap_w1_t;
 typedef std::map<int, std::pair<blm_setScale_func_t, blm_channel_t>> blm_scaleFuncMap_t;
+
+struct mps_infoParam_t
+{
+    int appId;
+    int version;
+    int enable;
+    int lcls1Mode;
+    int byteCount;
+    int digitalEn;
+    int beamDestMask;
+    int altDestMask;
+    int msgCnt;
+    int lastMsgAppId;
+    int lastMsgLcls;
+    int lastMsgTimestamp;
+    // int *lastMsgByte;
+ 
+    int txLinkUp;
+    int txLinkUpCnt;
+    int rxLinkUp;
+    // int *rxLinkUpCnt;
+    int mpsSlot;
+    int appType;
+    int pllLocked;
+    int rollOverEn;
+    int txPktSentCnt;
+    // int *rxPktRcvdCnt;
+
+    int rstCnt;
+    int rstPll;
+};
 
 struct thr_tableParam_t
 {
@@ -174,18 +205,23 @@ class L2MPS : public asynPortDriver {
         L2MPS(const char *portName, const uint16_t appId, const std::string recordPrefixMps, const std::array<std::string, numberOfBays> recordPrefixBay, std::string mpsRootPath);
 
         // Methods that we override from asynPortDriver
-        virtual asynStatus readInt32(asynUser *pasynUser, epicsInt32 *value);
+        // virtual asynStatus readInt32(asynUser *pasynUser, epicsInt32 *value);
         virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
-        virtual asynStatus readUInt32Digital(asynUser *pasynUser, epicsUInt32 *value, epicsUInt32 mask);
+        // virtual asynStatus readUInt32Digital(asynUser *pasynUser, epicsUInt32 *value, epicsUInt32 mask);
         virtual asynStatus writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epicsUInt32 mask);
         virtual asynStatus writeFloat64 (asynUser *pasynUser, epicsFloat64 value);
-        virtual asynStatus readOctet(asynUser *pasynUser, char *value, size_t maxChars, size_t *nActual, int *eomReason);
+        // virtual asynStatus readOctet(asynUser *pasynUser, char *value, size_t maxChars, size_t *nActual, int *eomReason);
 
-        template<typename T>
-        static void setCallback(int bay, T data);
+        // MPS base info callback function
+        static void setMpsCallback(mps_infoData_t info);
+        void updateMpsParametrs(mps_infoData_t info);
 
+        // App callback function
         template<typename T>
-        void updateParameters(int bay, T data);
+        static void setAppCallback(int bay, T data);
+        template<typename T>
+        void updateAppParameters(int bay, T data);
+
 
 
     private:
@@ -198,32 +234,32 @@ class L2MPS : public asynPortDriver {
         boost::any amc[numberOfBays];
 
         // MPS node parameters
-        int appIdValue_;
-        int mpsEnValue_;
-        int lcl1ModeValue_;
-        int byteCountValue_;
-        int digitalEnValue_;
-        int beamDestMaskValue_;
-        int altDestMaskValue_;
-        int appTypeValue_;
-        int rollOverEnValue_;
-        int mpsSlotValue_;
-        int pllLockedValue_;
-        int txLinkUpValue_;
-        int txLinkUpCntValue_;
-        std::array<int, numberOfRxLinks> rxLinkUpValue_;
-        std::array<int, numberOfRxLinks> rxLinkUpCntValue_;
+        // int appIdValue_;
+        // int mpsEnValue_;
+        // int lcl1ModeValue_;
+        // int byteCountValue_;
+        // int digitalEnValue_;
+        // int beamDestMaskValue_;
+        // int altDestMaskValue_;
+        // int appTypeValue_;
+        // int rollOverEnValue_;
+        // int mpsSlotValue_;
+        // int pllLockedValue_;
+        // int txLinkUpValue_;
+        // int txLinkUpCntValue_;
+        // std::array<int, numberOfRxLinks> rxLinkUpValue_;
+        // std::array<int, numberOfRxLinks> rxLinkUpCntValue_;
 
-        int txPktSentCntValue_;
-        std::array<int, numberOfRxLinks> rxPktRcvdSentCntValue_;
+        // int txPktSentCntValue_;
+        // std::array<int, numberOfRxLinks> rxPktRcvdSentCntValue_;
         
-        int mpsMsgCntValue_;
-        int mpsLastMsgAppIdValue_;
-        int mpsLastMsgTmstmpValue_;
-        int mpsLastMsgLclsValue_;
-        std::vector<int> mpsLastMsgByteValue_;
-        int mpsSlatRstCntValue_;
-        int mpsSlatRstPlltValue_;
+        // int mpsMsgCntValue_;
+        // int mpsLastMsgAppIdValue_;
+        // int mpsLastMsgTmstmpValue_;
+        // int mpsLastMsgLclsValue_;
+        // std::vector<int> mpsLastMsgByteValue_;
+        // int mpsSlatRstCntValue_;
+        // int mpsSlatRstPlltValue_;
 
 
         // BPM application fuction maps
@@ -245,6 +281,8 @@ class L2MPS : public asynPortDriver {
         blm_fmap_w32_t      fMapBlmW32;
         blm_fmap_w1_t       fMapBlmW1;
         blm_scaleFuncMap_t  fMapBlmWScale;
+
+        mps_infoParam_t     mpsInfoParams;
 
         paramMap_t _paramMap;
 
