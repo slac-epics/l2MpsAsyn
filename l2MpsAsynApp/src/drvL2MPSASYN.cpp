@@ -125,11 +125,8 @@ void L2MPS::updateAppParameters(int bay, T data)
             setUIntDigitalParam(bay,    infoParam.altEn,    infoData.altEn,    0xFFFFFFFF, 0x1   );
             setUIntDigitalParam(bay,    infoParam.lcls1En,  infoData.lcls1En,  0xFFFFFFFF, 0x1   );
 
-            // blm_channel_t data_blmCh = dataIt->first;
-            thr_chData_t  data_thr   = (dataIt->second).data;
-
-            // blm_channel_t param_blmCh = paramIt->first;
-            thr_chParam_t param_thr   = (paramIt->second).data;
+            thr_chData_t  data_thr  = (dataIt->second).data;
+            thr_chParam_t param_thr = (paramIt->second).data;
 
             for (thr_chData_t::iterator data_thrIt = data_thr.begin(); data_thrIt != data_thr.end(); ++data_thrIt)
             {
@@ -304,55 +301,6 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
             }
         }
 
-        // createParam(appIdString,            asynParamInt32,         &appIdValue_)       ;
-        // createParam(byteCountString,        asynParamInt32,         &byteCountValue_    );
-        // createParam(beamDestMaskString,     asynParamInt32,         &beamDestMaskValue_ );
-        // createParam(altDestMaskString,      asynParamInt32,         &altDestMaskValue_  );
-        // createParam(mpsEnString,            asynParamUInt32Digital, &mpsEnValue_        );
-        // createParam(lcl1ModeString,         asynParamUInt32Digital, &lcl1ModeValue_     );
-        // createParam(digitalEnString,        asynParamUInt32Digital, &digitalEnValue_    );
-        // createParam(appTypeString,          asynParamOctet,         &appTypeValue_      );
-        // createParam(rollOverEnString,       asynParamInt32,         &rollOverEnValue_   );
-        // createParam(mpsSlotString,          asynParamUInt32Digital, &mpsSlotValue_      );
-        // createParam(pllLockedString,        asynParamUInt32Digital, &pllLockedValue_    );
-        // createParam(txLinkUpString,         asynParamUInt32Digital, &txLinkUpValue_     );
-        // createParam(txLinkUpCntString,      asynParamInt32,         &txLinkUpCntValue_  );
-
-        // createParam(txPktSentCntString,     asynParamInt32,         &txPktSentCntValue_  );
-
-        // createParam(mpsMsgCntString,        asynParamInt32,         &mpsMsgCntValue_        );
-        // createParam(mpsLastMsgAppIdString,  asynParamInt32,         &mpsLastMsgAppIdValue_  );
-        // createParam(mpsLastMsgTmstmpString, asynParamInt32,         &mpsLastMsgTmstmpValue_ );
-        // createParam(mpsLastMsgLclsString,   asynParamUInt32Digital, &mpsLastMsgLclsValue_   );
-        // createParam(mpsSlatRstCntString,    asynParamUInt32Digital, &mpsSlatRstCntValue_    );
-        // createParam(mpsSlatRstPllString,    asynParamUInt32Digital, &mpsSlatRstPlltValue_   );
-
-        // for (std::size_t i {0}; i < numberOfRxLinks; ++i)
-        // {
-        //     std::stringstream paramName;
-        //     paramName.str("");
-        //     paramName << rxLinkUpString << "_" << i;
-        //     createParam(paramName.str().c_str(), asynParamUInt32Digital, &rxLinkUpValue_[i]);
-
-        //     paramName.str("");
-        //     paramName << rxLinkUpCntString << "_" << i;
-        //     createParam(paramName.str().c_str(), asynParamInt32, &rxLinkUpCntValue_[i]);
-
-        //     paramName.str("");
-        //     paramName << rxPktRcvdSentCntString << "_" << i;
-        //     createParam(paramName.str().c_str(), asynParamInt32, &rxPktRcvdSentCntValue_[i]);
-        // }
-
-        // for (std::size_t i {0}; i < node_->getLastMsgByteSize(); ++i)
-        // {
-        //     int paramIndex;
-        //     std::stringstream paramName;
-        //     paramName.str("");
-        //     paramName << mpsLastMsgByteString << "_" << i;
-        //     createParam(paramName.str().c_str(), asynParamInt32, &paramIndex);
-        //     mpsLastMsgByteValue_.push_back(paramIndex);
-        // }
-        
         std::string dbParams = "P=" + std::string(recordPrefixMps_) + ",PORT=" + std::string(portName_);
         dbLoadRecords("db/mps.db", dbParams.c_str());
 
@@ -360,9 +308,6 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
         {
             if (!recordPrefixBay_[i].empty())
             {
-                // std::string dbParams = "P=" + std::string(recordPrefix_[i]) + ",PORT=" + std::string(portName_);
-                // dbLoadRecords("db/mps.db", dbParams.c_str());
-
                 if (!appType_.compare("BPM"))
                 {
                     amc[i] = MpsBpmFactory::create(mpsRoot, i);
@@ -741,100 +686,6 @@ void L2MPS::InitBlmMaps(const int bay)
     dbLoadRecords("db/blm.db", blenDbParams.str().c_str());
 }
 
-// asynStatus L2MPS::readInt32(asynUser *pasynUser, epicsInt32 *value)
-// {
-//     int addr;
-//     int function = pasynUser->reason;
-//     int status = 0;
-//     static const char *functionName = "readInt32";
-//     const char *name;
-
-//     this->getAddress(pasynUser, &addr);
-    
-//     getParamName(addr, function, &name);
-
-//     try
-//     {
-//         // Rx Link Up Counter iterator
-//         std::array<int, numberOfRxLinks>::iterator it;
-
-//         // Last message byte iterator
-//         std::vector<int>::iterator mpsLastMsgByte_it;
-
-//         // MPS node parameters
-//         if (function == appIdValue_)   
-//         {   
-//             *value = (epicsInt32)node_->getAppId();
-//         }
-//         else if (function == byteCountValue_)
-//         {
-//             *value = (epicsInt32)node_->getByteCount();
-//         }
-//         else if (function == beamDestMaskValue_)
-//         {
-//             *value = (epicsInt32)node_->getBeamDestMask();
-//         }
-//         else if (function == altDestMaskValue_)
-//         {      
-//             *value = (epicsInt32)node_->getAltDestMask();         
-//         }
-//         else if (function == txLinkUpCntValue_)
-//         {
-//             *value = (epicsInt32)node_->getTxLinkUpCnt();
-//         }
-//         else if (function == txPktSentCntValue_)
-//         {
-//             *value = (epicsInt32)node_->getTxPktSentCnt();
-//         }
-//         else if ((it = std::find(rxLinkUpCntValue_.begin(), rxLinkUpCntValue_.end(), function)) != rxLinkUpCntValue_.end())
-//         {
-//             *value = (epicsInt32)node_->getRxLinkUpCnt(it - rxLinkUpCntValue_.begin());   
-//         }
-//         else if ((it = std::find(rxPktRcvdSentCntValue_.begin(), rxPktRcvdSentCntValue_.end(), function)) != rxPktRcvdSentCntValue_.end())
-//         {
-//             *value = (epicsInt32)node_->getRxPktRcvdSentCnt(it - rxPktRcvdSentCntValue_.begin());   
-//         }
-//         else if (function == rollOverEnValue_)
-//         {
-//             *value = (epicsInt32)node_->getRollOverEn();
-//         }
-//         else if (function == mpsMsgCntValue_)
-//         {
-//             *value = (epicsInt32)node_->getMpsMsgCount();
-//         }
-//         else if (function == mpsLastMsgAppIdValue_)
-//         {
-//             *value = (epicsInt32)node_->getLastMsgAppId();
-//         }
-//         else if (function == mpsLastMsgTmstmpValue_)
-//         {
-//             *value = (epicsInt32)node_->getLastMsgTimeStamp();
-//         }
-//         else if ((mpsLastMsgByte_it = std::find(mpsLastMsgByteValue_.begin(), mpsLastMsgByteValue_.end(), function)) != mpsLastMsgByteValue_.end())
-//         {
-//             *value = (epicsInt32)node_->getLastMsgByte(mpsLastMsgByte_it - mpsLastMsgByteValue_.begin());   
-//         }
-//         else
-//         {    
-//             status = asynPortDriver::readInt32(pasynUser, value);
-//         }
-//     }
-//     catch (CPSWError &e)
-//     {
-//         *value = 0;
-//         status = -1;
-//         asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s reading parameter %s: %s\n", functionName, name, e.getInfo().c_str());
-//     }  
-//     catch (std::runtime_error &e)
-//     {
-//         *value = 0;
-//         status = -1;
-//         asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s reading parameter %s: %s\n", functionName, name, e.what());
-//     } 
-
-//     return (status == 0) ? asynSuccess : asynError;
-// }
-
 asynStatus L2MPS::writeInt32(asynUser *pasynUser, epicsInt32 value)
 {
     int addr;
@@ -852,36 +703,6 @@ asynStatus L2MPS::writeInt32(asynUser *pasynUser, epicsInt32 value)
 
     try
     {
-        // bpm_fmap_w32_t::iterator bpm_it;
-        // blen_fmap_w32_t::iterator blen_it;
-        // bcm_fmap_w32_t::iterator bcm_it;
-        // blm_fmap_w32_t::iterator blm_it;
-        // blm_scaleFuncMap_t::iterator blm_scaleIt;
-
-        // // BPM parameters
-        // if ((bpm_it = fMapBpmW32.find(function)) != fMapBpmW32.end())
-        // {
-        //     ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second, value);
-        // }
-        // // BLEN parameters
-        // else if ((blen_it = fMapBlenW32.find(function)) != fMapBlenW32.end())
-        // {
-        //     ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_it->second.first))(blen_it->second.second, value);
-        // }
-        // // BCM parameters
-        // else if ((bcm_it = fMapBcmW32.find(function)) != fMapBcmW32.end())
-        // {
-        //     ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_it->second.first))(bcm_it->second.second, value);
-        // }
-        // // BLM parameters
-        // else if ((blm_it = fMapBlmW32.find(function)) != fMapBlmW32.end())
-        // {
-        //     ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second, value);
-        // }
-        // else if ((blm_scaleIt = fMapBlmWScale.find(function)) != fMapBlmWScale.end())
-        // {
-        //     ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_scaleIt->second.first))(blm_scaleIt->second.second, value);
-        // }
         // // MPS node parameters
         if (function == mpsInfoParams.beamDestMask)
         {
@@ -909,86 +730,6 @@ asynStatus L2MPS::writeInt32(asynUser *pasynUser, epicsInt32 value)
 
     return (status == 0) ? asynSuccess : asynError;
 }
-
-// asynStatus L2MPS::readUInt32Digital(asynUser *pasynUser, epicsUInt32 *value, epicsUInt32 mask)
-// {
-//     int addr;
-//     int function = pasynUser->reason;
-//     int status=0;
-//     const char *name;
-
-//     this->getAddress(pasynUser, &addr);
-
-//     getParamName(addr, function, &name);
-
-//     static const char *functionName = "readUInt32Digital";
-
-//     try
-//     {
-//         // Rx Link Up Counter iterator
-//         std::array<int, numberOfRxLinks>::iterator it;
-     
-//         // MPS node parameters        
-//         if(function == mpsEnValue_)
-//         {
-//             *value = (epicsUInt32)(node_->getEnable() & mask);
-//             setUIntDigitalParam(addr, function, *value, mask);
-//         }
-//         else if (function == lcl1ModeValue_)
-//         {
-//             *value = (epicsUInt32)(node_->getLcls1Mode() & mask);
-//             setUIntDigitalParam(addr, function, *value, mask);
-//         }
-//         else if (function == digitalEnValue_)
-//         {
-//             *value = (epicsUInt32)(node_->getDigitalEnable() & mask);
-//             setUIntDigitalParam(addr, function, *value, mask);
-//         } 
-//         else if (function == txLinkUpValue_)
-//         {
-//             *value = (epicsUInt32)(node_->getTxLinkUp() & mask);
-//             setUIntDigitalParam(addr, function, *value, mask);  
-//         } 
-//         else if ((it = std::find(rxLinkUpValue_.begin(), rxLinkUpValue_.end(), function)) != rxLinkUpValue_.end())
-//         {
-//             *value = (epicsUInt32)(node_->getRxLinkUp(it - rxLinkUpValue_.begin()) & mask);
-//             setUIntDigitalParam(addr, function, *value, mask);  
-//         } 
-//         else if (function == mpsSlotValue_)
-//         {
-//             *value = (epicsUInt32)(node_->getMpsSlot() & mask);
-//             setUIntDigitalParam(addr, function, *value, mask);  
-//         } 
-//         else if (function == pllLockedValue_)
-//         {
-//             *value = (epicsUInt32)(node_->getPllLocked() & mask);
-//             setUIntDigitalParam(addr, function, *value, mask);  
-//         }
-//         else if (function == mpsLastMsgLclsValue_)
-//         {
-//             *value = (epicsUInt32)(node_->getLastMsgLcls() & mask);
-//             setUIntDigitalParam(addr, function, *value, mask);              
-//         }
-//         else
-//         {
-//             status = asynPortDriver::readUInt32Digital(pasynUser, value, mask);
-//         }
-//     }
-//     catch (CPSWError &e)
-//     {
-//         *value = 0;
-//         status = -1;
-//         asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s reading parameter %s: %s\n", functionName, name, e.getInfo().c_str());           
-//     }
-//     catch (std::runtime_error &e)
-//     {
-//         *value = 0;
-//         status = -1;
-//         asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s reading parameter %s: %s\n", functionName, name, e.what());
-//     }
-
-//     return (status == 0) ? asynSuccess : asynError;
-// }
 
 asynStatus L2MPS::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epicsUInt32 mask)
 {
@@ -1131,25 +872,6 @@ asynStatus L2MPS::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
 
     return (status == 0) ? asynSuccess : asynError;
 }
-
-// asynStatus  L2MPS::readOctet(asynUser *pasynUser, char *value, size_t maxChars, size_t *nActual, int *eomReason)
-// {
-//     int function = pasynUser->reason;
-//     int status=0;
-
-//     if (function == appTypeValue_)
-//     {
-//         std::string appT = node_->getAppType();
-//         strcpy(value, appT.c_str());
-//         *nActual = appT.length();
-//     }
-//     else
-//     {
-//         status = asynPortDriver::readOctet(pasynUser, value, maxChars, nActual, eomReason);
-//     }
-    
-//     return (status == 0) ? asynSuccess : asynError;
-// }
 
 // + L2MPSASYNConfig //
 extern "C" int L2MPSASYNConfig(const char *portName, const int appID, const char *recordPrefixMps, const char *recordPrefixBay0, const char *recordPrefixBay1, const char* mpsRoot)
