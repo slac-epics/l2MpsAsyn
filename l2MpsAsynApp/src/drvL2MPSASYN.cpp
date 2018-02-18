@@ -59,6 +59,42 @@ void L2MPS::updateMpsParametrs(mps_infoData_t info)
     setUIntDigitalParam(2, mpsInfoParams.mpsSlot,     info.mpsSlot,     0x1, 0x1 );
     setUIntDigitalParam(2, mpsInfoParams.pllLocked,   info.pllLocked,   0x1, 0x1 );
 
+    if (info.lastMsgByte.size() > 0)
+    {
+        try
+        {
+            std::vector<int>::iterator    paramIt = mpsInfoParams.lastMsgByte.begin();
+            std::vector<uint8_t>::iterator dataIt = info.lastMsgByte.begin();
+            while ((paramIt != mpsInfoParams.lastMsgByte.end()) && (dataIt != info.lastMsgByte.end()))
+                setIntegerParam(2, *paramIt++, *dataIt++);
+        }
+        catch(std::out_of_range& e) {}
+    }
+
+    if (info.rxLinkUpCnt.size() > 0)
+    {
+        try
+        {
+            std::vector<int>::iterator    paramIt = mpsInfoParams.rxLinkUpCnt.begin();
+            std::vector<uint32_t>::iterator dataIt = info.rxLinkUpCnt.begin();
+            while ((paramIt != mpsInfoParams.rxLinkUpCnt.end()) && (dataIt != info.rxLinkUpCnt.end()))
+                setIntegerParam(2, *paramIt++, *dataIt++);
+        }
+        catch(std::out_of_range& e) {}
+    }
+
+    if (info.rxPktRcvdCnt.size() > 0)
+    {
+        try
+        {
+            std::vector<int>::iterator    paramIt = mpsInfoParams.rxPktRcvdCnt.begin();
+            std::vector<uint32_t>::iterator dataIt = info.rxPktRcvdCnt.begin();
+            while ((paramIt != mpsInfoParams.rxPktRcvdCnt.end()) && (dataIt != info.rxPktRcvdCnt.end()))
+                setIntegerParam(2, *paramIt++, *dataIt++);
+        }
+        catch(std::out_of_range& e) {}
+    }
+
     callParamCallbacks(2);
 }
 
@@ -187,9 +223,6 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
 
         createParam(2, "ALT_DEST_MASK",   asynParamInt32,  &index);
         mpsInfoParams.altDestMask = index;
-         
-
-
 
         createParam(2, "MSG_CNT",   asynParamInt32,  &index);
         mpsInfoParams.msgCnt = index;
@@ -203,9 +236,18 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
         createParam(2, "LAST_MSG_TMSTMP",   asynParamInt32,  &index);
         mpsInfoParams.lastMsgTimestamp = index;
 
-// createParam(2, "LAST_MSG_BYTE",   asynParamInt32,  &index);
-// mpsInfoParams.lastMsgByte = index;
-
+        std::size_t lastMsgByteSize = node_->getLastMsgByteSize();
+        if (lastMsgByteSize > 0)
+        {
+            std::stringstream paramName;
+            for (std::size_t i {0}; i < lastMsgByteSize; ++i)
+            {
+                paramName.str("");
+                paramName << "LAST_MSG_BYTE_" << i;
+                createParam(2, paramName.str().c_str(),   asynParamInt32,  &index);
+                mpsInfoParams.lastMsgByte.push_back(index);
+            }
+        }
         createParam(2, "TX_LINK_UP",   asynParamUInt32Digital,  &index);
         mpsInfoParams.txLinkUp = index;
 
@@ -215,8 +257,18 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
         createParam(2, "RX_LINK_UP",   asynParamInt32,  &index);
         mpsInfoParams.rxLinkUp = index;
 
-// createParam(2, "RX_LINK_UP_CNT",   asynParamInt32,  &index);
-// mpsInfoParams.rxLinkUpCnt = index;
+        std::size_t rxLinkUpCntSize = node_->getRxLinkUpCntSize();
+        if (rxLinkUpCntSize > 0)
+        {
+            std::stringstream paramName;
+            for (std::size_t i {0}; i < rxLinkUpCntSize; ++i)
+            {
+                paramName.str("");
+                paramName << "RX_LINK_UP_CNT_" << i;
+                createParam(2, paramName.str().c_str(),   asynParamInt32,  &index);
+                mpsInfoParams.rxLinkUpCnt.push_back(index);
+            }
+        }
 
         createParam(2, "MPS_SLOT",   asynParamUInt32Digital,  &index);
         mpsInfoParams.mpsSlot = index;
@@ -239,8 +291,18 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
         createParam(2, "SALT_RST_PLL",   asynParamUInt32Digital,  &index);
         mpsInfoParams.rstPll = index;
 
-// createParam(2, "RX_PKT_RCV_CNT",   asynParamInt32,  &index);
-// mpsInfoParams.rxPktRcvdCnt = index;
+        std::size_t rxPktRcvdCntSize = node_->getRxPktRcvdCntSize();
+        if (rxPktRcvdCntSize > 0)
+        {
+            std::stringstream paramName;
+            for (std::size_t i {0}; i < rxPktRcvdCntSize; ++i)
+            {
+                paramName.str("");
+                paramName << "RX_PKT_RCV_CNT_" << i;
+                createParam(2, paramName.str().c_str(),   asynParamInt32,  &index);
+                mpsInfoParams.rxPktRcvdCnt.push_back(index);
+            }
+        }
 
         // createParam(appIdString,            asynParamInt32,         &appIdValue_)       ;
         // createParam(byteCountString,        asynParamInt32,         &byteCountValue_    );

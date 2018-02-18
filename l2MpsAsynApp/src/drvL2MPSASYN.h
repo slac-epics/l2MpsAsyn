@@ -2,6 +2,7 @@
 #include <string.h>
 #include <fstream>
 #include <boost/any.hpp>
+#include <vector>
 #include "asynPortDriver.h"
 
 #include <cpsw_api_builder.h>
@@ -105,18 +106,18 @@ struct mps_infoParam_t
     int lastMsgAppId;
     int lastMsgLcls;
     int lastMsgTimestamp;
-    // int *lastMsgByte;
- 
+    std::vector<int> lastMsgByte;
+
     int txLinkUp;
     int txLinkUpCnt;
     int rxLinkUp;
-    // int *rxLinkUpCnt;
+    std::vector<int> rxLinkUpCnt;
     int mpsSlot;
     int appType;
     int pllLocked;
     int rollOverEn;
     int txPktSentCnt;
-    // int *rxPktRcvdCnt;
+    std::vector<int> rxPktRcvdCnt;
 
     int rstCnt;
     int rstPll;
