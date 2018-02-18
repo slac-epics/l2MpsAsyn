@@ -197,28 +197,21 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
 
         // Create parameters fpor the MPS node
         int index;
+
+        // Integer variables
         createParam(2, "APP_ID",   asynParamInt32,  &index);
         mpsInfoParams.appId = index;
 
         createParam(2, "MPS_VER",   asynParamInt32,  &index);
         mpsInfoParams.version = index;
 
-        createParam(2, "MPS_EN",   asynParamUInt32Digital,  &index);
-        mpsInfoParams.enable = index;
-
-        createParam(2, "LCLS1_MODE",   asynParamUInt32Digital,  &index);
-        mpsInfoParams.lcls1Mode = index;
-
         createParam(2, "BYTE_COUNT",   asynParamInt32,  &index);
         mpsInfoParams.byteCount = index;
 
-        createParam(2, "DIGITAL_EN",   asynParamUInt32Digital,  &index);
-        mpsInfoParams.digitalEn = index;
-
-        createParam(2, "BEAM_DEST_MASK",   asynParamInt32,  &index);
+        createParam(2, "BEAM_DEST_MASK", asynParamInt32,  &index);
         mpsInfoParams.beamDestMask = index;
 
-        createParam(2, "ALT_DEST_MASK",   asynParamInt32,  &index);
+        createParam(2, "ALT_DEST_MASK",  asynParamInt32,  &index);
         mpsInfoParams.altDestMask = index;
 
         createParam(2, "MSG_CNT",   asynParamInt32,  &index);
@@ -227,12 +220,55 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
         createParam(2, "LAST_MSG_APPID",   asynParamInt32,  &index);
         mpsInfoParams.lastMsgAppId = index;
 
-        createParam(2, "LAST_MSG_LCLS",   asynParamUInt32Digital,  &index);
-        mpsInfoParams.lastMsgLcls = index;
-
         createParam(2, "LAST_MSG_TMSTMP",   asynParamInt32,  &index);
         mpsInfoParams.lastMsgTimestamp = index;
 
+        createParam(2, "TX_LINK_UP_CNT",   asynParamInt32,  &index);
+        mpsInfoParams.txLinkUpCnt = index;
+
+        createParam(2, "RX_LINK_UP",   asynParamInt32,  &index);
+        mpsInfoParams.rxLinkUp = index;
+
+        createParam(2, "ROLL_OVER_EN",   asynParamInt32,  &index);
+        mpsInfoParams.rollOverEn = index; 
+
+        createParam(2, "TX_PKT_SENT_CNT",   asynParamInt32,  &index);
+        mpsInfoParams.txPktSentCnt = index;
+
+        // String variables
+        createParam(2, "APP_TYPE",   asynParamOctet,  &index);
+        mpsInfoParams.appType = index;
+
+        // Digital variables
+        createParam(2, "MPS_EN",   asynParamUInt32Digital,  &index);
+        mpsInfoParams.enable = index;
+
+        createParam(2, "LCLS1_MODE",   asynParamUInt32Digital,  &index);
+        mpsInfoParams.lcls1Mode = index;
+
+        createParam(2, "DIGITAL_EN",   asynParamUInt32Digital,  &index);
+        mpsInfoParams.digitalEn = index;
+
+        createParam(2, "LAST_MSG_LCLS",   asynParamUInt32Digital,  &index);
+        mpsInfoParams.lastMsgLcls = index;
+        
+        createParam(2, "TX_LINK_UP",   asynParamUInt32Digital,  &index);
+        mpsInfoParams.txLinkUp = index;
+        
+        createParam(2, "MPS_SLOT",   asynParamUInt32Digital,  &index);
+        mpsInfoParams.mpsSlot = index;
+
+        createParam(2, "PLL_LOCKED",   asynParamUInt32Digital,  &index);
+        mpsInfoParams.pllLocked = index;
+
+        createParam(2, "SALT_RST_CNT",   asynParamUInt32Digital,  &index);
+        mpsInfoParams.rstCnt = index;
+
+        createParam(2, "SALT_RST_PLL",   asynParamUInt32Digital,  &index);
+        mpsInfoParams.rstPll = index;
+
+
+        // Vector of integer variables
         std::size_t lastMsgByteSize = node_->getLastMsgByteSize();
         if (lastMsgByteSize > 0)
         {
@@ -245,14 +281,6 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
                 mpsInfoParams.lastMsgByte.push_back(index);
             }
         }
-        createParam(2, "TX_LINK_UP",   asynParamUInt32Digital,  &index);
-        mpsInfoParams.txLinkUp = index;
-
-        createParam(2, "TX_LINK_UP_CNT",   asynParamInt32,  &index);
-        mpsInfoParams.txLinkUpCnt = index;
-
-        createParam(2, "RX_LINK_UP",   asynParamInt32,  &index);
-        mpsInfoParams.rxLinkUp = index;
 
         std::size_t rxLinkUpCntSize = node_->getRxLinkUpCntSize();
         if (rxLinkUpCntSize > 0)
@@ -266,27 +294,6 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
                 mpsInfoParams.rxLinkUpCnt.push_back(index);
             }
         }
-
-        createParam(2, "MPS_SLOT",   asynParamUInt32Digital,  &index);
-        mpsInfoParams.mpsSlot = index;
-
-        createParam(2, "APP_TYPE",   asynParamOctet,  &index);
-        mpsInfoParams.appType = index;
-
-        createParam(2, "PLL_LOCKED",   asynParamUInt32Digital,  &index);
-        mpsInfoParams.pllLocked = index;
-
-        createParam(2, "ROLL_OVER_EN",   asynParamInt32,  &index);
-        mpsInfoParams.rollOverEn = index; 
-
-        createParam(2, "TX_PKT_SENT_CNT",   asynParamInt32,  &index);
-        mpsInfoParams.txPktSentCnt = index;
-
-        createParam(2, "SALT_RST_CNT",   asynParamUInt32Digital,  &index);
-        mpsInfoParams.rstCnt = index;
-
-        createParam(2, "SALT_RST_PLL",   asynParamUInt32Digital,  &index);
-        mpsInfoParams.rstPll = index;
 
         std::size_t rxPktRcvdCntSize = node_->getRxPktRcvdCntSize();
         if (rxPktRcvdCntSize > 0)
@@ -371,28 +378,28 @@ void L2MPS::InitBpmMaps(const int bay)
     {
             bpm_channel_t thisBpmCh = i;
 
-            thr_paramMap_t thrParamMap;
+            thr_param_t thrParam;
 
             pName.str("");
             pName << "_" << bay << i;
 
             createParam(bay, ("BPM_THRNUM" + pName.str()).c_str(), asynParamInt32, &index);
-            thrParamMap.info.ch = index;
+            thrParam.info.ch = index;
 
             createParam(bay, ("BPM_THRCNT" + pName.str()).c_str(), asynParamInt32, &index);
-            thrParamMap.info.count = index;
+            thrParam.info.count = index;
 
             createParam(bay, ("BPM_BYTEMAP" + pName.str()).c_str(), asynParamInt32, &index);
-            thrParamMap.info.byteMap = index;
+            thrParam.info.byteMap = index;
 
             createParam(bay, ("BPM_IDLEEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
-            thrParamMap.info.idleEn = index;
+            thrParam.info.idleEn = index;
 
             createParam(bay, ("BPM_ALTEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
-            thrParamMap.info.altEn = index;
+            thrParam.info.altEn = index;
 
             createParam(bay, ("BPM_LCLS1EN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
-            thrParamMap.info.lcls1En = index;
+            thrParam.info.lcls1En = index;
 
             createParam(bay, ("BPM_SCALE" + pName.str()).c_str(), asynParamInt32, &index);
             fMapBpmWScale.insert( std::make_pair( index, std::make_pair( &IMpsBpm::setScaleFactor, thisBpmCh ) ) );
@@ -430,8 +437,8 @@ void L2MPS::InitBpmMaps(const int bay)
                     thrChParamMap.insert(std::make_pair(tt, tp));
                 }
             }
-            thrParamMap.data = thrChParamMap;
-            _paramMap.insert(std::make_pair( thisBpmCh, thrParamMap ));
+            thrParam.data = thrChParamMap;
+            _paramMap.insert(std::make_pair( thisBpmCh, thrParam ));
     }
 
     std::stringstream bpmDbParams;
@@ -451,28 +458,28 @@ void L2MPS::InitBlenMaps(const int bay)
     {
             blen_channel_t thisBlenCh = i;
 
-            thr_paramMap_t thrParamMap;
+            thr_param_t thrParam;
 
             pName.str("");
             pName << "_" << bay << i;
 
             createParam(bay, ("BLEN_THRNUM" + pName.str()).c_str(), asynParamInt32, &index);
-            thrParamMap.info.ch = index;
+            thrParam.info.ch = index;
 
             createParam(bay, ("BLEN_THRCNT" + pName.str()).c_str(), asynParamInt32, &index);
-            thrParamMap.info.count = index;
+            thrParam.info.count = index;
 
             createParam(bay, ("BLEN_BYTEMAP" + pName.str()).c_str(), asynParamInt32, &index);
-            thrParamMap.info.byteMap = index;
+            thrParam.info.byteMap = index;
 
             createParam(bay, ("BLEN_IDLEEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
-            thrParamMap.info.idleEn = index;
+            thrParam.info.idleEn = index;
 
             createParam(bay, ("BLEN_ALTEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
-            thrParamMap.info.altEn = index;
+            thrParam.info.altEn = index;
 
             createParam(bay, ("BLEN_LCLS1EN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
-            thrParamMap.info.lcls1En = index;
+            thrParam.info.lcls1En = index;
 
             createParam(bay, ("BLEN_SCALE" + pName.str()).c_str(), asynParamInt32, &index);
             fMapBlenWScale.insert( std::make_pair( index, std::make_pair( &IMpsBlen::setScaleFactor, thisBlenCh ) ) );
@@ -510,8 +517,8 @@ void L2MPS::InitBlenMaps(const int bay)
                     thrChParamMap.insert(std::make_pair(tt, tp));
                 }
             }
-            thrParamMap.data = thrChParamMap;
-            _paramMap.insert(std::make_pair( thisBlenCh, thrParamMap ));
+            thrParam.data = thrChParamMap;
+            _paramMap.insert(std::make_pair( thisBlenCh, thrParam ));
     }
 
     std::stringstream blenDbParams;
@@ -531,28 +538,28 @@ void L2MPS::InitBcmMaps(const int bay)
     {
             bcm_channel_t thisBcmCh = i;
 
-            thr_paramMap_t thrParamMap;
+            thr_param_t thrParam;
 
             pName.str("");
             pName << "_" << bay << i;
 
             createParam(bay, ("BCM_THRNUM" + pName.str()).c_str(), asynParamInt32, &index);
-            thrParamMap.info.ch = index;
+            thrParam.info.ch = index;
 
             createParam(bay, ("BCM_THRCNT" + pName.str()).c_str(), asynParamInt32, &index);
-            thrParamMap.info.count = index;
+            thrParam.info.count = index;
 
             createParam(bay, ("BCM_BYTEMAP" + pName.str()).c_str(), asynParamInt32, &index);
-            thrParamMap.info.byteMap = index;
+            thrParam.info.byteMap = index;
 
             createParam(bay, ("BCM_IDLEEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
-            thrParamMap.info.idleEn = index;
+            thrParam.info.idleEn = index;
 
             createParam(bay, ("BCM_ALTEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
-            thrParamMap.info.altEn = index;
+            thrParam.info.altEn = index;
 
             createParam(bay, ("BCM_LCLS1EN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
-            thrParamMap.info.lcls1En = index;
+            thrParam.info.lcls1En = index;
 
             createParam(bay, ("BCM_SCALE" + pName.str()).c_str(), asynParamInt32, &index);
             fMapBcmWScale.insert( std::make_pair( index, std::make_pair( &IMpsBcm::setScaleFactor, thisBcmCh ) ) );
@@ -590,8 +597,8 @@ void L2MPS::InitBcmMaps(const int bay)
                     thrChParamMap.insert(std::make_pair(tt, tp));
                 }
             }
-            thrParamMap.data = thrChParamMap;
-            _paramMap.insert(std::make_pair( thisBcmCh, thrParamMap ));
+            thrParam.data = thrChParamMap;
+            _paramMap.insert(std::make_pair( thisBcmCh, thrParam ));
     }
 
     std::stringstream bcmDbParams;
@@ -614,28 +621,28 @@ void L2MPS::InitBlmMaps(const int bay)
         {
             blm_channel_t thisBlmCh = blm_channel_t{{i, j}};
 
-            thr_paramMap_t thrParamMap;
+            thr_param_t thrParam;
 
             pName.str("");
             pName << "_" << bay << i << j;
 
             createParam(bay, ("BLM_THRNUM" + pName.str()).c_str(), asynParamInt32, &index);
-            thrParamMap.info.ch = index;
+            thrParam.info.ch = index;
 
             createParam(bay, ("BLM_THRCNT" + pName.str()).c_str(), asynParamInt32, &index);
-            thrParamMap.info.count = index;
+            thrParam.info.count = index;
 
             createParam(bay, ("BLM_BYTEMAP" + pName.str()).c_str(), asynParamInt32, &index);
-            thrParamMap.info.byteMap = index;
+            thrParam.info.byteMap = index;
 
             createParam(bay, ("BLM_IDLEEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
-            thrParamMap.info.idleEn = index;
+            thrParam.info.idleEn = index;
 
             createParam(bay, ("BLM_ALTEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
-            thrParamMap.info.altEn = index;
+            thrParam.info.altEn = index;
 
             createParam(bay, ("BLM_LCLS1EN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
-            thrParamMap.info.lcls1En = index;
+            thrParam.info.lcls1En = index;
 
             createParam(bay, ("BLM_SCALE" + pName.str()).c_str(), asynParamInt32, &index);
             fMapBlmWScale.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setScaleFactor, thisBlmCh ) ) );
@@ -673,8 +680,8 @@ void L2MPS::InitBlmMaps(const int bay)
                         thrChParamMap.insert(std::make_pair(tt, tp));
                     }
             }
-            thrParamMap.data = thrChParamMap;
-            _paramMap.insert(std::make_pair( thisBlmCh, thrParamMap ));
+            thrParam.data = thrChParamMap;
+            _paramMap.insert(std::make_pair( thisBlmCh, thrParam ));
         }
     }
 

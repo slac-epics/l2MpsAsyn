@@ -65,6 +65,7 @@ typedef std::map<int, std::pair<BlmW32_t, blmThr_channel_t>> blm_fmap_w32_t;
 typedef std::map<int, std::pair<BlmW1_t,  blmThr_channel_t>> blm_fmap_w1_t;
 typedef std::map<int, std::pair<blm_setScale_func_t, blm_channel_t>> blm_scaleFuncMap_t;
 
+// MPS base parameter data type
 struct mps_infoParam_t
 {
     int appId;
@@ -96,6 +97,7 @@ struct mps_infoParam_t
     int rstPll;
 };
 
+// Threshold table parameters data type
 struct thr_tableParam_t
 {
     int minEn;
@@ -104,6 +106,7 @@ struct thr_tableParam_t
     int max;
 };
 
+// Threshold table parameter map data type
 typedef std::map<thr_table_t, thr_tableParam_t> thr_chParam_t;
 
 struct thr_chInfoParam_t
@@ -116,13 +119,14 @@ struct thr_chInfoParam_t
     int  lcls1En;
 };
 
-struct  thr_paramMap_t
+// Threhold parameter (information + table data) data type
+struct  thr_param_t
 {
     thr_chInfoParam_t info;
     thr_chParam_t     data;  
 };
 
-// Paramater map data type
+// Application paramater map data type
 struct cmp {
     bool operator()(const boost::any& l, const boost::any& r) 
     {
@@ -170,7 +174,7 @@ struct cmp {
         return false;
     }
 };
-typedef std::map<boost::any, thr_paramMap_t, cmp> paramMap_t;
+typedef std::map<boost::any, thr_param_t, cmp> paramMap_t;
 
 
 class L2MPS : public asynPortDriver {
@@ -222,9 +226,11 @@ class L2MPS : public asynPortDriver {
         blm_fmap_w1_t       fMapBlmW1;
         blm_scaleFuncMap_t  fMapBlmWScale;
 
+        // MPS base parameters
         mps_infoParam_t     mpsInfoParams;
 
-        paramMap_t _paramMap;
+        // Application parameters
+        paramMap_t          _paramMap;
 
         // BPM application init 
         void InitBpmMaps(const int bay);
