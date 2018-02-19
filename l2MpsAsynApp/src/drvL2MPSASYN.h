@@ -23,6 +23,11 @@
 // Number of AMC bays on a carrier
 const uint8_t numberOfBays = 2;
 
+// Asyn parameter list numbers
+const int paramListAppBay0 = 0; // Bay 0 application
+const int paramListAppBay1 = 1; // Bay 1 application
+const int paramListMpsBase = 2; // MPS base
+
 // Number of RX Links
 const std::size_t numberOfRxLinks = 14;
 
@@ -123,12 +128,12 @@ struct thr_chInfoParam_t
 struct  thr_param_t
 {
     thr_chInfoParam_t info;
-    thr_chParam_t     data;  
+    thr_chParam_t     data;
 };
 
 // Application paramater map data type
 struct cmp {
-    bool operator()(const boost::any& l, const boost::any& r) 
+    bool operator()(const boost::any& l, const boost::any& r)
     {
         try
         {
@@ -168,7 +173,7 @@ struct cmp {
         }
         catch(const boost::bad_any_cast &)
         {
-        }        
+        }
 
         std::cout << "paramMap_t error: not comparison found!" << std::endl;
         return false;
@@ -232,7 +237,7 @@ class L2MPS : public asynPortDriver {
         // Application parameters
         paramMap_t          _paramMap;
 
-        // BPM application init 
+        // BPM application init
         void InitBpmMaps(const int bay);
         void InitBlenMaps(const int bay);
         void InitBcmMaps(const int bay);

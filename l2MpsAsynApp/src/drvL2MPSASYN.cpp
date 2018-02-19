@@ -36,28 +36,28 @@ L2MPS *pL2MPS;
 // MPS base info callback function
 void L2MPS::updateMpsParametrs(mps_infoData_t info)
 {
-    setIntegerParam(2, mpsInfoParams.appId,            info.appId            );
-    setIntegerParam(2, mpsInfoParams.version,          info.version          );
-    setIntegerParam(2, mpsInfoParams.byteCount,        info.byteCount        );
-    setIntegerParam(2, mpsInfoParams.beamDestMask,     info.beamDestMask     );
-    setIntegerParam(2, mpsInfoParams.altDestMask,      info.altDestMask      );
-    setIntegerParam(2, mpsInfoParams.msgCnt,           info.msgCnt           );
-    setIntegerParam(2, mpsInfoParams.lastMsgAppId,     info.lastMsgAppId     );
-    setIntegerParam(2, mpsInfoParams.lastMsgTimestamp, info.lastMsgTimestamp );
-    setIntegerParam(2, mpsInfoParams.txLinkUpCnt,      info.txLinkUpCnt      );
-    setIntegerParam(2, mpsInfoParams.rxLinkUp,         info.rxLinkUp         );    
-    setIntegerParam(2, mpsInfoParams.rollOverEn,       info.rollOverEn       );
-    setIntegerParam(2, mpsInfoParams.txPktSentCnt,     info.txPktSentCnt     );
+    setIntegerParam(paramListMpsBase, mpsInfoParams.appId,            info.appId            );
+    setIntegerParam(paramListMpsBase, mpsInfoParams.version,          info.version          );
+    setIntegerParam(paramListMpsBase, mpsInfoParams.byteCount,        info.byteCount        );
+    setIntegerParam(paramListMpsBase, mpsInfoParams.beamDestMask,     info.beamDestMask     );
+    setIntegerParam(paramListMpsBase, mpsInfoParams.altDestMask,      info.altDestMask      );
+    setIntegerParam(paramListMpsBase, mpsInfoParams.msgCnt,           info.msgCnt           );
+    setIntegerParam(paramListMpsBase, mpsInfoParams.lastMsgAppId,     info.lastMsgAppId     );
+    setIntegerParam(paramListMpsBase, mpsInfoParams.lastMsgTimestamp, info.lastMsgTimestamp );
+    setIntegerParam(paramListMpsBase, mpsInfoParams.txLinkUpCnt,      info.txLinkUpCnt      );
+    setIntegerParam(paramListMpsBase, mpsInfoParams.rxLinkUp,         info.rxLinkUp         );
+    setIntegerParam(paramListMpsBase, mpsInfoParams.rollOverEn,       info.rollOverEn       );
+    setIntegerParam(paramListMpsBase, mpsInfoParams.txPktSentCnt,     info.txPktSentCnt     );
 
-    setStringParam(2, mpsInfoParams.appType, info.appType.c_str());
+    setStringParam(paramListMpsBase, mpsInfoParams.appType, info.appType.c_str());
 
-    setUIntDigitalParam(2, mpsInfoParams.enable,      info.enable,      0x1, 0x1 );
-    setUIntDigitalParam(2, mpsInfoParams.lcls1Mode,   info.lcls1Mode,   0x1, 0x1 );
-    setUIntDigitalParam(2, mpsInfoParams.digitalEn,   info.digitalEn,   0x1, 0x1 );
-    setUIntDigitalParam(2, mpsInfoParams.lastMsgLcls, info.lastMsgLcls, 0x1, 0x1 );
-    setUIntDigitalParam(2, mpsInfoParams.txLinkUp,    info.txLinkUp,    0x1, 0x1 );
-    setUIntDigitalParam(2, mpsInfoParams.mpsSlot,     info.mpsSlot,     0x1, 0x1 );
-    setUIntDigitalParam(2, mpsInfoParams.pllLocked,   info.pllLocked,   0x1, 0x1 );
+    setUIntDigitalParam(paramListMpsBase, mpsInfoParams.enable,      info.enable,      0x1, 0x1 );
+    setUIntDigitalParam(paramListMpsBase, mpsInfoParams.lcls1Mode,   info.lcls1Mode,   0x1, 0x1 );
+    setUIntDigitalParam(paramListMpsBase, mpsInfoParams.digitalEn,   info.digitalEn,   0x1, 0x1 );
+    setUIntDigitalParam(paramListMpsBase, mpsInfoParams.lastMsgLcls, info.lastMsgLcls, 0x1, 0x1 );
+    setUIntDigitalParam(paramListMpsBase, mpsInfoParams.txLinkUp,    info.txLinkUp,    0x1, 0x1 );
+    setUIntDigitalParam(paramListMpsBase, mpsInfoParams.mpsSlot,     info.mpsSlot,     0x1, 0x1 );
+    setUIntDigitalParam(paramListMpsBase, mpsInfoParams.pllLocked,   info.pllLocked,   0x1, 0x1 );
 
     if (info.lastMsgByte.size() > 0)
     {
@@ -66,7 +66,7 @@ void L2MPS::updateMpsParametrs(mps_infoData_t info)
             std::vector<int>::iterator    paramIt = mpsInfoParams.lastMsgByte.begin();
             std::vector<uint8_t>::iterator dataIt = info.lastMsgByte.begin();
             while ((paramIt != mpsInfoParams.lastMsgByte.end()) && (dataIt != info.lastMsgByte.end()))
-                setIntegerParam(2, *paramIt++, *dataIt++);
+                setIntegerParam(paramListMpsBase, *paramIt++, *dataIt++);
         }
         catch(std::out_of_range& e) {}
     }
@@ -78,7 +78,7 @@ void L2MPS::updateMpsParametrs(mps_infoData_t info)
             std::vector<int>::iterator    paramIt = mpsInfoParams.rxLinkUpCnt.begin();
             std::vector<uint32_t>::iterator dataIt = info.rxLinkUpCnt.begin();
             while ((paramIt != mpsInfoParams.rxLinkUpCnt.end()) && (dataIt != info.rxLinkUpCnt.end()))
-                setIntegerParam(2, *paramIt++, *dataIt++);
+                setIntegerParam(paramListMpsBase, *paramIt++, *dataIt++);
         }
         catch(std::out_of_range& e) {}
     }
@@ -90,12 +90,12 @@ void L2MPS::updateMpsParametrs(mps_infoData_t info)
             std::vector<int>::iterator    paramIt = mpsInfoParams.rxPktRcvdCnt.begin();
             std::vector<uint32_t>::iterator dataIt = info.rxPktRcvdCnt.begin();
             while ((paramIt != mpsInfoParams.rxPktRcvdCnt.end()) && (dataIt != info.rxPktRcvdCnt.end()))
-                setIntegerParam(2, *paramIt++, *dataIt++);
+                setIntegerParam(paramListMpsBase, *paramIt++, *dataIt++);
         }
         catch(std::out_of_range& e) {}
     }
 
-    callParamCallbacks(2);
+    callParamCallbacks(paramListMpsBase);
 }
 
 void L2MPS::setMpsCallback(mps_infoData_t info)
@@ -114,13 +114,13 @@ void L2MPS::updateAppParameters(int bay, T data)
         paramMap_t::iterator paramIt = _paramMap.find(dataIt->first);
 
         if (paramIt != _paramMap.end())
-        {   
+        {
             thr_chInfoData_t  infoData  = (dataIt->second).info;
             thr_chInfoParam_t infoParam = (paramIt->second).info;
 
-            setIntegerParam(    bay,    infoParam.ch,       infoData.ch      );    
-            setIntegerParam(    bay,    infoParam.count,    infoData.count   );    
-            setIntegerParam(    bay,    infoParam.byteMap,  infoData.byteMap );    
+            setIntegerParam(    bay,    infoParam.ch,       infoData.ch      );
+            setIntegerParam(    bay,    infoParam.count,    infoData.count   );
+            setIntegerParam(    bay,    infoParam.byteMap,  infoData.byteMap );
             setUIntDigitalParam(bay,    infoParam.idleEn,   infoData.idleEn,   0xFFFFFFFF, 0x1   );
             setUIntDigitalParam(bay,    infoParam.altEn,    infoData.altEn,    0xFFFFFFFF, 0x1   );
             setUIntDigitalParam(bay,    infoParam.lcls1En,  infoData.lcls1En,  0xFFFFFFFF, 0x1   );
@@ -141,7 +141,7 @@ void L2MPS::updateAppParameters(int bay, T data)
                     thr_tableParam_t    param_param = param_thrIt->second;
 
                     setUIntDigitalParam(bay, param_param.minEn, data_data.minEn, 0xFFFFFFFF, 0x1);
-                    setUIntDigitalParam(bay, param_param.maxEn, data_data.maxEn, 0xFFFFFFFF, 0x1); 
+                    setUIntDigitalParam(bay, param_param.maxEn, data_data.maxEn, 0xFFFFFFFF, 0x1);
                     setDoubleParam(bay, param_param.min, data_data.min);
                     setDoubleParam(bay, param_param.max, data_data.max);
                 }
@@ -149,7 +149,7 @@ void L2MPS::updateAppParameters(int bay, T data)
 
             callParamCallbacks(bay);
         }
-    } 
+    }
 }
 
 template<typename T>
@@ -230,7 +230,7 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
         mpsInfoParams.rxLinkUp = index;
 
         createParam(2, "ROLL_OVER_EN",   asynParamInt32,  &index);
-        mpsInfoParams.rollOverEn = index; 
+        mpsInfoParams.rollOverEn = index;
 
         createParam(2, "TX_PKT_SENT_CNT",   asynParamInt32,  &index);
         mpsInfoParams.txPktSentCnt = index;
@@ -251,10 +251,10 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
 
         createParam(2, "LAST_MSG_LCLS",   asynParamUInt32Digital,  &index);
         mpsInfoParams.lastMsgLcls = index;
-        
+
         createParam(2, "TX_LINK_UP",   asynParamUInt32Digital,  &index);
         mpsInfoParams.txLinkUp = index;
-        
+
         createParam(2, "MPS_SLOT",   asynParamUInt32Digital,  &index);
         mpsInfoParams.mpsSlot = index;
 
@@ -323,12 +323,12 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
                 else if (!appType_.compare("BLEN"))
                 {
                     amc[i] = MpsBlenFactory::create(mpsRoot, i);
-                    InitBlenMaps(i);                    
+                    InitBlenMaps(i);
                 }
                 else if (!appType_.compare("BCM"))
                 {
                     amc[i] = MpsBcmFactory::create(mpsRoot, i);
-                    InitBcmMaps(i);                    
+                    InitBcmMaps(i);
                 }
                 else if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_6CH")) | (!appType_.compare("MPS_24CH")))
                 {
@@ -409,7 +409,7 @@ void L2MPS::InitBpmMaps(const int bay)
             {
                 for (int n = 0; n < numThrCounts[k]; ++n)
                 {
-                    thr_table_t thisThrTable = thr_table_t{{k,n }};               
+                    thr_table_t thisThrTable = thr_table_t{{k,n }};
                     bpmThr_channel_t args = {thisBpmCh, thisThrTable};
 
                     thr_tableParam_t tp;
@@ -446,7 +446,7 @@ void L2MPS::InitBpmMaps(const int bay)
     bpmDbParams << "P=" << std::string(recordPrefixBay_[bay]);
     bpmDbParams << ",PORT=" << std::string(portName_);
     bpmDbParams << ",BAY=" << bay;
-    dbLoadRecords("db/bpm.db", bpmDbParams.str().c_str());    
+    dbLoadRecords("db/bpm.db", bpmDbParams.str().c_str());
 }
 
 void L2MPS::InitBlenMaps(const int bay)
@@ -489,7 +489,7 @@ void L2MPS::InitBlenMaps(const int bay)
             {
                 for (int n = 0; n < numThrCounts[k]; ++n)
                 {
-                    thr_table_t thisThrTable = thr_table_t{{k,n }};               
+                    thr_table_t thisThrTable = thr_table_t{{k,n }};
                     blenThr_channel_t args = {thisBlenCh, thisThrTable};
 
                     thr_tableParam_t tp;
@@ -569,7 +569,7 @@ void L2MPS::InitBcmMaps(const int bay)
             {
                 for (int n = 0; n < numThrCounts[k]; ++n)
                 {
-                    thr_table_t thisThrTable = thr_table_t{{k,n }};               
+                    thr_table_t thisThrTable = thr_table_t{{k,n }};
                     bcmThr_channel_t args = {thisBcmCh, thisThrTable};
 
                     thr_tableParam_t tp;
@@ -652,7 +652,7 @@ void L2MPS::InitBlmMaps(const int bay)
             {
                     for (int n = 0; n < numThrCounts[k]; ++n)
                     {
-                        thr_table_t thisThrTable = thr_table_t{{k,n }};               
+                        thr_table_t thisThrTable = thr_table_t{{k,n }};
                         blmThr_channel_t args = {thisBlmCh, thisThrTable};
 
                         thr_tableParam_t tp;
@@ -708,31 +708,38 @@ asynStatus L2MPS::writeInt32(asynUser *pasynUser, epicsInt32 value)
 
     getParamName(addr, function, &name);
 
-    try
+    if (addr == paramListMpsBase)
     {
-        // // MPS node parameters
-        if (function == mpsInfoParams.beamDestMask)
-        {
-            node_->setBeamDestMask(value);
-        }
-        else if (function == mpsInfoParams.altDestMask)
-        {      
-            node_->setAltDestMask(value);
-        }
-        else
-        {
-            status == asynPortDriver::writeInt32(pasynUser, value);
-        }
+      try
+      {
+          // // MPS node parameters
+          if (function == mpsInfoParams.beamDestMask)
+          {
+              node_->setBeamDestMask(value);
+          }
+          else if (function == mpsInfoParams.altDestMask)
+          {
+              node_->setAltDestMask(value);
+          }
+          else
+          {
+              status == asynPortDriver::writeInt32(pasynUser, value);
+          }
+      }
+      catch (CPSWError &e)
+      {
+          status = -1;
+          asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writting parameter %s: %s\n", functionName, name, e.getInfo().c_str());
+      }
+      catch (std::runtime_error &e)
+      {
+          status = -1;
+          asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writting parameter %s: %s\n", functionName, name, e.what());
+      }
     }
-    catch (CPSWError &e)
+    else
     {
-        status = -1;
-        asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writting parameter %s: %s\n", functionName, name, e.getInfo().c_str());
-    }  
-    catch (std::runtime_error &e)
-    {
-        status = -1;
-        asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writting parameter %s: %s\n", functionName, name, e.what());
+      status == asynPortDriver::writeInt32(pasynUser, value);
     }
 
     return (status == 0) ? asynSuccess : asynError;
@@ -751,35 +758,12 @@ asynStatus L2MPS::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epi
 
     static const char *functionName = "writeUInt32Digital";
 
-    try
+    // MPS node parameters
+    if (addr == paramListMpsBase)
     {
-        bpm_fmap_w1_t::iterator bpm_it;
-        blen_fmap_w1_t::iterator blen_it;
-        bcm_fmap_w1_t::iterator bcm_it;
-        blm_fmap_w1_t::iterator blm_it;
-
-        // BPM parameters        
-        if ((bpm_it = fMapBpmW1.find(function)) != fMapBpmW1.end())
-        {
-            ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second, (value & mask));
-        }
-        // BLEN parameters        
-        else if ((blen_it = fMapBlenW1.find(function)) != fMapBlenW1.end())
-        {
-            ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_it->second.first))(blen_it->second.second, (value & mask));
-        }
-        // BCM parameters        
-        else if ((bcm_it = fMapBcmW1.find(function)) != fMapBcmW1.end())
-        {
-            ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_it->second.first))(bcm_it->second.second, (value & mask));
-        }
-        // BLM parameters        
-        else if ((blm_it = fMapBlmW1.find(function)) != fMapBlmW1.end())
-        {
-            ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second, (value & mask));
-        }
-        // MPS node parameters        
-        else if(function == mpsInfoParams.enable)
+      try
+      {
+        if(function == mpsInfoParams.enable)
         {
             node_->setEnable(value & mask);
         }
@@ -799,17 +783,68 @@ asynStatus L2MPS::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epi
         {
             status = asynPortDriver::writeUInt32Digital(pasynUser, value, mask);
         }
+      }
+      catch (CPSWError &e)
+      {
+          status = -1;
+          asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writting parameter %s: %s\n", functionName, name, e.getInfo().c_str());
+      }
+      catch (std::runtime_error &e)
+      {
+          status = -1;
+          asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writting parameter %s: %s\n", functionName, name, e.what());
+      }
     }
-    catch (CPSWError &e)
+    else if ((addr == paramListAppBay0) or (addr == paramListAppBay1))
     {
-        status = -1;
-        asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writting parameter %s: %s\n", functionName, name, e.getInfo().c_str());           
+      try
+      {
+          bpm_fmap_w1_t::iterator bpm_it;
+          blen_fmap_w1_t::iterator blen_it;
+          bcm_fmap_w1_t::iterator bcm_it;
+          blm_fmap_w1_t::iterator blm_it;
+
+          // BPM parameters
+          if ((bpm_it = fMapBpmW1.find(function)) != fMapBpmW1.end())
+          {
+              ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second, (value & mask));
+          }
+          // BLEN parameters
+          else if ((blen_it = fMapBlenW1.find(function)) != fMapBlenW1.end())
+          {
+              ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_it->second.first))(blen_it->second.second, (value & mask));
+          }
+          // BCM parameters
+          else if ((bcm_it = fMapBcmW1.find(function)) != fMapBcmW1.end())
+          {
+              ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_it->second.first))(bcm_it->second.second, (value & mask));
+          }
+          // BLM parameters
+          else if ((blm_it = fMapBlmW1.find(function)) != fMapBlmW1.end())
+          {
+              ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second, (value & mask));
+          }
+          else
+          {
+              status = asynPortDriver::writeUInt32Digital(pasynUser, value, mask);
+          }
+      }
+      catch (CPSWError &e)
+      {
+          status = -1;
+          asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writting parameter %s: %s\n", functionName, name, e.getInfo().c_str());
+      }
+      catch (std::runtime_error &e)
+      {
+          status = -1;
+          asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writting parameter %s: %s\n", functionName, name, e.what());
+      }
     }
-    catch (std::runtime_error &e)
+    else
     {
-        status = -1;
-        asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writting parameter %s: %s\n", functionName, name, e.what());
+      status = asynPortDriver::writeUInt32Digital(pasynUser, value, mask);
     }
+
 
     return (status == 0) ? asynSuccess : asynError;
 }
@@ -829,52 +864,59 @@ asynStatus L2MPS::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
 
     getParamName(addr, function, &name);
 
-    try
+    if ((addr == paramListAppBay0) or (addr == paramListAppBay1))
     {
-        bpm_fmap_w32_t::iterator bpm_it;
-        blen_fmap_w32_t::iterator blen_it;
-        bcm_fmap_w32_t::iterator bcm_it;
-        blm_fmap_w32_t::iterator blm_it;
-        blm_scaleFuncMap_t::iterator blm_scaleIt;
+      try
+      {
+          bpm_fmap_w32_t::iterator bpm_it;
+          blen_fmap_w32_t::iterator blen_it;
+          bcm_fmap_w32_t::iterator bcm_it;
+          blm_fmap_w32_t::iterator blm_it;
+          blm_scaleFuncMap_t::iterator blm_scaleIt;
 
-        // BPM parameters
-        if ((bpm_it = fMapBpmW32.find(function)) != fMapBpmW32.end())
-        {
-            ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second, value);
-        }
-        // BLEN parameters
-        else if ((blen_it = fMapBlenW32.find(function)) != fMapBlenW32.end())
-        {
-            ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_it->second.first))(blen_it->second.second, value);
-        }
-        // BCM parameters
-        else if ((bcm_it = fMapBcmW32.find(function)) != fMapBcmW32.end())
-        {
-            ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_it->second.first))(bcm_it->second.second, value);
-        }
-        // BLM parameters
-        else if ((blm_it = fMapBlmW32.find(function)) != fMapBlmW32.end())
-        {
-            ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second, value);
-        }
-        else if ((blm_scaleIt = fMapBlmWScale.find(function)) != fMapBlmWScale.end())
-        {
-            ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_scaleIt->second.first))(blm_scaleIt->second.second, value);
-        }
-        else
-        {
-            status == asynPortDriver::writeInt32(pasynUser, value);
-        }
+          // BPM parameters
+          if ((bpm_it = fMapBpmW32.find(function)) != fMapBpmW32.end())
+          {
+              ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second, value);
+          }
+          // BLEN parameters
+          else if ((blen_it = fMapBlenW32.find(function)) != fMapBlenW32.end())
+          {
+              ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_it->second.first))(blen_it->second.second, value);
+          }
+          // BCM parameters
+          else if ((bcm_it = fMapBcmW32.find(function)) != fMapBcmW32.end())
+          {
+              ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_it->second.first))(bcm_it->second.second, value);
+          }
+          // BLM parameters
+          else if ((blm_it = fMapBlmW32.find(function)) != fMapBlmW32.end())
+          {
+              ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second, value);
+          }
+          else if ((blm_scaleIt = fMapBlmWScale.find(function)) != fMapBlmWScale.end())
+          {
+              ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_scaleIt->second.first))(blm_scaleIt->second.second, value);
+          }
+          else
+          {
+              status = asynPortDriver::writeFloat64(pasynUser, value);
+          }
+      }
+      catch (CPSWError &e)
+      {
+          status = -1;
+          asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writting parameter %s: %s\n", functionName, name, e.getInfo().c_str());
+      }
+      catch (std::runtime_error &e)
+      {
+          status = -1;
+          asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writting parameter %s: %s\n", functionName, name, e.what());
+      }
     }
-    catch (CPSWError &e)
+    else
     {
-        status = -1;
-        asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writting parameter %s: %s\n", functionName, name, e.getInfo().c_str());
-    }  
-    catch (std::runtime_error &e)
-    {
-        status = -1;
-        asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writting parameter %s: %s\n", functionName, name, e.what());
+      status = asynPortDriver::writeFloat64(pasynUser, value);
     }
 
     return (status == 0) ? asynSuccess : asynError;
@@ -884,7 +926,7 @@ asynStatus L2MPS::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
 extern "C" int L2MPSASYNConfig(const char *portName, const int appID, const char *recordPrefixMps, const char *recordPrefixBay0, const char *recordPrefixBay1, const char* mpsRoot)
 {
     int status = 0;
-    
+
     if (0 == strlen(recordPrefixMps))
     {
         printf("  ERROR: The MSP prefix must be defined!\n");
