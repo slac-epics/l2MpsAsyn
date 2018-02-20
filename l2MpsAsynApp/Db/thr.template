@@ -50,7 +50,7 @@ record(ai,  "$(P):$(R)_H_R") {
     field(PINI, "NO")
     field(DTYP, "asynFloat64")
     field(EGU,  "$(EGU)")
-    field(PREC, "$(PREC)")    
+    field(PREC, "$(PREC)")
     field(INP,  "@asyn($(PORT),$(BAY))$(APP)_THRMAX_$(BAY)$(CH)$(TABLE)$(THR)")
 }
 

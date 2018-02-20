@@ -1,4 +1,4 @@
-record(bo, "$(P):$(R)") {    
+record(bo, "$(P):$(R)") {
     field(DESC, "$(DESC)")
     field(SCAN, "Passive")
     field(PINI, "NO")
@@ -8,7 +8,7 @@ record(bo, "$(P):$(R)") {
     field(ONAM, "$(ONAM)")
 }
 
-record(bi, "$(P):$(R)_RBV") {    
+record(bi, "$(P):$(R)_RBV") {
     field(DESC, "$(DESC)")
     field(SCAN, "I/O Intr")
     field(PINI, "NO")
