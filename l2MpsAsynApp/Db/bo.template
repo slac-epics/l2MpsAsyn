@@ -1,4 +1,4 @@
-record(bo, "$(P):$(R)") {    
+record(bo, "$(P):$(R)") {
     field(DESC, "$(DESC)")
     field(SCAN, "$(SCAN)")
     field(PINI, "$(PINI)")

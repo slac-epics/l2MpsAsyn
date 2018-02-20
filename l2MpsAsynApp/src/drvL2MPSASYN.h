@@ -73,33 +73,31 @@ typedef std::map<int, std::pair<blm_setScale_func_t, blm_channel_t>> blm_scaleFu
 // MPS base parameter data type
 struct mps_infoParam_t
 {
-    int appId;
-    int version;
-    int enable;
-    int lcls1Mode;
-    int byteCount;
-    int digitalEn;
-    int beamDestMask;
-    int altDestMask;
-    int msgCnt;
-    int lastMsgAppId;
-    int lastMsgLcls;
-    int lastMsgTimestamp;
-    std::vector<int> lastMsgByte;
-
-    int txLinkUp;
-    int txLinkUpCnt;
-    std::vector<int> rxLinkUp;
-    std::vector<int> rxLinkUpCnt;
-    int mpsSlot;
-    int appType;
-    int pllLocked;
-    int rollOverEn;
-    int txPktSentCnt;
-    std::vector<int> rxPktRcvdCnt;
-
-    int rstCnt;
-    int rstPll;
+    int                 appId;
+    int                 version;
+    int                 enable;
+    int                 lcls1Mode;
+    int                 byteCount;
+    int                 digitalEn;
+    int                 beamDestMask;
+    int                 altDestMask;
+    int                 msgCnt;
+    int                 lastMsgAppId;
+    int                 lastMsgLcls;
+    int                 lastMsgTimestamp;
+    std::vector<int>    lastMsgByte;
+    int                 txLinkUp;
+    int                 txLinkUpCnt;
+    std::vector<int>    rxLinkUp;
+    std::vector<int>    rxLinkUpCnt;
+    int                 mpsSlot;
+    int                 appType;
+    int                 pllLocked;
+    int                 rollOverEn;
+    int                 txPktSentCnt;
+    std::vector<int>    rxPktRcvdCnt;
+    int                 rstCnt;
+    int                 rstPll;
 };
 
 // Threshold table parameters data type
