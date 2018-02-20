@@ -1,16 +1,16 @@
 file "longin.template" { pattern
 { R,            DESC,                               PARAM,                  ADDR,       PINI,   SCAN        }
-{ X_THRNUM,     "Bay $(BAY) X Threshold number",    BPM_THRNUM_$(BAY)0,     "$(BAY)",   "NO",   "I/O Intr"  }  
-{ Y_THRNUM,     "Bay $(BAY) Y Threshold number",    BPM_THRNUM_$(BAY)1,     "$(BAY)",   "NO",   "I/O Intr"  }    
-{ C_THRNUM,     "Bay $(BAY) C Threshold number",    BPM_THRNUM_$(BAY)2,     "$(BAY)",   "NO",   "I/O Intr"  }    
+{ X_THRNUM,     "Bay $(BAY) X Threshold number",    BPM_THRNUM_$(BAY)0,     "$(BAY)",   "NO",   "I/O Intr"  }
+{ Y_THRNUM,     "Bay $(BAY) Y Threshold number",    BPM_THRNUM_$(BAY)1,     "$(BAY)",   "NO",   "I/O Intr"  }
+{ C_THRNUM,     "Bay $(BAY) C Threshold number",    BPM_THRNUM_$(BAY)2,     "$(BAY)",   "NO",   "I/O Intr"  }
 
-{ X_THRCNT,     "Bay $(BAY) X Threshold count",     BPM_THRCNT_$(BAY)0,     "$(BAY)",   "NO",   "I/O Intr"  }    
-{ Y_THRCNT,     "Bay $(BAY) Y Threshold count",     BPM_THRCNT_$(BAY)1,     "$(BAY)",   "NO",   "I/O Intr"  }    
-{ C_THRCNT,     "Bay $(BAY) C Threshold count",     BPM_THRCNT_$(BAY)2,     "$(BAY)",   "NO",   "I/O Intr"  }    
+{ X_THRCNT,     "Bay $(BAY) X Threshold count",     BPM_THRCNT_$(BAY)0,     "$(BAY)",   "NO",   "I/O Intr"  }
+{ Y_THRCNT,     "Bay $(BAY) Y Threshold count",     BPM_THRCNT_$(BAY)1,     "$(BAY)",   "NO",   "I/O Intr"  }
+{ C_THRCNT,     "Bay $(BAY) C Threshold count",     BPM_THRCNT_$(BAY)2,     "$(BAY)",   "NO",   "I/O Intr"  }
 
-{ X_BYTEMAP,    "Bay $(BAY) X Threshold byte map",  BPM_BYTEMAP_$(BAY)0,    "$(BAY)",   "NO",   "I/O Intr"  }   
-{ Y_BYTEMAP,    "Bay $(BAY) Y Threshold byte map",  BPM_BYTEMAP_$(BAY)1,    "$(BAY)",   "NO",   "I/O Intr"  }   
-{ C_BYTEMAP,    "Bay $(BAY) C Threshold byte map",  BPM_BYTEMAP_$(BAY)2,    "$(BAY)",   "NO",   "I/O Intr"  }   
+{ X_BYTEMAP,    "Bay $(BAY) X Threshold byte map",  BPM_BYTEMAP_$(BAY)0,    "$(BAY)",   "NO",   "I/O Intr"  }
+{ Y_BYTEMAP,    "Bay $(BAY) Y Threshold byte map",  BPM_BYTEMAP_$(BAY)1,    "$(BAY)",   "NO",   "I/O Intr"  }
+{ C_BYTEMAP,    "Bay $(BAY) C Threshold byte map",  BPM_BYTEMAP_$(BAY)2,    "$(BAY)",   "NO",   "I/O Intr"  }
 }
 
 file "bi.template" { pattern
@@ -92,7 +92,7 @@ file "thr.template" { pattern
 
 file "scale.template" { pattern
 { R,                DESC,                                       PARAM,                      SCALE_PV,           ADDR,       SCAN        }
-{ X_SF,          	"Bay $(BAY) X Scale factor",       			BPM_SCALE_$(BAY)0,          "$(P):X_FWSCL"   	"$(BAY)",   "1 second"  }
-{ Y_SF,          	"Bay $(BAY) Y Scale factor",       			BPM_SCALE_$(BAY)1,          "$(P):Y_FWSCL"   	"$(BAY)",   "1 second"  }
-{ C_SF,          	"Bay $(BAY) C Scale factor",       			BPM_SCALE_$(BAY)2,          "$(P):C_FWSCL"   	"$(BAY)",   "1 second"  }
+{ X_SF,             "Bay $(BAY) X Scale factor",                BPM_SCALE_$(BAY)0,          "$(P):X_FWSCL"      "$(BAY)",   "1 second"  }
+{ Y_SF,             "Bay $(BAY) Y Scale factor",                BPM_SCALE_$(BAY)1,          "$(P):Y_FWSCL"      "$(BAY)",   "1 second"  }
+{ C_SF,             "Bay $(BAY) C Scale factor",                BPM_SCALE_$(BAY)2,          "$(P):C_FWSCL"      "$(BAY)",   "1 second"  }
 }

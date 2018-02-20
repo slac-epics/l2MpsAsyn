@@ -1,8 +1,8 @@
 file "longin.template" { pattern
 { R,            DESC,                               PARAM,                      ADDR,       PINI,   SCAN        }
-{ L_THRNUM,     "Bay $(BAY) Threshold number",      BLEN_THRNUM_$(BAY)0,        "$(BAY)",   "NO",   "I/O Intr"  }  
-{ L_THRCNT,     "Bay $(BAY) Threshold count",       BLEN_THRCNT_$(BAY)0,        "$(BAY)",   "NO",   "I/O Intr"  }    
-{ L_BYTEMAP,    "Bay $(BAY) Threshold byte map",    BLEN_BYTEMAP_$(BAY)0,       "$(BAY)",   "NO",   "I/O Intr"  }   
+{ L_THRNUM,     "Bay $(BAY) Threshold number",      BLEN_THRNUM_$(BAY)0,        "$(BAY)",   "NO",   "I/O Intr"  }
+{ L_THRCNT,     "Bay $(BAY) Threshold count",       BLEN_THRCNT_$(BAY)0,        "$(BAY)",   "NO",   "I/O Intr"  }
+{ L_BYTEMAP,    "Bay $(BAY) Threshold byte map",    BLEN_BYTEMAP_$(BAY)0,       "$(BAY)",   "NO",   "I/O Intr"  }
 }
 
 file "bi.template" { pattern
@@ -39,6 +39,6 @@ file "thr.template" { pattern
 }
 
 file "scale.template" { pattern
-{ R,   			DESC,                           PARAM,                      SCALE_PV,     		ADDR,       SCAN        }
-{ L_SF,	        "Bay $(BAY) Scale factor",   	BLEN_SCALE_$(BAY)00,        "$(P):L_FWSCL"   	"$(BAY)",   "1 second"  }
+{ R,            DESC,                           PARAM,                      SCALE_PV,           ADDR,       SCAN        }
+{ L_SF,         "Bay $(BAY) Scale factor",      BLEN_SCALE_$(BAY)00,        "$(P):L_FWSCL"      "$(BAY)",   "1 second"  }
 }
