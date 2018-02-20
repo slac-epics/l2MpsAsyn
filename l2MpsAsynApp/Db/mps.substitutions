@@ -1,4 +1,4 @@
-file "longin.template" { pattern
+file "RegRO.template" { pattern
 { R,                    DESC,                                   PARAM,                  ADDR,   PINI,   SCAN        }
 { APP_ID,               "Application ID",                       APP_ID,                 "2",    "NO",   "I/O Intr"  }
 { BYTE_COUNT,           "Number of bytes in MPS message",       BYTE_COUNT,             "2",    "NO",   "I/O Intr"  }

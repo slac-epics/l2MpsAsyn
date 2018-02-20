@@ -1,4 +1,4 @@
-file "longin.template" { pattern
+file "RegRO.template" { pattern
 { R,            DESC,                               PARAM,                  ADDR,       PINI,   SCAN        }
 { X_THRNUM,     "Bay $(BAY) X Threshold number",    BPM_THRNUM_$(BAY)0,     "$(BAY)",   "NO",   "I/O Intr"  }
 { Y_THRNUM,     "Bay $(BAY) Y Threshold number",    BPM_THRNUM_$(BAY)1,     "$(BAY)",   "NO",   "I/O Intr"  }

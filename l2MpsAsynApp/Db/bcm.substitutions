@@ -1,4 +1,4 @@
-file "longin.template" { pattern
+file "RegRO.template" { pattern
 { R,                DESC,                                           PARAM,                  ADDR,       PINI,   SCAN       }
 { CHR_THRNUM,       "Bay $(BAY) Charge Threshold number",           BCM_THRNUM_$(BAY)0,     "$(BAY)",   "NO",   "I/O Intr" }
 { CHR_THRCNT,       "Bay $(BAY) Charge Threshold count",            BCM_THRCNT_$(BAY)0,     "$(BAY)",   "NO",   "I/O Intr" }
