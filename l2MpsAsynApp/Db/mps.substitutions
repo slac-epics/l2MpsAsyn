@@ -85,7 +85,7 @@ file "Reg1BitRW.template" { pattern
 { LCLS_MODE,        "LCLS operation mode",                      LCLS1_MODE,     "2",    "LCLS-II",  "LCLS-I"   }
 }
 
-file "string.template" { pattern
+file "RegStringRO.template" { pattern
 { R,              DESC,                             PARAM,          ADDR,    PINI,   SCAN        }
 { APP_TYPE,       "Application type",               APP_TYPE,       "2",     "NO",   "I/O Intr"  }
 }
