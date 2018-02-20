@@ -13,7 +13,7 @@ file "RegRO.template" { pattern
 { C_BYTEMAP,    "Bay $(BAY) C Threshold byte map",  BPM_BYTEMAP_$(BAY)2,    "$(BAY)",   "NO",   "I/O Intr"  }
 }
 
-file "bi.template" { pattern
+file "Reg1BitRO.template" { pattern
 { R,            DESC,                               PARAM,                  ADDR,       ZNAM,           ONAM,       PINI,   SCAN        }
 { X_IDLEEN,     "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_$(BAY)0,     "$(BAY)",   "Disabled",     "Enabled",  "NO",   "I/O Intr"  }
 { Y_IDLEEN,     "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_$(BAY)1,     "$(BAY)",   "Disabled",     "Enabled",  "NO",   "I/O Intr"  }

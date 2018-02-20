@@ -44,7 +44,7 @@ file "RegRO.template" { pattern
 { lastMsgByte5,         "Mps last message byte 5",              LAST_MSG_BYTE_5,        "2",    "NO",   "I/O Intr"  }
 }
 
-file "bi.template" { pattern
+file "Reg1BitRO.template" { pattern
 { R,                DESC,                                       PARAM,          ADDR,   ZNAM,       ONAM,       PINI,   SCAN        }
 { DIGITAL_EN,       "Application generates digital messages",   DIGITAL_EN,     "2",   "No",        "Yes",      "NO",   "I/O Intr"  }
 { MPS_SLOT,         "MPS_SLOT_G",                               MPS_SLOT,       "2",   "No",        "Yes",      "NO",   "I/O Intr"  }

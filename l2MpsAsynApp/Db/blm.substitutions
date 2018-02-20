@@ -14,7 +14,7 @@ file "RegRO.template" { pattern
 
 }
 
-file "bi.template" { pattern
+file "Reg1BitRO.template" { pattern
 { R,                DESC,                                           PARAM,                      ADDR,       ZNAM,       ONAM,       PINI,   SCAN        }
 { C0I0_IDLEEN,      "Bay $(BAY) Ch 0 Int 0 IDLE table enabled",     BLM_IDLEEN_$(BAY)00,     "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
 { C1I0_IDLEEN,      "Bay $(BAY) Ch 1 Int 0 IDLE table enabled",     BLM_IDLEEN_$(BAY)10,     "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
