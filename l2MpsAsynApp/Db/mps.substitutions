@@ -1,9 +1,9 @@
 file "longin.template" { pattern
 { R,                    DESC,                                   PARAM,                  ADDR,   PINI,   SCAN        }
-{ APP_ID,               "Application ID",                       APP_ID,                 "2",    "NO",   "I/O Intr"  }    
-{ BYTE_COUNT,           "Number of bytes in MPS message",       BYTE_COUNT,             "2",    "NO",   "I/O Intr"  }    
+{ APP_ID,               "Application ID",                       APP_ID,                 "2",    "NO",   "I/O Intr"  }
+{ BYTE_COUNT,           "Number of bytes in MPS message",       BYTE_COUNT,             "2",    "NO",   "I/O Intr"  }
 { ROLL_OVER_EN,         "Status Counter Roll Over Enable",      ROLL_OVER_EN,           "2",    "NO",   "I/O Intr"  }
-{ TX_LINK_UP_CNT,       "MPS TX LinkUp Counter",                TX_LINK_UP_CNT,         "2",    "NO",   "I/O Intr"  }    
+{ TX_LINK_UP_CNT,       "MPS TX LinkUp Counter",                TX_LINK_UP_CNT,         "2",    "NO",   "I/O Intr"  }
 { RX_LINK_UP_CNT_0,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_0,       "2",    "NO",   "I/O Intr"  }
 { RX_LINK_UP_CNT_1,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_1,       "2",    "NO",   "I/O Intr"  }
 { RX_LINK_UP_CNT_2,     "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_2,       "2",    "NO",   "I/O Intr"  }
@@ -69,14 +69,14 @@ file "bi.template" { pattern
 
 file "bo.template" { pattern
 { R,                DESC,                                       PARAM,          ADDR,   ZNAM,       ONAM,       PINI,   SCAN        }
-{ SALT_RST_CNT,     "Reset all the SALT status counters",       SALT_RST_CNT,   "2",    "",         "",         "NO",  "I/O Intr"   }
-{ SALT_RST_PLL,     "Reset the PLL",                            SALT_RST_PLL,   "2",    "",         "",         "NO",  "I/O Intr"   }
+{ SALT_RST_CNT,     "Reset all the SALT status counters",       SALT_RST_CNT,   "2",    "",         "",         "NO",  "Passive"    }
+{ SALT_RST_PLL,     "Reset the PLL",                            SALT_RST_PLL,   "2",    "",         "",         "NO",  "Passive"    }
 }
 
 file "RegRW.template" { pattern
 { R,                    DESC,                                   PARAM,              ADDR  }
-{ BEAM_DEST_MASK,       "One bit per dest for BPM or kicker",   BEAM_DEST_MASK,     "2"   }    
-{ ALT_DEST_MASK,        "One bit per dest for alt table",       ALT_DEST_MASK,      "2"   }   
+{ BEAM_DEST_MASK,       "One bit per dest for BPM or kicker",   BEAM_DEST_MASK,     "2"   }
+{ ALT_DEST_MASK,        "One bit per dest for alt table",       ALT_DEST_MASK,      "2"   }
 }
 
 file "Enum1BitRW.template" { pattern
@@ -87,5 +87,5 @@ file "Enum1BitRW.template" { pattern
 
 file "string.template" { pattern
 { R,              DESC,                             PARAM,          ADDR,    PINI,   SCAN        }
-{ APP_TYPE,       "Application type",               APP_TYPE,       "2",     "NO",   "I/O Intr"  }    
+{ APP_TYPE,       "Application type",               APP_TYPE,       "2",     "NO",   "I/O Intr"  }
 }
