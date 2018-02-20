@@ -67,7 +67,7 @@ file "Reg1BitRO.template" { pattern
 { lastMsgLcls,      "LCLS flag in the last message",            LAST_MSG_LCLS,  "2",    "Disabled", "Enabled",  "NO",   "I/O Intr"  }
 }
 
-file "bo.template" { pattern
+file "Reg1BitWO.template" { pattern
 { R,                DESC,                                       PARAM,          ADDR,   ZNAM,       ONAM,       PINI,   SCAN        }
 { SALT_RST_CNT,     "Reset all the SALT status counters",       SALT_RST_CNT,   "2",    "",         "",         "NO",  "Passive"    }
 { SALT_RST_PLL,     "Reset the PLL",                            SALT_RST_PLL,   "2",    "",         "",         "NO",  "Passive"    }
