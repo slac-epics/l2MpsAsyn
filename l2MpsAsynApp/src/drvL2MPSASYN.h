@@ -89,7 +89,7 @@ struct mps_infoParam_t
 
     int txLinkUp;
     int txLinkUpCnt;
-    int rxLinkUp;
+    std::vector<int> rxLinkUp;
     std::vector<int> rxLinkUpCnt;
     int mpsSlot;
     int appType;

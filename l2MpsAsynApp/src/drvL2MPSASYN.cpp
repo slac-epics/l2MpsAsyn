@@ -45,7 +45,6 @@ void L2MPS::updateMpsParametrs(mps_infoData_t info)
     setIntegerParam(paramListMpsBase, mpsInfoParams.lastMsgAppId,     info.lastMsgAppId     );
     setIntegerParam(paramListMpsBase, mpsInfoParams.lastMsgTimestamp, info.lastMsgTimestamp );
     setIntegerParam(paramListMpsBase, mpsInfoParams.txLinkUpCnt,      info.txLinkUpCnt      );
-    setIntegerParam(paramListMpsBase, mpsInfoParams.rxLinkUp,         info.rxLinkUp         );
     setIntegerParam(paramListMpsBase, mpsInfoParams.rollOverEn,       info.rollOverEn       );
     setIntegerParam(paramListMpsBase, mpsInfoParams.txPktSentCnt,     info.txPktSentCnt     );
 
@@ -67,6 +66,18 @@ void L2MPS::updateMpsParametrs(mps_infoData_t info)
             std::vector<uint8_t>::iterator dataIt = info.lastMsgByte.begin();
             while ((paramIt != mpsInfoParams.lastMsgByte.end()) && (dataIt != info.lastMsgByte.end()))
                 setIntegerParam(paramListMpsBase, *paramIt++, *dataIt++);
+        }
+        catch(std::out_of_range& e) {}
+    }
+
+    if (info.rxLinkUp.size() > 0)
+    {
+        try
+        {
+            std::vector<int>::iterator  paramIt = mpsInfoParams.rxLinkUp.begin();
+            std::vector<bool>::iterator dataIt = info.rxLinkUp.begin();
+            while ((paramIt != mpsInfoParams.rxLinkUp.end()) && (dataIt != info.rxLinkUp.end()))
+                setUIntDigitalParam(paramListMpsBase, *paramIt++, *dataIt++, 0x1, 0x1);
         }
         catch(std::out_of_range& e) {}
     }
@@ -226,9 +237,6 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
         createParam(2, "TX_LINK_UP_CNT",   asynParamInt32,  &index);
         mpsInfoParams.txLinkUpCnt = index;
 
-        createParam(2, "RX_LINK_UP",   asynParamInt32,  &index);
-        mpsInfoParams.rxLinkUp = index;
-
         createParam(2, "ROLL_OVER_EN",   asynParamInt32,  &index);
         mpsInfoParams.rollOverEn = index;
 
@@ -288,6 +296,11 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
             std::stringstream paramName;
             for (std::size_t i {0}; i < rxLinkUpCntSize; ++i)
             {
+                paramName.str("");
+                paramName << "RX_LINK_UP_" << i;
+                createParam(2, paramName.str().c_str(),   asynParamUInt32Digital,  &index);
+                mpsInfoParams.rxLinkUp.push_back(index);
+
                 paramName.str("");
                 paramName << "RX_LINK_UP_CNT_" << i;
                 createParam(2, paramName.str().c_str(),   asynParamInt32,  &index);
