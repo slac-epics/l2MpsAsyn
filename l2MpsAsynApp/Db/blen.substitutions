@@ -1,44 +1,47 @@
+### Threshold information ###
 file "RegRO.template" { pattern
-{ R,            DESC,                               PARAM,                      ADDR        }
-{ L_THRNUM,     "Bay $(BAY) Threshold number",      BLEN_THRNUM_$(BAY)0,        "$(BAY)"    }
-{ L_THRCNT,     "Bay $(BAY) Threshold count",       BLEN_THRCNT_$(BAY)0,        "$(BAY)"    }
-{ L_BYTEMAP,    "Bay $(BAY) Threshold byte map",    BLEN_BYTEMAP_$(BAY)0,       "$(BAY)"    }
+{ R,                DESC,                               PARAM,                      ADDR        }
+{ L_THR_CH,         "Bay $(BAY) Threshold channel",     BLEN_THRNUM_$(BAY)0,        "$(BAY)"    }
+{ L_THR_CNT,        "Bay $(BAY) Threshold count",       BLEN_THRCNT_$(BAY)0,        "$(BAY)"    }
+{ L_THR_BYTEMAP,    "Bay $(BAY) Threshold byte map",    BLEN_BYTEMAP_$(BAY)0,       "$(BAY)"    }
 }
 
+### Tables enable PVs ###
 file "Reg1BitRO.template" { pattern
-{ R,            DESC,                               PARAM,                      ADDR,       ZNAM,           ONAM        }
-{ L_IDLEEN,     "Bay $(BAY) IDLE table enabled",    BLEN_IDLEEN_$(BAY)0,        "$(BAY)",   "Disabled",     "Enabled"   }
-{ L_ALTEN,      "Bay $(BAY) ALT table enabled",     BLEN_ALTEN_$(BAY)0,         "$(BAY)",   "Disabled",     "Enabled"   }
-{ L_LCLS1EN,    "Bay $(BAY) LCLS1 table enabled",   BLEN_LCLS1EN_$(BAY)0,       "$(BAY)",   "Disabled",     "Enabled"   }
+{ R,                DESC,                               PARAM,                      ADDR,       ZNAM,           ONAM        }
+{ L_IDL_EN,         "Bay $(BAY) IDLE table enabled",    BLEN_IDLEEN_$(BAY)0,        "$(BAY)",   "Disabled",     "Enabled"   }
+{ L_ALT_EN,         "Bay $(BAY) ALT table enabled",     BLEN_ALTEN_$(BAY)0,         "$(BAY)",   "Disabled",     "Enabled"   }
+{ L_LC1_EN,         "Bay $(BAY) LCLS1 table enabled",   BLEN_LCLS1EN_$(BAY)0,       "$(BAY)",   "Disabled",     "Enabled"   }
 }
 
-
+### Threshold PVs ###
 file "thr.template" { pattern
-{ R,            DESC,                                   APP,        CH,     TABLE,  THR,    }
-{ L_LCLS1_T0,   "BLEN, Bay $(BAY), LCLS1, Threshold",   "BLEN",     "0",    "0",    "0",    }
+{ R,                DESC,                                   APP,        CH,     TABLE,  THR,    }
+{ L_T0_LC1,         "BLEN, Bay $(BAY), LCLS1, Threshold",   "BLEN",     "0",    "0",    "0",    }
 
-{ L_IDLE_T0,    "BLEN, Bay $(BAY), IDLE, Threshold",    "BLEN",     "0",    "1",    "0",    }
+{ L_T0_IDL,         "BLEN, Bay $(BAY), IDLE, Threshold",    "BLEN",     "0",    "1",    "0",    }
 
-{ L_STD_T0,     "BLEN, Bay $(BAY), STD, Threshold 0",   "BLEN",     "0",    "2",    "0",    }
-{ L_STD_T1,     "BLEN, Bay $(BAY), STD, Threshold 1",   "BLEN",     "0",    "2",    "1",    }
-{ L_STD_T2,     "BLEN, Bay $(BAY), STD, Threshold 2",   "BLEN",     "0",    "2",    "2",    }
-{ L_STD_T3,     "BLEN, Bay $(BAY), STD, Threshold 3",   "BLEN",     "0",    "2",    "3",    }
-{ L_STD_T4,     "BLEN, Bay $(BAY), STD, Threshold 4",   "BLEN",     "0",    "2",    "4",    }
-{ L_STD_T5,     "BLEN, Bay $(BAY), STD, Threshold 5",   "BLEN",     "0",    "2",    "5",    }
-{ L_STD_T6,     "BLEN, Bay $(BAY), STD, Threshold 6",   "BLEN",     "0",    "2",    "6",    }
-{ L_STD_T7,     "BLEN, Bay $(BAY), STD, Threshold 7",   "BLEN",     "0",    "2",    "7",    }
+{ L_T0_STD,         "BLEN, Bay $(BAY), STD, Threshold 0",   "BLEN",     "0",    "2",    "0",    }
+{ L_T1_STD,         "BLEN, Bay $(BAY), STD, Threshold 1",   "BLEN",     "0",    "2",    "1",    }
+{ L_T2_STD,         "BLEN, Bay $(BAY), STD, Threshold 2",   "BLEN",     "0",    "2",    "2",    }
+{ L_T3_STD,         "BLEN, Bay $(BAY), STD, Threshold 3",   "BLEN",     "0",    "2",    "3",    }
+{ L_T4_STD,         "BLEN, Bay $(BAY), STD, Threshold 4",   "BLEN",     "0",    "2",    "4",    }
+{ L_T5_STD,         "BLEN, Bay $(BAY), STD, Threshold 5",   "BLEN",     "0",    "2",    "5",    }
+{ L_T6_STD,         "BLEN, Bay $(BAY), STD, Threshold 6",   "BLEN",     "0",    "2",    "6",    }
+{ L_T7_STD,         "BLEN, Bay $(BAY), STD, Threshold 7",   "BLEN",     "0",    "2",    "7",    }
 
-{ L_ALT_T0,     "BLEN, Bay $(BAY), ALT, Threshold 0",   "BLEN",     "0",    "3",    "0",    }
-{ L_ALT_T1,     "BLEN, Bay $(BAY), ALT, Threshold 1",   "BLEN",     "0",    "3",    "1",    }
-{ L_ALT_T2,     "BLEN, Bay $(BAY), ALT, Threshold 2",   "BLEN",     "0",    "3",    "2",    }
-{ L_ALT_T3,     "BLEN, Bay $(BAY), ALT, Threshold 3",   "BLEN",     "0",    "3",    "3",    }
-{ L_ALT_T4,     "BLEN, Bay $(BAY), ALT, Threshold 4",   "BLEN",     "0",    "3",    "4",    }
-{ L_ALT_T5,     "BLEN, Bay $(BAY), ALT, Threshold 5",   "BLEN",     "0",    "3",    "5",    }
-{ L_ALT_T6,     "BLEN, Bay $(BAY), ALT, Threshold 6",   "BLEN",     "0",    "3",    "6",    }
-{ L_ALT_T7,     "BLEN, Bay $(BAY), ALT, Threshold 7",   "BLEN",     "0",    "3",    "7",    }
+{ L_T0_ALT,         "BLEN, Bay $(BAY), ALT, Threshold 0",   "BLEN",     "0",    "3",    "0",    }
+{ L_T1_ALT,         "BLEN, Bay $(BAY), ALT, Threshold 1",   "BLEN",     "0",    "3",    "1",    }
+{ L_T2_ALT,         "BLEN, Bay $(BAY), ALT, Threshold 2",   "BLEN",     "0",    "3",    "2",    }
+{ L_T3_ALT,         "BLEN, Bay $(BAY), ALT, Threshold 3",   "BLEN",     "0",    "3",    "3",    }
+{ L_T4_ALT,         "BLEN, Bay $(BAY), ALT, Threshold 4",   "BLEN",     "0",    "3",    "4",    }
+{ L_T5_ALT,         "BLEN, Bay $(BAY), ALT, Threshold 5",   "BLEN",     "0",    "3",    "5",    }
+{ L_T6_ALT,         "BLEN, Bay $(BAY), ALT, Threshold 6",   "BLEN",     "0",    "3",    "6",    }
+{ L_T7_ALT,         "BLEN, Bay $(BAY), ALT, Threshold 7",   "BLEN",     "0",    "3",    "7",    }
 }
 
+### Scale PVs ###
 file "scale.template" { pattern
-{ R,            DESC,                           PARAM,                      SCALE_PV,           ADDR,       SCAN        }
-{ L_SF,         "Bay $(BAY) Scale factor",      BLEN_SCALE_$(BAY)00,        "$(P):L_FWSCL"      "$(BAY)",   "1 second"  }
+{ R,                DESC,                           PARAM,                      SCALE_PV,           ADDR,       SCAN        }
+{ L_SF,             "Bay $(BAY) Scale factor",      BLEN_SCALE_$(BAY)00,        "$(P):L_FWSCL"      "$(BAY)",   "1 second"  }
 }
