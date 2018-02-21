@@ -32,4 +32,4 @@ L2MPSASYNConfig(PORT_NAME, APP_ID, PREFIX_BASE, PREFIX_BAY0, PREFIX_BAY1, MPS_RO
 
 ## Use of the yamlLoader Module
 
-You must the **yamlLoader** module with this module. You need to call **cpswLoadYamlFile()** before **L2MPSASYNConfig()** in your st.cmd.
+You must the **yamlLoader** module with this module. You need to call **cpswLoadYamlFile()** before **L2MPSASYNConfig()** in your **st.cmd**.
