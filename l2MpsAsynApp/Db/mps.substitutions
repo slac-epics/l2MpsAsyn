@@ -33,15 +33,15 @@ file "RegRO.template" { pattern
 { RX_PKT_RCV_CNT_11,    "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_11,      "2"     }
 { RX_PKT_RCV_CNT_12,    "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_12,      "2"     }
 { RX_PKT_RCV_CNT_13,    "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_13,      "2"     }
-{ msgCnt,               "Mps message counter",                  MSG_CNT,                "2"     }
-{ lastMsgAppId,         "Mps last message App ID",              LAST_MSG_APPID,         "2"     }
-{ lastMsgTmstmp,        "Mps last message timestamp",           LAST_MSG_TMSTMP,        "2"     }
-{ lastMsgByte0,         "Mps last message byte 0",              LAST_MSG_BYTE_0,        "2"     }
-{ lastMsgByte1,         "Mps last message byte 1",              LAST_MSG_BYTE_1,        "2"     }
-{ lastMsgByte2,         "Mps last message byte 2",              LAST_MSG_BYTE_2,        "2"     }
-{ lastMsgByte3,         "Mps last message byte 3",              LAST_MSG_BYTE_3,        "2"     }
-{ lastMsgByte4,         "Mps last message byte 4",              LAST_MSG_BYTE_4,        "2"     }
-{ lastMsgByte5,         "Mps last message byte 5",              LAST_MSG_BYTE_5,        "2"     }
+{ MSG_CNT,              "Mps message counter",                  MSG_CNT,                "2"     }
+{ LAST_MSG_APP_ID,      "Mps last message App ID",              LAST_MSG_APPID,         "2"     }
+{ LAST_MSG_TMSTMP,      "Mps last message timestamp",           LAST_MSG_TMSTMP,        "2"     }
+{ LAST_MSG_BYTE_0,      "Mps last message byte 0",              LAST_MSG_BYTE_0,        "2"     }
+{ LAST_MSG_BYTE_1,      "Mps last message byte 1",              LAST_MSG_BYTE_1,        "2"     }
+{ LAST_MSG_BYTE_2,      "Mps last message byte 2",              LAST_MSG_BYTE_2,        "2"     }
+{ LAST_MSG_BYTE_3,      "Mps last message byte 3",              LAST_MSG_BYTE_3,        "2"     }
+{ LAST_MSG_BYTE_4,      "Mps last message byte 4",              LAST_MSG_BYTE_4,        "2"     }
+{ LAST_MSG_BYTE_5,      "Mps last message byte 5",              LAST_MSG_BYTE_5,        "2"     }
 }
 
 file "Reg1BitRO.template" { pattern
@@ -64,7 +64,7 @@ file "Reg1BitRO.template" { pattern
 { RX_LINK_UP_11,    "MPS RX LinkUp",                            RX_LINK_UP_11,  "2",   "Down",      "Up"        }
 { RX_LINK_UP_12,    "MPS RX LinkUp",                            RX_LINK_UP_12,  "2",   "Down",      "Up"        }
 { RX_LINK_UP_13,    "MPS RX LinkUp",                            RX_LINK_UP_13,  "2",   "Down",      "Up"        }
-{ lastMsgLcls,      "LCLS flag in the last message",            LAST_MSG_LCLS,  "2",    "Disabled", "Enabled"   }
+{ LAST_MSG_LC1_EN,  "LCLS flag in the last message",            LAST_MSG_LCLS,  "2",    "Disabled", "Enabled"   }
 }
 
 file "Reg1BitWO.template" { pattern
@@ -82,7 +82,7 @@ file "RegRW.template" { pattern
 file "Reg1BitRW.template" { pattern
 { R,                DESC,                                       PARAM,          ADDR,   ZNAM,       ONAM       }
 { MPS_EN,           "MPS Enabled",                              MPS_EN,         "2",    "Disabled", "Enabled"  }
-{ LCLS_MODE,        "LCLS operation mode",                      LCLS1_MODE,     "2",    "LCLS-II",  "LCLS-I"   }
+{ LC1_MODE,         "LCLS operation mode",                      LCLS1_MODE,     "2",    "Disabled", "Enabled"  }
 }
 
 file "RegStringRO.template" { pattern
