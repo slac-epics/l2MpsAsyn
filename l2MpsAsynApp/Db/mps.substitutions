@@ -86,6 +86,6 @@ file "Reg1BitRW.template" { pattern
 }
 
 file "RegStringRO.template" { pattern
-{ R,              DESC,                             PARAM,          ADDR,    PINI,   SCAN        }
-{ APP_TYPE,       "Application type",               APP_TYPE,       "2",     "NO",   "I/O Intr"  }
+{ R,              DESC,                             PARAM,          ADDR    }
+{ APP_TYPE,       "Application type",               APP_TYPE,       "2"     }
 }
