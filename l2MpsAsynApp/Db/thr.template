@@ -1,3 +1,23 @@
+#================================================================================#
+# LCLS-II MPS Threshold PV template                                              #
+# Macro description:                                                             #
+#   - P     : Record name prefix                                                 #
+#   - R     : Record name                                                        #
+#   - DESC  : Description                                                        #
+#   - EGU   : Engineering units                                                  #
+#   - PREC  : Precision                                                          #
+#   - PORT  : Asyn port name                                                     #
+#   - BAY   : Bay number (0 or 1)                                                #
+#   - APP   : Application name (BLM, BPM, BCM, BLEN)                             #
+#   - TABLE : Threhold table (0: LCLS1, 1: No-beam, 2: Standard, 3: Alternative) #
+#   - THR   : Threshold index (0-7)                                              #
+#   - CH    : Threhold channel (application specific)                            #
+#     * BLM  => ${X}${Y}, X=input channel(0-2), Y=Integration channel (0-3)      #
+#     * BPM  => ${X},     X=Channel (0:X, 1:Y, 2, TIMIT)                         #
+#     * BCM  => ${X},     X=Channel (0:Charge, 1:Difference)                     #
+#     * BLEN => 0                                                                #
+#================================================================================#
+
 #### VALUES ####
 
 # MINIMUM (Set and RBV)

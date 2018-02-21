@@ -1,3 +1,21 @@
+#================================================================================#
+# LCLS-II MPS Threshold scale PV template                                        #
+# Macro description:                                                             #
+#   - P        : Record name prefix                                              #
+#   - R        : Record name                                                     #
+#   - DESC     : Description                                                     #
+#   - SCALE_PV : Name of the PV with the scale value                             #
+#   - EGU      : Engineering units                                               #
+#   - PORT     : Asyn port name                                                  #
+#   - BAY      : Bay number (0 or 1)                                             #
+#   - APP   : Application name (BLM, BPM, BCM, BLEN)                             #
+#   - CH    : Threhold channel (application specific)                            #
+#     * BLM  => ${X}${Y}, X=input channel(0-2), Y=Integration channel (0-3)      #
+#     * BPM  => ${X},     X=Channel (0:X, 1:Y, 2, TIMIT)                         #
+#     * BCM  => ${X},     X=Channel (0:Charge, 1:Difference)                     #
+#     * BLEN => 0                                                                #
+#================================================================================#
+
 record(ao,      "$(P):$(R)") {
     field(DESC, "$(DESC)")
     field(SCAN, "$(SCAN)")
