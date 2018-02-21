@@ -1,3 +1,16 @@
+#================================================================================#
+# LCLS-II MPS PV template for 1-bit read-write registers                         #
+# Macro description:                                                             #
+#   - P     : Record name prefix                                                 #
+#   - R     : Record name                                                        #
+#   - DESC  : Description                                                        #
+#   - PORT  : Asyn port name                                                     #
+#   - ADDR  : Asyn parameter list number (0: AppBay0, 1: AppBay1, 2: MpsBase)    #
+#   - PARAM : Asyn parameter name                                                #
+#   - ZNAM  : Label for the "0" state                                            #
+#   - ONAM  : Label for the "1" state                                            #
+#================================================================================#
+
 record(bo, "$(P):$(R)") {
     field(DESC, "$(DESC)")
     field(SCAN, "Passive")
