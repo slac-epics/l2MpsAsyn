@@ -15,18 +15,18 @@ file "RegRO.template" { pattern
 }
 
 file "Reg1BitRO.template" { pattern
-{ R,                DESC,                                           PARAM,                      ADDR,       ZNAM,       ONAM,       PINI,   SCAN        }
-{ C0I0_IDLEEN,      "Bay $(BAY) Ch 0 Int 0 IDLE table enabled",     BLM_IDLEEN_$(BAY)00,     "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
-{ C1I0_IDLEEN,      "Bay $(BAY) Ch 1 Int 0 IDLE table enabled",     BLM_IDLEEN_$(BAY)10,     "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
-{ C2I0_IDLEEN,      "Bay $(BAY) Ch 2 Int 0 IDLE table enabled",     BLM_IDLEEN_$(BAY)20,     "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
+{ R,                DESC,                                           PARAM,                  ADDR,       ZNAM,           ONAM,      }
+{ C0I0_IDLEEN,      "Bay $(BAY) Ch 0 Int 0 IDLE table enabled",     BLM_IDLEEN_$(BAY)00,    "$(BAY)",   "Disabled",     "Enabled"  }
+{ C1I0_IDLEEN,      "Bay $(BAY) Ch 1 Int 0 IDLE table enabled",     BLM_IDLEEN_$(BAY)10,    "$(BAY)",   "Disabled",     "Enabled"  }
+{ C2I0_IDLEEN,      "Bay $(BAY) Ch 2 Int 0 IDLE table enabled",     BLM_IDLEEN_$(BAY)20,    "$(BAY)",   "Disabled",     "Enabled"  }
 
-{ C0I0_ALTEN,       "Bay $(BAY) Ch 0 Int 0 ALT table enabled",      BLM_ALTEN_$(BAY)00,      "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
-{ C1I0_ALTEN,       "Bay $(BAY) Ch 1 Int 0 ALT table enabled",      BLM_ALTEN_$(BAY)10,      "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
-{ C2I0_ALTEN,       "Bay $(BAY) Ch 2 Int 0 ALT table enabled",      BLM_ALTEN_$(BAY)20,      "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
+{ C0I0_ALTEN,       "Bay $(BAY) Ch 0 Int 0 ALT table enabled",      BLM_ALTEN_$(BAY)00,     "$(BAY)",   "Disabled",     "Enabled"  }
+{ C1I0_ALTEN,       "Bay $(BAY) Ch 1 Int 0 ALT table enabled",      BLM_ALTEN_$(BAY)10,     "$(BAY)",   "Disabled",     "Enabled"  }
+{ C2I0_ALTEN,       "Bay $(BAY) Ch 2 Int 0 ALT table enabled",      BLM_ALTEN_$(BAY)20,     "$(BAY)",   "Disabled",     "Enabled"  }
 
-{ C0I0_LCLS1EN,     "Bay $(BAY) Ch 0 Int 0 LCLS1 table enabled",    BLM_LCLS1EN_$(BAY)00,    "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
-{ C1I0_LCLS1EN,     "Bay $(BAY) Ch 1 Int 0 LCLS1 table enabled",    BLM_LCLS1EN_$(BAY)10,    "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
-{ C2I0_LCLS1EN,     "Bay $(BAY) Ch 2 Int 0 LCLS1 table enabled",    BLM_LCLS1EN_$(BAY)20,    "$(BAY)",   "Disabled", "Enabled",  "NO",  "I/O Intr"   }
+{ C0I0_LCLS1EN,     "Bay $(BAY) Ch 0 Int 0 LCLS1 table enabled",    BLM_LCLS1EN_$(BAY)00,   "$(BAY)",   "Disabled",     "Enabled"  }
+{ C1I0_LCLS1EN,     "Bay $(BAY) Ch 1 Int 0 LCLS1 table enabled",    BLM_LCLS1EN_$(BAY)10,   "$(BAY)",   "Disabled",     "Enabled"  }
+{ C2I0_LCLS1EN,     "Bay $(BAY) Ch 2 Int 0 LCLS1 table enabled",    BLM_LCLS1EN_$(BAY)20,   "$(BAY)",   "Disabled",     "Enabled"  }
 
 }
 

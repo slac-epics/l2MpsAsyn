@@ -45,26 +45,26 @@ file "RegRO.template" { pattern
 }
 
 file "Reg1BitRO.template" { pattern
-{ R,                DESC,                                       PARAM,          ADDR,   ZNAM,       ONAM,       PINI,   SCAN        }
-{ DIGITAL_EN,       "Application generates digital messages",   DIGITAL_EN,     "2",   "No",        "Yes",      "NO",   "I/O Intr"  }
-{ MPS_SLOT,         "MPS_SLOT_G",                               MPS_SLOT,       "2",   "No",        "Yes",      "NO",   "I/O Intr"  }
-{ PLL_LOCKED,       "MPS PLL Lock Status",                      PLL_LOCKED,     "2",   "No",        "Yes",      "NO",   "I/O Intr"  }
-{ TX_LINK_UP,       "MPS TX LinkUp",                            TX_LINK_UP,     "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
-{ RX_LINK_UP_0,     "MPS RX LinkUp",                            RX_LINK_UP_0,   "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
-{ RX_LINK_UP_1,     "MPS RX LinkUp",                            RX_LINK_UP_1,   "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
-{ RX_LINK_UP_2,     "MPS RX LinkUp",                            RX_LINK_UP_2,   "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
-{ RX_LINK_UP_3,     "MPS RX LinkUp",                            RX_LINK_UP_3,   "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
-{ RX_LINK_UP_4,     "MPS RX LinkUp",                            RX_LINK_UP_4,   "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
-{ RX_LINK_UP_5,     "MPS RX LinkUp",                            RX_LINK_UP_5,   "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
-{ RX_LINK_UP_6,     "MPS RX LinkUp",                            RX_LINK_UP_6,   "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
-{ RX_LINK_UP_7,     "MPS RX LinkUp",                            RX_LINK_UP_7,   "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
-{ RX_LINK_UP_8,     "MPS RX LinkUp",                            RX_LINK_UP_8,   "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
-{ RX_LINK_UP_9,     "MPS RX LinkUp",                            RX_LINK_UP_9,   "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
-{ RX_LINK_UP_10,    "MPS RX LinkUp",                            RX_LINK_UP_10,  "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
-{ RX_LINK_UP_11,    "MPS RX LinkUp",                            RX_LINK_UP_11,  "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
-{ RX_LINK_UP_12,    "MPS RX LinkUp",                            RX_LINK_UP_12,  "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
-{ RX_LINK_UP_13,    "MPS RX LinkUp",                            RX_LINK_UP_13,  "2",   "Down",      "Up",       "NO",   "I/O Intr"  }
-{ lastMsgLcls,      "LCLS flag in the last message",            LAST_MSG_LCLS,  "2",    "Disabled", "Enabled",  "NO",   "I/O Intr"  }
+{ R,                DESC,                                       PARAM,          ADDR,   ZNAM,       ONAM        }
+{ DIGITAL_EN,       "Application generates digital messages",   DIGITAL_EN,     "2",   "No",        "Yes"       }
+{ MPS_SLOT,         "MPS_SLOT_G",                               MPS_SLOT,       "2",   "No",        "Yes"       }
+{ PLL_LOCKED,       "MPS PLL Lock Status",                      PLL_LOCKED,     "2",   "No",        "Yes"       }
+{ TX_LINK_UP,       "MPS TX LinkUp",                            TX_LINK_UP,     "2",   "Down",      "Up"        }
+{ RX_LINK_UP_0,     "MPS RX LinkUp",                            RX_LINK_UP_0,   "2",   "Down",      "Up"        }
+{ RX_LINK_UP_1,     "MPS RX LinkUp",                            RX_LINK_UP_1,   "2",   "Down",      "Up"        }
+{ RX_LINK_UP_2,     "MPS RX LinkUp",                            RX_LINK_UP_2,   "2",   "Down",      "Up"        }
+{ RX_LINK_UP_3,     "MPS RX LinkUp",                            RX_LINK_UP_3,   "2",   "Down",      "Up"        }
+{ RX_LINK_UP_4,     "MPS RX LinkUp",                            RX_LINK_UP_4,   "2",   "Down",      "Up"        }
+{ RX_LINK_UP_5,     "MPS RX LinkUp",                            RX_LINK_UP_5,   "2",   "Down",      "Up"        }
+{ RX_LINK_UP_6,     "MPS RX LinkUp",                            RX_LINK_UP_6,   "2",   "Down",      "Up"        }
+{ RX_LINK_UP_7,     "MPS RX LinkUp",                            RX_LINK_UP_7,   "2",   "Down",      "Up"        }
+{ RX_LINK_UP_8,     "MPS RX LinkUp",                            RX_LINK_UP_8,   "2",   "Down",      "Up"        }
+{ RX_LINK_UP_9,     "MPS RX LinkUp",                            RX_LINK_UP_9,   "2",   "Down",      "Up"        }
+{ RX_LINK_UP_10,    "MPS RX LinkUp",                            RX_LINK_UP_10,  "2",   "Down",      "Up"        }
+{ RX_LINK_UP_11,    "MPS RX LinkUp",                            RX_LINK_UP_11,  "2",   "Down",      "Up"        }
+{ RX_LINK_UP_12,    "MPS RX LinkUp",                            RX_LINK_UP_12,  "2",   "Down",      "Up"        }
+{ RX_LINK_UP_13,    "MPS RX LinkUp",                            RX_LINK_UP_13,  "2",   "Down",      "Up"        }
+{ lastMsgLcls,      "LCLS flag in the last message",            LAST_MSG_LCLS,  "2",    "Disabled", "Enabled"   }
 }
 
 file "Reg1BitWO.template" { pattern

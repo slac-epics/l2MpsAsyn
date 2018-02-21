@@ -9,13 +9,13 @@ file "RegRO.template" { pattern
 }
 
 file "Reg1BitRO.template" { pattern
-{ R,                DESC,                                           PARAM,                  ADDR,       ZNAM,           ONAM,       PINI,   SCAN        }
-{ CHR_IDLEEN,       "Bay $(BAY) Charge IDLE table enabled",         BCM_IDLEEN_$(BAY)0,     "$(BAY)",   "Disabled",     "Enabled",  "NO",   "I/O Intr" }
-{ CHR_ALTEN,        "Bay $(BAY) Charge ALT table enabled",          BCM_ALTEN_$(BAY)0,      "$(BAY)",   "Disabled",     "Enabled",  "NO",   "I/O Intr" }
-{ CHR_LCLS1EN,      "Bay $(BAY) Charge LCLS1 table enabled",        BCM_LCLS1EN_$(BAY)0,    "$(BAY)",   "Disabled",     "Enabled",  "NO",   "I/O Intr" }
-{ DIFF_IDLEEN,      "Bay $(BAY) Difference IDLE table enabled",     BCM_IDLEEN_$(BAY)1,     "$(BAY)",   "Disabled",     "Enabled",  "NO",   "I/O Intr" }
-{ DIFF_ALTEN,       "Bay $(BAY) Difference ALT table enabled",      BCM_ALTEN_$(BAY)1,      "$(BAY)",   "Disabled",     "Enabled",  "NO",   "I/O Intr" }
-{ DIFF_LCLS1EN,     "Bay $(BAY) Difference LCLS1 table enabled",    BCM_LCLS1EN_$(BAY)1,    "$(BAY)",   "Disabled",     "Enabled",  "NO",   "I/O Intr" }
+{ R,                DESC,                                           PARAM,                  ADDR,       ZNAM,           ONAM        }
+{ CHR_IDLEEN,       "Bay $(BAY) Charge IDLE table enabled",         BCM_IDLEEN_$(BAY)0,     "$(BAY)",   "Disabled",     "Enabled"   }
+{ CHR_ALTEN,        "Bay $(BAY) Charge ALT table enabled",          BCM_ALTEN_$(BAY)0,      "$(BAY)",   "Disabled",     "Enabled"   }
+{ CHR_LCLS1EN,      "Bay $(BAY) Charge LCLS1 table enabled",        BCM_LCLS1EN_$(BAY)0,    "$(BAY)",   "Disabled",     "Enabled"   }
+{ DIFF_IDLEEN,      "Bay $(BAY) Difference IDLE table enabled",     BCM_IDLEEN_$(BAY)1,     "$(BAY)",   "Disabled",     "Enabled"   }
+{ DIFF_ALTEN,       "Bay $(BAY) Difference ALT table enabled",      BCM_ALTEN_$(BAY)1,      "$(BAY)",   "Disabled",     "Enabled"   }
+{ DIFF_LCLS1EN,     "Bay $(BAY) Difference LCLS1 table enabled",    BCM_LCLS1EN_$(BAY)1,    "$(BAY)",   "Disabled",     "Enabled"   }
 }
 
 
