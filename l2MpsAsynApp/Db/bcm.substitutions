@@ -72,7 +72,7 @@ file "thr.template" { pattern
 
 ### Scale PVs ###
 file "scale.template" { pattern
-{ R,                DESC,                                       PARAM,                      SCALE_PV,           ADDR,       SCAN        }
-{ CHR_SF,           "Bay $(BAY) Charge Scale factor",           BCM_SCALE_$(BAY)0,          "$(P):CHR_FWSCL"    "$(BAY)",   "1 second"  }
-{ DIFF_SF,          "Bay $(BAY) Difference Scale factor",       BCM_SCALE_$(BAY)1,          "$(P):DIFF_FWSCL"   "$(BAY)",   "1 second"  }
+{ R,                DESC,                                       APP,        EGU,    CH,     SCALE_PV,           SCAN        }
+{ CHR_SF,           "Bay $(BAY) Charge Scale factor",           "BCM",      "",     "0",    "$(P):CHR_FWSCL",   "1 second"  }
+{ DIFF_SF,          "Bay $(BAY) Difference Scale factor",       "BCM",      "",     "1",    "$(P):DIFF_FWSCL",  "1 second"  }
 }

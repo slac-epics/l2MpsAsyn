@@ -4,12 +4,13 @@
 #   - P        : Record name prefix                                              #
 #   - R        : Record name                                                     #
 #   - DESC     : Description                                                     #
+#   - SCAN     : Scan period                                                     #
 #   - SCALE_PV : Name of the PV with the scale value                             #
 #   - EGU      : Engineering units                                               #
 #   - PORT     : Asyn port name                                                  #
 #   - BAY      : Bay number (0 or 1)                                             #
-#   - APP   : Application name (BLM, BPM, BCM, BLEN)                             #
-#   - CH    : Threhold channel (application specific)                            #
+#   - APP      : Application name (BLM, BPM, BCM, BLEN)                          #
+#   - CH       : Threhold channel (application specific)                         #
 #     * BLM  => ${X}${Y}, X=input channel(0-2), Y=Integration channel (0-3)      #
 #     * BPM  => ${X},     X=Channel (0:X, 1:Y, 2, TIMIT)                         #
 #     * BCM  => ${X},     X=Channel (0:Charge, 1:Difference)                     #
@@ -19,9 +20,10 @@
 record(ao,      "$(P):$(R)") {
     field(DESC, "$(DESC)")
     field(SCAN, "$(SCAN)")
+    field(EGU,  "$(EGU)/raw")
     field(OMSL, "closed_loop")
     field(OIF,  "Full")
     field(DOL,  "$(SCALE_PV)")
     field(DTYP, "asynInt32")
-    field(OUT,  "@asyn($(PORT),$(ADDR))$(PARAM)")
+    field(OUT,  "@asyn($(PORT),$(BAY))$(APP)_SCALE_$(BAY)$(CH)")
 }

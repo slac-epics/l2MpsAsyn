@@ -94,8 +94,8 @@ file "thr.template" { pattern
 
 ### Scale PVs ###
 file "scale.template" { pattern
-{ R,                DESC,                                       PARAM,                      SCALE_PV,           ADDR,       SCAN        }
-{ X_SF,             "Bay $(BAY) X Scale factor",                BPM_SCALE_$(BAY)0,          "$(P):X_FWSCL"      "$(BAY)",   "1 second"  }
-{ Y_SF,             "Bay $(BAY) Y Scale factor",                BPM_SCALE_$(BAY)1,          "$(P):Y_FWSCL"      "$(BAY)",   "1 second"  }
-{ C_SF,             "Bay $(BAY) C Scale factor",                BPM_SCALE_$(BAY)2,          "$(P):C_FWSCL"      "$(BAY)",   "1 second"  }
+{ R,                DESC,                                       APP,        EGU,    CH,     SCALE_PV,           SCAN        }
+{ X_SF,             "Bay $(BAY) X Scale factor",                "BPM",      "mm",   "0",    "$(P):X_FWSCL",     "1 second"  }
+{ Y_SF,             "Bay $(BAY) Y Scale factor",                "BPM",      "mm",   "1",    "$(P):Y_FWSCL",     "1 second"  }
+{ C_SF,             "Bay $(BAY) C Scale factor",                "BPM",      "Nel",  "2",    "$(P):C_FWSCL",     "1 second"  }
 }
