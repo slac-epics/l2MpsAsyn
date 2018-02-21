@@ -9,13 +9,82 @@ This module depends on the following external packages:
 and on the following EPICS modules:
 - Asyn
 - yamlLoader
+- l2MpsAsyn
 
-For the external packages you need to define the their location on:
+In order to use this module you need to add the following definitions into your IOC application:
 
-configure/CONFIG_SITE
+## configure/CONFIG_SITE
 
-At the time of writing we have this packages on the SLAC afs are:
-/afs/slac/g/lcls/package/cpsw/framework
-/afs/slac/g/lcls/package/boost
-/afs/slac/g/lcls/package/yaml-cpp
-/afs/slac/g/lcls/package/l2Mps
+```
+CPSW_FRAMEWORK_PACKAGE_NAME=cpsw/framework
+CPSW_FRAMEWORK_VERSION=R3.5.4
+CPSW_FRAMEWORK_TOP=$(PACKAGE_SITE_TOP)/$(CPSW_FRAMEWORK_PACKAGE_NAME)/$(CPSW_FRAMEWORK_VERSION)
+CPSW_FRAMEWORK_LIB = $(CPSW_FRAMEWORK_TOP)/$(PKG_ARCH)/lib
+CPSW_FRAMEWORK_INCLUDE = $(CPSW_FRAMEWORK_TOP)/$(PKG_ARCH)/include
+
+YAML_PACKAGE_NAME=yaml-cpp
+YAML_VERSION=yaml-cpp-0.5.3
+YAML_TOP=$(PACKAGE_SITE_TOP)/$(YAML_PACKAGE_NAME)/$(YAML_VERSION)
+YAML_LIB= $(YAML_TOP)/$(PKG_ARCH)/lib
+YAML_INCLUDE=$(YAML_TOP)/$(PKG_ARCH)/include
+
+BOOST_PACKAGE_NAME=boost
+BOOST_VERSION=1.63.0
+BOOST_TOP=$(PACKAGE_SITE_TOP)/$(BOOST_PACKAGE_NAME)/$(BOOST_VERSION)
+BOOST_LIB = $(BOOST_TOP)/$(PKG_ARCH)/lib
+BOOST_INCLUDE = $(BOOST_TOP)/$(PKG_ARCH)/include
+
+L2MPS_PACKAGE_NAME=l2Mps
+L2MPS_VERSION=l2Mps.git
+L2MPS_TOP=$(PACKAGE_SITE_TOP)/$(L2MPS_PACKAGE_NAME)/$(L2MPS_VERSION)
+L2MPS_LIB=$(L2MPS_TOP)/$(PKG_ARCH)/lib
+L2MPS_INCLUDE=$(L2MPS_TOP)/$(PKG_ARCH)/include
+```
+
+## configure/RELEASE
+
+```
+ASYN_MODULE_VERSION=R4.30-0.3.0
+YAMLLOADER_MODULE_VERSION=R1.0.3
+L2MPSASYN_MODULE_VERSION=R1.0.0
+
+ASYN=$(EPICS_MODULES)/asyn/$(ASYN_MODULE_VERSION)
+YAMLLOADER=$(EPICS_MODULES)/yamlLoader/$(YAMLLOADER_MODULE_VERSION)
+L2MPSASYN=$(EPICS_MODULES)/l2MpsAsyn/$(L2MPSASYN_MODULE_VERSION)
+```
+
+## xxxApp/src/Makefile
+
+```
+#=====================================================
+# Path to "NON EPICS" External PACKAGES: USER INCLUDES
+#======================================================
+USR_INCLUDES = -I$(BOOST_INCLUDE) -I$(CPSW_FRAMEWORK_INCLUDE) -I$(YAML_INCLUDE) -I$(L2MPS_INCLUDE)\
+
+#======================================================
+#PATH TO "NON EPICS" EXTERNAL PACKAGES: USER LIBRARIES
+#======================================================
+cpsw_DIR = $(CPSW_FRAMEWORK_LIB)
+boost_system_DIR = $(BOOST_LIB)
+yaml-cpp_DIR = $(YAML_LIB)
+l2Mps_DIR = $(L2MPS_LIB)
+# =====================================================
+
+# ======================================================
+# LINK "NON EPICS" EXTERNAL PACKAGE LIBRARIES STATICALLY
+#=======================================================
+USR_LIBS_Linux += l2Mps cpsw boost_system yaml-cpp
+#======================================================
+
+# l2MpsAsyn and yamlLoader DBD
+xxx_DBD += l2MpsAsyn.dbd
+xxx_DBD += yamlLoader.dbd
+
+# =====================================================
+# Link in the libraries from other EPICS modules
+# =====================================================
+xxx_LIBS += yamlLoader
+xxx_LIBS += l2MpsAsyn
+
+xxx_LIBS += asyn
+```
