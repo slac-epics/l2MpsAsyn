@@ -1,16 +1,16 @@
 file "RegRO.template" { pattern
-{ R,                DESC,                                       PARAM,                      ADDR,       PINI,   SCAN        }
-{ C0I0_THRNUM,      "Bay $(BAY) Ch 0 Int 0 Threshold number",   BLM_THRNUM_$(BAY)00,     "$(BAY)",   "NO",  "I/O Intr"   }
-{ C1I0_THRNUM,      "Bay $(BAY) Ch 1 Int 0 Threshold number",   BLM_THRNUM_$(BAY)10,     "$(BAY)",   "NO",  "I/O Intr"   }
-{ C2I0_THRNUM,      "Bay $(BAY) Ch 2 Int 0 Threshold number",   BLM_THRNUM_$(BAY)20,     "$(BAY)",   "NO",  "I/O Intr"   }
+{ R,                DESC,                                       PARAM,                  ADDR       }
+{ C0I0_THRNUM,      "Bay $(BAY) Ch 0 Int 0 Threshold number",   BLM_THRNUM_$(BAY)00,    "$(BAY)"   }
+{ C1I0_THRNUM,      "Bay $(BAY) Ch 1 Int 0 Threshold number",   BLM_THRNUM_$(BAY)10,    "$(BAY)"   }
+{ C2I0_THRNUM,      "Bay $(BAY) Ch 2 Int 0 Threshold number",   BLM_THRNUM_$(BAY)20,    "$(BAY)"   }
 
-{ C0I0_THRCNT,      "Bay $(BAY) Ch 0 Int0 Threshold count",     BLM_THRCNT_$(BAY)00,     "$(BAY)",   "NO",  "I/O Intr"   }
-{ C1I0_THRCNT,      "Bay $(BAY) Ch 1 Int0 Threshold count",     BLM_THRCNT_$(BAY)10,     "$(BAY)",   "NO",  "I/O Intr"   }
-{ C2I0_THRCNT,      "Bay $(BAY) Ch 2 Int0 Threshold count",     BLM_THRCNT_$(BAY)20,     "$(BAY)",   "NO",  "I/O Intr"   }
+{ C0I0_THRCNT,      "Bay $(BAY) Ch 0 Int0 Threshold count",     BLM_THRCNT_$(BAY)00,    "$(BAY)"   }
+{ C1I0_THRCNT,      "Bay $(BAY) Ch 1 Int0 Threshold count",     BLM_THRCNT_$(BAY)10,    "$(BAY)"   }
+{ C2I0_THRCNT,      "Bay $(BAY) Ch 2 Int0 Threshold count",     BLM_THRCNT_$(BAY)20,    "$(BAY)"   }
 
-{ C0I0_BYTEMAP,     "Bay $(BAY) Ch 0 Int 0 Threshold byte map", BLM_BYTEMAP_$(BAY)00,    "$(BAY)",   "NO",  "I/O Intr"   }
-{ C1I0_BYTEMAP,     "Bay $(BAY) Ch 1 Int 0 Threshold byte map", BLM_BYTEMAP_$(BAY)10,    "$(BAY)",   "NO",  "I/O Intr"   }
-{ C2I0_BYTEMAP,     "Bay $(BAY) Ch 2 Int 0 Threshold byte map", BLM_BYTEMAP_$(BAY)20,    "$(BAY)",   "NO",  "I/O Intr"   }
+{ C0I0_BYTEMAP,     "Bay $(BAY) Ch 0 Int 0 Threshold byte map", BLM_BYTEMAP_$(BAY)00,   "$(BAY)"   }
+{ C1I0_BYTEMAP,     "Bay $(BAY) Ch 1 Int 0 Threshold byte map", BLM_BYTEMAP_$(BAY)10,   "$(BAY)"   }
+{ C2I0_BYTEMAP,     "Bay $(BAY) Ch 2 Int 0 Threshold byte map", BLM_BYTEMAP_$(BAY)20,   "$(BAY)"   }
 
 }
 

@@ -1,16 +1,16 @@
 file "RegRO.template" { pattern
-{ R,            DESC,                               PARAM,                  ADDR,       PINI,   SCAN        }
-{ X_THRNUM,     "Bay $(BAY) X Threshold number",    BPM_THRNUM_$(BAY)0,     "$(BAY)",   "NO",   "I/O Intr"  }
-{ Y_THRNUM,     "Bay $(BAY) Y Threshold number",    BPM_THRNUM_$(BAY)1,     "$(BAY)",   "NO",   "I/O Intr"  }
-{ C_THRNUM,     "Bay $(BAY) C Threshold number",    BPM_THRNUM_$(BAY)2,     "$(BAY)",   "NO",   "I/O Intr"  }
+{ R,            DESC,                               PARAM,                  ADDR        }
+{ X_THRNUM,     "Bay $(BAY) X Threshold number",    BPM_THRNUM_$(BAY)0,     "$(BAY)"    }
+{ Y_THRNUM,     "Bay $(BAY) Y Threshold number",    BPM_THRNUM_$(BAY)1,     "$(BAY)"    }
+{ C_THRNUM,     "Bay $(BAY) C Threshold number",    BPM_THRNUM_$(BAY)2,     "$(BAY)"    }
 
-{ X_THRCNT,     "Bay $(BAY) X Threshold count",     BPM_THRCNT_$(BAY)0,     "$(BAY)",   "NO",   "I/O Intr"  }
-{ Y_THRCNT,     "Bay $(BAY) Y Threshold count",     BPM_THRCNT_$(BAY)1,     "$(BAY)",   "NO",   "I/O Intr"  }
-{ C_THRCNT,     "Bay $(BAY) C Threshold count",     BPM_THRCNT_$(BAY)2,     "$(BAY)",   "NO",   "I/O Intr"  }
+{ X_THRCNT,     "Bay $(BAY) X Threshold count",     BPM_THRCNT_$(BAY)0,     "$(BAY)"    }
+{ Y_THRCNT,     "Bay $(BAY) Y Threshold count",     BPM_THRCNT_$(BAY)1,     "$(BAY)"    }
+{ C_THRCNT,     "Bay $(BAY) C Threshold count",     BPM_THRCNT_$(BAY)2,     "$(BAY)"    }
 
-{ X_BYTEMAP,    "Bay $(BAY) X Threshold byte map",  BPM_BYTEMAP_$(BAY)0,    "$(BAY)",   "NO",   "I/O Intr"  }
-{ Y_BYTEMAP,    "Bay $(BAY) Y Threshold byte map",  BPM_BYTEMAP_$(BAY)1,    "$(BAY)",   "NO",   "I/O Intr"  }
-{ C_BYTEMAP,    "Bay $(BAY) C Threshold byte map",  BPM_BYTEMAP_$(BAY)2,    "$(BAY)",   "NO",   "I/O Intr"  }
+{ X_BYTEMAP,    "Bay $(BAY) X Threshold byte map",  BPM_BYTEMAP_$(BAY)0,    "$(BAY)"    }
+{ Y_BYTEMAP,    "Bay $(BAY) Y Threshold byte map",  BPM_BYTEMAP_$(BAY)1,    "$(BAY)"    }
+{ C_BYTEMAP,    "Bay $(BAY) C Threshold byte map",  BPM_BYTEMAP_$(BAY)2,    "$(BAY)"    }
 }
 
 file "Reg1BitRO.template" { pattern

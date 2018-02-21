@@ -1,11 +1,11 @@
 file "RegRO.template" { pattern
-{ R,                DESC,                                           PARAM,                  ADDR,       PINI,   SCAN       }
-{ CHR_THRNUM,       "Bay $(BAY) Charge Threshold number",           BCM_THRNUM_$(BAY)0,     "$(BAY)",   "NO",   "I/O Intr" }
-{ CHR_THRCNT,       "Bay $(BAY) Charge Threshold count",            BCM_THRCNT_$(BAY)0,     "$(BAY)",   "NO",   "I/O Intr" }
-{ CHR_BYTEMAP,      "Bay $(BAY) Charge Threshold byte map",         BCM_BYTEMAP_$(BAY)0,    "$(BAY)",   "NO",   "I/O Intr" }
-{ DIFF_THRNUM,      "Bay $(BAY) Difference Threshold number",       BCM_THRNUM_$(BAY)1,     "$(BAY)",   "NO",   "I/O Intr" }
-{ DIFF_THRCNT,      "Bay $(BAY) Difference Threshold count",        BCM_THRCNT_$(BAY)1,     "$(BAY)",   "NO",   "I/O Intr" }
-{ DIFF_BYTEMAP,     "Bay $(BAY) Difference Threshold byte map",     BCM_BYTEMAP_$(BAY)1,    "$(BAY)",   "NO",   "I/O Intr" }
+{ R,                DESC,                                           PARAM,                  ADDR        }
+{ CHR_THRNUM,       "Bay $(BAY) Charge Threshold number",           BCM_THRNUM_$(BAY)0,     "$(BAY)"    }
+{ CHR_THRCNT,       "Bay $(BAY) Charge Threshold count",            BCM_THRCNT_$(BAY)0,     "$(BAY)"    }
+{ CHR_BYTEMAP,      "Bay $(BAY) Charge Threshold byte map",         BCM_BYTEMAP_$(BAY)0,    "$(BAY)"    }
+{ DIFF_THRNUM,      "Bay $(BAY) Difference Threshold number",       BCM_THRNUM_$(BAY)1,     "$(BAY)"    }
+{ DIFF_THRCNT,      "Bay $(BAY) Difference Threshold count",        BCM_THRCNT_$(BAY)1,     "$(BAY)"    }
+{ DIFF_BYTEMAP,     "Bay $(BAY) Difference Threshold byte map",     BCM_BYTEMAP_$(BAY)1,    "$(BAY)"    }
 }
 
 file "Reg1BitRO.template" { pattern
