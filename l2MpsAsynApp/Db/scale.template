@@ -7,6 +7,7 @@
 #   - SCAN     : Scan period                                                     #
 #   - SCALE_PV : Name of the PV with the scale value                             #
 #   - EGU      : Engineering units                                               #
+#   - PREC     : Precision                                                       #
 #   - PORT     : Asyn port name                                                  #
 #   - BAY      : Bay number (0 or 1)                                             #
 #   - APP      : Application name (BLM, BPM, BCM, BLEN)                          #
@@ -21,9 +22,19 @@ record(ao,      "$(P):$(R)") {
     field(DESC, "$(DESC)")
     field(SCAN, "$(SCAN)")
     field(EGU,  "$(EGU)/raw")
+    field(PREC, "$(PREC)")
     field(OMSL, "closed_loop")
     field(OIF,  "Full")
     field(DOL,  "$(SCALE_PV)")
-    field(DTYP, "asynInt32")
+    field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT),$(BAY))$(APP)_SCALE_$(BAY)$(CH)")
+}
+
+record(ai,      "$(P):$(R)_RBV") {
+    field(DESC, "$(DESC)")
+    field(SCAN, "I/O Intr")
+    field(EGU,  "$(EGU)/raw")
+    field(PREC, "$(PREC)")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(BAY))$(APP)_SCALE_$(BAY)$(CH)")
 }

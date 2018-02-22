@@ -120,6 +120,7 @@ struct thr_chInfoParam_t
     int  idleEn;
     int  altEn;
     int  lcls1En;
+    int  scaleFactor;
 };
 
 // Threhold parameter (information + table data) data type

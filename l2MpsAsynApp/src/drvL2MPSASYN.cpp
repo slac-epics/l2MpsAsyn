@@ -129,12 +129,13 @@ void L2MPS::updateAppParameters(int bay, T data)
             thr_chInfoData_t  infoData  = (dataIt->second).info;
             thr_chInfoParam_t infoParam = (paramIt->second).info;
 
-            setIntegerParam(    bay,    infoParam.ch,       infoData.ch      );
-            setIntegerParam(    bay,    infoParam.count,    infoData.count   );
-            setIntegerParam(    bay,    infoParam.byteMap,  infoData.byteMap );
-            setUIntDigitalParam(bay,    infoParam.idleEn,   infoData.idleEn,   0xFFFFFFFF, 0x1   );
-            setUIntDigitalParam(bay,    infoParam.altEn,    infoData.altEn,    0xFFFFFFFF, 0x1   );
-            setUIntDigitalParam(bay,    infoParam.lcls1En,  infoData.lcls1En,  0xFFFFFFFF, 0x1   );
+            setIntegerParam(    bay,    infoParam.ch,           infoData.ch      );
+            setIntegerParam(    bay,    infoParam.count,        infoData.count   );
+            setIntegerParam(    bay,    infoParam.byteMap,      infoData.byteMap );
+            setUIntDigitalParam(bay,    infoParam.idleEn,       infoData.idleEn,   0xFFFFFFFF, 0x1   );
+            setUIntDigitalParam(bay,    infoParam.altEn,        infoData.altEn,    0xFFFFFFFF, 0x1   );
+            setUIntDigitalParam(bay,    infoParam.lcls1En,      infoData.lcls1En,  0xFFFFFFFF, 0x1   );
+            setDoubleParam(     bay,    infoParam.scaleFactor,  infoData.scaleFactor );
 
             thr_chData_t  data_thr  = (dataIt->second).data;
             thr_chParam_t param_thr = (paramIt->second).data;
@@ -414,7 +415,8 @@ void L2MPS::InitBpmMaps(const int bay)
             createParam(bay, ("BPM_LCLS1EN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
             thrParam.info.lcls1En = index;
 
-            createParam(bay, ("BPM_SCALE" + pName.str()).c_str(), asynParamInt32, &index);
+            createParam(bay, ("BPM_SCALE" + pName.str()).c_str(), asynParamFloat64, &index);
+            thrParam.info.scaleFactor = index;
             fMapBpmWScale.insert( std::make_pair( index, std::make_pair( &IMpsBpm::setScaleFactor, thisBpmCh ) ) );
 
             thr_chParam_t thrChParamMap;
@@ -494,7 +496,8 @@ void L2MPS::InitBlenMaps(const int bay)
             createParam(bay, ("BLEN_LCLS1EN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
             thrParam.info.lcls1En = index;
 
-            createParam(bay, ("BLEN_SCALE" + pName.str()).c_str(), asynParamInt32, &index);
+            createParam(bay, ("BLEN_SCALE" + pName.str()).c_str(), asynParamFloat64, &index);
+            thrParam.info.scaleFactor = index;
             fMapBlenWScale.insert( std::make_pair( index, std::make_pair( &IMpsBlen::setScaleFactor, thisBlenCh ) ) );
 
             thr_chParam_t thrChParamMap;
@@ -574,7 +577,8 @@ void L2MPS::InitBcmMaps(const int bay)
             createParam(bay, ("BCM_LCLS1EN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
             thrParam.info.lcls1En = index;
 
-            createParam(bay, ("BCM_SCALE" + pName.str()).c_str(), asynParamInt32, &index);
+            createParam(bay, ("BCM_SCALE" + pName.str()).c_str(), asynParamFloat64, &index);
+            thrParam.info.scaleFactor = index;
             fMapBcmWScale.insert( std::make_pair( index, std::make_pair( &IMpsBcm::setScaleFactor, thisBcmCh ) ) );
 
             thr_chParam_t thrChParamMap;
@@ -657,7 +661,8 @@ void L2MPS::InitBlmMaps(const int bay)
             createParam(bay, ("BLM_LCLS1EN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
             thrParam.info.lcls1En = index;
 
-            createParam(bay, ("BLM_SCALE" + pName.str()).c_str(), asynParamInt32, &index);
+            createParam(bay, ("BLM_SCALE" + pName.str()).c_str(), asynParamFloat64, &index);
+            thrParam.info.scaleFactor = index;
             fMapBlmWScale.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setScaleFactor, thisBlmCh ) ) );
 
             thr_chParam_t thrChParamMap;

@@ -99,8 +99,8 @@ file "thr.template" { pattern
 
 ### Scale PVs ###
 file "scale.template" { pattern
-{ R,                DESC,                                       APP,        EGU,    CH,     SCALE_PV,           SCAN        }
-{ C0I0_SF,          "Bay $(BAY) Ch 0 Int 0 Scale factor",       "BLM",      "",     "00",   "$(P):C0I0_FWSCL",  "1 second"  }
-{ C1I0_SF,          "Bay $(BAY) Ch 1 Int 0 Scale factor",       "BLM",      "",     "10",   "$(P):C1I0_FWSCL",  "1 second"  }
-{ C2I0_SF,          "Bay $(BAY) Ch 2 Int 0 Scale factor",       "BLM",      "",     "20",   "$(P):C2I0_FWSCL",  "1 second"  }
+{ R,                DESC,                                       APP,        EGU,    PREC,   CH,     SCALE_PV,           SCAN        }
+{ C0I0_SF,          "Bay $(BAY) Ch 0 Int 0 Scale factor",       "BLM",      "",     "4",    "00",   "$(P):C0I0_FWSCL",  "1 second"  }
+{ C1I0_SF,          "Bay $(BAY) Ch 1 Int 0 Scale factor",       "BLM",      "",     "4",    "10",   "$(P):C1I0_FWSCL",  "1 second"  }
+{ C2I0_SF,          "Bay $(BAY) Ch 2 Int 0 Scale factor",       "BLM",      "",     "4",    "20",   "$(P):C2I0_FWSCL",  "1 second"  }
 }
