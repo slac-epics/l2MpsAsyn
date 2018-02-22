@@ -728,36 +728,36 @@ asynStatus L2MPS::writeInt32(asynUser *pasynUser, epicsInt32 value)
 
     if (addr == paramListMpsBase)
     {
-      try
-      {
-          // // MPS node parameters
-          if (function == mpsInfoParams.beamDestMask)
-          {
+        try
+        {
+            // // MPS node parameters
+            if (function == mpsInfoParams.beamDestMask)
+            {
               node_->setBeamDestMask(value);
-          }
-          else if (function == mpsInfoParams.altDestMask)
-          {
+            }
+            else if (function == mpsInfoParams.altDestMask)
+            {
               node_->setAltDestMask(value);
-          }
-          else
-          {
+            }
+            else
+            {
               status == asynPortDriver::writeInt32(pasynUser, value);
-          }
-      }
-      catch (CPSWError &e)
-      {
-          status = -1;
-          asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writting parameter %s: %s\n", functionName, name, e.getInfo().c_str());
-      }
-      catch (std::runtime_error &e)
-      {
-          status = -1;
-          asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writting parameter %s: %s\n", functionName, name, e.what());
-      }
+            }
+        }
+        catch (CPSWError &e)
+        {
+            status = -1;
+            asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writting parameter %s: %s\n", functionName, name, e.getInfo().c_str());
+        }
+        catch (std::runtime_error &e)
+        {
+            status = -1;
+            asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writting parameter %s: %s\n", functionName, name, e.what());
+        }
     }
     else
     {
-      status == asynPortDriver::writeInt32(pasynUser, value);
+        status == asynPortDriver::writeInt32(pasynUser, value);
     }
 
     return (status == 0) ? asynSuccess : asynError;
@@ -779,90 +779,89 @@ asynStatus L2MPS::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epi
     // MPS node parameters
     if (addr == paramListMpsBase)
     {
-      try
-      {
-        if(function == mpsInfoParams.enable)
+        try
         {
-            node_->setEnable(value & mask);
+            if(function == mpsInfoParams.enable)
+            {
+                node_->setEnable(value & mask);
+            }
+            else if (function == mpsInfoParams.lcls1Mode)
+            {
+                node_->setLcls1Mode(value & mask);
+            }
+            else if (function == mpsInfoParams.rstCnt)
+            {
+                node_->resetSaltCnt();
+            }
+            else if (function == mpsInfoParams.rstPll)
+            {
+                node_->resetSaltPll();
+            }
+            else
+            {
+                status = asynPortDriver::writeUInt32Digital(pasynUser, value, mask);
+            }
         }
-        else if (function == mpsInfoParams.lcls1Mode)
+        catch (CPSWError &e)
         {
-            node_->setLcls1Mode(value & mask);
+            status = -1;
+            asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writting parameter %s: %s\n", functionName, name, e.getInfo().c_str());
         }
-        else if (function == mpsInfoParams.rstCnt)
+        catch (std::runtime_error &e)
         {
-            node_->resetSaltCnt();
+            status = -1;
+            asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writting parameter %s: %s\n", functionName, name, e.what());
         }
-        else if (function == mpsInfoParams.rstPll)
-        {
-            node_->resetSaltPll();
-        }
-        else
-        {
-            status = asynPortDriver::writeUInt32Digital(pasynUser, value, mask);
-        }
-      }
-      catch (CPSWError &e)
-      {
-          status = -1;
-          asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writting parameter %s: %s\n", functionName, name, e.getInfo().c_str());
-      }
-      catch (std::runtime_error &e)
-      {
-          status = -1;
-          asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writting parameter %s: %s\n", functionName, name, e.what());
-      }
     }
     else if ((addr == paramListAppBay0) or (addr == paramListAppBay1))
     {
-      try
-      {
-          bpm_fmap_w1_t::iterator bpm_it;
-          blen_fmap_w1_t::iterator blen_it;
-          bcm_fmap_w1_t::iterator bcm_it;
-          blm_fmap_w1_t::iterator blm_it;
+        try
+        {
+            bpm_fmap_w1_t::iterator bpm_it;
+            blen_fmap_w1_t::iterator blen_it;
+            bcm_fmap_w1_t::iterator bcm_it;
+            blm_fmap_w1_t::iterator blm_it;
 
-          // BPM parameters
-          if ((bpm_it = fMapBpmW1.find(function)) != fMapBpmW1.end())
-          {
+            // BPM parameters
+            if ((bpm_it = fMapBpmW1.find(function)) != fMapBpmW1.end())
+            {
               ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second, (value & mask));
-          }
-          // BLEN parameters
-          else if ((blen_it = fMapBlenW1.find(function)) != fMapBlenW1.end())
-          {
+            }
+            // BLEN parameters
+            else if ((blen_it = fMapBlenW1.find(function)) != fMapBlenW1.end())
+            {
               ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_it->second.first))(blen_it->second.second, (value & mask));
-          }
-          // BCM parameters
-          else if ((bcm_it = fMapBcmW1.find(function)) != fMapBcmW1.end())
-          {
+            }
+            // BCM parameters
+            else if ((bcm_it = fMapBcmW1.find(function)) != fMapBcmW1.end())
+            {
               ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_it->second.first))(bcm_it->second.second, (value & mask));
-          }
-          // BLM parameters
-          else if ((blm_it = fMapBlmW1.find(function)) != fMapBlmW1.end())
-          {
+            }
+            // BLM parameters
+            else if ((blm_it = fMapBlmW1.find(function)) != fMapBlmW1.end())
+            {
               ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second, (value & mask));
-          }
-          else
-          {
+            }
+            else
+            {
               status = asynPortDriver::writeUInt32Digital(pasynUser, value, mask);
-          }
-      }
-      catch (CPSWError &e)
-      {
-          status = -1;
-          asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writting parameter %s: %s\n", functionName, name, e.getInfo().c_str());
-      }
-      catch (std::runtime_error &e)
-      {
-          status = -1;
-          asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writting parameter %s: %s\n", functionName, name, e.what());
-      }
+            }
+        }
+        catch (CPSWError &e)
+        {
+            status = -1;
+            asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writting parameter %s: %s\n", functionName, name, e.getInfo().c_str());
+        }
+        catch (std::runtime_error &e)
+        {
+            status = -1;
+            asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writting parameter %s: %s\n", functionName, name, e.what());
+        }
     }
     else
     {
-      status = asynPortDriver::writeUInt32Digital(pasynUser, value, mask);
+        status = asynPortDriver::writeUInt32Digital(pasynUser, value, mask);
     }
-
 
     return (status == 0) ? asynSuccess : asynError;
 }
@@ -884,75 +883,75 @@ asynStatus L2MPS::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
 
     if ((addr == paramListAppBay0) or (addr == paramListAppBay1))
     {
-      try
-      {
-          bpm_fmap_w32_t::iterator bpm_it;
-          bpm_scaleFuncMap_t::iterator bpm_scaleIt;
+        try
+        {
+            bpm_fmap_w32_t::iterator bpm_it;
+            bpm_scaleFuncMap_t::iterator bpm_scaleIt;
 
-          blen_fmap_w32_t::iterator blen_it;
-          blen_scaleFuncMap_t::iterator blen_scaleIt;
+            blen_fmap_w32_t::iterator blen_it;
+            blen_scaleFuncMap_t::iterator blen_scaleIt;
 
-          bcm_fmap_w32_t::iterator bcm_it;
-          bcm_scaleFuncMap_t::iterator bcm_scaleIt;
+            bcm_fmap_w32_t::iterator bcm_it;
+            bcm_scaleFuncMap_t::iterator bcm_scaleIt;
 
-          blm_fmap_w32_t::iterator blm_it;
-          blm_scaleFuncMap_t::iterator blm_scaleIt;
+            blm_fmap_w32_t::iterator blm_it;
+            blm_scaleFuncMap_t::iterator blm_scaleIt;
 
-          // BPM parameters
-          if ((bpm_it = fMapBpmW32.find(function)) != fMapBpmW32.end())
-          {
-              ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second, value);
-          }
-          else if ((bpm_scaleIt = fMapBpmWScale.find(function)) != fMapBpmWScale.end())
-          {
-              ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_scaleIt->second.first))(bpm_scaleIt->second.second, value);
-          }
-          // BLEN parameters
-          else if ((blen_it = fMapBlenW32.find(function)) != fMapBlenW32.end())
-          {
-              ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_it->second.first))(blen_it->second.second, value);
-          }
-          else if ((blen_scaleIt = fMapBlenWScale.find(function)) != fMapBlenWScale.end())
-          {
-              ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_scaleIt->second.first))(blen_scaleIt->second.second, value);
-          }
-          // BCM parameters
-          else if ((bcm_it = fMapBcmW32.find(function)) != fMapBcmW32.end())
-          {
-              ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_it->second.first))(bcm_it->second.second, value);
-          }
-          else if ((bcm_scaleIt = fMapBcmWScale.find(function)) != fMapBcmWScale.end())
-          {
-              ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_scaleIt->second.first))(bcm_scaleIt->second.second, value);
-          }
-          // BLM parameters
-          else if ((blm_it = fMapBlmW32.find(function)) != fMapBlmW32.end())
-          {
-              ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second, value);
-          }
-          else if ((blm_scaleIt = fMapBlmWScale.find(function)) != fMapBlmWScale.end())
-          {
-              ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_scaleIt->second.first))(blm_scaleIt->second.second, value);
-          }
-          else
-          {
-              status = asynPortDriver::writeFloat64(pasynUser, value);
-          }
-      }
-      catch (CPSWError &e)
-      {
-          status = -1;
-          asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writting parameter %s: %s\n", functionName, name, e.getInfo().c_str());
-      }
-      catch (std::runtime_error &e)
-      {
-          status = -1;
-          asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writting parameter %s: %s\n", functionName, name, e.what());
-      }
+            // BPM parameters
+            if ((bpm_it = fMapBpmW32.find(function)) != fMapBpmW32.end())
+            {
+                ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second, value);
+            }
+            else if ((bpm_scaleIt = fMapBpmWScale.find(function)) != fMapBpmWScale.end())
+            {
+                ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_scaleIt->second.first))(bpm_scaleIt->second.second, value);
+            }
+            // BLEN parameters
+            else if ((blen_it = fMapBlenW32.find(function)) != fMapBlenW32.end())
+            {
+                ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_it->second.first))(blen_it->second.second, value);
+            }
+            else if ((blen_scaleIt = fMapBlenWScale.find(function)) != fMapBlenWScale.end())
+            {
+                ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_scaleIt->second.first))(blen_scaleIt->second.second, value);
+            }
+            // BCM parameters
+            else if ((bcm_it = fMapBcmW32.find(function)) != fMapBcmW32.end())
+            {
+                ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_it->second.first))(bcm_it->second.second, value);
+            }
+            else if ((bcm_scaleIt = fMapBcmWScale.find(function)) != fMapBcmWScale.end())
+            {
+                ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_scaleIt->second.first))(bcm_scaleIt->second.second, value);
+            }
+            // BLM parameters
+            else if ((blm_it = fMapBlmW32.find(function)) != fMapBlmW32.end())
+            {
+                ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second, value);
+            }
+            else if ((blm_scaleIt = fMapBlmWScale.find(function)) != fMapBlmWScale.end())
+            {
+                ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_scaleIt->second.first))(blm_scaleIt->second.second, value);
+            }
+            else
+            {
+                status = asynPortDriver::writeFloat64(pasynUser, value);
+            }
+        }
+        catch (CPSWError &e)
+        {
+            status = -1;
+            asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writting parameter %s: %s\n", functionName, name, e.getInfo().c_str());
+        }
+        catch (std::runtime_error &e)
+        {
+            status = -1;
+            asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writting parameter %s: %s\n", functionName, name, e.what());
+        }
     }
     else
     {
-      status = asynPortDriver::writeFloat64(pasynUser, value);
+        status = asynPortDriver::writeFloat64(pasynUser, value);
     }
 
     return (status == 0) ? asynSuccess : asynError;
