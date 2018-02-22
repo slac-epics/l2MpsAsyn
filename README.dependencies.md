@@ -35,10 +35,22 @@ BOOST_LIB = $(BOOST_TOP)/$(PKG_ARCH)/lib
 BOOST_INCLUDE = $(BOOST_TOP)/$(PKG_ARCH)/include
 
 L2MPS_PACKAGE_NAME=l2Mps
-L2MPS_VERSION=l2Mps.git
+L2MPS_VERSION=R1.0.0
 L2MPS_TOP=$(PACKAGE_SITE_TOP)/$(L2MPS_PACKAGE_NAME)/$(L2MPS_VERSION)
 L2MPS_LIB=$(L2MPS_TOP)/$(PKG_ARCH)/lib
 L2MPS_INCLUDE=$(L2MPS_TOP)/$(PKG_ARCH)/include
+```
+
+## configure/CONFIG_SITE.Common.linuxRT-x86_64
+
+```
+PKG_ARCH=$(LINUXRT_BUILDROOT_VERSION)-x86_64
+```
+
+## configure/CONFIG_SITE.Common.rhel6-x86_64
+
+```
+PKG_ARCH=$(LINUX_VERSION)-x86_64
 ```
 
 ## configure/RELEASE
@@ -56,14 +68,15 @@ L2MPSASYN=$(EPICS_MODULES)/l2MpsAsyn/$(L2MPSASYN_MODULE_VERSION)
 ## xxxApp/src/Makefile
 
 ```
-#=====================================================
+# =====================================================
 # Path to "NON EPICS" External PACKAGES: USER INCLUDES
-#======================================================
-USR_INCLUDES = -I$(BOOST_INCLUDE) -I$(CPSW_FRAMEWORK_INCLUDE) -I$(YAML_INCLUDE) -I$(L2MPS_INCLUDE)\
+# ======================================================
+USR_INCLUDES = -I$(BOOST_INCLUDE) -I$(CPSW_FRAMEWORK_INCLUDE) -I$(YAML_INCLUDE) -I$(L2MPS_INCLUDE)
+# =====================================================
 
-#======================================================
+# ======================================================
 #PATH TO "NON EPICS" EXTERNAL PACKAGES: USER LIBRARIES
-#======================================================
+# ======================================================
 cpsw_DIR = $(CPSW_FRAMEWORK_LIB)
 boost_system_DIR = $(BOOST_LIB)
 yaml-cpp_DIR = $(YAML_LIB)
@@ -72,11 +85,12 @@ l2Mps_DIR = $(L2MPS_LIB)
 
 # ======================================================
 # LINK "NON EPICS" EXTERNAL PACKAGE LIBRARIES STATICALLY
-#=======================================================
+# =======================================================
 USR_LIBS_Linux += l2Mps cpsw boost_system yaml-cpp
-#======================================================
+# ======================================================
 
 # l2MpsAsyn and yamlLoader DBD
+xxx_DBD += asyn.dbd
 xxx_DBD += l2MpsAsyn.dbd
 xxx_DBD += yamlLoader.dbd
 
@@ -87,4 +101,21 @@ xxx_LIBS += yamlLoader
 xxx_LIBS += l2MpsAsyn
 
 xxx_LIBS += asyn
+```
+
+## xxxApp/Db/Makefile
+
+```
+# ==========================================
+# LCLS2 MPS application specific databases
+# ==========================================
+
+# Common database to all applications
+DB_INSTALLS += $(L2MPSASYN)/db/mps.db   # All application need this one.
+
+# Application specific database
+DB_INSTALLS += $(L2MPSASYN)/db/bpm.db   # Each application only needs to
+DB_INSTALLS += $(L2MPSASYN)/db/blen.db  # include its specific db file.
+DB_INSTALLS += $(L2MPSASYN)/db/blm.db   #
+DB_INSTALLS += $(L2MPSASYN)/db/bcm.db   #
 ```
