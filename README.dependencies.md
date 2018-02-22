@@ -70,7 +70,7 @@ L2MPSASYN=$(EPICS_MODULES)/l2MpsAsyn/$(L2MPSASYN_MODULE_VERSION)
 ```
 # =====================================================
 # Path to "NON EPICS" External PACKAGES: USER INCLUDES
-# ======================================================
+# =====================================================
 USR_INCLUDES = -I$(BOOST_INCLUDE) -I$(CPSW_FRAMEWORK_INCLUDE) -I$(YAML_INCLUDE) -I$(L2MPS_INCLUDE)
 # =====================================================
 
@@ -81,11 +81,11 @@ cpsw_DIR = $(CPSW_FRAMEWORK_LIB)
 boost_system_DIR = $(BOOST_LIB)
 yaml-cpp_DIR = $(YAML_LIB)
 l2Mps_DIR = $(L2MPS_LIB)
-# =====================================================
+# ======================================================
 
 # ======================================================
 # LINK "NON EPICS" EXTERNAL PACKAGE LIBRARIES STATICALLY
-# =======================================================
+# ======================================================
 USR_LIBS_Linux += l2Mps cpsw boost_system yaml-cpp
 # ======================================================
 
