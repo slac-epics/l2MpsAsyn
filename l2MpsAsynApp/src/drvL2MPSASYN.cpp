@@ -887,8 +887,14 @@ asynStatus L2MPS::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
       try
       {
           bpm_fmap_w32_t::iterator bpm_it;
+          bpm_scaleFuncMap_t::iterator bpm_scaleIt;
+
           blen_fmap_w32_t::iterator blen_it;
+          blen_scaleFuncMap_t::iterator blen_scaleIt;
+
           bcm_fmap_w32_t::iterator bcm_it;
+          bcm_scaleFuncMap_t::iterator bcm_scaleIt;
+
           blm_fmap_w32_t::iterator blm_it;
           blm_scaleFuncMap_t::iterator blm_scaleIt;
 
@@ -897,15 +903,27 @@ asynStatus L2MPS::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
           {
               ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second, value);
           }
+          else if ((bpm_scaleIt = fMapBpmWScale.find(function)) != fMapBpmWScale.end())
+          {
+              ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_scaleIt->second.first))(bpm_scaleIt->second.second, value);
+          }
           // BLEN parameters
           else if ((blen_it = fMapBlenW32.find(function)) != fMapBlenW32.end())
           {
               ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_it->second.first))(blen_it->second.second, value);
           }
+          else if ((blen_scaleIt = fMapBlenWScale.find(function)) != fMapBlenWScale.end())
+          {
+              ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_scaleIt->second.first))(blen_scaleIt->second.second, value);
+          }
           // BCM parameters
           else if ((bcm_it = fMapBcmW32.find(function)) != fMapBcmW32.end())
           {
               ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_it->second.first))(bcm_it->second.second, value);
+          }
+          else if ((bcm_scaleIt = fMapBcmWScale.find(function)) != fMapBcmWScale.end())
+          {
+              ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_scaleIt->second.first))(bcm_scaleIt->second.second, value);
           }
           // BLM parameters
           else if ((blm_it = fMapBlmW32.find(function)) != fMapBlmW32.end())
