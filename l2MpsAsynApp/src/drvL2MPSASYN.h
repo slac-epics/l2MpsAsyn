@@ -234,7 +234,7 @@ class L2MPS : public asynPortDriver {
         mps_infoParam_t     mpsInfoParams;
 
         // Application parameters
-        paramMap_t          _paramMap;
+        paramMap_t          paramMap;
 
         // BPM application init
         void InitBpmMaps(const int bay);

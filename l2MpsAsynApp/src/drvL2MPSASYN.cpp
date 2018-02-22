@@ -122,9 +122,9 @@ void L2MPS::updateAppParameters(int bay, T data)
     for (dataIt = data.begin(); dataIt != data.end(); ++dataIt)
     {
         // Process the Threshold info
-        paramMap_t::iterator paramIt = _paramMap.find(dataIt->first);
+        paramMap_t::iterator paramIt = paramMap.find(dataIt->first);
 
-        if (paramIt != _paramMap.end())
+        if (paramIt != paramMap.end())
         {
             thr_chInfoData_t  infoData  = (dataIt->second).info;
             thr_chInfoParam_t infoParam = (paramIt->second).info;
@@ -453,7 +453,7 @@ void L2MPS::InitBpmMaps(const int bay)
                 }
             }
             thrParam.data = thrChParamMap;
-            _paramMap.insert(std::make_pair( thisBpmCh, thrParam ));
+            paramMap.insert(std::make_pair( thisBpmCh, thrParam ));
     }
 
     std::stringstream bpmDbParams;
@@ -534,7 +534,7 @@ void L2MPS::InitBlenMaps(const int bay)
                 }
             }
             thrParam.data = thrChParamMap;
-            _paramMap.insert(std::make_pair( thisBlenCh, thrParam ));
+            paramMap.insert(std::make_pair( thisBlenCh, thrParam ));
     }
 
     std::stringstream blenDbParams;
@@ -615,7 +615,7 @@ void L2MPS::InitBcmMaps(const int bay)
                 }
             }
             thrParam.data = thrChParamMap;
-            _paramMap.insert(std::make_pair( thisBcmCh, thrParam ));
+            paramMap.insert(std::make_pair( thisBcmCh, thrParam ));
     }
 
     std::stringstream bcmDbParams;
@@ -699,7 +699,7 @@ void L2MPS::InitBlmMaps(const int bay)
                     }
             }
             thrParam.data = thrChParamMap;
-            _paramMap.insert(std::make_pair( thisBlmCh, thrParam ));
+            paramMap.insert(std::make_pair( thisBlmCh, thrParam ));
         }
     }
 
