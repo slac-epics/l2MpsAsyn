@@ -11,9 +11,9 @@
 #   - BAY      : Bay number (0 or 1)                                             #
 #   - APP      : Application name (BLM, BPM, BCM, BLEN)                          #
 #   - CH       : Threhold channel (application specific)                         #
-#     * BLM  => ${X}${Y}, X=input channel(0-2), Y=Integration channel (0-3)      #
-#     * BPM  => ${X},     X=Channel (0:X, 1:Y, 2, TIMIT)                         #
-#     * BCM  => ${X},     X=Channel (0:Charge, 1:Difference)                     #
+#     * BLM  => (X)(Y), X=input channel(0-2), Y=Integration channel (0-3)        #
+#     * BPM  => (X),    X=Channel (0:X, 1:Y, 2, TIMIT)                           #
+#     * BCM  => (X),    X=Channel (0:Charge, 1:Difference)                       #
 #     * BLEN => 0                                                                #
 #================================================================================#
 
