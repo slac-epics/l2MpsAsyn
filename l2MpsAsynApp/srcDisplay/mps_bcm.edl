@@ -4,9 +4,9 @@ major 4
 minor 0
 release 1
 x 34
-y 51
+y 73
 w 320
-h 420
+h 460
 font "helvetica-medium-r-18.0"
 ctlFont "helvetica-medium-r-18.0"
 btnFont "helvetica-medium-r-18.0"
@@ -48,9 +48,9 @@ beginObjectProperties
 major 4
 minor 4
 release 0
-x 140
+x 10
 y 210
-w 156
+w 140
 h 30
 fgColor index 14
 bgColor index 0
@@ -72,7 +72,7 @@ major 4
 minor 1
 release 1
 x 90
-y 280
+y 330
 w 140
 h 20
 font "helvetica-bold-r-14.0"
@@ -534,7 +534,7 @@ major 4
 minor 4
 release 0
 x 20
-y 370
+y 420
 w 130
 h 30
 fgColor index 14
@@ -563,7 +563,7 @@ major 4
 minor 1
 release 1
 x 20
-y 300
+y 350
 w 140
 h 20
 font "helvetica-bold-r-14.0"
@@ -583,7 +583,7 @@ major 4
 minor 1
 release 1
 x 170
-y 300
+y 350
 w 140
 h 20
 font "helvetica-bold-r-14.0"
@@ -603,7 +603,7 @@ major 4
 minor 4
 release 0
 x 20
-y 330
+y 380
 w 130
 h 30
 fgColor index 14
@@ -632,7 +632,7 @@ major 4
 minor 4
 release 0
 x 170
-y 330
+y 380
 w 130
 h 30
 fgColor index 14
@@ -661,7 +661,7 @@ major 4
 minor 4
 release 0
 x 170
-y 370
+y 420
 w 130
 h 30
 fgColor index 14
@@ -689,9 +689,9 @@ beginObjectProperties
 major 4
 minor 4
 release 0
-x 140
+x 10
 y 250
-w 156
+w 140
 h 30
 fgColor index 14
 bgColor index 0
@@ -703,6 +703,75 @@ numPvs 4
 numDsps 1
 displayFileName {
   0 "mps_debug.edl"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 160
+y 250
+w 140
+h 30
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "helvetica-medium-r-12.0"
+buttonLabel "Timing"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "mps_timing.edl"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 160
+y 210
+w 140
+h 30
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "helvetica-medium-r-12.0"
+buttonLabel "ANALOG AMC"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "mps_analog_amc.edl"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 160
+y 290
+w 140
+h 30
+fgColor index 14
+bgColor index 0
+topShadowColor index 0
+botShadowColor index 14
+font "helvetica-medium-r-12.0"
+buttonLabel "Save/Load Config"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "saveLoadConfig.edl"
 }
 endObjectProperties
 
