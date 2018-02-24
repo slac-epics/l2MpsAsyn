@@ -1,44 +1,47 @@
 ### Threshold information ###
 file "RegRO.template" { pattern
-{ R,                    DESC,                                                   PARAM,                          ADDR        }
-{ I$(INT)_THR_CH,       "Bay $(BAY) Ch $(INP) Int $(INT) Threshold channel",     BLM_THRNUM_$(BAY)$(INP)$(INT),    "$(BAY)"   }
-{ I$(INT)_THR_CNT,      "Bay $(BAY) Ch $(INP) Int $(INT) Threshold count",       BLM_THRCNT_$(BAY)$(INP)$(INT),    "$(BAY)"   }
-{ I$(INT)_THR_BYTEMAP,  "Bay $(BAY) Ch $(INP) Int $(INT) Threshold byte map",    BLM_BYTEMAP_$(BAY)$(INP)$(INT),   "$(BAY)"   }
+{ R,                DESC,                                               PARAM,                        ADDR        }
+{ I0_THR_CH,        "Bay $(BAY) Ch $(INP) Int 0 Threshold channel",     BLM_THRNUM_$(BAY)$(INP)0,     "$(BAY)"    }
+{ I0_THR_CNT,       "Bay $(BAY) Ch $(INP) Int 0 Threshold count",       BLM_THRCNT_$(BAY)$(INP)0,     "$(BAY)"    }
+{ I0_THR_BYTEMAP,   "Bay $(BAY) Ch $(INP) Int 0 Threshold byte map",    BLM_BYTEMAP_$(BAY)$(INP)0,    "$(BAY)"    }
 }
 
 ### Tables enable PVs ###
 file "Reg1BitRO.template" { pattern
-{ R,                    DESC,                                                   PARAM,                          ADDR,       ZNAM,           ONAM,      }
-{ I$(INT)_IDL_EN,       "Bay $(BAY) Ch $(INP) Int $(INT) IDLE table enabled",    BLM_IDLEEN_$(BAY)$(INP)$(INT),   "$(BAY)",   "Disabled",     "Enabled"  }
-{ I$(INT)_ALT_EN,       "Bay $(BAY) Ch $(INP) Int $(INT) ALT table enabled",     BLM_ALTEN_$(BAY)$(INP)$(INT),    "$(BAY)",   "Disabled",     "Enabled"  }
-{ I$(INT)_LC1_EN,       "Bay $(BAY) Ch $(INP) Int $(INT) LCLS1 table enabled",   BLM_LCLS1EN_$(BAY)$(INP)$(INT),  "$(BAY)",   "Disabled",     "Enabled"  }
+{ R,                DESC,                                               PARAM,                        ADDR,       ZNAM,           ONAM,      }
+{ I0_IDL_EN,        "Bay $(BAY) Ch $(INP) Int 0 IDLE table enabled",    BLM_IDLEEN_$(BAY)$(INP)0,     "$(BAY)",   "Disabled",     "Enabled"  }
+{ I0_ALT_EN,        "Bay $(BAY) Ch $(INP) Int 0 ALT table enabled",     BLM_ALTEN_$(BAY)$(INP)0,      "$(BAY)",   "Disabled",     "Enabled"  }
+{ I0_LC1_EN,        "Bay $(BAY) Ch $(INP) Int 0 LCLS1 table enabled",   BLM_LCLS1EN_$(BAY)$(INP)0,    "$(BAY)",   "Disabled",     "Enabled"  }
 }
 
 ### Threshold PVs ###
 file "thr.template" { pattern
-{ R,                    DESC,                                               APP,        EGU,    PREC,   CH,             TABLE,  THR,    }
-{ I$(INT)_T0_LC1,       "Bay $(BAY) Ch $(INP) Int $(INT) LCLS1, Threshold",  "BLM",      "",     "2",    "$(INP)$(INT)",  "0",    "0",    }
-{ I$(INT)_T0_IDL,       "Bay $(BAY) Ch $(INP) Int $(INT) IDLE, Threshold",   "BLM",      "",     "2",    "$(INP)$(INT)",  "1",    "0",    }
-{ I$(INT)_T0_STD,       "Bay $(BAY) Ch $(INP) Int $(INT) STD, Threshold 0",  "BLM",      "",     "2",    "$(INP)$(INT)",  "2",    "0",    }
-{ I$(INT)_T1_STD,       "Bay $(BAY) Ch $(INP) Int $(INT) STD, Threshold 1",  "BLM",      "",     "2",    "$(INP)$(INT)",  "2",    "1",    }
-{ I$(INT)_T2_STD,       "Bay $(BAY) Ch $(INP) Int $(INT) STD, Threshold 2",  "BLM",      "",     "2",    "$(INP)$(INT)",  "2",    "2",    }
-{ I$(INT)_T3_STD,       "Bay $(BAY) Ch $(INP) Int $(INT) STD, Threshold 3",  "BLM",      "",     "2",    "$(INP)$(INT)",  "2",    "3",    }
-{ I$(INT)_T4_STD,       "Bay $(BAY) Ch $(INP) Int $(INT) STD, Threshold 4",  "BLM",      "",     "2",    "$(INP)$(INT)",  "2",    "4",    }
-{ I$(INT)_T5_STD,       "Bay $(BAY) Ch $(INP) Int $(INT) STD, Threshold 5",  "BLM",      "",     "2",    "$(INP)$(INT)",  "2",    "5",    }
-{ I$(INT)_T6_STD,       "Bay $(BAY) Ch $(INP) Int $(INT) STD, Threshold 6",  "BLM",      "",     "2",    "$(INP)$(INT)",  "2",    "6",    }
-{ I$(INT)_T7_STD,       "Bay $(BAY) Ch $(INP) Int $(INT) STD, Threshold 7",  "BLM",      "",     "2",    "$(INP)$(INT)",  "2",    "7",    }
-{ I$(INT)_T0_ALT,       "Bay $(BAY) Ch $(INP) Int $(INT) ALT, Threshold 0",  "BLM",      "",     "2",    "$(INP)$(INT)",  "3",    "0",    }
-{ I$(INT)_T1_ALT,       "Bay $(BAY) Ch $(INP) Int $(INT) ALT, Threshold 1",  "BLM",      "",     "2",    "$(INP)$(INT)",  "3",    "1",    }
-{ I$(INT)_T2_ALT,       "Bay $(BAY) Ch $(INP) Int $(INT) ALT, Threshold 2",  "BLM",      "",     "2",    "$(INP)$(INT)",  "3",    "2",    }
-{ I$(INT)_T3_ALT,       "Bay $(BAY) Ch $(INP) Int $(INT) ALT, Threshold 3",  "BLM",      "",     "2",    "$(INP)$(INT)",  "3",    "3",    }
-{ I$(INT)_T4_ALT,       "Bay $(BAY) Ch $(INP) Int $(INT) ALT, Threshold 4",  "BLM",      "",     "2",    "$(INP)$(INT)",  "3",    "4",    }
-{ I$(INT)_T5_ALT,       "Bay $(BAY) Ch $(INP) Int $(INT) ALT, Threshold 5",  "BLM",      "",     "2",    "$(INP)$(INT)",  "3",    "5",    }
-{ I$(INT)_T6_ALT,       "Bay $(BAY) Ch $(INP) Int $(INT) ALT, Threshold 6",  "BLM",      "",     "2",    "$(INP)$(INT)",  "3",    "6",    }
-{ I$(INT)_T7_ALT,       "Bay $(BAY) Ch $(INP) Int $(INT) ALT, Threshold 7",  "BLM",      "",     "2",    "$(INP)$(INT)",  "3",    "7",    }
+{ R,                DESC,                                               APP,        EGU,    PREC,   CH,           TABLE,  THR,    }
+{ I0_T0_LC1,        "Bay $(BAY) Ch $(INP) Int 0 LCLS1, Threshold",      "BLM",      "",     "2",    "$(INP)0",    "0",    "0",    }
+
+{ I0_T0_IDL,        "Bay $(BAY) Ch $(INP) Int 0 IDLE, Threshold",       "BLM",      "",     "2",    "$(INP)0",    "1",    "0",    }
+
+{ I0_T0_STD,        "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 0",      "BLM",      "",     "2",    "$(INP)0",    "2",    "0",    }
+{ I0_T1_STD,        "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 1",      "BLM",      "",     "2",    "$(INP)0",    "2",    "1",    }
+{ I0_T2_STD,        "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 2",      "BLM",      "",     "2",    "$(INP)0",    "2",    "2",    }
+{ I0_T3_STD,        "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 3",      "BLM",      "",     "2",    "$(INP)0",    "2",    "3",    }
+{ I0_T4_STD,        "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 4",      "BLM",      "",     "2",    "$(INP)0",    "2",    "4",    }
+{ I0_T5_STD,        "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 5",      "BLM",      "",     "2",    "$(INP)0",    "2",    "5",    }
+{ I0_T6_STD,        "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 6",      "BLM",      "",     "2",    "$(INP)0",    "2",    "6",    }
+{ I0_T7_STD,        "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 7",      "BLM",      "",     "2",    "$(INP)0",    "2",    "7",    }
+
+{ I0_T0_ALT,        "Bay $(BAY) Ch $(INP) Int 0 ALT, Threshold 0",      "BLM",      "",     "2",    "$(INP)0",    "3",    "0",    }
+{ I0_T1_ALT,        "Bay $(BAY) Ch $(INP) Int 0 ALT, Threshold 1",      "BLM",      "",     "2",    "$(INP)0",    "3",    "1",    }
+{ I0_T2_ALT,        "Bay $(BAY) Ch $(INP) Int 0 ALT, Threshold 2",      "BLM",      "",     "2",    "$(INP)0",    "3",    "2",    }
+{ I0_T3_ALT,        "Bay $(BAY) Ch $(INP) Int 0 ALT, Threshold 3",      "BLM",      "",     "2",    "$(INP)0",    "3",    "3",    }
+{ I0_T4_ALT,        "Bay $(BAY) Ch $(INP) Int 0 ALT, Threshold 4",      "BLM",      "",     "2",    "$(INP)0",    "3",    "4",    }
+{ I0_T5_ALT,        "Bay $(BAY) Ch $(INP) Int 0 ALT, Threshold 5",      "BLM",      "",     "2",    "$(INP)0",    "3",    "5",    }
+{ I0_T6_ALT,        "Bay $(BAY) Ch $(INP) Int 0 ALT, Threshold 6",      "BLM",      "",     "2",    "$(INP)0",    "3",    "6",    }
+{ I0_T7_ALT,        "Bay $(BAY) Ch $(INP) Int 0 ALT, Threshold 7",      "BLM",      "",     "2",    "$(INP)0",    "3",    "7",    }
 }
 
 ### Scale PVs ###
 file "scale.template" { pattern
-{ R,                    DESC,                                       APP,        EGU,    PREC,   CH,             SCALE_PV,               SCAN        }
-{ I$(INT)_SF,           "Bay $(BAY) Ch $(INP) Int 0 Scale factor",   "BLM",      "",     "4",    "$(INP)$(INT)",  "$(P):I$(INT)_FWSCL",   "1 second"  }
+{ R,                DESC,                                         APP,        EGU,    PREC,   CH,           SCALE_PV,           SCAN        }
+{ I0_SF,            "Bay $(BAY) Ch $(INP) Int 0 Scale factor",    "BLM",      "",     "4",    "$(INP)0",    "$(P):I0_FWSCL",    "1 second"  }
 }
