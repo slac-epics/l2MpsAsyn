@@ -357,21 +357,24 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
 
         for(std::size_t i {0}; i < numberOfBays; ++i)
         {
-            if (!appType_.compare("BPM"))
+            if (!recordPrefixBay_[i].empty())
             {
-                boost::any_cast<MpsBpm>(amc[i])->startPollThread(1, &setAppCallback);
-            }
-            else if (!appType_.compare("BLEN"))
-            {
-                boost::any_cast<MpsBlen>(amc[i])->startPollThread(1, &setAppCallback);
-            }
-            else if (!appType_.compare("BCM"))
-            {
-                boost::any_cast<MpsBcm>(amc[i])->startPollThread(1, &setAppCallback);
-            }
-            else if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_6CH")) | (!appType_.compare("MPS_24CH")))
-            {
-                boost::any_cast<MpsBlm>(amc[i])->startPollThread(1, &setAppCallback);
+                if (!appType_.compare("BPM"))
+                {
+                    boost::any_cast<MpsBpm>(amc[i])->startPollThread(1, &setAppCallback);
+                }
+                else if (!appType_.compare("BLEN"))
+                {
+                    boost::any_cast<MpsBlen>(amc[i])->startPollThread(1, &setAppCallback);
+                }
+                else if (!appType_.compare("BCM"))
+                {
+                    boost::any_cast<MpsBcm>(amc[i])->startPollThread(1, &setAppCallback);
+                }
+                else if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_6CH")) | (!appType_.compare("MPS_24CH")))
+                {
+                    boost::any_cast<MpsBlm>(amc[i])->startPollThread(1, &setAppCallback);
+                }
             }
         }
 
