@@ -702,13 +702,6 @@ void L2MPS::InitBlmMaps(const int bay)
             paramMap.insert(std::make_pair( thisBlmCh, thrParam ));
         }
     }
-
-    std::stringstream blenDbParams;
-    blenDbParams.str("");
-    blenDbParams << "P=" << std::string(recordPrefixBay_[bay]);
-    blenDbParams << ",PORT=" << std::string(portName_);
-    blenDbParams << ",BAY=" << bay;
-    dbLoadRecords("db/blm.db", blenDbParams.str().c_str());
 }
 
 asynStatus L2MPS::writeInt32(asynUser *pasynUser, epicsInt32 value)
