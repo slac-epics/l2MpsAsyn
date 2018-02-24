@@ -21,14 +21,14 @@ file "thr.template" { pattern
 
 { I0_T0_IDL,        "Bay $(BAY) Ch $(INP) Int 0 IDLE, Threshold",       "BLM",      "",     "2",    "$(INP)0",    "1",    "0",    }
 
-{ I0_T0_STD,        "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 0",      "BLM",      "",     "2",    "$(INP)0",    "2",    "0",    }
-{ I0_T1_STD,        "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 1",      "BLM",      "",     "2",    "$(INP)0",    "2",    "1",    }
-{ I0_T2_STD,        "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 2",      "BLM",      "",     "2",    "$(INP)0",    "2",    "2",    }
-{ I0_T3_STD,        "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 3",      "BLM",      "",     "2",    "$(INP)0",    "2",    "3",    }
-{ I0_T4_STD,        "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 4",      "BLM",      "",     "2",    "$(INP)0",    "2",    "4",    }
-{ I0_T5_STD,        "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 5",      "BLM",      "",     "2",    "$(INP)0",    "2",    "5",    }
-{ I0_T6_STD,        "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 6",      "BLM",      "",     "2",    "$(INP)0",    "2",    "6",    }
-{ I0_T7_STD,        "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 7",      "BLM",      "",     "2",    "$(INP)0",    "2",    "7",    }
+{ I0_T0,            "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 0",      "BLM",      "",     "2",    "$(INP)0",    "2",    "0",    }
+{ I0_T1,            "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 1",      "BLM",      "",     "2",    "$(INP)0",    "2",    "1",    }
+{ I0_T2,            "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 2",      "BLM",      "",     "2",    "$(INP)0",    "2",    "2",    }
+{ I0_T3,            "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 3",      "BLM",      "",     "2",    "$(INP)0",    "2",    "3",    }
+{ I0_T4,            "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 4",      "BLM",      "",     "2",    "$(INP)0",    "2",    "4",    }
+{ I0_T5,            "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 5",      "BLM",      "",     "2",    "$(INP)0",    "2",    "5",    }
+{ I0_T6,            "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 6",      "BLM",      "",     "2",    "$(INP)0",    "2",    "6",    }
+{ I0_T7,            "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 7",      "BLM",      "",     "2",    "$(INP)0",    "2",    "7",    }
 
 { I0_T0_ALT,        "Bay $(BAY) Ch $(INP) Int 0 ALT, Threshold 0",      "BLM",      "",     "2",    "$(INP)0",    "3",    "0",    }
 { I0_T1_ALT,        "Bay $(BAY) Ch $(INP) Int 0 ALT, Threshold 1",      "BLM",      "",     "2",    "$(INP)0",    "3",    "1",    }

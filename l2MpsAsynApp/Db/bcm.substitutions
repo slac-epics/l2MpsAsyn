@@ -33,23 +33,23 @@ file "thr.template" { pattern
 { CHARGE_T0_IDL,    "BCM, B$(BAY), Charge, IDLE, Threshold",        "BCM",  "",     "2",    "0",    "1",    "0",    }
 { DIFF_T0_IDL,      "BCM, B$(BAY), Difference, IDLE, Threshold",    "BCM",  "",     "2",    "1",    "1",    "0",    }
 
-{ CHARGE_T0_STD,    "BCM, B$(BAY), Charge, STD, Threshold 0",       "BCM",  "",     "2",    "0",    "2",    "0",    }
-{ CHARGE_T1_STD,    "BCM, B$(BAY), Charge, STD, Threshold 1",       "BCM",  "",     "2",    "0",    "2",    "1",    }
-{ CHARGE_T2_STD,    "BCM, B$(BAY), Charge, STD, Threshold 2",       "BCM",  "",     "2",    "0",    "2",    "2",    }
-{ CHARGE_T3_STD,    "BCM, B$(BAY), Charge, STD, Threshold 3",       "BCM",  "",     "2",    "0",    "2",    "3",    }
-{ CHARGE_T4_STD,    "BCM, B$(BAY), Charge, STD, Threshold 4",       "BCM",  "",     "2",    "0",    "2",    "4",    }
-{ CHARGE_T5_STD,    "BCM, B$(BAY), Charge, STD, Threshold 5",       "BCM",  "",     "2",    "0",    "2",    "5",    }
-{ CHARGE_T6_STD,    "BCM, B$(BAY), Charge, STD, Threshold 6",       "BCM",  "",     "2",    "0",    "2",    "6",    }
-{ CHARGE_T7_STD,    "BCM, B$(BAY), Charge, STD, Threshold 7",       "BCM",  "",     "2",    "0",    "2",    "7",    }
+{ CHARGE_T0,        "BCM, B$(BAY), Charge, STD, Threshold 0",       "BCM",  "",     "2",    "0",    "2",    "0",    }
+{ CHARGE_T1,        "BCM, B$(BAY), Charge, STD, Threshold 1",       "BCM",  "",     "2",    "0",    "2",    "1",    }
+{ CHARGE_T2,        "BCM, B$(BAY), Charge, STD, Threshold 2",       "BCM",  "",     "2",    "0",    "2",    "2",    }
+{ CHARGE_T3,        "BCM, B$(BAY), Charge, STD, Threshold 3",       "BCM",  "",     "2",    "0",    "2",    "3",    }
+{ CHARGE_T4,        "BCM, B$(BAY), Charge, STD, Threshold 4",       "BCM",  "",     "2",    "0",    "2",    "4",    }
+{ CHARGE_T5,        "BCM, B$(BAY), Charge, STD, Threshold 5",       "BCM",  "",     "2",    "0",    "2",    "5",    }
+{ CHARGE_T6,        "BCM, B$(BAY), Charge, STD, Threshold 6",       "BCM",  "",     "2",    "0",    "2",    "6",    }
+{ CHARGE_T7,        "BCM, B$(BAY), Charge, STD, Threshold 7",       "BCM",  "",     "2",    "0",    "2",    "7",    }
 
-{ DIFF_T0_STD,      "BCM, B$(BAY), Difference, STD, Threshold 0",   "BCM",  "",     "2",    "1",    "2",    "0",    }
-{ DIFF_T1_STD,      "BCM, B$(BAY), Difference, STD, Threshold 1",   "BCM",  "",     "2",    "1",    "2",    "1",    }
-{ DIFF_T2_STD,      "BCM, B$(BAY), Difference, STD, Threshold 2",   "BCM",  "",     "2",    "1",    "2",    "2",    }
-{ DIFF_T3_STD,      "BCM, B$(BAY), Difference, STD, Threshold 3",   "BCM",  "",     "2",    "1",    "2",    "3",    }
-{ DIFF_T4_STD,      "BCM, B$(BAY), Difference, STD, Threshold 4",   "BCM",  "",     "2",    "1",    "2",    "4",    }
-{ DIFF_T5_STD,      "BCM, B$(BAY), Difference, STD, Threshold 5",   "BCM",  "",     "2",    "1",    "2",    "5",    }
-{ DIFF_T6_STD,      "BCM, B$(BAY), Difference, STD, Threshold 6",   "BCM",  "",     "2",    "1",    "2",    "6",    }
-{ DIFF_T7_STD,      "BCM, B$(BAY), Difference, STD, Threshold 7",   "BCM",  "",     "2",    "1",    "2",    "7",    }
+{ DIFF_T0,          "BCM, B$(BAY), Difference, STD, Threshold 0",   "BCM",  "",     "2",    "1",    "2",    "0",    }
+{ DIFF_T1,          "BCM, B$(BAY), Difference, STD, Threshold 1",   "BCM",  "",     "2",    "1",    "2",    "1",    }
+{ DIFF_T2,          "BCM, B$(BAY), Difference, STD, Threshold 2",   "BCM",  "",     "2",    "1",    "2",    "2",    }
+{ DIFF_T3,          "BCM, B$(BAY), Difference, STD, Threshold 3",   "BCM",  "",     "2",    "1",    "2",    "3",    }
+{ DIFF_T4,          "BCM, B$(BAY), Difference, STD, Threshold 4",   "BCM",  "",     "2",    "1",    "2",    "4",    }
+{ DIFF_T5,          "BCM, B$(BAY), Difference, STD, Threshold 5",   "BCM",  "",     "2",    "1",    "2",    "5",    }
+{ DIFF_T6,          "BCM, B$(BAY), Difference, STD, Threshold 6",   "BCM",  "",     "2",    "1",    "2",    "6",    }
+{ DIFF_T7,          "BCM, B$(BAY), Difference, STD, Threshold 7",   "BCM",  "",     "2",    "1",    "2",    "7",    }
 
 { CHARGE_T0_ALT,    "BCM, B$(BAY), Charge, ALT, Threshold 0",       "BCM",  "",     "2",    "0",    "3",    "0",    }
 { CHARGE_T1_ALT,    "BCM, B$(BAY), Charge, ALT, Threshold 1",       "BCM",  "",     "2",    "0",    "3",    "1",    }

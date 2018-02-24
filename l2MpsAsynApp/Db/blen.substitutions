@@ -21,14 +21,14 @@ file "thr.template" { pattern
 
 { L_T0_IDL,         "BLEN, Bay $(BAY), IDLE, Threshold",    "BLEN",     "0",    "1",    "0",    }
 
-{ L_T0_STD,         "BLEN, Bay $(BAY), STD, Threshold 0",   "BLEN",     "0",    "2",    "0",    }
-{ L_T1_STD,         "BLEN, Bay $(BAY), STD, Threshold 1",   "BLEN",     "0",    "2",    "1",    }
-{ L_T2_STD,         "BLEN, Bay $(BAY), STD, Threshold 2",   "BLEN",     "0",    "2",    "2",    }
-{ L_T3_STD,         "BLEN, Bay $(BAY), STD, Threshold 3",   "BLEN",     "0",    "2",    "3",    }
-{ L_T4_STD,         "BLEN, Bay $(BAY), STD, Threshold 4",   "BLEN",     "0",    "2",    "4",    }
-{ L_T5_STD,         "BLEN, Bay $(BAY), STD, Threshold 5",   "BLEN",     "0",    "2",    "5",    }
-{ L_T6_STD,         "BLEN, Bay $(BAY), STD, Threshold 6",   "BLEN",     "0",    "2",    "6",    }
-{ L_T7_STD,         "BLEN, Bay $(BAY), STD, Threshold 7",   "BLEN",     "0",    "2",    "7",    }
+{ L_T0,             "BLEN, Bay $(BAY), STD, Threshold 0",   "BLEN",     "0",    "2",    "0",    }
+{ L_T1,             "BLEN, Bay $(BAY), STD, Threshold 1",   "BLEN",     "0",    "2",    "1",    }
+{ L_T2,             "BLEN, Bay $(BAY), STD, Threshold 2",   "BLEN",     "0",    "2",    "2",    }
+{ L_T3,             "BLEN, Bay $(BAY), STD, Threshold 3",   "BLEN",     "0",    "2",    "3",    }
+{ L_T4,             "BLEN, Bay $(BAY), STD, Threshold 4",   "BLEN",     "0",    "2",    "4",    }
+{ L_T5,             "BLEN, Bay $(BAY), STD, Threshold 5",   "BLEN",     "0",    "2",    "5",    }
+{ L_T6,             "BLEN, Bay $(BAY), STD, Threshold 6",   "BLEN",     "0",    "2",    "6",    }
+{ L_T7,             "BLEN, Bay $(BAY), STD, Threshold 7",   "BLEN",     "0",    "2",    "7",    }
 
 { L_T0_ALT,         "BLEN, Bay $(BAY), ALT, Threshold 0",   "BLEN",     "0",    "3",    "0",    }
 { L_T1_ALT,         "BLEN, Bay $(BAY), ALT, Threshold 1",   "BLEN",     "0",    "3",    "1",    }
