@@ -15,6 +15,7 @@ EDL += thr_ch.edl
 EDL += mps_mit_msg.edl
 EDL += mps_rtm_dio.edl
 EDL += mps_timing.edl
+EDL += mps_bcm.edl
 
 include $(TOP)/configure/RULES
 #----------------------------------------
