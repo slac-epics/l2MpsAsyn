@@ -395,7 +395,7 @@ void L2MPS::InitBpmMaps(const int bay)
             thr_param_t thrParam;
 
             pName.str("");
-            pName << "_" << bay << i;
+            pName << "_" << i;
 
             createParam(bay, ("BPM_THRNUM" + pName.str()).c_str(), asynParamInt32, &index);
             thrParam.info.ch = index;
@@ -430,7 +430,7 @@ void L2MPS::InitBpmMaps(const int bay)
                     thr_tableParam_t tp;
 
                     pName.str("");
-                    pName << "_" << bay << i << k << n;
+                    pName << "_" << i << k << n;
 
                     createParam(bay, ("BPM_THRMIN" + pName.str()).c_str(), asynParamFloat64, &index);
                     tp.min = index;
@@ -476,7 +476,7 @@ void L2MPS::InitBlenMaps(const int bay)
             thr_param_t thrParam;
 
             pName.str("");
-            pName << "_" << bay << i;
+            pName << "_" << i;
 
             createParam(bay, ("BLEN_THRNUM" + pName.str()).c_str(), asynParamInt32, &index);
             thrParam.info.ch = index;
@@ -511,7 +511,7 @@ void L2MPS::InitBlenMaps(const int bay)
                     thr_tableParam_t tp;
 
                     pName.str("");
-                    pName << "_" << bay << i << k << n;
+                    pName << "_" << i << k << n;
 
                     createParam(bay, ("BLEN_THRMIN" + pName.str()).c_str(), asynParamFloat64, &index);
                     tp.min = index;
@@ -557,7 +557,7 @@ void L2MPS::InitBcmMaps(const int bay)
             thr_param_t thrParam;
 
             pName.str("");
-            pName << "_" << bay << i;
+            pName << "_" << i;
 
             createParam(bay, ("BCM_THRNUM" + pName.str()).c_str(), asynParamInt32, &index);
             thrParam.info.ch = index;
@@ -592,7 +592,7 @@ void L2MPS::InitBcmMaps(const int bay)
                     thr_tableParam_t tp;
 
                     pName.str("");
-                    pName << "_" << bay << i << k << n;
+                    pName << "_" << i << k << n;
 
                     createParam(bay, ("BCM_THRMIN" + pName.str()).c_str(), asynParamFloat64, &index);
                     tp.min = index;
@@ -641,7 +641,7 @@ void L2MPS::InitBlmMaps(const int bay)
             thr_param_t thrParam;
 
             pName.str("");
-            pName << "_" << bay << i << j;
+            pName << "_" << i << j;
 
             createParam(bay, ("BLM_THRNUM" + pName.str()).c_str(), asynParamInt32, &index);
             thrParam.info.ch = index;
@@ -676,7 +676,7 @@ void L2MPS::InitBlmMaps(const int bay)
                         thr_tableParam_t tp;
 
                         pName.str("");
-                        pName << "_" << bay << i << j  << k << n;
+                        pName << "_" << i << j  << k << n;
 
                         createParam(bay, ("BLM_THRMIN" + pName.str()).c_str(), asynParamFloat64, &index);
                         tp.min = index;

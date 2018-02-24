@@ -1,27 +1,27 @@
 ### Threshold information ###
 file "RegRO.template" { pattern
-{ R,                    DESC,                                           PARAM,                  ADDR        }
-{ CHARGE_THR_CH,        "Bay $(BAY) Charge Threshold channel",          BCM_THRNUM_$(BAY)0,     "$(BAY)"    }
-{ DIFF_THR_CH,          "Bay $(BAY) Difference Threshold channel",      BCM_THRNUM_$(BAY)1,     "$(BAY)"    }
+{ R,                    DESC,                                           PARAM,              ADDR        }
+{ CHARGE_THR_CH,        "Bay $(BAY) Charge Threshold channel",          BCM_THRNUM_0,       "$(BAY)"    }
+{ DIFF_THR_CH,          "Bay $(BAY) Difference Threshold channel",      BCM_THRNUM_1,       "$(BAY)"    }
 
-{ CHARGE_THR_CNT,       "Bay $(BAY) Charge Threshold count",            BCM_THRCNT_$(BAY)0,     "$(BAY)"    }
-{ DIFF_THR_CNT,         "Bay $(BAY) Difference Threshold count",        BCM_THRCNT_$(BAY)1,     "$(BAY)"    }
+{ CHARGE_THR_CNT,       "Bay $(BAY) Charge Threshold count",            BCM_THRCNT_0,       "$(BAY)"    }
+{ DIFF_THR_CNT,         "Bay $(BAY) Difference Threshold count",        BCM_THRCNT_1,       "$(BAY)"    }
 
-{ CHARGE_THR_BYTEMAP,   "Bay $(BAY) Charge Threshold byte map",         BCM_BYTEMAP_$(BAY)0,    "$(BAY)"    }
-{ DIFF_THR_BYTEMAP,     "Bay $(BAY) Difference Threshold byte map",     BCM_BYTEMAP_$(BAY)1,    "$(BAY)"    }
+{ CHARGE_THR_BYTEMAP,   "Bay $(BAY) Charge Threshold byte map",         BCM_BYTEMAP_0,      "$(BAY)"    }
+{ DIFF_THR_BYTEMAP,     "Bay $(BAY) Difference Threshold byte map",     BCM_BYTEMAP_1,      "$(BAY)"    }
 }
 
 ### Tables enable PVs ###
 file "Reg1BitRO.template" { pattern
-{ R,                DESC,                                           PARAM,                  ADDR,       ZNAM,           ONAM        }
-{ CHARGE_IDL_EN,    "Bay $(BAY) Charge IDLE table enabled",         BCM_IDLEEN_$(BAY)0,     "$(BAY)",   "Disabled",     "Enabled"   }
-{ DIFF_IDL_EN,      "Bay $(BAY) Difference IDLE table enabled",     BCM_IDLEEN_$(BAY)1,     "$(BAY)",   "Disabled",     "Enabled"   }
+{ R,                DESC,                                           PARAM,              ADDR,       ZNAM,           ONAM        }
+{ CHARGE_IDL_EN,    "Bay $(BAY) Charge IDLE table enabled",         BCM_IDLEEN_0,       "$(BAY)",   "Disabled",     "Enabled"   }
+{ DIFF_IDL_EN,      "Bay $(BAY) Difference IDLE table enabled",     BCM_IDLEEN_1,       "$(BAY)",   "Disabled",     "Enabled"   }
 
-{ CHARGE_ALT_EN,    "Bay $(BAY) Charge ALT table enabled",          BCM_ALTEN_$(BAY)0,      "$(BAY)",   "Disabled",     "Enabled"   }
-{ DIFF_ALT_EN,      "Bay $(BAY) Difference ALT table enabled",      BCM_ALTEN_$(BAY)1,      "$(BAY)",   "Disabled",     "Enabled"   }
+{ CHARGE_ALT_EN,    "Bay $(BAY) Charge ALT table enabled",          BCM_ALTEN_0,        "$(BAY)",   "Disabled",     "Enabled"   }
+{ DIFF_ALT_EN,      "Bay $(BAY) Difference ALT table enabled",      BCM_ALTEN_1,        "$(BAY)",   "Disabled",     "Enabled"   }
 
-{ CHARGE_LC1_EN,    "Bay $(BAY) Charge LCLS1 table enabled",        BCM_LCLS1EN_$(BAY)0,    "$(BAY)",   "Disabled",     "Enabled"   }
-{ DIFF_LC1_EN,      "Bay $(BAY) Difference LCLS1 table enabled",    BCM_LCLS1EN_$(BAY)1,    "$(BAY)",   "Disabled",     "Enabled"   }
+{ CHARGE_LC1_EN,    "Bay $(BAY) Charge LCLS1 table enabled",        BCM_LCLS1EN_0,      "$(BAY)",   "Disabled",     "Enabled"   }
+{ DIFF_LC1_EN,      "Bay $(BAY) Difference LCLS1 table enabled",    BCM_LCLS1EN_1,      "$(BAY)",   "Disabled",     "Enabled"   }
 }
 
 ### Threshold PVs ###
@@ -72,7 +72,7 @@ file "thr.template" { pattern
 
 ### Scale PVs ###
 file "scale.template" { pattern
-{ R,                DESC,                                       APP,        EGU,    PREC,   CH,     SCALE_PV,           SCAN        }
-{ CHARGE_SF,        "Bay $(BAY) Charge Scale factor",           "BCM",      "",     "4",    "0",    "$(P):CHARGE_FWSCL",   "1 second"  }
-{ DIFF_SF,          "Bay $(BAY) Difference Scale factor",       "BCM",      "",     "4",    "1",    "$(P):DIFF_FWSCL",  "1 second"  }
+{ R,                DESC,                                       APP,        EGU,    PREC,   CH,     SCALE_PV,               SCAN        }
+{ CHARGE_SF,        "Bay $(BAY) Charge Scale factor",           "BCM",      "",     "4",    "0",    "$(P):CHARGE_FWSCL",    "1 second"  }
+{ DIFF_SF,          "Bay $(BAY) Difference Scale factor",       "BCM",      "",     "4",    "1",    "$(P):DIFF_FWSCL",      "1 second"  }
 }

@@ -1,17 +1,17 @@
 ### Threshold information ###
 file "RegRO.template" { pattern
-{ R,                DESC,                               PARAM,                      ADDR        }
-{ L_THR_CH,         "Bay $(BAY) Threshold channel",     BLEN_THRNUM_$(BAY)0,        "$(BAY)"    }
-{ L_THR_CNT,        "Bay $(BAY) Threshold count",       BLEN_THRCNT_$(BAY)0,        "$(BAY)"    }
-{ L_THR_BYTEMAP,    "Bay $(BAY) Threshold byte map",    BLEN_BYTEMAP_$(BAY)0,       "$(BAY)"    }
+{ R,                DESC,                               PARAM,              ADDR        }
+{ L_THR_CH,         "Bay $(BAY) Threshold channel",     BLEN_THRNUM_0,      "$(BAY)"    }
+{ L_THR_CNT,        "Bay $(BAY) Threshold count",       BLEN_THRCNT_0,      "$(BAY)"    }
+{ L_THR_BYTEMAP,    "Bay $(BAY) Threshold byte map",    BLEN_BYTEMAP_0,     "$(BAY)"    }
 }
 
 ### Tables enable PVs ###
 file "Reg1BitRO.template" { pattern
-{ R,                DESC,                               PARAM,                      ADDR,       ZNAM,           ONAM        }
-{ L_IDL_EN,         "Bay $(BAY) IDLE table enabled",    BLEN_IDLEEN_$(BAY)0,        "$(BAY)",   "Disabled",     "Enabled"   }
-{ L_ALT_EN,         "Bay $(BAY) ALT table enabled",     BLEN_ALTEN_$(BAY)0,         "$(BAY)",   "Disabled",     "Enabled"   }
-{ L_LC1_EN,         "Bay $(BAY) LCLS1 table enabled",   BLEN_LCLS1EN_$(BAY)0,       "$(BAY)",   "Disabled",     "Enabled"   }
+{ R,                DESC,                               PARAM,              ADDR,       ZNAM,           ONAM        }
+{ L_IDL_EN,         "Bay $(BAY) IDLE table enabled",    BLEN_IDLEEN_0,      "$(BAY)",   "Disabled",     "Enabled"   }
+{ L_ALT_EN,         "Bay $(BAY) ALT table enabled",     BLEN_ALTEN_0,       "$(BAY)",   "Disabled",     "Enabled"   }
+{ L_LC1_EN,         "Bay $(BAY) LCLS1 table enabled",   BLEN_LCLS1EN_0,     "$(BAY)",   "Disabled",     "Enabled"   }
 }
 
 ### Threshold PVs ###
@@ -42,6 +42,6 @@ file "thr.template" { pattern
 
 ### Scale PVs ###
 file "scale.template" { pattern
-{ R,                DESC,                                   APP,        EGU,    PREC,   CH,     SCALE_PV,           SCAN        }
-{ L_SF,             "Bay $(BAY) Scale factor",              "BLEN",     "",     "4",    "0",    "$(P):L_FWSCL",     "1 second"  }
+{ R,                DESC,                           APP,        EGU,    PREC,   CH,     SCALE_PV,           SCAN        }
+{ L_SF,             "Bay $(BAY) Scale factor",      "BLEN",     "",     "4",    "0",    "$(P):L_FWSCL",     "1 second"  }
 }

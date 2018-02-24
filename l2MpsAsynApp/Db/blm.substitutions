@@ -1,17 +1,17 @@
 ### Threshold information ###
 file "RegRO.template" { pattern
-{ R,                DESC,                                               PARAM,                        ADDR        }
-{ I0_THR_CH,        "Bay $(BAY) Ch $(INP) Int 0 Threshold channel",     BLM_THRNUM_$(BAY)$(INP)0,     "$(BAY)"    }
-{ I0_THR_CNT,       "Bay $(BAY) Ch $(INP) Int 0 Threshold count",       BLM_THRCNT_$(BAY)$(INP)0,     "$(BAY)"    }
-{ I0_THR_BYTEMAP,   "Bay $(BAY) Ch $(INP) Int 0 Threshold byte map",    BLM_BYTEMAP_$(BAY)$(INP)0,    "$(BAY)"    }
+{ R,                DESC,                                               PARAM,                  ADDR        }
+{ I0_THR_CH,        "Bay $(BAY) Ch $(INP) Int 0 Threshold channel",     BLM_THRNUM_$(INP)0,     "$(BAY)"    }
+{ I0_THR_CNT,       "Bay $(BAY) Ch $(INP) Int 0 Threshold count",       BLM_THRCNT_$(INP)0,     "$(BAY)"    }
+{ I0_THR_BYTEMAP,   "Bay $(BAY) Ch $(INP) Int 0 Threshold byte map",    BLM_BYTEMAP_$(INP)0,    "$(BAY)"    }
 }
 
 ### Tables enable PVs ###
 file "Reg1BitRO.template" { pattern
-{ R,                DESC,                                               PARAM,                        ADDR,       ZNAM,           ONAM,      }
-{ I0_IDL_EN,        "Bay $(BAY) Ch $(INP) Int 0 IDLE table enabled",    BLM_IDLEEN_$(BAY)$(INP)0,     "$(BAY)",   "Disabled",     "Enabled"  }
-{ I0_ALT_EN,        "Bay $(BAY) Ch $(INP) Int 0 ALT table enabled",     BLM_ALTEN_$(BAY)$(INP)0,      "$(BAY)",   "Disabled",     "Enabled"  }
-{ I0_LC1_EN,        "Bay $(BAY) Ch $(INP) Int 0 LCLS1 table enabled",   BLM_LCLS1EN_$(BAY)$(INP)0,    "$(BAY)",   "Disabled",     "Enabled"  }
+{ R,                DESC,                                               PARAM,                  ADDR,       ZNAM,           ONAM,      }
+{ I0_IDL_EN,        "Bay $(BAY) Ch $(INP) Int 0 IDLE table enabled",    BLM_IDLEEN_$(INP)0,     "$(BAY)",   "Disabled",     "Enabled"  }
+{ I0_ALT_EN,        "Bay $(BAY) Ch $(INP) Int 0 ALT table enabled",     BLM_ALTEN_$(INP)0,      "$(BAY)",   "Disabled",     "Enabled"  }
+{ I0_LC1_EN,        "Bay $(BAY) Ch $(INP) Int 0 LCLS1 table enabled",   BLM_LCLS1EN_$(INP)0,    "$(BAY)",   "Disabled",     "Enabled"  }
 }
 
 ### Threshold PVs ###

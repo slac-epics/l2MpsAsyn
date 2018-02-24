@@ -1,33 +1,33 @@
 ### Threshold information ###
 file "RegRO.template" { pattern
-{ R,                DESC,                               PARAM,                  ADDR        }
-{ X_THR_CH,         "Bay $(BAY) X Threshold channel",   BPM_THRNUM_$(BAY)0,     "$(BAY)"    }
-{ Y_THR_CH,         "Bay $(BAY) Y Threshold channel",   BPM_THRNUM_$(BAY)1,     "$(BAY)"    }
-{ TMIT_THR_CH,      "Bay $(BAY) C Threshold channel",   BPM_THRNUM_$(BAY)2,     "$(BAY)"    }
+{ R,                DESC,                               PARAM,              ADDR        }
+{ X_THR_CH,         "Bay $(BAY) X Threshold channel",   BPM_THRNUM_0,       "$(BAY)"    }
+{ Y_THR_CH,         "Bay $(BAY) Y Threshold channel",   BPM_THRNUM_1,       "$(BAY)"    }
+{ TMIT_THR_CH,      "Bay $(BAY) C Threshold channel",   BPM_THRNUM_2,       "$(BAY)"    }
 
-{ X_THR_CNT,        "Bay $(BAY) X Threshold count",     BPM_THRCNT_$(BAY)0,     "$(BAY)"    }
-{ Y_THR_CNT,        "Bay $(BAY) Y Threshold count",     BPM_THRCNT_$(BAY)1,     "$(BAY)"    }
-{ TMIT_THR_CNT,     "Bay $(BAY) C Threshold count",     BPM_THRCNT_$(BAY)2,     "$(BAY)"    }
+{ X_THR_CNT,        "Bay $(BAY) X Threshold count",     BPM_THRCNT_0,       "$(BAY)"    }
+{ Y_THR_CNT,        "Bay $(BAY) Y Threshold count",     BPM_THRCNT_1,       "$(BAY)"    }
+{ TMIT_THR_CNT,     "Bay $(BAY) C Threshold count",     BPM_THRCNT_2,       "$(BAY)"    }
 
-{ X_THR_BYTEMAP,    "Bay $(BAY) X Threshold byte map",  BPM_BYTEMAP_$(BAY)0,    "$(BAY)"    }
-{ Y_THR_BYTEMAP,    "Bay $(BAY) Y Threshold byte map",  BPM_BYTEMAP_$(BAY)1,    "$(BAY)"    }
-{ TMIT_THR_BYTEMAP, "Bay $(BAY) C Threshold byte map",  BPM_BYTEMAP_$(BAY)2,    "$(BAY)"    }
+{ X_THR_BYTEMAP,    "Bay $(BAY) X Threshold byte map",  BPM_BYTEMAP_0,      "$(BAY)"    }
+{ Y_THR_BYTEMAP,    "Bay $(BAY) Y Threshold byte map",  BPM_BYTEMAP_1,      "$(BAY)"    }
+{ TMIT_THR_BYTEMAP, "Bay $(BAY) C Threshold byte map",  BPM_BYTEMAP_2,      "$(BAY)"    }
 }
 
 ### Tables enable PVs ###
 file "Reg1BitRO.template" { pattern
-{ R,            DESC,                               PARAM,                  ADDR,       ZNAM,           ONAM        }
-{ X_IDL_EN,     "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_$(BAY)0,     "$(BAY)",   "Disabled",     "Enabled"   }
-{ Y_IDL_EN,     "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_$(BAY)1,     "$(BAY)",   "Disabled",     "Enabled"   }
-{ TMIT_IDL_EN,  "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_$(BAY)2,     "$(BAY)",   "Disabled",     "Enabled"   }
+{ R,            DESC,                               PARAM,              ADDR,       ZNAM,           ONAM        }
+{ X_IDL_EN,     "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_0,       "$(BAY)",   "Disabled",     "Enabled"   }
+{ Y_IDL_EN,     "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_1,       "$(BAY)",   "Disabled",     "Enabled"   }
+{ TMIT_IDL_EN,  "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_2,       "$(BAY)",   "Disabled",     "Enabled"   }
 
-{ X_ALT_EN,     "Bay $(BAY) ALT table enabled",     BPM_ALTEN_$(BAY)0,      "$(BAY)",   "Disabled",     "Enabled"   }
-{ Y_ALT_EN,     "Bay $(BAY) ALT table enabled",     BPM_ALTEN_$(BAY)1,      "$(BAY)",   "Disabled",     "Enabled"   }
-{ TMIT_ALT_EN,  "Bay $(BAY) ALT table enabled",     BPM_ALTEN_$(BAY)2,      "$(BAY)",   "Disabled",     "Enabled"   }
+{ X_ALT_EN,     "Bay $(BAY) ALT table enabled",     BPM_ALTEN_0,        "$(BAY)",   "Disabled",     "Enabled"   }
+{ Y_ALT_EN,     "Bay $(BAY) ALT table enabled",     BPM_ALTEN_1,        "$(BAY)",   "Disabled",     "Enabled"   }
+{ TMIT_ALT_EN,  "Bay $(BAY) ALT table enabled",     BPM_ALTEN_2,        "$(BAY)",   "Disabled",     "Enabled"   }
 
-{ X_LC1_EN,     "Bay $(BAY) LCLS1 table enabled",   BPM_LCLS1EN_$(BAY)0,    "$(BAY)",   "Disabled",     "Enabled"   }
-{ Y_LC1_EN,     "Bay $(BAY) LCLS1 table enabled",   BPM_LCLS1EN_$(BAY)1,    "$(BAY)",   "Disabled",     "Enabled"   }
-{ TMIT_LC1_EN,  "Bay $(BAY) LCLS1 table enabled",   BPM_LCLS1EN_$(BAY)2,    "$(BAY)",   "Disabled",     "Enabled"   }
+{ X_LC1_EN,     "Bay $(BAY) LCLS1 table enabled",   BPM_LCLS1EN_0,      "$(BAY)",   "Disabled",     "Enabled"   }
+{ Y_LC1_EN,     "Bay $(BAY) LCLS1 table enabled",   BPM_LCLS1EN_1,      "$(BAY)",   "Disabled",     "Enabled"   }
+{ TMIT_LC1_EN,  "Bay $(BAY) LCLS1 table enabled",   BPM_LCLS1EN_2,      "$(BAY)",   "Disabled",     "Enabled"   }
 }
 
 ### Threshold PVs ###
@@ -94,8 +94,8 @@ file "thr.template" { pattern
 
 ### Scale PVs ###
 file "scale.template" { pattern
-{ R,                DESC,                                       APP,        EGU,    PREC,   CH,     SCALE_PV,           SCAN        }
-{ X_SF,             "Bay $(BAY) X Scale factor",                "BPM",      "mm",   "4",    "0",    "$(P):X_FWSCL",     "1 second"  }
-{ Y_SF,             "Bay $(BAY) Y Scale factor",                "BPM",      "mm",   "4",    "1",    "$(P):Y_FWSCL",     "1 second"  }
-{ TMIT_SF,          "Bay $(BAY) C Scale factor",                "BPM",      "Nel",  "4",    "2",    "$(P):TMIT_FWSCL",     "1 second"  }
+{ R,                DESC,                           APP,        EGU,    PREC,   CH,     SCALE_PV,           SCAN        }
+{ X_SF,             "Bay $(BAY) X Scale factor",    "BPM",      "mm",   "4",    "0",    "$(P):X_FWSCL",     "1 second"  }
+{ Y_SF,             "Bay $(BAY) Y Scale factor",    "BPM",      "mm",   "4",    "1",    "$(P):Y_FWSCL",     "1 second"  }
+{ TMIT_SF,          "Bay $(BAY) C Scale factor",    "BPM",      "Nel",  "4",    "2",    "$(P):TMIT_FWSCL",  "1 second"  }
 }

@@ -27,7 +27,7 @@ record(ao,      "$(P):$(R)") {
     field(OIF,  "Full")
     field(DOL,  "$(SCALE_PV)")
     field(DTYP, "asynFloat64")
-    field(OUT,  "@asyn($(PORT),$(BAY))$(APP)_SCALE_$(BAY)$(CH)")
+    field(OUT,  "@asyn($(PORT),$(BAY))$(APP)_SCALE_$(CH)")
 }
 
 record(ai,      "$(P):$(R)_RBV") {
@@ -36,5 +36,5 @@ record(ai,      "$(P):$(R)_RBV") {
     field(EGU,  "$(EGU)/raw")
     field(PREC, "$(PREC)")
     field(DTYP, "asynFloat64")
-    field(INP,  "@asyn($(PORT),$(BAY))$(APP)_SCALE_$(BAY)$(CH)")
+    field(INP,  "@asyn($(PORT),$(BAY))$(APP)_SCALE_$(CH)")
 }
