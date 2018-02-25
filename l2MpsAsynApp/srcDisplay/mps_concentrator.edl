@@ -3,10 +3,10 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 3281
-y 553
+x 431
+y 57
 w 460
-h 520
+h 550
 font "helvetica-medium-r-18.0"
 ctlFont "helvetica-medium-r-18.0"
 btnFont "helvetica-medium-r-18.0"
@@ -51,8 +51,8 @@ minor 1
 release 1
 x 20
 y 40
-w 118
-h 13
+w 123
+h 14
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -163,8 +163,8 @@ minor 1
 release 1
 x 20
 y 60
-w 112
-h 13
+w 115
+h 14
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -183,8 +183,8 @@ minor 1
 release 1
 x 20
 y 80
-w 120
-h 13
+w 121
+h 14
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -203,8 +203,8 @@ minor 1
 release 1
 x 20
 y 100
-w 62
-h 13
+w 63
+h 14
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -223,8 +223,8 @@ minor 1
 release 1
 x 20
 y 120
-w 72
-h 13
+w 73
+h 14
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -244,7 +244,7 @@ release 1
 x 20
 y 140
 w 63
-h 13
+h 14
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -263,8 +263,8 @@ minor 1
 release 1
 x 20
 y 160
-w 65
-h 13
+w 64
+h 14
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -283,8 +283,8 @@ minor 1
 release 1
 x 20
 y 180
-w 56
-h 13
+w 54
+h 14
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -500,8 +500,8 @@ minor 1
 release 1
 x 20
 y 280
-w 28
-h 13
+w 27
+h 14
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -585,8 +585,8 @@ minor 1
 release 1
 x 20
 y 300
-w 28
-h 13
+w 27
+h 14
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -670,8 +670,8 @@ minor 1
 release 1
 x 20
 y 320
-w 28
-h 13
+w 27
+h 14
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -755,8 +755,8 @@ minor 1
 release 1
 x 20
 y 340
-w 28
-h 13
+w 27
+h 14
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -840,8 +840,8 @@ minor 1
 release 1
 x 20
 y 360
-w 28
-h 13
+w 27
+h 14
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -925,8 +925,8 @@ minor 1
 release 1
 x 20
 y 380
-w 28
-h 13
+w 27
+h 14
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -1010,8 +1010,8 @@ minor 1
 release 1
 x 20
 y 400
-w 28
-h 13
+w 27
+h 14
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -1095,8 +1095,8 @@ minor 1
 release 1
 x 20
 y 420
-w 28
-h 13
+w 27
+h 14
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -1180,8 +1180,8 @@ minor 1
 release 1
 x 20
 y 440
-w 28
-h 13
+w 27
+h 14
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -1265,8 +1265,8 @@ minor 1
 release 1
 x 20
 y 460
-w 35
-h 13
+w 34
+h 14
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -1349,8 +1349,8 @@ minor 1
 release 1
 x 20
 y 480
-w 35
-h 13
+w 34
+h 14
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -1441,8 +1441,8 @@ minor 1
 release 1
 x 20
 y 260
-w 28
-h 13
+w 27
+h 14
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -1759,5 +1759,55 @@ useHexPrefix
 newPos
 objType "monitors"
 id "FpgaVersion"
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 120
+y 510
+w 100
+h 30
+fgColor index 14
+onColor index 6
+offColor index 6
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):CON_USRRST"
+onLabel "User reset"
+offLabel "User reset"
+labelType "literal"
+font "helvetica-bold-r-12.0"
+objType "controls"
+controlBitPos 0
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 260
+y 510
+w 100
+h 30
+fgColor index 14
+onColor index 6
+offColor index 6
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(P):CON_CNTRST"
+onLabel "Reset counters"
+offLabel "Reset counters"
+labelType "literal"
+font "helvetica-bold-r-12.0"
+objType "controls"
+controlBitPos 0
 endObjectProperties
 
