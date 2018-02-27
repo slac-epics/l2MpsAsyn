@@ -15,12 +15,15 @@ file "RegRO.template" { pattern
 }
 
 ### Tables enable PVs ###
-file "Reg1BitRO.template" { pattern
+file "Reg1BitRW.template" { pattern
 { R,            DESC,                               PARAM,              ADDR,       ZNAM,           ONAM        }
 { X_IDL_EN,     "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_0,       "$(BAY)",   "Disabled",     "Enabled"   }
 { Y_IDL_EN,     "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_1,       "$(BAY)",   "Disabled",     "Enabled"   }
 { TMIT_IDL_EN,  "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_2,       "$(BAY)",   "Disabled",     "Enabled"   }
+}
 
+file "Reg1BitRO.template" { pattern
+{ R,            DESC,                               PARAM,              ADDR,       ZNAM,           ONAM        }
 { X_ALT_EN,     "Bay $(BAY) ALT table enabled",     BPM_ALTEN_0,        "$(BAY)",   "Disabled",     "Enabled"   }
 { Y_ALT_EN,     "Bay $(BAY) ALT table enabled",     BPM_ALTEN_1,        "$(BAY)",   "Disabled",     "Enabled"   }
 { TMIT_ALT_EN,  "Bay $(BAY) ALT table enabled",     BPM_ALTEN_2,        "$(BAY)",   "Disabled",     "Enabled"   }

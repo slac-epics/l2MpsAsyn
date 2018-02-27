@@ -7,9 +7,13 @@ file "RegRO.template" { pattern
 }
 
 ### Tables enable PVs ###
-file "Reg1BitRO.template" { pattern
+file "Reg1BitRW.template" { pattern
 { R,                DESC,                               PARAM,              ADDR,       ZNAM,           ONAM        }
 { L_IDL_EN,         "Bay $(BAY) IDLE table enabled",    BLEN_IDLEEN_0,      "$(BAY)",   "Disabled",     "Enabled"   }
+}
+
+file "Reg1BitRO.template" { pattern
+{ R,                DESC,                               PARAM,              ADDR,       ZNAM,           ONAM        }
 { L_ALT_EN,         "Bay $(BAY) ALT table enabled",     BLEN_ALTEN_0,       "$(BAY)",   "Disabled",     "Enabled"   }
 { L_LC1_EN,         "Bay $(BAY) LCLS1 table enabled",   BLEN_LCLS1EN_0,     "$(BAY)",   "Disabled",     "Enabled"   }
 }

@@ -12,11 +12,14 @@ file "RegRO.template" { pattern
 }
 
 ### Tables enable PVs ###
-file "Reg1BitRO.template" { pattern
+file "Reg1BitRW.template" { pattern
 { R,                DESC,                                           PARAM,              ADDR,       ZNAM,           ONAM        }
 { CHARGE_IDL_EN,    "Bay $(BAY) Charge IDLE table enabled",         BCM_IDLEEN_0,       "$(BAY)",   "Disabled",     "Enabled"   }
 { DIFF_IDL_EN,      "Bay $(BAY) Difference IDLE table enabled",     BCM_IDLEEN_1,       "$(BAY)",   "Disabled",     "Enabled"   }
+}
 
+file "Reg1BitRO.template" { pattern
+{ R,                DESC,                                           PARAM,              ADDR,       ZNAM,           ONAM        }
 { CHARGE_ALT_EN,    "Bay $(BAY) Charge ALT table enabled",          BCM_ALTEN_0,        "$(BAY)",   "Disabled",     "Enabled"   }
 { DIFF_ALT_EN,      "Bay $(BAY) Difference ALT table enabled",      BCM_ALTEN_1,        "$(BAY)",   "Disabled",     "Enabled"   }
 
