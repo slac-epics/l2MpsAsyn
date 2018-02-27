@@ -77,6 +77,7 @@ file "RegRW.template" { pattern
 { R,                    DESC,                                   PARAM,              ADDR  }
 { BEAM_DEST_MASK,       "One bit per dest for BPM or kicker",   BEAM_DEST_MASK,     "2"   }
 { ALT_DEST_MASK,        "One bit per dest for alt table",       ALT_DEST_MASK,      "2"   }
+{ MPS_VER,              "MPS version",                          MPS_VER,            "2"   }
 }
 
 file "Reg1BitRW.template" { pattern

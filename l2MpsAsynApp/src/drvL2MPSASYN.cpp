@@ -735,6 +735,10 @@ asynStatus L2MPS::writeInt32(asynUser *pasynUser, epicsInt32 value)
             {
               node_->setAltDestMask(value);
             }
+            else if (function == mpsInfoParams.version)
+            {
+                node_->setVersion(value);
+            }
             else
             {
               status == asynPortDriver::writeInt32(pasynUser, value);
