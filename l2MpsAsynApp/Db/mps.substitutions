@@ -19,20 +19,20 @@ file "RegRO.template" { pattern
 { RX_LINK_UP_CNT_12,    "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_12,      "2"     }
 { RX_LINK_UP_CNT_13,    "MPS RX LinkUp Counter",                RX_LINK_UP_CNT_13,      "2"     }
 { TX_PKT_SENT_CNT,      "MPS TX Packet Sent Counter",           TX_PKT_SENT_CNT,        "2"     }
-{ RX_PKT_RCV_CNT_0,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_0,       "2"     }
-{ RX_PKT_RCV_CNT_1,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_1,       "2"     }
-{ RX_PKT_RCV_CNT_2,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_2,       "2"     }
-{ RX_PKT_RCV_CNT_3,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_3,       "2"     }
-{ RX_PKT_RCV_CNT_4,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_4,       "2"     }
-{ RX_PKT_RCV_CNT_5,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_5,       "2"     }
-{ RX_PKT_RCV_CNT_6,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_6,       "2"     }
-{ RX_PKT_RCV_CNT_7,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_7,       "2"     }
-{ RX_PKT_RCV_CNT_8,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_8,       "2"     }
-{ RX_PKT_RCV_CNT_9,     "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_9,       "2"     }
-{ RX_PKT_RCV_CNT_10,    "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_10,      "2"     }
-{ RX_PKT_RCV_CNT_11,    "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_11,      "2"     }
-{ RX_PKT_RCV_CNT_12,    "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_12,      "2"     }
-{ RX_PKT_RCV_CNT_13,    "MPS RX Packet Received Counte",        RX_PKT_RCV_CNT_13,      "2"     }
+{ RX_PKT_RCV_CNT_0,     "MPS RX Packet Received Counter",       RX_PKT_RCV_CNT_0,       "2"     }
+{ RX_PKT_RCV_CNT_1,     "MPS RX Packet Received Counter",       RX_PKT_RCV_CNT_1,       "2"     }
+{ RX_PKT_RCV_CNT_2,     "MPS RX Packet Received Counter",       RX_PKT_RCV_CNT_2,       "2"     }
+{ RX_PKT_RCV_CNT_3,     "MPS RX Packet Received Counter",       RX_PKT_RCV_CNT_3,       "2"     }
+{ RX_PKT_RCV_CNT_4,     "MPS RX Packet Received Counter",       RX_PKT_RCV_CNT_4,       "2"     }
+{ RX_PKT_RCV_CNT_5,     "MPS RX Packet Received Counter",       RX_PKT_RCV_CNT_5,       "2"     }
+{ RX_PKT_RCV_CNT_6,     "MPS RX Packet Received Counter",       RX_PKT_RCV_CNT_6,       "2"     }
+{ RX_PKT_RCV_CNT_7,     "MPS RX Packet Received Counter",       RX_PKT_RCV_CNT_7,       "2"     }
+{ RX_PKT_RCV_CNT_8,     "MPS RX Packet Received Counter",       RX_PKT_RCV_CNT_8,       "2"     }
+{ RX_PKT_RCV_CNT_9,     "MPS RX Packet Received Counter",       RX_PKT_RCV_CNT_9,       "2"     }
+{ RX_PKT_RCV_CNT_10,    "MPS RX Packet Received Counter",       RX_PKT_RCV_CNT_10,      "2"     }
+{ RX_PKT_RCV_CNT_11,    "MPS RX Packet Received Counter",       RX_PKT_RCV_CNT_11,      "2"     }
+{ RX_PKT_RCV_CNT_12,    "MPS RX Packet Received Counter",       RX_PKT_RCV_CNT_12,      "2"     }
+{ RX_PKT_RCV_CNT_13,    "MPS RX Packet Received Counter",       RX_PKT_RCV_CNT_13,      "2"     }
 { MSG_CNT,              "Mps message counter",                  MSG_CNT,                "2"     }
 { LAST_MSG_APP_ID,      "Mps last message App ID",              LAST_MSG_APPID,         "2"     }
 { LAST_MSG_TMSTMP,      "Mps last message timestamp",           LAST_MSG_TMSTMP,        "2"     }
