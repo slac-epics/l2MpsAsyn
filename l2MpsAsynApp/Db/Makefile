@@ -11,10 +11,10 @@ include $(TOP)/configure/CONFIG
 # Create and install (or just install) into <top>/db
 # databases, templates, substitutions like this
 DB += mps.db
-DB += bpm.db
-DB += blen.db
-DB += bcm.db
-DB += blm.db
+DB += mps_bpm.db
+DB += mps_blen.db
+DB += mps_bcm.db
+DB += mps_blm.db
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add

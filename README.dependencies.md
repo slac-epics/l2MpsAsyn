@@ -114,8 +114,8 @@ xxx_LIBS += asyn
 DB_INSTALLS += $(L2MPSASYN)/db/mps.db   # All application need this one.
 
 # Application specific database
-DB_INSTALLS += $(L2MPSASYN)/db/bpm.db   # Each application only needs to
-DB_INSTALLS += $(L2MPSASYN)/db/blen.db  # include its specific db file.
-DB_INSTALLS += $(L2MPSASYN)/db/blm.db   #
-DB_INSTALLS += $(L2MPSASYN)/db/bcm.db   #
+DB_INSTALLS += $(L2MPSASYN)/db/mps_bpm.db  # Each application only needs to
+DB_INSTALLS += $(L2MPSASYN)/db/mps_blen.db # include its specific db file.
+DB_INSTALLS += $(L2MPSASYN)/db/mps_blm.db  #
+DB_INSTALLS += $(L2MPSASYN)/db/mps_bcm.db  #
 ```

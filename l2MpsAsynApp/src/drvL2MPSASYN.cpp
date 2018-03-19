@@ -465,7 +465,7 @@ void L2MPS::InitBpmMaps(const int bay)
     bpmDbParams << "P=" << std::string(recordPrefixBay_[bay]);
     bpmDbParams << ",PORT=" << std::string(portName_);
     bpmDbParams << ",BAY=" << bay;
-    dbLoadRecords("db/bpm.db", bpmDbParams.str().c_str());
+    dbLoadRecords("db/mps_bpm.db", bpmDbParams.str().c_str());
 }
 
 void L2MPS::InitBlenMaps(const int bay)
@@ -547,7 +547,7 @@ void L2MPS::InitBlenMaps(const int bay)
     blenDbParams << "P=" << std::string(recordPrefixBay_[bay]);
     blenDbParams << ",PORT=" << std::string(portName_);
     blenDbParams << ",BAY=" << bay;
-    dbLoadRecords("db/blen.db", blenDbParams.str().c_str());
+    dbLoadRecords("db/mps_blen.db", blenDbParams.str().c_str());
 }
 
 void L2MPS::InitBcmMaps(const int bay)
@@ -629,7 +629,7 @@ void L2MPS::InitBcmMaps(const int bay)
     bcmDbParams << "P=" << std::string(recordPrefixBay_[bay]);
     bcmDbParams << ",PORT=" << std::string(portName_);
     bcmDbParams << ",BAY=" << bay;
-    dbLoadRecords("db/bcm.db", bcmDbParams.str().c_str());
+    dbLoadRecords("db/mps_bcm.db", bcmDbParams.str().c_str());
 }
 
 void L2MPS::InitBlmMaps(const int bay)
