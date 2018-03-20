@@ -1,0 +1,17 @@
+#===============================================#
+# LCLS-II MPS Scale factor template             #
+# Macro description:                            #
+#   - P        : Application's PV name prefix   #
+#   - PROPERTY : Property name                  #
+#   - EGU      : Property's Engineering units   #
+#   - PREC     : Precision                      #
+#   - VAL      : Scale factor value             #
+#===============================================#
+
+record(ao,      "$(P):$(PROPERTY)_FWSCL") {
+    field(DESC, "Scale factor")
+    field(EGU,  "$(EGU)/raw")
+    field(PREC, "$(PREC)")
+    field(SCAN, "Passive")
+    field(VAL,  "$(VAL)")
+}
