@@ -132,9 +132,9 @@ void L2MPS::updateAppParameters(int bay, T data)
             setIntegerParam(    bay,    infoParam.ch,           infoData.ch      );
             setIntegerParam(    bay,    infoParam.count,        infoData.count   );
             setIntegerParam(    bay,    infoParam.byteMap,      infoData.byteMap );
-            setUIntDigitalParam(bay,    infoParam.idleEn,       infoData.idleEn,   0xFFFFFFFF, 0x1   );
-            setUIntDigitalParam(bay,    infoParam.altEn,        infoData.altEn,    0xFFFFFFFF, 0x1   );
-            setUIntDigitalParam(bay,    infoParam.lcls1En,      infoData.lcls1En,  0xFFFFFFFF, 0x1   );
+            setUIntDigitalParam(bay,    infoParam.idleEn,       infoData.idleEn,   0x1, 0x1   );
+            setUIntDigitalParam(bay,    infoParam.altEn,        infoData.altEn,    0x1, 0x1   );
+            setUIntDigitalParam(bay,    infoParam.lcls1En,      infoData.lcls1En,  0x1, 0x1   );
             setDoubleParam(     bay,    infoParam.scaleFactor,  infoData.scaleFactor );
 
             thr_chData_t  data_thr  = (dataIt->second).data;
@@ -152,8 +152,8 @@ void L2MPS::updateAppParameters(int bay, T data)
                     thr_table_t         param_thrCh = param_thrIt->first;
                     thr_tableParam_t    param_param = param_thrIt->second;
 
-                    setUIntDigitalParam(bay, param_param.minEn, data_data.minEn, 0xFFFFFFFF, 0x1);
-                    setUIntDigitalParam(bay, param_param.maxEn, data_data.maxEn, 0xFFFFFFFF, 0x1);
+                    setUIntDigitalParam(bay, param_param.minEn, data_data.minEn, 0x1, 0x1);
+                    setUIntDigitalParam(bay, param_param.maxEn, data_data.maxEn, 0x1, 0x1);
                     setDoubleParam(bay, param_param.min, data_data.min);
                     setDoubleParam(bay, param_param.max, data_data.max);
                 }
