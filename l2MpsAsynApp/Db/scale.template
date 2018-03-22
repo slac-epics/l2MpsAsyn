@@ -21,6 +21,7 @@
 record(ao,      "$(P):$(R)") {
     field(DESC, "$(DESC)")
     field(SCAN, "$(SCAN)")
+    field(PINI, "YES")
     field(EGU,  "$(EGU)/raw")
     field(PREC, "$(PREC)")
     field(OMSL, "closed_loop")
