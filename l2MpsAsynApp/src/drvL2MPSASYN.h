@@ -214,7 +214,7 @@ class L2MPS : public asynPortDriver {
         const char *portName_;
         std::string recordPrefixMps_;
         std::array<std::string, numberOfBays> recordPrefixBay_;
-        std::array <std::string, numberOfBays> amcType_;
+        std::array<std::string, numberOfBays> amcType_;
         MpsNode node_;
         boost::any amc[numberOfBays];
 
