@@ -149,7 +149,6 @@ void L2MPS::updateAppParameters(int bay, T data)
 
                 if (param_thrIt != param_thr.end())
                 {
-                    thr_table_t         param_thrCh = param_thrIt->first;
                     thr_tableParam_t    param_param = param_thrIt->second;
 
                     setUIntDigitalParam(bay, param_param.minEn, data_data.minEn, 0x1, 0x1);
@@ -182,8 +181,8 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
             1,                                                                          // Autoconnect
             0,                                                                          // Default priority
             0),                                                                         // Default stack size
-        portName_(portName),
         driverName_(DRIVER_NAME),
+        portName_(portName),
         recordPrefixMps_(recordPrefixMps),
         recordPrefixBay_(recordPrefixBay)
 {
@@ -745,7 +744,7 @@ asynStatus L2MPS::writeInt32(asynUser *pasynUser, epicsInt32 value)
             }
             else
             {
-              status == asynPortDriver::writeInt32(pasynUser, value);
+              status = asynPortDriver::writeInt32(pasynUser, value);
             }
         }
         catch (CPSWError &e)
@@ -761,7 +760,7 @@ asynStatus L2MPS::writeInt32(asynUser *pasynUser, epicsInt32 value)
     }
     else
     {
-        status == asynPortDriver::writeInt32(pasynUser, value);
+        status = asynPortDriver::writeInt32(pasynUser, value);
     }
 
     return (status == 0) ? asynSuccess : asynError;
@@ -993,7 +992,7 @@ extern "C" int L2MPSASYNConfig(const char *portName, const int appID, const char
     }
 
     std::string recPreMps = std::string(recordPrefixMps);
-    std::array<std::string, numberOfBays> recPreBay = {std::string(recordPrefixBay0), std::string(recordPrefixBay1) };
+    std::array<std::string, numberOfBays> recPreBay = {{ std::string(recordPrefixBay0), std::string(recordPrefixBay1) }};
     if (!recPreBay[0].compare(recPreBay[1]))
     {
         printf("  ERROR: record prefixes must be different. Just the first one will be used\n");
