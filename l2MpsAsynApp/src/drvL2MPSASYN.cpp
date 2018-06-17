@@ -7,6 +7,7 @@
 #include <boost/array.hpp>
 #include <iostream>
 #include <fstream>
+#include <functional>
 #include <arpa/inet.h>
 #include <math.h>
 #include <epicsTypes.h>
@@ -30,8 +31,6 @@
 #include <yaml-cpp/yaml.h>
 
 #include "yamlLoader.h"
-
-L2MPS *pL2MPS;
 
 // MPS base info callback function
 void L2MPS::updateMpsParametrs(mps_infoData_t info)
@@ -109,11 +108,6 @@ void L2MPS::updateMpsParametrs(mps_infoData_t info)
     callParamCallbacks(paramListMpsBase);
 }
 
-void L2MPS::setMpsCallback(mps_infoData_t info)
-{
-    pL2MPS->updateMpsParametrs(info);
-}
-
 // App callback functions
 template<typename T>
 void L2MPS::updateAppParameters(int bay, T data)
@@ -161,12 +155,6 @@ void L2MPS::updateAppParameters(int bay, T data)
             callParamCallbacks(bay);
         }
     }
-}
-
-template<typename T>
-void L2MPS::setAppCallback(int bay, T data)
-{
-    pL2MPS->updateAppParameters<T>(bay, data);
 }
 
 L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recordPrefixMps, const std::array<std::string, numberOfBays> recordPrefixBay,  std::string mpsRootPath)
@@ -352,7 +340,8 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
         }
 
         // Start polling threads
-        node_->startPollThread(1, &setMpsCallback);
+        auto fp = std::bind(&L2MPS::updateMpsParametrs, this, std::placeholders::_1);
+        node_->startPollThread(1, fp);
 
         for(std::size_t i {0}; i < numberOfBays; ++i)
         {
@@ -360,19 +349,23 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
             {
                 if (!appType_.compare("BPM"))
                 {
-                    boost::any_cast<MpsBpm>(amc[i])->startPollThread(1, &setAppCallback);
+                    auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<bpm_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
+                    boost::any_cast<MpsBpm>(amc[i])->startPollThread(1, fpa);
                 }
                 else if (!appType_.compare("BLEN"))
                 {
-                    boost::any_cast<MpsBlen>(amc[i])->startPollThread(1, &setAppCallback);
+                    auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<blen_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
+                    boost::any_cast<MpsBlen>(amc[i])->startPollThread(1, fpa);
                 }
                 else if (!appType_.compare("BCM"))
                 {
-                    boost::any_cast<MpsBcm>(amc[i])->startPollThread(1, &setAppCallback);
+                    auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<bcm_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
+                    boost::any_cast<MpsBcm>(amc[i])->startPollThread(1, fpa);
                 }
                 else if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_6CH")) | (!appType_.compare("MPS_24CH")))
                 {
-                    boost::any_cast<MpsBlm>(amc[i])->startPollThread(1, &setAppCallback);
+                    auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<blm_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
+                    boost::any_cast<MpsBlm>(amc[i])->startPollThread(1, fpa);
                 }
             }
         }
@@ -1005,7 +998,7 @@ extern "C" int L2MPSASYNConfig(const char *portName, const int appID, const char
         return asynError;
     }
 
-    pL2MPS = new L2MPS(portName, appID, recPreMps, recPreBay, mpsRoot);
+    new L2MPS(portName, appID, recPreMps, recPreBay, mpsRoot);
 
     return (status==0) ? asynSuccess : asynError;
 }

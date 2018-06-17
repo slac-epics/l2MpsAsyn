@@ -200,12 +200,9 @@ class L2MPS : public asynPortDriver {
         virtual asynStatus writeFloat64 (asynUser *pasynUser, epicsFloat64 value);
 
         // MPS base info callback function
-        static void setMpsCallback(mps_infoData_t info);
         void updateMpsParametrs(mps_infoData_t info);
 
         // App callback function
-        template<typename T>
-        static void setAppCallback(int bay, T data);
         template<typename T>
         void updateAppParameters(int bay, T data);
 
