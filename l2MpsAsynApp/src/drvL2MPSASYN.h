@@ -78,6 +78,15 @@ typedef std::map<int, std::pair<BlmW1_t,  blmThr_channel_t>> blm_fmap_w1_t;
 typedef std::map<int, std::pair<blm_setScale_func_t, blm_channel_t>> blm_scaleFuncMap_t;
 typedef std::map<int, std::pair<blm_setIdleEn_funct_t, blm_channel_t>> blm_setIdleEnMap_t;
 
+// Types of register interfaces
+enum paramTypeList
+{
+    PARAM_TYPE_INT,
+    PARAM_TYPE_DIG,
+    PARAM_TYPE_STR,
+    PARAM_TYPE_SIZE
+};
+
 // MPS base parameter data type
 struct mps_infoParam_t
 {
@@ -198,6 +207,17 @@ class L2MPS : public asynPortDriver {
         virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
         virtual asynStatus writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epicsUInt32 mask);
         virtual asynStatus writeFloat64 (asynUser *pasynUser, epicsFloat64 value);
+
+        // Update singel parametr value, status and severity
+        void updateAlarmParam(int list, int index, bool valid);
+        template<typename T>
+        void updateIntegerParam(int list, int index, std::pair<bool, T> p);
+        template<typename T>
+        void updateStringParam(int list, int index, std::pair<bool, T> p);
+        template<typename T>
+        void updateUIntDigitalParam(int list, int index, std::pair<bool, T> p);
+        template<typename T>
+        void updateParamArray(int type, int list, const std::vector<int>& index, const std::pair< bool, std::vector<T> > p);
 
         // MPS base info callback function
         void updateMpsParametrs(mps_infoData_t info);

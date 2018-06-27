@@ -32,78 +32,101 @@
 
 #include "yamlLoader.h"
 
+// Update single parameter status and severity
+void L2MPS::updateAlarmParam(int list, int index, bool valid)
+{
+    int status   = 0;
+    int severity = 0;
+
+    if (!valid)
+    {
+        status   = 1;
+        severity = 3;
+    }
+    setParamAlarmStatus(   list, index, status   );
+    setParamAlarmSeverity( list, index, severity );
+}
+
+// Update single parameter value
+template<typename T>
+void L2MPS::updateIntegerParam(int list, int index, std::pair<bool, T> p)
+{
+    updateAlarmParam( list, index, p.first );
+    setIntegerParam( list, index, static_cast<int>(p.second) );
+}
+
+template<typename T>
+void L2MPS::updateStringParam(int list, int index, std::pair<bool, T> p)
+{
+    updateAlarmParam( list, index, p.first );
+    setStringParam( list, index, p.second.c_str() );
+}
+
+template<typename T>
+void L2MPS::updateUIntDigitalParam(int list, int index, std::pair<bool, T> p)
+{
+    updateAlarmParam( list, index, p.first );
+    setUIntDigitalParam( list, index, static_cast<int>(p.second), 0x1, 0x1 );
+}
+
+// Update an array of parameter values, status and severity
+template<typename T>
+void L2MPS::updateParamArray(int type, int list, const std::vector<int>& index, const std::pair< bool, std::vector<T> > p)
+{
+    if (p.second.size() > 0)
+    {
+        try
+        {
+            std::vector<int>::const_iterator        paramIt = index.begin();
+            typename std::vector<T>::const_iterator dataIt  = p.second.begin();
+            while ( ( paramIt != index.end() ) && ( dataIt != p.second.end() ) )
+            {
+                switch (type)
+                {
+                    case PARAM_TYPE_INT:
+                        updateIntegerParam( list, *paramIt++, std::make_pair( p.first, *dataIt++ ) );
+                        break;
+                    case PARAM_TYPE_DIG:
+                        updateUIntDigitalParam( list, *paramIt++, std::make_pair( p.first, *dataIt++ ) );
+                        break;
+                    default:
+                        return;
+                }
+            }
+        }
+        catch(std::out_of_range& e) {}
+    }
+}
+
 // MPS base info callback function
 void L2MPS::updateMpsParametrs(mps_infoData_t info)
 {
-    setIntegerParam(paramListMpsBase, mpsInfoParams.appId,            info.appId            );
-    setIntegerParam(paramListMpsBase, mpsInfoParams.version,          info.version          );
-    setIntegerParam(paramListMpsBase, mpsInfoParams.byteCount,        info.byteCount        );
-    setIntegerParam(paramListMpsBase, mpsInfoParams.beamDestMask,     info.beamDestMask     );
-    setIntegerParam(paramListMpsBase, mpsInfoParams.altDestMask,      info.altDestMask      );
-    setIntegerParam(paramListMpsBase, mpsInfoParams.msgCnt,           info.msgCnt           );
-    setIntegerParam(paramListMpsBase, mpsInfoParams.lastMsgAppId,     info.lastMsgAppId     );
-    setIntegerParam(paramListMpsBase, mpsInfoParams.lastMsgTimestamp, info.lastMsgTimestamp );
-    setIntegerParam(paramListMpsBase, mpsInfoParams.txLinkUpCnt,      info.txLinkUpCnt      );
-    setIntegerParam(paramListMpsBase, mpsInfoParams.rollOverEn,       info.rollOverEn       );
-    setIntegerParam(paramListMpsBase, mpsInfoParams.txPktSentCnt,     info.txPktSentCnt     );
+    updateIntegerParam( paramListMpsBase, mpsInfoParams.appId,            info.appId            );   
+    updateIntegerParam( paramListMpsBase, mpsInfoParams.version,          info.version          );
+    updateIntegerParam( paramListMpsBase, mpsInfoParams.byteCount,        info.byteCount        );
+    updateIntegerParam( paramListMpsBase, mpsInfoParams.beamDestMask,     info.beamDestMask     );
+    updateIntegerParam( paramListMpsBase, mpsInfoParams.altDestMask,      info.altDestMask      );
+    updateIntegerParam( paramListMpsBase, mpsInfoParams.msgCnt,           info.msgCnt           );
+    updateIntegerParam( paramListMpsBase, mpsInfoParams.lastMsgAppId,     info.lastMsgAppId     );
+    updateIntegerParam( paramListMpsBase, mpsInfoParams.lastMsgTimestamp, info.lastMsgTimestamp );
+    updateIntegerParam( paramListMpsBase, mpsInfoParams.txLinkUpCnt,      info.txLinkUpCnt      );
+    updateIntegerParam( paramListMpsBase, mpsInfoParams.rollOverEn,       info.rollOverEn       );
+    updateIntegerParam( paramListMpsBase, mpsInfoParams.txPktSentCnt,     info.txPktSentCnt     );
 
-    setStringParam(paramListMpsBase, mpsInfoParams.appType, info.appType.c_str());
+    updateStringParam( paramListMpsBase, mpsInfoParams.appType,           info.appType );
 
-    setUIntDigitalParam(paramListMpsBase, mpsInfoParams.enable,      info.enable,      0x1, 0x1 );
-    setUIntDigitalParam(paramListMpsBase, mpsInfoParams.lcls1Mode,   info.lcls1Mode,   0x1, 0x1 );
-    setUIntDigitalParam(paramListMpsBase, mpsInfoParams.digitalEn,   info.digitalEn,   0x1, 0x1 );
-    setUIntDigitalParam(paramListMpsBase, mpsInfoParams.lastMsgLcls, info.lastMsgLcls, 0x1, 0x1 );
-    setUIntDigitalParam(paramListMpsBase, mpsInfoParams.txLinkUp,    info.txLinkUp,    0x1, 0x1 );
-    setUIntDigitalParam(paramListMpsBase, mpsInfoParams.mpsSlot,     info.mpsSlot,     0x1, 0x1 );
-    setUIntDigitalParam(paramListMpsBase, mpsInfoParams.pllLocked,   info.pllLocked,   0x1, 0x1 );
+    updateUIntDigitalParam( paramListMpsBase, mpsInfoParams.enable,      info.enable      );
+    updateUIntDigitalParam( paramListMpsBase, mpsInfoParams.lcls1Mode,   info.lcls1Mode   );
+    updateUIntDigitalParam( paramListMpsBase, mpsInfoParams.digitalEn,   info.digitalEn   );
+    updateUIntDigitalParam( paramListMpsBase, mpsInfoParams.lastMsgLcls, info.lastMsgLcls );
+    updateUIntDigitalParam( paramListMpsBase, mpsInfoParams.txLinkUp,    info.txLinkUp    );
+    updateUIntDigitalParam( paramListMpsBase, mpsInfoParams.mpsSlot,     info.mpsSlot     );
+    updateUIntDigitalParam( paramListMpsBase, mpsInfoParams.pllLocked,   info.pllLocked   );
 
-    if (info.lastMsgByte.size() > 0)
-    {
-        try
-        {
-            std::vector<int>::iterator    paramIt = mpsInfoParams.lastMsgByte.begin();
-            std::vector<uint8_t>::iterator dataIt = info.lastMsgByte.begin();
-            while ((paramIt != mpsInfoParams.lastMsgByte.end()) && (dataIt != info.lastMsgByte.end()))
-                setIntegerParam(paramListMpsBase, *paramIt++, *dataIt++);
-        }
-        catch(std::out_of_range& e) {}
-    }
-
-    if (info.rxLinkUp.size() > 0)
-    {
-        try
-        {
-            std::vector<int>::iterator  paramIt = mpsInfoParams.rxLinkUp.begin();
-            std::vector<bool>::iterator dataIt = info.rxLinkUp.begin();
-            while ((paramIt != mpsInfoParams.rxLinkUp.end()) && (dataIt != info.rxLinkUp.end()))
-                setUIntDigitalParam(paramListMpsBase, *paramIt++, *dataIt++, 0x1, 0x1);
-        }
-        catch(std::out_of_range& e) {}
-    }
-
-    if (info.rxLinkUpCnt.size() > 0)
-    {
-        try
-        {
-            std::vector<int>::iterator    paramIt = mpsInfoParams.rxLinkUpCnt.begin();
-            std::vector<uint32_t>::iterator dataIt = info.rxLinkUpCnt.begin();
-            while ((paramIt != mpsInfoParams.rxLinkUpCnt.end()) && (dataIt != info.rxLinkUpCnt.end()))
-                setIntegerParam(paramListMpsBase, *paramIt++, *dataIt++);
-        }
-        catch(std::out_of_range& e) {}
-    }
-
-    if (info.rxPktRcvdCnt.size() > 0)
-    {
-        try
-        {
-            std::vector<int>::iterator    paramIt = mpsInfoParams.rxPktRcvdCnt.begin();
-            std::vector<uint32_t>::iterator dataIt = info.rxPktRcvdCnt.begin();
-            while ((paramIt != mpsInfoParams.rxPktRcvdCnt.end()) && (dataIt != info.rxPktRcvdCnt.end()))
-                setIntegerParam(paramListMpsBase, *paramIt++, *dataIt++);
-        }
-        catch(std::out_of_range& e) {}
-    }
+    updateParamArray( PARAM_TYPE_INT, paramListMpsBase, mpsInfoParams.lastMsgByte,  info.lastMsgByte  );
+    updateParamArray( PARAM_TYPE_DIG, paramListMpsBase, mpsInfoParams.rxLinkUp,     info.rxLinkUp     );
+    updateParamArray( PARAM_TYPE_INT, paramListMpsBase, mpsInfoParams.rxLinkUpCnt,  info.rxLinkUpCnt  );
+    updateParamArray( PARAM_TYPE_INT, paramListMpsBase, mpsInfoParams.rxPktRcvdCnt, info.rxPktRcvdCnt );
 
     callParamCallbacks(paramListMpsBase);
 }
@@ -192,7 +215,7 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
 
         node_ = MpsNodeFactory::create(mpsRoot);
         node_->setAppId(appId);
-        std::string appType_ = node_->getAppType();
+        std::string appType_ = node_->getAppType().second;
 
         // Create parameters fpor the MPS node
         int index;
@@ -312,63 +335,63 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
         std::string dbParams = "P=" + std::string(recordPrefixMps_) + ",PORT=" + std::string(portName_);
         dbLoadRecords("db/mps.db", dbParams.c_str());
 
-        for(std::size_t i {0}; i < numberOfBays; ++i)
-        {
-            if (!recordPrefixBay_[i].empty())
-            {
-                if (!appType_.compare("BPM"))
-                {
-                    amc[i] = MpsBpmFactory::create(mpsRoot, i);
-                    InitBpmMaps(i);
-                }
-                else if (!appType_.compare("BLEN"))
-                {
-                    amc[i] = MpsBlenFactory::create(mpsRoot, i);
-                    InitBlenMaps(i);
-                }
-                else if (!appType_.compare("BCM"))
-                {
-                    amc[i] = MpsBcmFactory::create(mpsRoot, i);
-                    InitBcmMaps(i);
-                }
-                else if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_6CH")) | (!appType_.compare("MPS_24CH")))
-                {
-                    amc[i] = MpsBlmFactory::create(mpsRoot, i);
-                    InitBlmMaps(i);
-                }
-            }
-        }
+        //for(std::size_t i {0}; i < numberOfBays; ++i)
+        //{
+        //    if (!recordPrefixBay_[i].empty())
+        //    {
+        //        if (!appType_.compare("BPM"))
+        //        {
+        //            amc[i] = MpsBpmFactory::create(mpsRoot, i);
+        //            InitBpmMaps(i);
+        //        }
+        //        else if (!appType_.compare("BLEN"))
+        //        {
+        //            amc[i] = MpsBlenFactory::create(mpsRoot, i);
+        //            InitBlenMaps(i);
+        //        }
+        //        else if (!appType_.compare("BCM"))
+        //        {
+        //            amc[i] = MpsBcmFactory::create(mpsRoot, i);
+        //            InitBcmMaps(i);
+        //        }
+        //        else if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_6CH")) | (!appType_.compare("MPS_24CH")))
+        //        {
+        //            amc[i] = MpsBlmFactory::create(mpsRoot, i);
+        //            InitBlmMaps(i);
+        //        }
+        //    }
+        //}
 
         // Start polling threads
         auto fp = std::bind(&L2MPS::updateMpsParametrs, this, std::placeholders::_1);
         node_->startPollThread(1, fp);
 
-        for(std::size_t i {0}; i < numberOfBays; ++i)
-        {
-            if (!recordPrefixBay_[i].empty())
-            {
-                if (!appType_.compare("BPM"))
-                {
-                    auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<bpm_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
-                    boost::any_cast<MpsBpm>(amc[i])->startPollThread(1, fpa);
-                }
-                else if (!appType_.compare("BLEN"))
-                {
-                    auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<blen_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
-                    boost::any_cast<MpsBlen>(amc[i])->startPollThread(1, fpa);
-                }
-                else if (!appType_.compare("BCM"))
-                {
-                    auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<bcm_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
-                    boost::any_cast<MpsBcm>(amc[i])->startPollThread(1, fpa);
-                }
-                else if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_6CH")) | (!appType_.compare("MPS_24CH")))
-                {
-                    auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<blm_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
-                    boost::any_cast<MpsBlm>(amc[i])->startPollThread(1, fpa);
-                }
-            }
-        }
+        //for(std::size_t i {0}; i < numberOfBays; ++i)
+        //{
+        //    if (!recordPrefixBay_[i].empty())
+        //    {
+        //        if (!appType_.compare("BPM"))
+        //        {
+        //            auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<bpm_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
+        //            boost::any_cast<MpsBpm>(amc[i])->startPollThread(1, fpa);
+        //        }
+        //        else if (!appType_.compare("BLEN"))
+        //        {
+        //            auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<blen_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
+        //            boost::any_cast<MpsBlen>(amc[i])->startPollThread(1, fpa);
+        //        }
+        //        else if (!appType_.compare("BCM"))
+        //        {
+        //            auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<bcm_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
+        //            boost::any_cast<MpsBcm>(amc[i])->startPollThread(1, fpa);
+        //        }
+        //        else if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_6CH")) | (!appType_.compare("MPS_24CH")))
+        //        {
+        //            auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<blm_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
+        //            boost::any_cast<MpsBlm>(amc[i])->startPollThread(1, fpa);
+        //        }
+        //    }
+        //}
 
     }
     catch (CPSWError &e)
@@ -787,11 +810,13 @@ asynStatus L2MPS::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epi
             }
             else if (function == mpsInfoParams.rstCnt)
             {
-                node_->resetSaltCnt();
+                if (!node_->resetSaltCnt())
+                    status = -1; 
             }
             else if (function == mpsInfoParams.rstPll)
             {
-                node_->resetSaltPll();
+                if (!node_->resetSaltPll())
+                    status = -1;
             }
             else
             {
