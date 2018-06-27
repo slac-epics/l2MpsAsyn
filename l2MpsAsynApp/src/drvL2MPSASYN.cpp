@@ -213,7 +213,7 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
 
         Path mpsRoot = root->findByName(mpsRootPath.c_str());
 
-        node_ = MpsNodeFactory::create(mpsRoot);
+        node_ = IMpsNode::create(mpsRoot);
         node_->setAppId(appId);
         std::string appType_ = node_->getAppType().second;
 
@@ -341,22 +341,22 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
         //    {
         //        if (!appType_.compare("BPM"))
         //        {
-        //            amc[i] = MpsBpmFactory::create(mpsRoot, i);
+        //            amc[i] = IMpsBpm::create(mpsRoot, i);
         //            InitBpmMaps(i);
         //        }
         //        else if (!appType_.compare("BLEN"))
         //        {
-        //            amc[i] = MpsBlenFactory::create(mpsRoot, i);
+        //            amc[i] = IMpsBlen::create(mpsRoot, i);
         //            InitBlenMaps(i);
         //        }
         //        else if (!appType_.compare("BCM"))
         //        {
-        //            amc[i] = MpsBcmFactory::create(mpsRoot, i);
+        //            amc[i] = IMpsBcm::create(mpsRoot, i);
         //            InitBcmMaps(i);
         //        }
         //        else if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_6CH")) | (!appType_.compare("MPS_24CH")))
         //        {
-        //            amc[i] = MpsBlmFactory::create(mpsRoot, i);
+        //            amc[i] = IMpsBlm::create(mpsRoot, i);
         //            InitBlmMaps(i);
         //        }
         //    }
