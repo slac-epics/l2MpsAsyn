@@ -35,10 +35,10 @@ const std::size_t numberOfRxLinks = 14;
 const std::string defaultMpsRootPath("mmio/AmcCarrierCore/AppMps");
 
 // BPM data types
-typedef void (IMpsBpm::*BpmW32_t)(const bpmThr_channel_t&, const float) const;
-typedef void (IMpsBpm::*BpmW1_t)(const bpmThr_channel_t&, const bool) const;
-typedef void (IMpsBpm::*bpm_setScale_func_t)(const bpm_channel_t&, const float) const;
-typedef void (IMpsBpm::*bpm_setIdleEn_funct_t)(const bpm_channel_t&, const bool) const;
+typedef bool (IMpsBpm::*BpmW32_t)(const bpmThr_channel_t&, const float) const;
+typedef bool (IMpsBpm::*BpmW1_t)(const bpmThr_channel_t&, const bool) const;
+typedef bool (IMpsBpm::*bpm_setScale_func_t)(const bpm_channel_t&, const float) const;
+typedef bool (IMpsBpm::*bpm_setIdleEn_funct_t)(const bpm_channel_t&, const bool) const;
 
 typedef std::map<int, std::pair<BpmW32_t, bpmThr_channel_t>> bpm_fmap_w32_t;
 typedef std::map<int, std::pair<BpmW1_t,  bpmThr_channel_t>> bpm_fmap_w1_t;
@@ -46,10 +46,10 @@ typedef std::map<int, std::pair<bpm_setScale_func_t, bpm_channel_t>> bpm_scaleFu
 typedef std::map<int, std::pair<bpm_setIdleEn_funct_t, bpm_channel_t>> bpm_setIdleEnMap_t;
 
 // BLEN data types
-typedef void (IMpsBlen::*BlenW32_t)(const blenThr_channel_t&, const float) const;
-typedef void (IMpsBlen::*BlenW1_t)(const blenThr_channel_t&, const bool) const;
-typedef void (IMpsBlen::*blen_setScale_func_t)(const blen_channel_t&, const float) const;
-typedef void (IMpsBlen::*blen_setIdleEn_funct_t)(const blen_channel_t&, const bool) const;
+typedef bool (IMpsBlen::*BlenW32_t)(const blenThr_channel_t&, const float) const;
+typedef bool (IMpsBlen::*BlenW1_t)(const blenThr_channel_t&, const bool) const;
+typedef bool (IMpsBlen::*blen_setScale_func_t)(const blen_channel_t&, const float) const;
+typedef bool (IMpsBlen::*blen_setIdleEn_funct_t)(const blen_channel_t&, const bool) const;
 
 typedef std::map<int, std::pair<BlenW32_t, blenThr_channel_t>> blen_fmap_w32_t;
 typedef std::map<int, std::pair<BlenW1_t,  blenThr_channel_t>> blen_fmap_w1_t;
@@ -57,10 +57,10 @@ typedef std::map<int, std::pair<blen_setScale_func_t, blen_channel_t>> blen_scal
 typedef std::map<int, std::pair<blen_setIdleEn_funct_t, blen_channel_t>> blen_setIdleEnMap_t;
 
 // BCM data types
-typedef void (IMpsBcm::*BcmW32_t)(const bcmThr_channel_t&, const float) const;
-typedef void (IMpsBcm::*BcmW1_t)(const bcmThr_channel_t&, const bool) const;
-typedef void (IMpsBcm::*bcm_setScale_func_t)(const bcm_channel_t&, const float) const;
-typedef void (IMpsBcm::*bcm_setIdleEn_funct_t)(const bcm_channel_t&, const bool) const;
+typedef bool (IMpsBcm::*BcmW32_t)(const bcmThr_channel_t&, const float) const;
+typedef bool (IMpsBcm::*BcmW1_t)(const bcmThr_channel_t&, const bool) const;
+typedef bool (IMpsBcm::*bcm_setScale_func_t)(const bcm_channel_t&, const float) const;
+typedef bool (IMpsBcm::*bcm_setIdleEn_funct_t)(const bcm_channel_t&, const bool) const;
 
 typedef std::map<int, std::pair<BcmW32_t, bcmThr_channel_t>> bcm_fmap_w32_t;
 typedef std::map<int, std::pair<BcmW1_t,  bcmThr_channel_t>> bcm_fmap_w1_t;
@@ -68,10 +68,10 @@ typedef std::map<int, std::pair<bcm_setScale_func_t, bcm_channel_t>> bcm_scaleFu
 typedef std::map<int, std::pair<bcm_setIdleEn_funct_t, bcm_channel_t>> bcm_setIdleEnMap_t;
 
 // BLM data types
-typedef void (IMpsBlm::*BlmW32_t)(const blmThr_channel_t&, const float) const;
-typedef void (IMpsBlm::*BlmW1_t)(const blmThr_channel_t&, const bool) const;
-typedef void (IMpsBlm::*blm_setScale_func_t)(const blm_channel_t&, const float) const;
-typedef void (IMpsBlm::*blm_setIdleEn_funct_t)(const blm_channel_t&, const bool) const;
+typedef bool (IMpsBlm::*BlmW32_t)(const blmThr_channel_t&, const float) const;
+typedef bool (IMpsBlm::*BlmW1_t)(const blmThr_channel_t&, const bool) const;
+typedef bool (IMpsBlm::*blm_setScale_func_t)(const blm_channel_t&, const float) const;
+typedef bool (IMpsBlm::*blm_setIdleEn_funct_t)(const blm_channel_t&, const bool) const;
 
 typedef std::map<int, std::pair<BlmW32_t, blmThr_channel_t>> blm_fmap_w32_t;
 typedef std::map<int, std::pair<BlmW1_t,  blmThr_channel_t>> blm_fmap_w1_t;
@@ -218,6 +218,8 @@ class L2MPS : public asynPortDriver {
         void updateUIntDigitalParam(int list, int index, std::pair<bool, T> p);
         template<typename T>
         void updateParamArray(int type, int list, const std::vector<int>& index, const std::pair< bool, std::vector<T> > p);
+        template<typename T>
+        void updateDoubleParam(int list, int index, std::pair<bool, T> p);
 
         // MPS base info callback function
         void updateMpsParametrs(mps_infoData_t info);
