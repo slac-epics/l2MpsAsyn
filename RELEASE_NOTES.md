@@ -3,6 +3,12 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __R1.0.3__: 2018-06-28 J. Vasquez
+  * Update l2Mps driver to version R1.0.3.
+  * The new l2Mps API send pairs of data and valid flags; use 
+    the status flag to set the record status and severity 
+    accordingly.
+
 * __R1.0.2__: 2018-06-18 J. Vasquez
   * Update l2Mps driver to version R1.0.2.
   * se std::bind to set the callback fucntion, which are now of 
