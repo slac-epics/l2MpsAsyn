@@ -3,6 +3,9 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __R1.2.0__: 2018-10-26 J.Vasquez
+  * Update l2Mps to R1.2.0 and CPSW framework to R3.6.4
+
 * __R1.1.0__: 2018-06-28 J. Vasquez
   * Update l2Mps driver to version R1.1.0.
   * The new l2Mps API send pairs of data and valid flags; use 
