@@ -1,3 +1,24 @@
+/**
+ *-----------------------------------------------------------------------------
+ * Title      : LCLS-II MPS EPICS Module
+ * ----------------------------------------------------------------------------
+ * File       : drvL2MPSASYN.cpp
+ * Author     : Jesus Vasquez, jvasquez@slac.stanford.edu
+ * Created    : 2017-10-20
+ * ----------------------------------------------------------------------------
+ * Description:
+ * EPICS Module for interfacing the LCLS-II MPS.
+ * ----------------------------------------------------------------------------
+ * This file is part of l2MpsAsyn. It is subject to
+ * the license terms in the LICENSE.txt file found in the top-level directory
+ * of this distribution and at:
+    * https://confluence.slac.stanford.edu/display/ppareg/LICENSE.html.
+ * No part of l2MpsAsyn, including this file, may be
+ * copied, modified, propagated, or distributed except according to the terms
+ * contained in the LICENSE.txt file.
+ * ----------------------------------------------------------------------------
+**/
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -108,7 +129,7 @@ void L2MPS::updateParamArray(int type, int list, const std::vector<int>& index, 
 // MPS base info callback function
 void L2MPS::updateMpsParametrs(mps_infoData_t info)
 {
-    updateIntegerParam( paramListMpsBase, mpsInfoParams.appId,            info.appId            );   
+    updateIntegerParam( paramListMpsBase, mpsInfoParams.appId,            info.appId            );
     updateIntegerParam( paramListMpsBase, mpsInfoParams.version,          info.version          );
     updateIntegerParam( paramListMpsBase, mpsInfoParams.byteCount,        info.byteCount        );
     updateIntegerParam( paramListMpsBase, mpsInfoParams.beamDestMask,     info.beamDestMask     );
@@ -795,7 +816,7 @@ asynStatus L2MPS::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epi
     int function = pasynUser->reason;
     bool ret = false;  // return status from l2Mps API ( false on error)
     const char *name;
-    
+
     this->getAddress(pasynUser, &addr);
 
     getParamName(addr, function, &name);
