@@ -49,9 +49,6 @@ const int paramListAppBay0 = 0; // Bay 0 application
 const int paramListAppBay1 = 1; // Bay 1 application
 const int paramListMpsBase = 2; // MPS base
 
-// Number of RX Links
-const std::size_t numberOfRxLinks = 14;
-
 // Default MPS Root Path
 const std::string defaultMpsRootPath("mmio/AmcCarrierCore/AppMps");
 
