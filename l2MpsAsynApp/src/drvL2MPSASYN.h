@@ -41,9 +41,6 @@
 #define MAX_SIGNALS         (3)     // Max number of parameter list (number of bays)
 #define NUM_PARAMS          (1500)  // Max number of paramters
 
-// Number of AMC bays on a carrier
-const uint8_t numberOfBays = 2;
-
 // Asyn parameter list numbers
 const int paramListAppBay0 = 0; // Bay 0 application
 const int paramListAppBay1 = 1; // Bay 1 application
