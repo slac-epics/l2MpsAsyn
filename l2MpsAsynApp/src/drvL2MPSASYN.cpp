@@ -365,28 +365,18 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
 
         for(std::size_t i {0}; i < numberOfBays; ++i)
         {
+            amc[i] = node_->getBayApp(i);
+
             if (!recordPrefixBay_[i].empty())
             {
                 if (!appType_.compare("BPM"))
-                {
-                    amc[i] = IMpsBpm::create(mpsRoot, i);
                     InitBpmMaps(i);
-                }
                 else if (!appType_.compare("BLEN"))
-                {
-                    amc[i] = IMpsBlen::create(mpsRoot, i);
                     InitBlenMaps(i);
-                }
                 else if (!appType_.compare("BCM"))
-                {
-                    amc[i] = IMpsBcm::create(mpsRoot, i);
                     InitBcmMaps(i);
-                }
                 else if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_6CH")) | (!appType_.compare("MPS_24CH")))
-                {
-                    amc[i] = IMpsBlm::create(mpsRoot, i);
                     InitBlmMaps(i);
-                }
             }
         }
 
