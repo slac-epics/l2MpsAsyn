@@ -227,8 +227,8 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
 {
     Path root = cpswGetRoot();
 
-    if (root->empty())
-        throw std::runtime_error("CPSW root path not found.");
+    if (!root)
+        throw std::runtime_error("CPSW root path not found. Did you called \'cpswLoadYamlFile()\'?");
 
     try
     {
