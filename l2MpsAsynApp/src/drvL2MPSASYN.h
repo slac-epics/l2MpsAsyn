@@ -46,6 +46,9 @@ const int paramListAppBay0 = 0; // Bay 0 application
 const int paramListAppBay1 = 1; // Bay 1 application
 const int paramListMpsBase = 2; // MPS base
 
+// Default location of the MPS configuration
+const char* defaultMpsConfigurationPath("/afs/slac/g/lcls/physics/mps_configuration/current");
+
 // BPM data types
 typedef bool (IMpsBpm::*BpmW32_t)(const bpmThr_channel_t&, const float) const;
 typedef bool (IMpsBpm::*BpmW1_t)(const bpmThr_channel_t&, const bool) const;

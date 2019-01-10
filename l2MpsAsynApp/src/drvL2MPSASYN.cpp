@@ -31,6 +31,7 @@
 #include <functional>
 #include <arpa/inet.h>
 #include <math.h>
+#include <cstdlib>
 #include <epicsTypes.h>
 #include <epicsTime.h>
 #include <epicsThread.h>
@@ -232,8 +233,38 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
 
     try
     {
+        // Create the MPS object
         node_ = IMpsNode::create(root);
+
+        // Get information lo locate the configuration of this application
+
+        // - MPS configuration top path
+        const char* mpsConfigrationPath = std::getenv("MPS_CONFIGURATION_TOP");
+        if (mpsConfigrationPath == NULL)
+            mpsConfigrationPath = defaultMpsConfigurationPath;
+
+        // - CPU name
+        char cpuName[HOST_NAME_MAX];
+        if (gethostname(cpuName, HOST_NAME_MAX))
+            throw std::runtime_error("Error while running \'gethostname()\'.");
+
+        // Crate ID and Slot Number
+        bool crateIdValid, slotNumberValid;
+        int  crateId, slotNumber;
+
+        std::tie(crateIdValid, crateId) = node_->getCrateId();
+        std::tie(slotNumberValid, slotNumber) = node_->getSlotNumber();
+
+        if ((!crateIdValid) | (!slotNumberValid))
+            throw std::runtime_error("Error while reading the crateID and Slot number.");
+
+        char appConfigurationPath[100];
+        sprintf(appConfigurationPath, "%s/app_db/%s/%04X/%02X/", mpsConfigrationPath, cpuName, crateId, slotNumber);
+
+        // Set the Application ID
         node_->setAppId(appId);
+
+        // Get the application type
         std::string appType_ = node_->getAppType().second;
 
         // Create parameters for the MPS node
