@@ -39,7 +39,7 @@
 
 #define DRIVER_NAME         "L2MPS"
 #define MAX_SIGNALS         (3)     // Max number of parameter list (number of bays)
-#define NUM_PARAMS          (1500)  // Max number of paramters
+#define NUM_PARAMS          (1500)  // Max number of parameters
 
 // Asyn parameter list numbers
 const int paramListAppBay0 = 0; // Bay 0 application
@@ -152,14 +152,14 @@ struct thr_chInfoParam_t
     int  scaleFactor;
 };
 
-// Threhold parameter (information + table data) data type
+// Threshold parameter (information + table data) data type
 struct  thr_param_t
 {
     thr_chInfoParam_t info;
     thr_chParam_t     data;
 };
 
-// Application paramater map data type
+// Application parameter map data type
 struct cmp {
     bool operator()(const boost::any& l, const boost::any& r)
     {
@@ -249,25 +249,25 @@ class L2MPS : public asynPortDriver {
         MpsNode node_;
         boost::any amc[numberOfBays];
 
-        // BPM application fuction maps
+        // BPM application function maps
         bpm_fmap_w32_t      fMapBpmW32;
         bpm_fmap_w1_t       fMapBpmW1;
         bpm_scaleFuncMap_t  fMapBpmWScale;
         bpm_setIdleEnMap_t  fMapBpmSetIdleEn;
 
-        // BLEN application fuction maps
+        // BLEN application function maps
         blen_fmap_w32_t     fMapBlenW32;
         blen_fmap_w1_t      fMapBlenW1;
         blen_scaleFuncMap_t fMapBlenWScale;
         blen_setIdleEnMap_t fMapBlenSetIdleEn;
 
-        // BCM application fuction maps
+        // BCM application function maps
         bcm_fmap_w32_t      fMapBcmW32;
         bcm_fmap_w1_t       fMapBcmW1;
         bcm_scaleFuncMap_t  fMapBcmWScale;
         bcm_setIdleEnMap_t  fMapBcmSetIdleEn;
 
-        // BLM application fuction maps
+        // BLM application function maps
         blm_fmap_w32_t      fMapBlmW32;
         blm_fmap_w1_t       fMapBlmW1;
         blm_scaleFuncMap_t  fMapBlmWScale;
@@ -279,7 +279,7 @@ class L2MPS : public asynPortDriver {
         // Application parameters
         paramMap_t          paramMap;
 
-        // BPM application init
+        // Application initialization functions =
         void InitBpmMaps(const int bay);
         void InitBlenMaps(const int bay);
         void InitBcmMaps(const int bay);
