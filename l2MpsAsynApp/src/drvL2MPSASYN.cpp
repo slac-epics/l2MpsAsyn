@@ -232,19 +232,7 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
 
     try
     {
-        if (mpsRootPath.empty())
-        {
-            mpsRootPath = defaultMpsRootPath;
-            printf("Not mps root was defined. Using default path: %s\n", mpsRootPath.c_str());
-        }
-        else
-        {
-            printf("Using MPS root path: %s\n", mpsRootPath.c_str());
-        }
-
-        Path mpsRoot = root->findByName(mpsRootPath.c_str());
-
-        node_ = IMpsNode::create(mpsRoot);
+        node_ = IMpsNode::create(root);
         node_->setAppId(appId);
         std::string appType_ = node_->getAppType().second;
 

@@ -46,9 +46,6 @@ const int paramListAppBay0 = 0; // Bay 0 application
 const int paramListAppBay1 = 1; // Bay 1 application
 const int paramListMpsBase = 2; // MPS base
 
-// Default MPS Root Path
-const std::string defaultMpsRootPath("mmio/AmcCarrierCore/AppMps");
-
 // BPM data types
 typedef bool (IMpsBpm::*BpmW32_t)(const bpmThr_channel_t&, const float) const;
 typedef bool (IMpsBpm::*BpmW1_t)(const bpmThr_channel_t&, const bool) const;
