@@ -258,8 +258,16 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
         if ((!crateIdValid) | (!slotNumberValid))
             throw std::runtime_error("Error while reading the crateID and Slot number.");
 
-        char appConfigurationPath[100];
+        // - Application configuration folder
+        char appConfigurationPath[256];
         sprintf(appConfigurationPath, "%s/app_db/%s/%04X/%02X/", mpsConfigrationPath, cpuName, crateId, slotNumber);
+
+        // - EPICS database file
+        std::string recordFile = std::string(appConfigurationPath) + "mps.db";
+
+
+        // - Firmware configuration file
+        std::string configurationFile = std::string(appConfigurationPath) + "config.yaml";
 
         // Set the Application ID
         node_->setAppId(appId);
@@ -382,9 +390,6 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
             }
         }
 
-        std::string dbParams = "P=" + std::string(recordPrefixMps_) + ",PORT=" + std::string(portName_);
-        dbLoadRecords("db/mps.db", dbParams.c_str());
-
         for(std::size_t i {0}; i < numberOfBays; ++i)
         {
             amc[i] = node_->getBayApp(i);
@@ -401,6 +406,9 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
                     InitBlmMaps(i);
             }
         }
+
+        std::string dbParams = ",PORT=" + std::string(portName_);
+        dbLoadRecords(recordFile.c_str(), dbParams.c_str());
 
         // Start polling threads
         auto fp = std::bind(&L2MPS::updateMpsParametrs, this, std::placeholders::_1);
@@ -514,13 +522,6 @@ void L2MPS::InitBpmMaps(const int bay)
             thrParam.data = thrChParamMap;
             paramMap.insert(std::make_pair( thisBpmCh, thrParam ));
     }
-
-    std::stringstream bpmDbParams;
-    bpmDbParams.str("");
-    bpmDbParams << "P=" << std::string(recordPrefixBay_[bay]);
-    bpmDbParams << ",PORT=" << std::string(portName_);
-    bpmDbParams << ",BAY=" << bay;
-    dbLoadRecords("db/mps_bpm.db", bpmDbParams.str().c_str());
 }
 
 void L2MPS::InitBlenMaps(const int bay)
@@ -596,13 +597,6 @@ void L2MPS::InitBlenMaps(const int bay)
             thrParam.data = thrChParamMap;
             paramMap.insert(std::make_pair( thisBlenCh, thrParam ));
     }
-
-    std::stringstream blenDbParams;
-    blenDbParams.str("");
-    blenDbParams << "P=" << std::string(recordPrefixBay_[bay]);
-    blenDbParams << ",PORT=" << std::string(portName_);
-    blenDbParams << ",BAY=" << bay;
-    dbLoadRecords("db/mps_blen.db", blenDbParams.str().c_str());
 }
 
 void L2MPS::InitBcmMaps(const int bay)
@@ -678,13 +672,6 @@ void L2MPS::InitBcmMaps(const int bay)
             thrParam.data = thrChParamMap;
             paramMap.insert(std::make_pair( thisBcmCh, thrParam ));
     }
-
-    std::stringstream bcmDbParams;
-    bcmDbParams.str("");
-    bcmDbParams << "P=" << std::string(recordPrefixBay_[bay]);
-    bcmDbParams << ",PORT=" << std::string(portName_);
-    bcmDbParams << ",BAY=" << bay;
-    dbLoadRecords("db/mps_bcm.db", bcmDbParams.str().c_str());
 }
 
 void L2MPS::InitBlmMaps(const int bay)
