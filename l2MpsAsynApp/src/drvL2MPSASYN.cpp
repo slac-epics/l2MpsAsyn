@@ -22,6 +22,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#define __STDC_FORMAT_MACROS
 #include <inttypes.h>
 #include <getopt.h>
 #include <sstream>
@@ -269,8 +270,10 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
         // - Firmware configuration file
         std::string configurationFile = std::string(appConfigurationPath) + "config.yaml";
 
-        // Set the Application ID
-        node_->setAppId(appId);
+        // Load application configuration
+        printf("Loading application configuration file \'%s\'...\n", configurationFile.c_str());
+        uint64_t nEntriesLoaded = root->loadConfigFromYamlFile(configurationFile.c_str());
+        printf("Done!. %"PRIu64" entries were loaded.\n", nEntriesLoaded);
 
         // Get the application type
         std::string appType_ = node_->getAppType().second;
