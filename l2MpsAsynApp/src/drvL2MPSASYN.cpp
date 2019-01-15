@@ -397,6 +397,7 @@ L2MPS::L2MPS(const char *portName)
         }
 
         // Load the EPICS database
+        printf("Loading MPS EPICS database file \'%s\'...\n", recordFile.c_str());
         std::string dbParams = ",PORT=" + std::string(portName_);
         dbLoadRecords(recordFile.c_str(), dbParams.c_str());
 
