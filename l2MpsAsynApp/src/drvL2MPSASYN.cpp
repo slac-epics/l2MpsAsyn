@@ -210,7 +210,7 @@ void L2MPS::updateAppParameters(int bay, T data)
     }
 }
 
-L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recordPrefixMps, const std::array<std::string, numberOfBays> recordPrefixBay,  std::string mpsRootPath)
+L2MPS::L2MPS(const char *portName)
     : asynPortDriver(
             portName,
             MAX_SIGNALS,
@@ -223,9 +223,7 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
             0,                                                                          // Default priority
             0),                                                                         // Default stack size
         driverName_(DRIVER_NAME),
-        portName_(portName),
-        recordPrefixMps_(recordPrefixMps),
-        recordPrefixBay_(recordPrefixBay)
+        portName_(portName)
 {
     Path root = cpswGetRoot();
 
@@ -397,17 +395,14 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
         {
             amc[i] = node_->getBayApp(i);
 
-            if (!recordPrefixBay_[i].empty())
-            {
-                if (!appType_.compare("BPM"))
-                    InitBpmMaps(i);
-                else if (!appType_.compare("BLEN"))
-                    InitBlenMaps(i);
-                else if (!appType_.compare("BCM"))
-                    InitBcmMaps(i);
-                else if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_6CH")) | (!appType_.compare("MPS_24CH")))
-                    InitBlmMaps(i);
-            }
+            if (!appType_.compare("BPM"))
+                InitBpmMaps(i);
+            else if (!appType_.compare("BLEN"))
+                InitBlenMaps(i);
+            else if (!appType_.compare("BCM"))
+                InitBcmMaps(i);
+            else if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_6CH")) | (!appType_.compare("MPS_24CH")))
+                InitBlmMaps(i);
         }
 
         // Load the EPICS database
@@ -420,28 +415,25 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
 
         for(std::size_t i {0}; i < numberOfBays; ++i)
         {
-            if (!recordPrefixBay_[i].empty())
+            if (!appType_.compare("BPM"))
             {
-                if (!appType_.compare("BPM"))
-                {
-                    auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<bpm_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
-                    boost::any_cast<MpsBpm>(amc[i])->startPollThread(1, fpa);
-                }
-                else if (!appType_.compare("BLEN"))
-                {
-                    auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<blen_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
-                    boost::any_cast<MpsBlen>(amc[i])->startPollThread(1, fpa);
-                }
-                else if (!appType_.compare("BCM"))
-                {
-                    auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<bcm_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
-                    boost::any_cast<MpsBcm>(amc[i])->startPollThread(1, fpa);
-                }
-                else if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_6CH")) | (!appType_.compare("MPS_24CH")))
-                {
-                    auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<blm_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
-                    boost::any_cast<MpsBlm>(amc[i])->startPollThread(1, fpa);
-                }
+                auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<bpm_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
+                boost::any_cast<MpsBpm>(amc[i])->startPollThread(1, fpa);
+            }
+            else if (!appType_.compare("BLEN"))
+            {
+                auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<blen_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
+                boost::any_cast<MpsBlen>(amc[i])->startPollThread(1, fpa);
+            }
+            else if (!appType_.compare("BCM"))
+            {
+                auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<bcm_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
+                boost::any_cast<MpsBcm>(amc[i])->startPollThread(1, fpa);
+            }
+            else if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_6CH")) | (!appType_.compare("MPS_24CH")))
+            {
+                auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<blm_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
+                boost::any_cast<MpsBlm>(amc[i])->startPollThread(1, fpa);
             }
         }
 
@@ -1027,57 +1019,24 @@ asynStatus L2MPS::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
 }
 
 // + L2MPSASYNConfig //
-extern "C" int L2MPSASYNConfig(const char *portName, const int appID, const char *recordPrefixMps, const char *recordPrefixBay0, const char *recordPrefixBay1, const char* mpsRoot)
+extern "C" int L2MPSASYNConfig(const char *portName)
 {
-    int status = 0;
+    new L2MPS(portName);
 
-    if (0 == strlen(recordPrefixMps))
-    {
-        printf("  ERROR: The MSP prefix must be defined!\n");
-        return asynError;
-    }
-
-    std::string recPreMps = std::string(recordPrefixMps);
-    std::array<std::string, numberOfBays> recPreBay = {{ std::string(recordPrefixBay0), std::string(recordPrefixBay1) }};
-    if (!recPreBay[0].compare(recPreBay[1]))
-    {
-        printf("  ERROR: record prefixes must be different. Just the first one will be used\n");
-        recPreBay[1] = std::string("");
-    }
-
-    if ((appID < 0) | (appID > 1023))
-    {
-        printf("  ERROR: Invalid AppID!. It must be an unsigned 10-bit number\n");
-        return asynError;
-    }
-
-    new L2MPS(portName, appID, recPreMps, recPreBay, mpsRoot);
-
-    return (status==0) ? asynSuccess : asynError;
+    return asynSuccess;
 }
 
-static const iocshArg confArg0 =    { "portName",         iocshArgString};
-static const iocshArg confArg1 =    { "AppID",            iocshArgInt};
-static const iocshArg confArg2 =    { "recordPrefixMps",  iocshArgString};
-static const iocshArg confArg3 =    { "recordPrefixBay0", iocshArgString};
-static const iocshArg confArg4 =    { "recordPrefixBay1", iocshArgString};
-static const iocshArg confArg5 =    { "mpsRootPath",      iocshArgString};
-
+static const iocshArg confArg0 = { "portName", iocshArgString };
 
 static const iocshArg * const confArgs[] = {
-    &confArg0,
-    &confArg1,
-    &confArg2,
-    &confArg3,
-    &confArg4,
-    &confArg5
+    &confArg0
 };
 
-static const iocshFuncDef configFuncDef = {"L2MPSASYNConfig",6,confArgs};
+static const iocshFuncDef configFuncDef = {"L2MPSASYNConfig",1,confArgs};
 
 static void configCallFunc(const iocshArgBuf *args)
 {
-    L2MPSASYNConfig(args[0].sval, args[1].ival, args[2].sval, args[3].sval, args[4].sval, args[5].sval);
+    L2MPSASYNConfig(args[0].sval);
 }
 // - L2MPSASYNConfig //
 

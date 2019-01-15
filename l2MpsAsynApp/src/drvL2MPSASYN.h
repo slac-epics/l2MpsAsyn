@@ -216,7 +216,7 @@ typedef std::map<boost::any, thr_param_t, cmp> paramMap_t;
 class L2MPS : public asynPortDriver {
     public:
         // Constructor
-        L2MPS(const char *portName, const uint16_t appId, const std::string recordPrefixMps, const std::array<std::string, numberOfBays> recordPrefixBay, std::string mpsRootPath);
+        L2MPS(const char *portName);
 
         // Methods that we override from asynPortDriver
         virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
@@ -244,11 +244,8 @@ class L2MPS : public asynPortDriver {
         void updateAppParameters(int bay, T data);
 
     private:
-        const char *driverName_;               // Name of the driver (passed from st.cmd)
-        const char *portName_;
-        std::string recordPrefixMps_;
-        std::array<std::string, numberOfBays> recordPrefixBay_;
-        std::array<std::string, numberOfBays> amcType_;
+        const char *driverName_;               // This driver name
+        const char *portName_;                 // Port name (passed from st.cmd)
         MpsNode node_;
         boost::any amc[numberOfBays];
 
