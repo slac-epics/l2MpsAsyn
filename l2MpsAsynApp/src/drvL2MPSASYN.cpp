@@ -223,18 +223,11 @@ L2MPS::L2MPS(const char *portName)
             0,                                                                          // Default priority
             0),                                                                         // Default stack size
         driverName_(DRIVER_NAME),
-        portName_(portName)
+        portName_(portName),
+        node_(IMpsNode::create(cpswGetRoot()))  // MPS object
 {
-    Path root = cpswGetRoot();
-
-    if (!root)
-        throw std::runtime_error("CPSW root path not found. Did you called \'cpswLoadYamlFile()\'?");
-
     try
     {
-        // Create the MPS object
-        node_ = IMpsNode::create(root);
-
         // Get information lo locate the configuration of this application
 
         // - MPS configuration top path
