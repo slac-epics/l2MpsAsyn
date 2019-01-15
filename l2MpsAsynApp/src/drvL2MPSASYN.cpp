@@ -261,6 +261,9 @@ L2MPS::L2MPS(const char *portName)
         // - Firmware configuration file
         std::string configurationFile = std::string(appConfigurationPath) + "config.yaml";
 
+        // - Environmental setting file
+        std::string envFile = std::string(appConfigurationPath) + "mps.env";
+
         // Load application configuration
         node_->loadConfigFile(configurationFile);
 
@@ -429,6 +432,9 @@ L2MPS::L2MPS(const char *portName)
             }
         }
 
+        // Load the environmental variables
+        std::string envSetCmd = std::string("< ") + envFile;
+        iocshCmd(envSetCmd.c_str());
     }
     catch (CPSWError &e)
     {
