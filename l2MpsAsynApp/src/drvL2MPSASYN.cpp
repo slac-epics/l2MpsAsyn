@@ -269,9 +269,7 @@ L2MPS::L2MPS(const char *portName)
         std::string configurationFile = std::string(appConfigurationPath) + "config.yaml";
 
         // Load application configuration
-        printf("Loading application configuration file \'%s\'...\n", configurationFile.c_str());
-        uint64_t nEntriesLoaded = root->loadConfigFromYamlFile(configurationFile.c_str());
-        printf("Done!. %"PRIu64" entries were loaded.\n", nEntriesLoaded);
+        node_->loadConfigFile(configurationFile);
 
         // Get the application type
         std::string appType_ = node_->getAppType().second;
@@ -674,7 +672,6 @@ void L2MPS::InitBlmMaps(const int bay)
 {
     int index;
     std::stringstream pName;
-
 
     for (int i = 0; i < numBlmChs; ++i)
     {
