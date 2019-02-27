@@ -23,6 +23,7 @@
 record(ao,      "$(P):$(R)_SS") {
     field(DESC, "$(DESC) slope")
     field(SCAN, "$(SCAN)")
+    field(PHAS, "1")
     field(PINI, "YES")
     field(EGU,  "$(EGU)/raw")
     field(PREC, "$(PREC)")
@@ -46,6 +47,7 @@ record(ai,      "$(P):$(R)_SS_RBV") {
 record(ao,      "$(P):$(R)_SO") {
     field(DESC, "$(DESC) offset")
     field(SCAN, "$(SCAN)")
+    field(PHAS, "1")
     field(PINI, "YES")
     field(EGU,  "raw")
     field(PREC, "0")
