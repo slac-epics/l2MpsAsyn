@@ -1,17 +1,32 @@
 #===============================================#
-# LCLS-II MPS Scale factor template             #
+# LCLS-II MPS Scale factor and offset PVs.      #
 # Macro description:                            #
 #   - P        : Application's PV name prefix   #
 #   - PROPERTY : Property name                  #
 #   - EGU      : Property's Engineering units   #
 #   - PREC     : Precision                      #
-#   - VAL      : Scale factor value             #
+#   - SLOPE    : Scale factor value             #
+#   - OFFSET   : Scale offset value             #
 #===============================================#
 
-record(ao,      "$(P):$(PROPERTY)_FWSCL") {
+# Scale factor
+record(ao,      "$(P):$(PROPERTY)_FWSLO") {
     field(DESC, "Scale factor")
     field(EGU,  "$(EGU)/raw")
     field(PREC, "$(PREC)")
     field(SCAN, "Passive")
-    field(VAL,  "$(VAL)")
+    field(PHAS, "0")
+    field(PINI, "YES")
+    field(VAL,  "$(SLOPE)")
+}
+
+# Scale offset
+record(ao,      "$(P):$(PROPERTY)_FWOFF") {
+    field(DESC, "Scale factor")
+    field(EGU,  "raw")
+    field(PREC, "$(PREC)")
+    field(SCAN, "Passive")
+    field(PHAS, "0")
+    field(PINI, "YES")
+    field(VAL,  "$(OFFSET)")
 }

@@ -180,7 +180,8 @@ void L2MPS::updateAppParameters(int bay, T data)
             updateUIntDigitalParam( bay,    infoParam.idleEn,       infoData.idleEn      );
             updateUIntDigitalParam( bay,    infoParam.altEn,        infoData.altEn       );
             updateUIntDigitalParam( bay,    infoParam.lcls1En,      infoData.lcls1En     );
-            setDoubleParam(         bay,    infoParam.scaleFactor,  infoData.scaleFactor );
+            setDoubleParam(         bay,    infoParam.scaleSlope,   infoData.scaleSlope  );
+            setDoubleParam(         bay,    infoParam.scaleOffset,  infoData.scaleOffset );
 
             thr_chData_t  data_thr  = (dataIt->second).data;
             thr_chParam_t param_thr = (paramIt->second).data;
@@ -462,9 +463,13 @@ void L2MPS::InitBpmMaps(const int bay)
             createParam(bay, ("BPM_LCLS1EN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
             thrParam.info.lcls1En = index;
 
-            createParam(bay, ("BPM_SCALE" + pName.str()).c_str(), asynParamFloat64, &index);
-            thrParam.info.scaleFactor = index;
-            fMapBpmWScale.insert( std::make_pair( index, std::make_pair( &IMpsBpm::setScaleFactor, thisBpmCh ) ) );
+            createParam(bay, ("BPM_SCALESLOPE" + pName.str()).c_str(), asynParamFloat64, &index);
+            thrParam.info.scaleSlope = index;
+            fMapBpmWScaleSlope.insert( std::make_pair( index, std::make_pair( &IMpsBpm::setScaleSlope, thisBpmCh ) ) );
+
+            createParam(bay, ("BPM_SCALEOFFSET" + pName.str()).c_str(), asynParamFloat64, &index);
+            thrParam.info.scaleOffset = index;
+            fMapBpmWScaleOffset.insert( std::make_pair( index, std::make_pair( &IMpsBpm::setScaleOffset, thisBpmCh ) ) );
 
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
@@ -544,9 +549,13 @@ void L2MPS::InitBlenMaps(const int bay)
             createParam(bay, ("BLEN_LCLS1EN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
             thrParam.info.lcls1En = index;
 
-            createParam(bay, ("BLEN_SCALE" + pName.str()).c_str(), asynParamFloat64, &index);
-            thrParam.info.scaleFactor = index;
-            fMapBlenWScale.insert( std::make_pair( index, std::make_pair( &IMpsBlen::setScaleFactor, thisBlenCh ) ) );
+            createParam(bay, ("BLEN_SCALESLOPE" + pName.str()).c_str(), asynParamFloat64, &index);
+            thrParam.info.scaleSlope = index;
+            fMapBlenWScaleSlope.insert( std::make_pair( index, std::make_pair( &IMpsBlen::setScaleSlope, thisBlenCh ) ) );
+
+            createParam(bay, ("BLEN_SCALEOFFSET" + pName.str()).c_str(), asynParamFloat64, &index);
+            thrParam.info.scaleOffset = index;
+            fMapBlenWScaleOffset.insert( std::make_pair( index, std::make_pair( &IMpsBlen::setScaleOffset, thisBlenCh ) ) );
 
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
@@ -626,9 +635,13 @@ void L2MPS::InitBcmMaps(const int bay)
             createParam(bay, ("BCM_LCLS1EN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
             thrParam.info.lcls1En = index;
 
-            createParam(bay, ("BCM_SCALE" + pName.str()).c_str(), asynParamFloat64, &index);
-            thrParam.info.scaleFactor = index;
-            fMapBcmWScale.insert( std::make_pair( index, std::make_pair( &IMpsBcm::setScaleFactor, thisBcmCh ) ) );
+            createParam(bay, ("BCM_SCALESLOPE" + pName.str()).c_str(), asynParamFloat64, &index);
+            thrParam.info.scaleSlope = index;
+            fMapBcmWScaleSlope.insert( std::make_pair( index, std::make_pair( &IMpsBcm::setScaleSlope, thisBcmCh ) ) );
+
+            createParam(bay, ("BCM_SCALEOFFSET" + pName.str()).c_str(), asynParamFloat64, &index);
+            thrParam.info.scaleOffset = index;
+            fMapBcmWScaleOffset.insert( std::make_pair( index, std::make_pair( &IMpsBcm::setScaleOffset, thisBcmCh ) ) );
 
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
@@ -711,9 +724,13 @@ void L2MPS::InitBlmMaps(const int bay)
             createParam(bay, ("BLM_LCLS1EN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
             thrParam.info.lcls1En = index;
 
-            createParam(bay, ("BLM_SCALE" + pName.str()).c_str(), asynParamFloat64, &index);
-            thrParam.info.scaleFactor = index;
-            fMapBlmWScale.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setScaleFactor, thisBlmCh ) ) );
+            createParam(bay, ("BLM_SCALESLOPE" + pName.str()).c_str(), asynParamFloat64, &index);
+            thrParam.info.scaleSlope = index;
+            fMapBlmWScaleSlope.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setScaleSlope, thisBlmCh ) ) );
+
+            createParam(bay, ("BLM_SCALEOFFSET" + pName.str()).c_str(), asynParamFloat64, &index);
+            thrParam.info.scaleOffset = index;
+            fMapBlmWScaleOffset.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setScaleOffset, thisBlmCh ) ) );
 
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
@@ -932,19 +949,23 @@ asynStatus L2MPS::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
         try
         {
             bpm_fmap_w32_t::iterator bpm_it;
-            bpm_scaleFuncMap_t::iterator bpm_scaleIt;
+            bpm_scaleSlopeFuncMap_t::iterator bpm_scaleSlopeIt;
+            bpm_scaleOffsetFuncMap_t::iterator bpm_scaleOffsetIt;
             bpm_setIdleEnMap_t::iterator bpm_idleIt;
 
             blen_fmap_w32_t::iterator blen_it;
-            blen_scaleFuncMap_t::iterator blen_scaleIt;
+            blen_scaleSlopeFuncMap_t::iterator blen_scaleSlopeIt;
+            blen_scaleOffsetFuncMap_t::iterator blen_scaleOffsetIt;
             blen_setIdleEnMap_t::iterator blen_idleIt;
 
             bcm_fmap_w32_t::iterator bcm_it;
-            bcm_scaleFuncMap_t::iterator bcm_scaleIt;
+            bcm_scaleSlopeFuncMap_t::iterator bcm_scaleSlopeIt;
+            bcm_scaleOffsetFuncMap_t::iterator bcm_scaleOffsetIt;
             bcm_setIdleEnMap_t::iterator bcm_idleIt;
 
             blm_fmap_w32_t::iterator blm_it;
-            blm_scaleFuncMap_t::iterator blm_scaleIt;
+            blm_scaleSlopeFuncMap_t::iterator blm_scaleSlopeIt;
+            blm_scaleOffsetFuncMap_t::iterator blm_scaleOffsetIt;
             blm_setIdleEnMap_t::iterator blm_idleIt;
 
             // BPM parameters
@@ -952,9 +973,13 @@ asynStatus L2MPS::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
             {
                 ret = ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_it->second.first))(bpm_it->second.second, value);
             }
-            else if ((bpm_scaleIt = fMapBpmWScale.find(function)) != fMapBpmWScale.end())
+            else if ((bpm_scaleSlopeIt = fMapBpmWScaleSlope.find(function)) != fMapBpmWScaleSlope.end())
             {
-                ret = ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_scaleIt->second.first))(bpm_scaleIt->second.second, value);
+                ret = ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_scaleSlopeIt->second.first))(bpm_scaleSlopeIt->second.second, value);
+            }
+            else if ((bpm_scaleOffsetIt = fMapBpmWScaleOffset.find(function)) != fMapBpmWScaleOffset.end())
+            {
+                ret = ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_scaleOffsetIt->second.first))(bpm_scaleOffsetIt->second.second, value);
             }
             else if ((bpm_idleIt = fMapBpmSetIdleEn.find(function)) != fMapBpmSetIdleEn.end())
             {
@@ -965,9 +990,13 @@ asynStatus L2MPS::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
             {
                 ret = ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_it->second.first))(blen_it->second.second, value);
             }
-            else if ((blen_scaleIt = fMapBlenWScale.find(function)) != fMapBlenWScale.end())
+            else if ((blen_scaleSlopeIt = fMapBlenWScaleSlope.find(function)) != fMapBlenWScaleSlope.end())
             {
-                ret = ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_scaleIt->second.first))(blen_scaleIt->second.second, value);
+                ret = ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_scaleSlopeIt->second.first))(blen_scaleSlopeIt->second.second, value);
+            }
+            else if ((blen_scaleOffsetIt = fMapBlenWScaleOffset.find(function)) != fMapBlenWScaleOffset.end())
+            {
+                ret = ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_scaleOffsetIt->second.first))(blen_scaleOffsetIt->second.second, value);
             }
             else if ((blen_idleIt = fMapBlenSetIdleEn.find(function)) != fMapBlenSetIdleEn.end())
             {
@@ -978,9 +1007,13 @@ asynStatus L2MPS::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
             {
                 ret = ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_it->second.first))(bcm_it->second.second, value);
             }
-            else if ((bcm_scaleIt = fMapBcmWScale.find(function)) != fMapBcmWScale.end())
+            else if ((bcm_scaleSlopeIt = fMapBcmWScaleSlope.find(function)) != fMapBcmWScaleSlope.end())
             {
-                ret = ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_scaleIt->second.first))(bcm_scaleIt->second.second, value);
+                ret = ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_scaleSlopeIt->second.first))(bcm_scaleSlopeIt->second.second, value);
+            }
+            else if ((bcm_scaleOffsetIt = fMapBcmWScaleOffset.find(function)) != fMapBcmWScaleOffset.end())
+            {
+                ret = ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_scaleOffsetIt->second.first))(bcm_scaleOffsetIt->second.second, value);
             }
             else if ((bcm_idleIt = fMapBcmSetIdleEn.find(function)) != fMapBcmSetIdleEn.end())
             {
@@ -995,9 +1028,13 @@ asynStatus L2MPS::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
             {
                 ret = ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_idleIt->second.first))(blm_idleIt->second.second, value);
             }
-            else if ((blm_scaleIt = fMapBlmWScale.find(function)) != fMapBlmWScale.end())
+            else if ((blm_scaleSlopeIt = fMapBlmWScaleSlope.find(function)) != fMapBlmWScaleSlope.end())
             {
-                ret = ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_scaleIt->second.first))(blm_scaleIt->second.second, value);
+                ret = ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_scaleSlopeIt->second.first))(blm_scaleSlopeIt->second.second, value);
+            }
+            else if ((blm_scaleOffsetIt = fMapBlmWScaleOffset.find(function)) != fMapBlmWScaleOffset.end())
+            {
+                ret = ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_scaleOffsetIt->second.first))(blm_scaleOffsetIt->second.second, value);
             }
             else
             {

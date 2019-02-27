@@ -46,6 +46,6 @@ file "thr.template" { pattern
 
 ### Scale PVs ###
 file "scale.template" { pattern
-{ R,                DESC,                                         APP,        EGU,    PREC,   CH,           SCALE_PV,           SCAN        }
-{ I0_SF,            "Bay $(BAY) Ch $(INP) Int 0 Scale factor",    "BLM",      "",     "4",    "$(INP)0",    "$(P):I0_FWSCL",    "1 second"  }
+{ R,                DESC,                                   APP,        EGU,    PREC,       CH,           SCALE_SLOPE_PV,   SCALE_OFFSET_PV,    SCAN        }
+{ I0,               "Bay $(BAY) Ch $(INP) Int 0 Scale ",    "BLM",      "A",    "4",        "$(INP)0",    "$(P):I0_FWSLO",  "$(P):I0_FWOFF"     "1 second"  }
 }
