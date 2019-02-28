@@ -3,18 +3,22 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __R2.0.0__: 2019-02-27 J. Vasquez
+  * Update l2Mps to version R2.0.0. Now the threshold scale factor
+    is divided into a slope and a offset value.
+
 * __R1.2.0__: 2018-10-26 J.Vasquez
   * Update l2Mps to R1.2.0 and CPSW framework to R3.6.4
 
 * __R1.1.0__: 2018-06-28 J. Vasquez
   * Update l2Mps driver to version R1.1.0.
-  * The new l2Mps API send pairs of data and valid flags; use 
-    the status flag to set the record status and severity 
+  * The new l2Mps API send pairs of data and valid flags; use
+    the status flag to set the record status and severity
     accordingly.
 
 * __R1.0.2__: 2018-06-18 J. Vasquez
   * Update l2Mps driver to version R1.0.2.
-  * se std::bind to set the callback fucntion, which are now of 
+  * se std::bind to set the callback fucntion, which are now of
     type std::function.
   * Remove the static methods and the global object pointer.
   * Remove boost_system library from makefile.
