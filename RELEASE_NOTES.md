@@ -8,6 +8,7 @@ Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
     is divided into a slope and a offset value.
   * Update CPSW framework to version R3.6.6, boost to 1.64.0 and
     yaml-cpp to yaml-cpp-0.5.3_boost-1.64.0.
+  * Update yamlLoader to version R1.1.2.
 
 * __R1.2.0__: 2018-10-26 J.Vasquez
   * Update l2Mps to R1.2.0 and CPSW framework to R3.6.4
