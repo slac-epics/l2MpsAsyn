@@ -159,7 +159,7 @@ void L2MPS::updateMpsParametrs(mps_infoData_t info)
     callParamCallbacks(paramListMpsBase);
 }
 
-// App callback functions
+// Application callback functions
 template<typename T>
 void L2MPS::updateAppParameters(int bay, T data)
 {
@@ -233,7 +233,7 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
         if (mpsRootPath.empty())
         {
             mpsRootPath = defaultMpsRootPath;
-            printf("Not mps root was defined. Using default path: %s\n", mpsRootPath.c_str());
+            printf("Not MPS root was defined. Using default path: %s\n", mpsRootPath.c_str());
         }
         else
         {
@@ -244,9 +244,10 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
 
         node_ = IMpsNode::create(mpsRoot);
         node_->setAppId(appId);
+        node_->setEnable(false);
         std::string appType_ = node_->getAppType().second;
 
-        // Create parameters fpor the MPS node
+        // Create parameters for the MPS node
         int index;
 
         // Integer variables
@@ -387,6 +388,10 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
                 {
                     amc[i] = IMpsBlm::create(mpsRoot, i);
                     InitBlmMaps(i);
+                }
+                else
+                {
+                    printf("ERROR: Application type %s not supported on bay %zu\n", appType_.c_str(), i);
                 }
             }
         }
@@ -811,11 +816,11 @@ asynStatus L2MPS::writeInt32(asynUser *pasynUser, epicsInt32 value)
         }
         catch (CPSWError &e)
         {
-            asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writting parameter %s: %s\n", functionName, name, e.getInfo().c_str());
+            asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writing parameter %s: %s\n", functionName, name, e.getInfo().c_str());
         }
         catch (std::runtime_error &e)
         {
-            asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writting parameter %s: %s\n", functionName, name, e.what());
+            asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writing parameter %s: %s\n", functionName, name, e.what());
         }
     }
     else
@@ -869,11 +874,11 @@ asynStatus L2MPS::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epi
         }
         catch (CPSWError &e)
         {
-            asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writting parameter %s: %s\n", functionName, name, e.getInfo().c_str());
+            asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writing parameter %s: %s\n", functionName, name, e.getInfo().c_str());
         }
         catch (std::runtime_error &e)
         {
-            asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writting parameter %s: %s\n", functionName, name, e.what());
+            asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writing parameter %s: %s\n", functionName, name, e.what());
         }
     }
     else if ((addr == paramListAppBay0) or (addr == paramListAppBay1))
@@ -913,11 +918,11 @@ asynStatus L2MPS::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epi
         }
         catch (CPSWError &e)
         {
-            asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writting parameter %s: %s\n", functionName, name, e.getInfo().c_str());
+            asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writing parameter %s: %s\n", functionName, name, e.getInfo().c_str());
         }
         catch (std::runtime_error &e)
         {
-            asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writting parameter %s: %s\n", functionName, name, e.what());
+            asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writing parameter %s: %s\n", functionName, name, e.what());
         }
     }
     else
@@ -1044,11 +1049,11 @@ asynStatus L2MPS::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
         }
         catch (CPSWError &e)
         {
-            asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writting parameter %s: %s\n", functionName, name, e.getInfo().c_str());
+            asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writing parameter %s: %s\n", functionName, name, e.getInfo().c_str());
         }
         catch (std::runtime_error &e)
         {
-            asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writting parameter %s: %s\n", functionName, name, e.what());
+            asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writing parameter %s: %s\n", functionName, name, e.what());
         }
     }
     else
