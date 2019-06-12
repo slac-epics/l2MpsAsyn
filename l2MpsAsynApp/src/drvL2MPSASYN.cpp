@@ -244,6 +244,7 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
 
         node_ = IMpsNode::create(mpsRoot);
         node_->setAppId(appId);
+        node_->setEnable(false);
         std::string appType_ = node_->getAppType().second;
 
         // Create parameters for the MPS node
