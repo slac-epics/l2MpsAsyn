@@ -3,9 +3,12 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
-* __R2.0.1__: 2019-06-12 L.Piccoli
+* __R2.1.0__: 2019-06-12 J. Vasquez
   * Addition of info(autosaveFields) to thr.template, this will
-    enable autosave for thresholds and threshold enable PVs
+    enable autosave for thresholds and threshold enable PVs.
+  * Disable the MPS application when the EPICS module is loaded.
+    So, the MPS application will start disabled by default every
+    time the IOC boots.
 
 * __R2.0.0__: 2019-02-27 J. Vasquez
   * Update l2Mps to version R2.0.0. Now the threshold scale factor
