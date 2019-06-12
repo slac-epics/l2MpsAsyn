@@ -388,6 +388,10 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
                     amc[i] = IMpsBlm::create(mpsRoot, i);
                     InitBlmMaps(i);
                 }
+                else
+                {
+                    printf("ERROR: Application type %s not supported on bay %zu\n", appType_.c_str(), i);
+                }
             }
         }
 
