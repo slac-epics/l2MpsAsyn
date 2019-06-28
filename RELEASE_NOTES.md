@@ -3,6 +3,10 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __R2.2.0__: 2019-06-27 J. Vasquez
+  * Update CPSW framework to version R4.1.0 and l2Mps to 
+    version R2.1.0.
+
 * __R2.1.0__: 2019-06-12 J. Vasquez
   * Addition of info(autosaveFields) to thr.template, this will
     enable autosave for thresholds and threshold enable PVs.
