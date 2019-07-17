@@ -36,29 +36,6 @@ static void l2MpsAsynInitHooks(initHookState state)
 
     switch (state)
     {
-        case initHookAtBeginning :
-            break;
-        case initHookAfterCallbackInit :
-            break;
-        case initHookAfterCaLinkInit :
-            break;
-        case initHookAfterInitDrvSup :
-            break;
-        case initHookAfterInitRecSup :
-            break;
-        case initHookAfterInitDevSup :
-            break;
-        case initHookAfterInitDatabase :
-            break;
-        case initHookAfterFinishDevSup :
-            break;
-        case initHookAfterScanInit :
-            break;
-        case initHookAfterInitialProcess :
-            break;
-        case initHookAfterInterruptAccept :
-            break;
-
         case initHookAtEnd :
             host = getenv("MPS_MANAGER_HOST");
             portStr = getenv("MPS_MANAGER_PORT");
