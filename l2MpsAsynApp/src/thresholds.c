@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <netdb.h>
+#include <unistd.h>
+#include <errno.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -13,16 +15,17 @@ typedef struct {
 } restoreRequest;
 
 typedef struct {
-  int status;
+  int status; /* Status=10 is OK */
   int appId;
   char statusMessage[200];
 } restoreResponse;
 
-static int requestRestore(char *server, int port, int appId) {
+int restoreThresholds(char *server, int port, int appId) {
   int sock;
   struct sockaddr_in serverAddr;
   socklen_t addrSize;
   struct hostent *host;
+  char *errorMessage;
 
   host = gethostbyname(server);
   if (host == NULL) {
@@ -37,48 +40,43 @@ static int requestRestore(char *server, int port, int appId) {
   memcpy(&serverAddr.sin_addr, host->h_addr_list[0], host->h_length);
   memset(serverAddr.sin_zero, '\0', sizeof(serverAddr.sin_zero));
 
+  printf("MPS: Connecting to MpsManager server at %s:%d\n", server, port);
   addrSize = sizeof(serverAddr);
-  connect(sock, (struct sockaddr *) &serverAddr, addrSize);
+  if (connect(sock, (struct sockaddr *) &serverAddr, addrSize) != 0) {
+    printf("ERROR: Failed to connect to server at %s:%d (errno=%d)\n",
+	   server, port, errno);
+    perror(errorMessage);
+    printf("ERROR: %s\n", errorMessage);
+    return 1;
+  }
   
   /* Send request */
   restoreRequest request;
   request.type = 3; /* Restore type */
   request.appId = appId;
 
-  send(sock, (char *) &request, sizeof(request), 0);
+  printf("MPS: Requesting thresholds for app=%d\n", appId);
+  if (send(sock, (char *) &request, sizeof(request), 0) != sizeof(request)) {
+    printf("ERROR: Failed to send threshold restore request to server at %s:%d\n",
+	   server, port);
+    return 1;
+  }
 
   /* Wait for respose */
+  printf("MPS: Waiting for response...\n");
   restoreResponse response;
-  read(sock, (char *) &response, sizeof(response));
-  printf("%s\n", response.statusMessage);
-
-  return 0;
-}
-
-int restoreThresholds(char *appIdString) {
-  int len = strlen(appIdString);
-
-  // ApplicationId string from environment variable should not have more that 4 chars or 
-  // have none
-  if (len == 0 || len > 4) {
-    printf("ERROR: Invalid application ID string (%s).\n", appIdString);
+  if (read(sock, (char *) &response, sizeof(response)) != sizeof(response)) {
+    printf("ERROR: Failed to received threshold restore response from server at %s:%d\n",
+	   server, port);
     return 1;
   }
 
-  char *endPtr;
-  strtol(appIdString, &endPtr, 0);
-  if (endPtr == appIdString) {
-    printf("ERROR: Invalid application ID. Cannot convert string \"%s\" to a number.\n",
-	   appIdString);
+  if (response.status != 10) {
+    printf("ERROR: Received status %d from MpsManager server, error message:\n", response.status);
+    printf("%s\n", response.statusMessage);
     return 1;
   }
-
-  int appId = atoi(appIdString);
-  printf("Restoring thresholds for app %d.\n", appId);
-
-  char *server = "lcls-dev3";
-  int port = 1975;
-  requestRestore(server, port, appId);
+  printf("MPS: Thresholds restored.\n");
 
   return 0;
 }
