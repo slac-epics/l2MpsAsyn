@@ -12,7 +12,7 @@ MPS_MANAGER_HOST | Server where the MpsManager is running (lcls-daemon2 in produ
 MPS_MANAGER_PORT | MpsManager port (default=1975)
 MPS_ANA_APP_ID   | Global ID for the MPS analog application (defined by the MPS configuration)
 
-If `MPS_MANAGER_HOST` or `MPS_MANAGER_PORT` are not defined the default values will be used to connect to MpsManager. 
+If `MPS_MANAGER_HOST` or `MPS_MANAGER_PORT` are not defined the default values will be used to connect to MpsManager.
 
 If `MPS_ANA_APP_ID` is not defined the thresholds will not be downloaded. Users will need to request threshold setting using proper scripts or user screens.
 
