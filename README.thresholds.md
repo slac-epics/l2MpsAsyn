@@ -1,6 +1,6 @@
 # Thresholds
 
-The values set for the threshold PVs (listed in README.pvList) are tracked by an MPS runtime database. Any changes to thresholds must go through the MpsManager server, which records the changes in the runtime database and then changes the PVs. Direct modification of MPS thresholds via `caput` is not allowed. Any changes must go through the MpsManager.
+The values set for the threshold PVs (listed in [README.pvList.md]) are tracked by an MPS runtime database. Any changes to thresholds must go through the MpsManager server, which records the changes in the runtime database and then changes the PVs. Direct modification of MPS thresholds via `caput` is not allowed. Any changes must go through the MpsManager.
 
 ## Reboot
 
