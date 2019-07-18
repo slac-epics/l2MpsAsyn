@@ -37,6 +37,10 @@
 #include "l2Mps_bcm.h"
 #include "l2Mps_blm.h"
 
+extern "C" {
+    #include "mpsManagerInfo.h"
+}
+
 #define DRIVER_NAME         "L2MPS"
 #define MAX_SIGNALS         (3)     // Max number of parameter list (number of bays)
 #define NUM_PARAMS          (1500)  // Max number of paramters

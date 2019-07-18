@@ -8,13 +8,13 @@ include $(TOP)/configure/CONFIG
 USR_CXXFLAGS += -std=c++0x
 
 # <name>.dbd will be created from <name>Include.dbd
-DBD += l2MpsAsyn.dbd 
+DBD += l2MpsAsyn.dbd
 
 INC += drvL2MPSASYN.h
 
 LIBRARY_IOC += l2MpsAsyn
-LIB_SRCS += drvL2MPSASYN.cpp
-LIB_LIBS += asyn 
+LIB_SRCS += initHooks.c mpsManagerInfo.c thresholds.c drvL2MPSASYN.cpp
+LIB_LIBS += asyn
 LIB_LIBS += yamlLoader
 
 
@@ -27,7 +27,7 @@ yaml-cpp_DIR = $(YAML_LIB)
 l2Mps_DIR = $(L2MPS_LIB)
 USR_LIBS_Linux += l2Mps cpsw yaml-cpp
 #======================================================
- 
+
 #===========================
 
 include $(TOP)/configure/RULES
