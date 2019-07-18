@@ -70,7 +70,7 @@ static void l2MpsAsynInitHooks(initHookState state)
             }
             int appId = atoi(str);
 
-            print("l2MpsAsynInitHooks: Trying to restore thresholds from '%s:%d' for appId: '%d'...\n", mpsManagerHostName, mpsManagerPortNumber, appId);
+            printf("l2MpsAsynInitHooks: Trying to restore thresholds from '%s:%d' for appId: '%d'...\n", mpsManagerHostName, mpsManagerPortNumber, appId);
 
             if (restoreThresholds(mpsManagerHostName, mpsManagerPortNumber, appId) != 0)
             {
