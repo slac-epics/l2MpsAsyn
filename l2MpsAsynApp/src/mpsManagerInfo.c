@@ -1,9 +1,12 @@
 #include "mpsManagerInfo.h"
 
-// MMPS manager hostname and port number
+// Information needed to contact the MPS Manager.
+// This are the default values which can be changes
+// using the provided functions.
 char*    mpsManagerHostName   = "lcls-daemon2";
 int      mpsManagerPortNumber = 1975;
 uint16_t mpsManagerAppId      = 0;
+
 
 int setMpsManagerAppId(const uint16_t id)
 {
@@ -13,9 +16,6 @@ int setMpsManagerAppId(const uint16_t id)
 
     return 0;
 }
-
-/* Function to override the default MPS manager host name and port
- *    number from the IOC shell */
 
 int setMpsManagerHost(const char* host, int port)
 {
@@ -49,6 +49,8 @@ void getMpsManagerInfo(const char** host, int* port, uint16_t* id)
 }
 
 
+/* The setMpsManagerHost is exposed to the IOC shell
+   so that the user can call it from st.cmd */
 static const iocshArg setMpsManagerHostArgs0 = { "MpsManagerHostName",   iocshArgString };
 static const iocshArg setMpsManagerHostArgs1 = { "MpsManagerPortNumber", iocshArgInt    };
 
