@@ -54,7 +54,7 @@ static void l2MpsAsynInitHooks(initHookState state)
 
             // Try to restore the MPS threshold from the MPS Manager
             printf("l2MpsAsynInitHooks: Trying to restore thresholds from '%s:%d' for appId: '%d'...\n", host, port, id);
-            if (restoreThresholds(mpsManagerHostName, mpsManagerPortNumber, mpsManagerAppId) != 0)
+            if (restoreThresholds(host, port, id) != 0)
             {
                 printErrorMessage("");
             }
