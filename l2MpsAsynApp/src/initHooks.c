@@ -24,21 +24,21 @@ static void printErrorMessage(char *extraInfo) {
     }
 }
 
+// MMPS manager hostname and port number
+char* mpsManagerHostName   = "lcls-daemon2";
+int   mpsManagerPortNumber = 1975;
+
 /* If this function (initHooks) is loaded, iocInit calls this function
  * at certain defined points during IOC initialization */
 static void l2MpsAsynInitHooks(initHookState state)
 {
     char errorMessage[300];
     char *str;
-    char *host;
-    char *portStr;
     int len;
 
     switch (state)
     {
         case initHookAtEnd :
-            host = getenv("MPS_MANAGER_HOST");
-            portStr = getenv("MPS_MANAGER_PORT");
 
             str = getenv("MPS_ANA_APP_ID");
             if (str == NULL)
@@ -49,20 +49,6 @@ static void l2MpsAsynInitHooks(initHookState state)
             }
 
             len = strlen(str);
-
-            if (host == NULL)
-            {
-                printf("WARNING: MPS_MANAGER_HOST environment variable not defined.\n");
-                printf("         Using lcls-daemon2 as host. This variable is defined by the MPS configuration.\n");
-                host = "lcls-daemon2";
-            }
-
-            if (portStr == NULL)
-            {
-                printf("WARNING: MPS_MANAGER_PORT environment variable not defined.\n");
-                printf("         Using 1975 as port. This variable is defined by the MPS configuration.\n");
-                portStr = "1975";
-            }
 
             // ApplicationId string from environment variable should not have more that 4 chars or
             // have none
@@ -84,19 +70,15 @@ static void l2MpsAsynInitHooks(initHookState state)
             }
             int appId = atoi(str);
 
-            strtol(portStr, &endPtr, 0);
-            if (endPtr == portStr)
-            {
-                sprintf(errorMessage,
-                "ERROR: Invalid server port. Cannot convert string \"%s\" to a number.\n", portStr);
-                printErrorMessage(errorMessage);
-                return;
-            }
-            int port = atoi(portStr);
+            print("l2MpsAsynInitHooks: Trying to restore thresholds from '%s:%d' for appId: '%d'...\n", mpsManagerHostName, mpsManagerPortNumber, appId);
 
-            if (restoreThresholds(host, port, appId) != 0)
+            if (restoreThresholds(mpsManagerHostName, mpsManagerPortNumber, appId) != 0)
             {
                 printErrorMessage("");
+            }
+            else
+            {
+                printf("Success. MPS thresholds were restored.\n");
             }
 
             break;
@@ -107,9 +89,52 @@ static void l2MpsAsynInitHooks(initHookState state)
     return;
 }
 
+/* Function to override the default MPS manager host name and port
+   number from the IOC shell */
+
+int l2MpsAsynSetManagerHost(const char* host, int port)
+{
+    if ( ( ! host ) || ( host[0] == '\0' ) )
+    {
+        fprintf( stderr, "Error: MPS Manager hostname is empty\n" );
+        return 1;
+    }
+
+    if ( port <= 0 )
+    {
+        fprintf( stderr, "Error: MPS Manager port number is invalid\n" );
+        return 1;
+    }
+
+    printf("Setting MPS Manager host to: '%s', and port number to '%d'\n", host, port);
+
+    mpsManagerHostName = (char*) malloc( strlen(host) * sizeof(char) );
+    strcpy(mpsManagerHostName, host);
+    mpsManagerPortNumber = port;
+
+    return 0;
+}
+
+static const iocshArg setManagerHostArgs0 = { "MpsManagerHostName",   iocshArgString };
+static const iocshArg setManagerHostArgs1 = { "MpsManagerPortNumber", iocshArgInt    };
+
+static const iocshArg * const setManagerHostArgs[] =
+{
+    &setManagerHostArgs0,
+    &setManagerHostArgs1
+};
+
+static const iocshFuncDef setManaherHostFuncDef = { "l2MpsAsynSetManagerHost", 2, setManagerHostArgs };
+
+static void setManaherHostCallFunc(const iocshArgBuf *args)
+{
+    l2MpsAsynSetManagerHost(args[0].sval, args[1].ival);
+}
+
 void l2MpsAsynInitHooksRegister(void)
 {
    initHookRegister(l2MpsAsynInitHooks);
+   iocshRegister(&setManaherHostFuncDef, setManaherHostCallFunc);
 }
 
 epicsExportRegistrar(l2MpsAsynInitHooksRegister);
