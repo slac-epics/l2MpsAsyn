@@ -4,16 +4,25 @@ The values set for the threshold PVs (listed in [here](README.pvList.md)) are tr
 
 ## Reboot
 
-When an IOC reboots it automatically issues a request to the MpsManager to restore the threshold PVs. The request happens after `iocInit()` and it relies on some MPS environment variables loaded by the IOC during startup. The environment variables used to connect to MpsManager are:
+When an IOC reboots it automatically issues a request to the MpsManager to restore the threshold PVs. The request happens after `iocInit()`.
 
-Variable         | Description
------------------|-----------------
-MPS_MANAGER_HOST | Server where the MpsManager is running (lcls-daemon2 in production)
-MPS_MANAGER_PORT | MpsManager port (default=1975)
-MPS_ANA_APP_ID   | Global ID for the MPS analog application (defined by the MPS configuration)
+By default, the server name `lcls-daemon2` and port number `1975` are used to connect to the MpsManager. However, those values can be changed calling the function `L2MPSASYNSetManagerHost` in your `st.cmd` file. The usage of that function is
 
-If `MPS_MANAGER_HOST` or `MPS_MANAGER_PORT` are not defined the default values will be used to connect to MpsManager.
+```
+L2MPSASYNSetManagerHost(MpsManagerHostName, MpsManagerPortNumber)
+```
 
-If `MPS_ANA_APP_ID` is not defined the thresholds will not be downloaded. Users will need to request threshold setting using proper scripts or user screens.
+where:
 
-Once thresholds are set MpsManager the `$(PREFIX_BASE):THR_LOADED` is set, which in turn will enable the `$(PREFIX_BASE):MPS_EN` PV - this PV *must* be enabled in order to start MPS in the application IOC. It must be enabled only after the thresholds have been properly set by MpsManager.
+Parameter            | Description                            | Default value
+---------------------|----------------------------------------|-------------------
+MpsManagerHostName   | Server where the MpsManager is running | lcls-daemon2
+MpsManagerPortNumber | MpsManager port number                 | 1975
+
+If an empty string is passed to `MpsManagerHostName`, then it will be omitted and the default value will be used.
+
+If zero is passed to `MpsManagerPortNumber`, then it will be ignored and the default value will be used.
+
+The global MPS analog application ID is used when contacting the MpsManager to identify this system. This application ID is obtained directly from the L2MPSASYN driver. If the ID is invalid (0), then the thresholds will not be downloaded. Users will need to request threshold setting using proper scripts or user screens.
+
+Once thresholds are set by the MpsManager the `$(PREFIX_BASE):THR_LOADED` is set, which in turn will enable the `$(PREFIX_BASE):MPS_EN` PV - this PV *must* be enabled in order to start MPS in the application IOC. It must be enabled only after the thresholds have been properly set by MpsManager.
