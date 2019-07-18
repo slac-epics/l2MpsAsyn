@@ -7,6 +7,7 @@
 #include <epicsExport.h>
 #include <stdlib.h>
 #include <string.h>
+#include <inttypes.h>
 #include "thresholds.h"
 
 /*
@@ -24,9 +25,10 @@ static void printErrorMessage(char *extraInfo) {
     }
 }
 
-// MMPS manager hostname and port number
-char* mpsManagerHostName   = "lcls-daemon2";
-int   mpsManagerPortNumber = 1975;
+// MMPS manager hostname and port number, and application ID
+char*    mpsManagerHostName   = "lcls-daemon2";
+int      mpsManagerPortNumber = 1975;
+uint16_t mpsManagerAppId      = 0;
 
 /* If this function (initHooks) is loaded, iocInit calls this function
  * at certain defined points during IOC initialization */
@@ -40,39 +42,9 @@ static void l2MpsAsynInitHooks(initHookState state)
     {
         case initHookAtEnd :
 
-            str = getenv("MPS_ANA_APP_ID");
-            if (str == NULL)
-                {
-                sprintf(errorMessage, "ERROR: MPS_ANA_APP_ID environment variable not defined.\n");
-                printErrorMessage(errorMessage);
-                return;
-            }
+            printf("l2MpsAsynInitHooks: Trying to restore thresholds from '%s:%d' for appId: '%d'...\n", mpsManagerHostName, mpsManagerPortNumber, mpsManagerAppId);
 
-            len = strlen(str);
-
-            // ApplicationId string from environment variable should not have more that 4 chars or
-            // have none
-            if (len == 0 || len > 4)
-            {
-                sprintf(errorMessage, "ERROR: Invalid application ID string (%s).\n", str);
-                printErrorMessage(errorMessage);
-                return;
-            }
-
-            char *endPtr;
-            strtol(str, &endPtr, 0);
-            if (endPtr == str)
-            {
-                sprintf(errorMessage,
-                "ERROR: Invalid application ID. Cannot convert string \"%s\" to a number.\n", str);
-                printErrorMessage(errorMessage);
-                return;
-            }
-            int appId = atoi(str);
-
-            printf("l2MpsAsynInitHooks: Trying to restore thresholds from '%s:%d' for appId: '%d'...\n", mpsManagerHostName, mpsManagerPortNumber, appId);
-
-            if (restoreThresholds(mpsManagerHostName, mpsManagerPortNumber, appId) != 0)
+            if (restoreThresholds(mpsManagerHostName, mpsManagerPortNumber, mpsManagerAppId) != 0)
             {
                 printErrorMessage("");
             }
@@ -87,6 +59,15 @@ static void l2MpsAsynInitHooks(initHookState state)
             break;
     }
     return;
+}
+
+/* Function to set the application ID used as identification on
+   the MPS manager */
+void l2MpsAsynSetManagerAppId(const uint16_t id)
+{
+   printf("Setting MPS Manager App ID to: '%" PRIu16 "'\n", id);
+
+   mpsManagerAppId = id;
 }
 
 /* Function to override the default MPS manager host name and port
