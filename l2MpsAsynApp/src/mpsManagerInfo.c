@@ -21,21 +21,24 @@ int setMpsManagerHost(const char* host, int port)
 {
     if ( ( ! host ) || ( host[0] == '\0' ) )
     {
-        fprintf( stderr, "Error: MPS Manager hostname is empty\n" );
-        return 1;
+        fprintf( stderr, "Error: MPS Manager hostname is empty. Ignoring it.\n" );
+    }
+    else
+    {
+        printf("Setting MPS Manager hostname to: '%s'.\n", host);
+        mpsManagerHostName = (char*) malloc( strlen(host) * sizeof(char) );
+        strcpy(mpsManagerHostName, host);
     }
 
     if ( port <= 0 )
     {
-        fprintf( stderr, "Error: MPS Manager port number is invalid\n" );
-        return 1;
+        fprintf( stderr, "Error: MPS Manager port number is invalid. Ignoring it.\n" );
     }
-
-    printf("Setting MPS Manager host to: '%s', and port number to '%d'\n", host, port);
-
-    mpsManagerHostName = (char*) malloc( strlen(host) * sizeof(char) );
-    strcpy(mpsManagerHostName, host);
-    mpsManagerPortNumber = port;
+    else
+    {
+        printf("Setting MPS Manager port number to '%d'\n", port);
+        mpsManagerPortNumber = port;
+    }
 
     return 0;
 }
