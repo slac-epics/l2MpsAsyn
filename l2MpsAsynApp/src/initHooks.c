@@ -19,8 +19,9 @@
  */
 
 static void printErrorMessage(char *extraInfo) {
-    printf("ERROR: Failed to restore application MPS thresholds.\n");
-    printf("       Thresholds must be restored in order to enable MPS!\n");
+    printf("l2MpsAsynInitHooks ERROR:\n");
+    printf("    Failed to restore application MPS thresholds.\n");
+    printf("    Thresholds must be restored in order to enable MPS!\n");
     if (strlen(extraInfo) > 0) {
         printf("%s\n", extraInfo);
     }
@@ -48,7 +49,7 @@ static void l2MpsAsynInitHooks(initHookState state)
             // Hostname and port number have already been checked.
             if (id == 0)
             {
-                printErrorMessage("       Reason: Invalid application ID (0).");
+                printErrorMessage("    Reason: Invalid application ID (0).");
                 return;
             }
 
