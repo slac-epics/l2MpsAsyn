@@ -44,6 +44,14 @@ static void l2MpsAsynInitHooks(initHookState state)
             uint16_t    id   = 0;
             getMpsManagerInfo(&host, &port, &id);
 
+            // Check if the application ID is valid.
+            // Hostname and port number have already been checked.
+            if (id == 0)
+            {
+                printErrorMessage("       Reason: Invalid application ID (0).");
+                return;
+            }
+
             // Try to restore the MPS threshold from the MPS Manager
             printf("l2MpsAsynInitHooks: Trying to restore thresholds from '%s:%d' for appId: '%d'...\n", host, port, id);
             if (restoreThresholds(mpsManagerHostName, mpsManagerPortNumber, mpsManagerAppId) != 0)
