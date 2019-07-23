@@ -37,6 +37,10 @@
 #include "l2Mps_bcm.h"
 #include "l2Mps_blm.h"
 
+extern "C" {
+    #include "mpsManagerInfo.h"
+}
+
 #define DRIVER_NAME         "L2MPS"
 #define MAX_SIGNALS         (3)     // Max number of parameter list (number of bays)
 #define NUM_PARAMS          (1500)  // Max number of parameters
@@ -52,45 +56,53 @@ const char* defaultMpsConfigurationPath("/afs/slac/g/lcls/physics/mps_configurat
 // BPM data types
 typedef bool (IMpsBpm::*BpmW32_t)(const bpmThr_channel_t&, const float) const;
 typedef bool (IMpsBpm::*BpmW1_t)(const bpmThr_channel_t&, const bool) const;
-typedef bool (IMpsBpm::*bpm_setScale_func_t)(const bpm_channel_t&, const float) const;
+typedef bool (IMpsBpm::*bpm_setScaleSlope_func_t)(const bpm_channel_t&, const float) const;
+typedef bool (IMpsBpm::*bpm_setScaleOffset_func_t)(const bpm_channel_t&, const float) const;
 typedef bool (IMpsBpm::*bpm_setIdleEn_funct_t)(const bpm_channel_t&, const bool) const;
 
 typedef std::map<int, std::pair<BpmW32_t, bpmThr_channel_t>> bpm_fmap_w32_t;
 typedef std::map<int, std::pair<BpmW1_t,  bpmThr_channel_t>> bpm_fmap_w1_t;
-typedef std::map<int, std::pair<bpm_setScale_func_t, bpm_channel_t>> bpm_scaleFuncMap_t;
+typedef std::map<int, std::pair<bpm_setScaleSlope_func_t, bpm_channel_t>> bpm_scaleSlopeFuncMap_t;
+typedef std::map<int, std::pair<bpm_setScaleOffset_func_t, bpm_channel_t>> bpm_scaleOffsetFuncMap_t;
 typedef std::map<int, std::pair<bpm_setIdleEn_funct_t, bpm_channel_t>> bpm_setIdleEnMap_t;
 
 // BLEN data types
 typedef bool (IMpsBlen::*BlenW32_t)(const blenThr_channel_t&, const float) const;
 typedef bool (IMpsBlen::*BlenW1_t)(const blenThr_channel_t&, const bool) const;
-typedef bool (IMpsBlen::*blen_setScale_func_t)(const blen_channel_t&, const float) const;
+typedef bool (IMpsBlen::*blen_setScaleSlope_func_t)(const blen_channel_t&, const float) const;
+typedef bool (IMpsBlen::*blen_setScaleOffset_func_t)(const blen_channel_t&, const float) const;
 typedef bool (IMpsBlen::*blen_setIdleEn_funct_t)(const blen_channel_t&, const bool) const;
 
 typedef std::map<int, std::pair<BlenW32_t, blenThr_channel_t>> blen_fmap_w32_t;
 typedef std::map<int, std::pair<BlenW1_t,  blenThr_channel_t>> blen_fmap_w1_t;
-typedef std::map<int, std::pair<blen_setScale_func_t, blen_channel_t>> blen_scaleFuncMap_t;
+typedef std::map<int, std::pair<blen_setScaleSlope_func_t, blen_channel_t>> blen_scaleSlopeFuncMap_t;
+typedef std::map<int, std::pair<blen_setScaleOffset_func_t, blen_channel_t>> blen_scaleOffsetFuncMap_t;
 typedef std::map<int, std::pair<blen_setIdleEn_funct_t, blen_channel_t>> blen_setIdleEnMap_t;
 
 // BCM data types
 typedef bool (IMpsBcm::*BcmW32_t)(const bcmThr_channel_t&, const float) const;
 typedef bool (IMpsBcm::*BcmW1_t)(const bcmThr_channel_t&, const bool) const;
-typedef bool (IMpsBcm::*bcm_setScale_func_t)(const bcm_channel_t&, const float) const;
+typedef bool (IMpsBcm::*bcm_setScaleSlope_func_t)(const bcm_channel_t&, const float) const;
+typedef bool (IMpsBcm::*bcm_setScaleOffset_func_t)(const bcm_channel_t&, const float) const;
 typedef bool (IMpsBcm::*bcm_setIdleEn_funct_t)(const bcm_channel_t&, const bool) const;
 
 typedef std::map<int, std::pair<BcmW32_t, bcmThr_channel_t>> bcm_fmap_w32_t;
 typedef std::map<int, std::pair<BcmW1_t,  bcmThr_channel_t>> bcm_fmap_w1_t;
-typedef std::map<int, std::pair<bcm_setScale_func_t, bcm_channel_t>> bcm_scaleFuncMap_t;
+typedef std::map<int, std::pair<bcm_setScaleSlope_func_t, bcm_channel_t>> bcm_scaleSlopeFuncMap_t;
+typedef std::map<int, std::pair<bcm_setScaleOffset_func_t, bcm_channel_t>> bcm_scaleOffsetFuncMap_t;
 typedef std::map<int, std::pair<bcm_setIdleEn_funct_t, bcm_channel_t>> bcm_setIdleEnMap_t;
 
 // BLM data types
 typedef bool (IMpsBlm::*BlmW32_t)(const blmThr_channel_t&, const float) const;
 typedef bool (IMpsBlm::*BlmW1_t)(const blmThr_channel_t&, const bool) const;
-typedef bool (IMpsBlm::*blm_setScale_func_t)(const blm_channel_t&, const float) const;
+typedef bool (IMpsBlm::*blm_setScaleSlope_func_t)(const blm_channel_t&, const float) const;
+typedef bool (IMpsBlm::*blm_setScaleOffset_func_t)(const blm_channel_t&, const float) const;
 typedef bool (IMpsBlm::*blm_setIdleEn_funct_t)(const blm_channel_t&, const bool) const;
 
 typedef std::map<int, std::pair<BlmW32_t, blmThr_channel_t>> blm_fmap_w32_t;
 typedef std::map<int, std::pair<BlmW1_t,  blmThr_channel_t>> blm_fmap_w1_t;
-typedef std::map<int, std::pair<blm_setScale_func_t, blm_channel_t>> blm_scaleFuncMap_t;
+typedef std::map<int, std::pair<blm_setScaleSlope_func_t, blm_channel_t>> blm_scaleSlopeFuncMap_t;
+typedef std::map<int, std::pair<blm_setScaleOffset_func_t, blm_channel_t>> blm_scaleOffsetFuncMap_t;
 typedef std::map<int, std::pair<blm_setIdleEn_funct_t, blm_channel_t>> blm_setIdleEnMap_t;
 
 // Types of register interfaces
@@ -152,7 +164,8 @@ struct thr_chInfoParam_t
     int  idleEn;
     int  altEn;
     int  lcls1En;
-    int  scaleFactor;
+    int  scaleSlope;
+    int  scaleOffset;
 };
 
 // Threshold parameter (information + table data) data type
@@ -249,29 +262,33 @@ class L2MPS : public asynPortDriver {
         MpsNode node_;
         boost::any amc[numberOfBays];
 
-        // BPM application function maps
-        bpm_fmap_w32_t      fMapBpmW32;
-        bpm_fmap_w1_t       fMapBpmW1;
-        bpm_scaleFuncMap_t  fMapBpmWScale;
-        bpm_setIdleEnMap_t  fMapBpmSetIdleEn;
+        // BPM application fuction maps
+        bpm_fmap_w32_t              fMapBpmW32;
+        bpm_fmap_w1_t               fMapBpmW1;
+        bpm_scaleSlopeFuncMap_t     fMapBpmWScaleSlope;
+        bpm_scaleOffsetFuncMap_t    fMapBpmWScaleOffset;
+        bpm_setIdleEnMap_t          fMapBpmSetIdleEn;
 
-        // BLEN application function maps
-        blen_fmap_w32_t     fMapBlenW32;
-        blen_fmap_w1_t      fMapBlenW1;
-        blen_scaleFuncMap_t fMapBlenWScale;
-        blen_setIdleEnMap_t fMapBlenSetIdleEn;
+        // BLEN application fuction maps
+        blen_fmap_w32_t             fMapBlenW32;
+        blen_fmap_w1_t              fMapBlenW1;
+        blen_scaleSlopeFuncMap_t    fMapBlenWScaleSlope;
+        blen_scaleOffsetFuncMap_t   fMapBlenWScaleOffset;
+        blen_setIdleEnMap_t         fMapBlenSetIdleEn;
 
-        // BCM application function maps
-        bcm_fmap_w32_t      fMapBcmW32;
-        bcm_fmap_w1_t       fMapBcmW1;
-        bcm_scaleFuncMap_t  fMapBcmWScale;
-        bcm_setIdleEnMap_t  fMapBcmSetIdleEn;
+        // BCM application fuction maps
+        bcm_fmap_w32_t              fMapBcmW32;
+        bcm_fmap_w1_t               fMapBcmW1;
+        bcm_scaleSlopeFuncMap_t     fMapBcmWScaleSlope;
+        bcm_scaleOffsetFuncMap_t    fMapBcmWScaleOffset;
+        bcm_setIdleEnMap_t          fMapBcmSetIdleEn;
 
-        // BLM application function maps
-        blm_fmap_w32_t      fMapBlmW32;
-        blm_fmap_w1_t       fMapBlmW1;
-        blm_scaleFuncMap_t  fMapBlmWScale;
-        blm_setIdleEnMap_t  fMapBlmSetIdleEn;
+        // BLM application fuction maps
+        blm_fmap_w32_t              fMapBlmW32;
+        blm_fmap_w1_t               fMapBlmW1;
+        blm_scaleSlopeFuncMap_t     fMapBlmWScaleSlope;
+        blm_scaleOffsetFuncMap_t    fMapBlmWScaleOffset;
+        blm_setIdleEnMap_t          fMapBlmSetIdleEn;
 
         // MPS base parameters
         mps_infoParam_t     mpsInfoParams;

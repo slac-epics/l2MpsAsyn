@@ -12,7 +12,7 @@
 record(longout, "$(P):$(R)") {
     field(DESC, "$(DESC)")
     field(SCAN, "Passive")
-    field(PINI, "NO")
+    field(PINI, "YES")
     field(DTYP, "asynInt32")
     field(OUT,  "@asyn($(PORT),$(ADDR))$(PARAM)")
 }
