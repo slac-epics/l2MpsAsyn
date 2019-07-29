@@ -157,6 +157,8 @@ struct thr_tableParam_t
     int maxEn;
     int min;
     int max;
+    int minRaw;
+    int maxRaw;
 };
 
 // Threshold table parameter map data type
