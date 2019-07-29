@@ -503,6 +503,12 @@ void L2MPS::InitBpmMaps(const int bay)
                     tp.max = index;
                     fMapBpmW32.insert( std::make_pair( index, std::make_pair( &IMpsBpm::setThresholdMax, args) ) );
 
+                    createParam(bay, ("BPM_THRMIR" + pName.str()).c_str(), asynParamInt32, &index);
+                    tp.minRaw = index;
+
+                    createParam(bay, ("BPM_THRMAR" + pName.str()).c_str(), asynParamInt32, &index);
+                    tp.maxRaw = index;
+
                     createParam(bay, ("BPM_THRMINEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
                     tp.minEn = index;
                     fMapBpmW1.insert( std::make_pair( index, std::make_pair( &IMpsBpm::setThresholdMinEn, args ) ) );
@@ -589,6 +595,12 @@ void L2MPS::InitBlenMaps(const int bay)
                     tp.max = index;
                     fMapBlenW32.insert( std::make_pair( index, std::make_pair( &IMpsBlen::setThresholdMax, args) ) );
 
+                    createParam(bay, ("BLEN_THRMIR" + pName.str()).c_str(), asynParamInt32, &index);
+                    tp.minRaw = index;
+
+                    createParam(bay, ("BLEN_THRMAR" + pName.str()).c_str(), asynParamInt32, &index);
+                    tp.maxRaw = index;
+
                     createParam(bay, ("BLEN_THRMINEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
                     tp.minEn = index;
                     fMapBlenW1.insert( std::make_pair( index, std::make_pair( &IMpsBlen::setThresholdMinEn, args ) ) );
@@ -674,6 +686,12 @@ void L2MPS::InitBcmMaps(const int bay)
                     createParam(bay, ("BCM_THRMAX" + pName.str()).c_str(), asynParamFloat64, &index);
                     tp.max = index;
                     fMapBcmW32.insert( std::make_pair( index, std::make_pair( &IMpsBcm::setThresholdMax, args) ) );
+
+                    createParam(bay, ("BCM_THRMIR" + pName.str()).c_str(), asynParamInt32, &index);
+                    tp.minRaw = index;
+
+                    createParam(bay, ("BCM_THRMAR" + pName.str()).c_str(), asynParamInt32, &index);
+                    tp.maxRaw = index;
 
                     createParam(bay, ("BCM_THRMINEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
                     tp.minEn = index;
