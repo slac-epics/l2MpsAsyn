@@ -43,7 +43,7 @@ int setMpsManagerHost(const char* host, int port)
     return 0;
 }
 
-void getMpsManagerInfo(const char** host, int* port, uint16_t* id)
+void getMpsManagerInfo(char** host, int* port, uint16_t* id)
 {
     *host = (char*) malloc( strlen(mpsManagerHostName) * sizeof(char) );
     strcpy(*host, mpsManagerHostName);

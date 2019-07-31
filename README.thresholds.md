@@ -6,7 +6,9 @@ The values set for the threshold PVs (listed in [here](README.pvList.md)) are tr
 
 When an IOC reboots it automatically issues a request to the MpsManager to restore the threshold PVs. The request happens after `iocInit()`.
 
-By default, the server name `lcls-daemon2` and port number `1975` are used to connect to the MpsManager. However, those values can be changed calling the function `L2MPSASYNSetManagerHost` in your `st.cmd` file. The usage of that function is
+By default, the server name `lcls-daemon2` and port number `1975` are used to connect to the MpsManager. However, those values can be changed calling the function `L2MPSASYNSetManagerHost` in your `st.cmd` file. You **must** call this function after calling `L2MPSASYNConfig`.
+
+The usage of that function is
 
 ```
 L2MPSASYNSetManagerHost(MpsManagerHostName, MpsManagerPortNumber)
