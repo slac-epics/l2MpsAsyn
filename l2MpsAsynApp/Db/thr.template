@@ -72,25 +72,21 @@ record(ai,  "$(P):$(R)_H_RBV") {
 
 # Minimum
 
-record(ai,  "$(P):$(R)_L_RAW") {
+record(longin,  "$(P):$(R)_L_RAW") {
     field(DESC, "$(DESC)")
     field(SCAN, "I/O Intr")
     field(PINI, "NO")
     field(DTYP, "asynInt32")
-    field(EGU,  "Raw")
-    field(PREC, "0")
     field(INP,  "@asyn($(PORT),$(BAY))$(APP)_THRMINR_$(CH)$(TABLE)$(THR)")
 }
 
 # Maximum
 
-record(ai,  "$(P):$(R)_H_RAW") {
+record(longin,  "$(P):$(R)_H_RAW") {
     field(DESC, "$(DESC)")
     field(SCAN, "I/O Intr")
     field(PINI, "NO")
     field(DTYP, "asynInt32")
-    field(EGU,  "Raw")
-    field(PREC, "0")
     field(INP,  "@asyn($(PORT),$(BAY))$(APP)_THRMAXR_$(CH)$(TABLE)$(THR)")
 }
 
