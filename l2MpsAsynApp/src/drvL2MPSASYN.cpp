@@ -202,12 +202,12 @@ void L2MPS::updateAppParameters(int bay, T data)
                 {
                     thr_tableParam_t    param_param = param_thrIt->second;
 
-                    updateUIntDigitalParam( bay, param_param.minEn, data_data.minEn );
-                    updateUIntDigitalParam( bay, param_param.maxEn, data_data.maxEn );
-                    updateDoubleParam(      bay, param_param.min, data_data.min     );
-                    updateDoubleParam(      bay, param_param.max, data_data.max     );
-		    updateIntegerParam(     bay, param_param.minRaw, data_data.minRaw );
-		    updateIntegerParam(     bay, param_param.maxRaw, data_data.maxRaw );
+                    updateUIntDigitalParam( bay, param_param.minEn,  data_data.minEn  );
+                    updateUIntDigitalParam( bay, param_param.maxEn,  data_data.maxEn  );
+                    updateDoubleParam(      bay, param_param.min,    data_data.min    );
+                    updateDoubleParam(      bay, param_param.max,    data_data.max    );
+                    updateIntegerParam(     bay, param_param.minRaw, data_data.minRaw );
+                    updateIntegerParam(     bay, param_param.maxRaw, data_data.maxRaw );
                 }
             }
 
