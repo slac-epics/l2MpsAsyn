@@ -277,7 +277,11 @@ L2MPS::L2MPS(const char *portName)
 
         // Set the MPS manager Application ID. It will be used
         // to identify this application.
-        setMpsManagerAppId(appId);
+        std::pair<bool, uint16_t> appId = node_->getAppId();
+        if (!appId.first)
+            throw std::runtime_error("Error while trying to read the AppID.");
+
+        setMpsManagerAppId(appId.second);
 
         // Create parameters for the MPS node
         int index;
