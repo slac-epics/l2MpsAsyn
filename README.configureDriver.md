@@ -19,11 +19,6 @@ L2MPSASYNConfig(PORT_NAME, APP_ID, PREFIX_BASE, PREFIX_BAY0, PREFIX_BAY1, MPS_RO
 | Parameter                  | Description
 |----------------------------|-----------------------------
 | PORT_NAME                  | The name given to this port driver.
-| APP_ID                     | MPS Application ID.
-| PREFIX_BASE                | Record name prefix for the MPS PVs common to all applications.
-| PREFIX_BAY0                | Record name prefix for the MPS PVs related to the application in bay 0.
-| PREFIX_BAY1                | Record name prefix for the MPS PVs related to the application in bay 1.
-| ROOT_PATH                  | OPTIONAL: Root path to the MPS register area.
 
 **Notes:**
 - *APP_ID* is defined in the MPS Central Database.
