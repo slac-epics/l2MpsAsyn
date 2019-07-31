@@ -56,7 +56,7 @@
 #include "yamlLoader.h"
 
 // Default values
-std::string L2MPS::mpsConfigrationPath = "$PHYSICS_TOP/mps_configuration/current/";
+std::string L2MPS::mpsConfigrationPath = "/afs/slac/g/lcls/physics/mps_configuration/current/";
 
 // Update single parameter status and severity
 void L2MPS::updateAlarmParam(int list, int index, bool valid)
