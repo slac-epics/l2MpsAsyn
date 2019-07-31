@@ -43,21 +43,12 @@ extern "C" {
 
 #define DRIVER_NAME         "L2MPS"
 #define MAX_SIGNALS         (3)     // Max number of parameter list (number of bays)
-#define NUM_PARAMS          (1500)  // Max number of paramters
-
-// Number of AMC bays on a carrier
-const uint8_t numberOfBays = 2;
+#define NUM_PARAMS          (1500)  // Max number of parameters
 
 // Asyn parameter list numbers
 const int paramListAppBay0 = 0; // Bay 0 application
 const int paramListAppBay1 = 1; // Bay 1 application
 const int paramListMpsBase = 2; // MPS base
-
-// Number of RX Links
-const std::size_t numberOfRxLinks = 14;
-
-// Default MPS Root Path
-const std::string defaultMpsRootPath("mmio/AmcCarrierCore/AppMps");
 
 // BPM data types
 typedef bool (IMpsBpm::*BpmW32_t)(const bpmThr_channel_t&, const float) const;
@@ -176,14 +167,14 @@ struct thr_chInfoParam_t
     int  scaleOffset;
 };
 
-// Threhold parameter (information + table data) data type
+// Threshold parameter (information + table data) data type
 struct  thr_param_t
 {
     thr_chInfoParam_t info;
     thr_chParam_t     data;
 };
 
-// Application paramater map data type
+// Application parameter map data type
 struct cmp {
     bool operator()(const boost::any& l, const boost::any& r)
     {
@@ -237,7 +228,7 @@ typedef std::map<boost::any, thr_param_t, cmp> paramMap_t;
 class L2MPS : public asynPortDriver {
     public:
         // Constructor
-        L2MPS(const char *portName, const uint16_t appId, const std::string recordPrefixMps, const std::array<std::string, numberOfBays> recordPrefixBay, std::string mpsRootPath);
+        L2MPS(const char *portName);
 
         // Methods that we override from asynPortDriver
         virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
@@ -264,12 +255,12 @@ class L2MPS : public asynPortDriver {
         template<typename T>
         void updateAppParameters(int bay, T data);
 
+        // Default parameters, which can be changed from the IOC shell
+        static std::string mpsConfigrationPath;     // Default location of the MPS configuration
+
     private:
-        const char *driverName_;               // Name of the driver (passed from st.cmd)
-        const char *portName_;
-        std::string recordPrefixMps_;
-        std::array<std::string, numberOfBays> recordPrefixBay_;
-        std::array<std::string, numberOfBays> amcType_;
+        const char *driverName_;               // This driver name
+        const char *portName_;                 // Port name (passed from st.cmd)
         MpsNode node_;
         boost::any amc[numberOfBays];
 
@@ -307,7 +298,7 @@ class L2MPS : public asynPortDriver {
         // Application parameters
         paramMap_t          paramMap;
 
-        // BPM application init
+        // Application initialization functions =
         void InitBpmMaps(const int bay);
         void InitBlenMaps(const int bay);
         void InitBcmMaps(const int bay);

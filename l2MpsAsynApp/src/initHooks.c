@@ -40,9 +40,9 @@ static void l2MpsAsynInitHooks(initHookState state)
             ;
 
             // Get the MPS Manager information
-            const char *host = NULL;
-            int         port = 0;
-            uint16_t    id   = 0;
+            char     *host = NULL;
+            int       port = 0;
+            uint16_t  id   = 0;
             getMpsManagerInfo(&host, &port, &id);
 
             // Check if the application ID is valid.
