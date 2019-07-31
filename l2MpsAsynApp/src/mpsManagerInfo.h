@@ -16,4 +16,4 @@ int setMpsManagerAppId(const uint16_t id);
 
 // This function is used to get the information needed to contact the
 // MPS Manager.
-void getMpsManagerInfo(const char** host, int* port, uint16_t* id);
+void getMpsManagerInfo(char** host, int* port, uint16_t* id);

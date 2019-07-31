@@ -22,13 +22,12 @@ typedef struct
     char statusMessage[200];
 } restoreResponse;
 
-int restoreThresholds(char *server, int port, int appId)
+int restoreThresholds(const char *server, int port, int appId)
 {
     int sock;
     struct sockaddr_in serverAddr;
     socklen_t addrSize;
     struct hostent *host;
-    char *errorMessage;
 
     host = gethostbyname(server);
     if (host == NULL)
@@ -48,10 +47,8 @@ int restoreThresholds(char *server, int port, int appId)
     addrSize = sizeof(serverAddr);
     if (connect(sock, (struct sockaddr *) &serverAddr, addrSize) != 0)
     {
-        printf("ERROR: Failed to connect to server at %s:%d (errno=%d)\n",
-        server, port, errno);
-        perror(errorMessage);
-        printf("ERROR: %s\n", errorMessage);
+        printf("ERROR: Failed to connect to server at %s:%d (errno=%d)\n", server, port, errno);
+        perror("ERROR: ");
         return 1;
     }
 

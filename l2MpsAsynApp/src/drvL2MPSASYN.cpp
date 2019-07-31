@@ -251,7 +251,7 @@ L2MPS::L2MPS(const char *portName)
 
         // - Application configuration folder
         char appConfigurationPath[256];
-        sprintf(appConfigurationPath, "%s/app_db/%s/%04X/%02X/", mpsConfigrationPath, cpuName, crateId, slotNumber);
+        sprintf(appConfigurationPath, "%s/app_db/%s/%04X/%02X/", mpsConfigrationPath.c_str(), cpuName, crateId, slotNumber);
 
         // - EPICS database file
         std::string recordFile = std::string(appConfigurationPath) + "mps.db";
