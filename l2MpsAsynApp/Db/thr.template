@@ -68,6 +68,28 @@ record(ai,  "$(P):$(R)_H_RBV") {
     field(INP,  "@asyn($(PORT),$(BAY))$(APP)_THRMAX_$(CH)$(TABLE)$(THR)")
 }
 
+#### RAW VALUES ####
+
+# Minimum
+
+record(longin,  "$(P):$(R)_L_RAW") {
+    field(DESC, "$(DESC)")
+    field(SCAN, "I/O Intr")
+    field(PINI, "NO")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(BAY))$(APP)_THRMINR_$(CH)$(TABLE)$(THR)")
+}
+
+# Maximum
+
+record(longin,  "$(P):$(R)_H_RAW") {
+    field(DESC, "$(DESC)")
+    field(SCAN, "I/O Intr")
+    field(PINI, "NO")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(BAY))$(APP)_THRMAXR_$(CH)$(TABLE)$(THR)")
+}
+
 #### ENABLES ####
 
 # MINIMUM (Set and RBV)

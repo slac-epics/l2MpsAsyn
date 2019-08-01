@@ -148,6 +148,8 @@ struct thr_tableParam_t
     int maxEn;
     int min;
     int max;
+    int minRaw;
+    int maxRaw;
 };
 
 // Threshold table parameter map data type
@@ -233,7 +235,7 @@ class L2MPS : public asynPortDriver {
         virtual asynStatus writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epicsUInt32 mask);
         virtual asynStatus writeFloat64 (asynUser *pasynUser, epicsFloat64 value);
 
-        // Update singel parametr value, status and severity
+        // Update single parameter value, status and severity
         void updateAlarmParam(int list, int index, bool valid);
         template<typename T>
         void updateIntegerParam(int list, int index, std::pair<bool, T> p);
@@ -262,28 +264,28 @@ class L2MPS : public asynPortDriver {
         MpsNode node_;
         boost::any amc[numberOfBays];
 
-        // BPM application fuction maps
+        // BPM application function maps
         bpm_fmap_w32_t              fMapBpmW32;
         bpm_fmap_w1_t               fMapBpmW1;
         bpm_scaleSlopeFuncMap_t     fMapBpmWScaleSlope;
         bpm_scaleOffsetFuncMap_t    fMapBpmWScaleOffset;
         bpm_setIdleEnMap_t          fMapBpmSetIdleEn;
 
-        // BLEN application fuction maps
+        // BLEN application function maps
         blen_fmap_w32_t             fMapBlenW32;
         blen_fmap_w1_t              fMapBlenW1;
         blen_scaleSlopeFuncMap_t    fMapBlenWScaleSlope;
         blen_scaleOffsetFuncMap_t   fMapBlenWScaleOffset;
         blen_setIdleEnMap_t         fMapBlenSetIdleEn;
 
-        // BCM application fuction maps
+        // BCM application function maps
         bcm_fmap_w32_t              fMapBcmW32;
         bcm_fmap_w1_t               fMapBcmW1;
         bcm_scaleSlopeFuncMap_t     fMapBcmWScaleSlope;
         bcm_scaleOffsetFuncMap_t    fMapBcmWScaleOffset;
         bcm_setIdleEnMap_t          fMapBcmSetIdleEn;
 
-        // BLM application fuction maps
+        // BLM application function maps
         blm_fmap_w32_t              fMapBlmW32;
         blm_fmap_w1_t               fMapBlmW1;
         blm_scaleSlopeFuncMap_t     fMapBlmWScaleSlope;

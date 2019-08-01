@@ -202,10 +202,12 @@ void L2MPS::updateAppParameters(int bay, T data)
                 {
                     thr_tableParam_t    param_param = param_thrIt->second;
 
-                    updateUIntDigitalParam( bay, param_param.minEn, data_data.minEn );
-                    updateUIntDigitalParam( bay, param_param.maxEn, data_data.maxEn );
-                    updateDoubleParam(      bay, param_param.min, data_data.min     );
-                    updateDoubleParam(      bay, param_param.max, data_data.max     );
+                    updateUIntDigitalParam( bay, param_param.minEn,  data_data.minEn  );
+                    updateUIntDigitalParam( bay, param_param.maxEn,  data_data.maxEn  );
+                    updateDoubleParam(      bay, param_param.min,    data_data.min    );
+                    updateDoubleParam(      bay, param_param.max,    data_data.max    );
+                    updateIntegerParam(     bay, param_param.minRaw, data_data.minRaw );
+                    updateIntegerParam(     bay, param_param.maxRaw, data_data.maxRaw );
                 }
             }
 
@@ -518,6 +520,12 @@ void L2MPS::InitBpmMaps(const int bay)
                     tp.max = index;
                     fMapBpmW32.insert( std::make_pair( index, std::make_pair( &IMpsBpm::setThresholdMax, args) ) );
 
+                    createParam(bay, ("BPM_THRMINR" + pName.str()).c_str(), asynParamInt32, &index);
+                    tp.minRaw = index;
+
+                    createParam(bay, ("BPM_THRMAXR" + pName.str()).c_str(), asynParamInt32, &index);
+                    tp.maxRaw = index;
+
                     createParam(bay, ("BPM_THRMINEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
                     tp.minEn = index;
                     fMapBpmW1.insert( std::make_pair( index, std::make_pair( &IMpsBpm::setThresholdMinEn, args ) ) );
@@ -597,6 +605,12 @@ void L2MPS::InitBlenMaps(const int bay)
                     tp.max = index;
                     fMapBlenW32.insert( std::make_pair( index, std::make_pair( &IMpsBlen::setThresholdMax, args) ) );
 
+                    createParam(bay, ("BLEN_THRMINR" + pName.str()).c_str(), asynParamInt32, &index);
+                    tp.minRaw = index;
+
+                    createParam(bay, ("BLEN_THRMAXR" + pName.str()).c_str(), asynParamInt32, &index);
+                    tp.maxRaw = index;
+
                     createParam(bay, ("BLEN_THRMINEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
                     tp.minEn = index;
                     fMapBlenW1.insert( std::make_pair( index, std::make_pair( &IMpsBlen::setThresholdMinEn, args ) ) );
@@ -675,6 +689,12 @@ void L2MPS::InitBcmMaps(const int bay)
                     createParam(bay, ("BCM_THRMAX" + pName.str()).c_str(), asynParamFloat64, &index);
                     tp.max = index;
                     fMapBcmW32.insert( std::make_pair( index, std::make_pair( &IMpsBcm::setThresholdMax, args) ) );
+
+                    createParam(bay, ("BCM_THRMINR" + pName.str()).c_str(), asynParamInt32, &index);
+                    tp.minRaw = index;
+
+                    createParam(bay, ("BCM_THRMAXR" + pName.str()).c_str(), asynParamInt32, &index);
+                    tp.maxRaw = index;
 
                     createParam(bay, ("BCM_THRMINEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
                     tp.minEn = index;
@@ -756,6 +776,12 @@ void L2MPS::InitBlmMaps(const int bay)
                     createParam(bay, ("BLM_THRMAX" + pName.str()).c_str(), asynParamFloat64, &index);
                     tp.max = index;
                     fMapBlmW32.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setThresholdMax, args) ) );
+
+                    createParam(bay, ("BLM_THRMINR" + pName.str()).c_str(), asynParamInt32, &index);
+                    tp.minRaw = index;
+
+                    createParam(bay, ("BLM_THRMAXR" + pName.str()).c_str(), asynParamInt32, &index);
+                    tp.maxRaw = index;
 
                     createParam(bay, ("BLM_THRMINEN" + pName.str()).c_str(), asynParamUInt32Digital, &index);
                     tp.minEn = index;
