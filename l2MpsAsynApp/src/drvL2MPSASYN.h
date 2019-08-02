@@ -39,6 +39,7 @@
 
 extern "C" {
     #include "mpsManagerInfo.h"
+    #include "mpsApplicationInfo.h"
 }
 
 #define DRIVER_NAME         "L2MPS"
@@ -256,7 +257,7 @@ class L2MPS : public asynPortDriver {
         void updateAppParameters(int bay, T data);
 
         // Default parameters, which can be changed from the IOC shell
-        static std::string mpsConfigrationPath;     // Default location of the MPS configuration
+        static std::string mpsConfigurationPath;     // Default location of the MPS configuration
 
     private:
         const char *driverName_;               // This driver name

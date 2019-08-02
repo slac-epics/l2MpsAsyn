@@ -13,7 +13,7 @@ DBD += l2MpsAsyn.dbd
 INC += drvL2MPSASYN.h
 
 LIBRARY_IOC += l2MpsAsyn
-LIB_SRCS += initHooks.c mpsManagerInfo.c thresholds.c drvL2MPSASYN.cpp
+LIB_SRCS += initHooks.c mpsManagerInfo.c mpsApplicationInfo.c thresholds.c drvL2MPSASYN.cpp
 LIB_LIBS += asyn
 LIB_LIBS += yamlLoader
 

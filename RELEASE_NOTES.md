@@ -2,6 +2,14 @@
 
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
+* 'slot' branch changes:
+  * Add support for changing cpu name/crate id/slot number
+    that allows application to load mps configuration from
+    other locations (see [README.database.md](README.database.md)
+  * Add THR_LOADED PV, which is set by MpsManager after
+    loading thresholds. See [README.thresholds.md](README.thresholds.md)
+    for details.
+
 ## Releases:
 * __R3.0.0__: 2019-07-31 J. Vasquez
   * Update l2Mps to version R3.0.0.

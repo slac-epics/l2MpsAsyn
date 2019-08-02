@@ -20,3 +20,17 @@ By default the *MPS_CONFIGURATION_TOP* points to `/afs/slac/g/lcls/physics/mps_c
 ```
 setMpsConfigurationPath(const char* path)
 ```
+
+The values of *CPU_NAME*, *CRATE_ID* and *SLOT_NUMBER* can be overriden by using the function `L2MPSASYNSetApplicationInfo`. The usage of that function is
+
+```
+L2MPSASYNSetApplicationInfo(CpuName, CrateId, SlotNumber)
+```
+
+where:
+
+Parameter  | Description                 | Default parameter  | Value used if default param specified
+-----------|-----------------------------|--------------------|--------------------------------------
+CpuName    | Alternative cpu host name   | "default"          | from `gethostname()` function
+CrateId    | Alternative crate id        | -1                 | from config.yaml
+SlotNumber | Alternative slot number     | -1                 | from config.yaml

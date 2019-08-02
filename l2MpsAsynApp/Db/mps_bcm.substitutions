@@ -13,9 +13,9 @@ file "RegRO.template" { pattern
 
 ### Tables enable PVs ###
 file "Reg1BitRW.template" { pattern
-{ R,                DESC,                                           PARAM,              ADDR,       ZNAM,           ONAM        }
-{ CHARGE_IDL_EN,    "Bay $(BAY) Charge IDLE table enabled",         BCM_IDLEEN_0,       "$(BAY)",   "Disabled",     "Enabled"   }
-{ DIFF_IDL_EN,      "Bay $(BAY) Difference IDLE table enabled",     BCM_IDLEEN_1,       "$(BAY)",   "Disabled",     "Enabled"   }
+{ R,                DESC,                                           PARAM,              ADDR,       ZNAM,           ONAM,      ZSV,        RBV_ZSV,    ASG,   DISV, SDIS }
+{ CHARGE_IDL_EN,    "Bay $(BAY) Charge IDLE table enabled",         BCM_IDLEEN_0,       "$(BAY)",   "Disabled",     "Enabled", "NO_ALARM", "NO_ALARM", "MCC", 1   , ""   }
+{ DIFF_IDL_EN,      "Bay $(BAY) Difference IDLE table enabled",     BCM_IDLEEN_1,       "$(BAY)",   "Disabled",     "Enabled", "NO_ALARM", "NO_ALARM", "MCC", 1   , ""   }
 }
 
 file "Reg1BitRO.template" { pattern

@@ -8,8 +8,8 @@ file "RegRO.template" { pattern
 
 ### Tables enable PVs ###
 file "Reg1BitRW.template" { pattern
-{ R,                DESC,                               PARAM,              ADDR,       ZNAM,           ONAM        }
-{ L_IDL_EN,         "Bay $(BAY) IDLE table enabled",    BLEN_IDLEEN_0,      "$(BAY)",   "Disabled",     "Enabled"   }
+{ R,                DESC,                               PARAM,              ADDR,       ZNAM,           ONAM,      ZSV,        RBV_ZSV,    ASG,   DISV, SDIS  }
+{ L_IDL_EN,         "Bay $(BAY) IDLE table enabled",    BLEN_IDLEEN_0,      "$(BAY)",   "Disabled",     "Enabled", "NO_ALARM", "NO_ALARM", "MCC", 1   , ""    }
 }
 
 file "Reg1BitRO.template" { pattern

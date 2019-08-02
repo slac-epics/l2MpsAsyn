@@ -56,7 +56,7 @@
 #include "yamlLoader.h"
 
 // Default values
-std::string L2MPS::mpsConfigrationPath = "/afs/slac/g/lcls/physics/mps_configuration/current/";
+std::string L2MPS::mpsConfigurationPath = "/afs/slac/g/lcls/physics/mps_configuration/current";
 
 // Update single parameter status and severity
 void L2MPS::updateAlarmParam(int list, int index, bool valid)
@@ -244,20 +244,36 @@ L2MPS::L2MPS(const char *portName)
         // Crate ID and Slot Number
         bool crateIdValid, slotNumberValid;
         int  crateId, slotNumber;
-
+	
         std::tie(crateIdValid, crateId) = node_->getCrateId();
         std::tie(slotNumberValid, slotNumber) = node_->getSlotNumber();
+
+	// Override cpuName/crateId/slotNumber if specified alternative values were specified in st.cmd
+	char *userCpuName = NULL;
+	int userCrateId;
+	int userSlotNumber;
+	getMpsApplicationInfo(&userCpuName, &userCrateId, &userSlotNumber);
+	if (strncmp(userCpuName, MPS_USE_DEFAULT_CPU_NAME, 7) != 0) {
+	  strcpy(cpuName, userCpuName);
+	}
+	if (userCrateId != MPS_USE_DEFAULT_CRATE_ID) {
+	  crateId = userCrateId;
+	  crateIdValid = true;
+	}
+	if (userSlotNumber != MPS_USE_DEFAULT_SLOT_NUMBER) {
+	  slotNumber = userSlotNumber;
+	  slotNumberValid = true;
+	}
 
         if ((!crateIdValid) | (!slotNumberValid))
             throw std::runtime_error("Error while reading the crateID and Slot number.");
 
         // - Application configuration folder
         char appConfigurationPath[256];
-        sprintf(appConfigurationPath, "%s/app_db/%s/%04X/%02X/", mpsConfigrationPath.c_str(), cpuName, crateId, slotNumber);
+        sprintf(appConfigurationPath, "%s/app_db/%s/%04X/%02X/", mpsConfigurationPath.c_str(), cpuName, crateId, slotNumber);
 
         // - EPICS database file
         std::string recordFile = std::string(appConfigurationPath) + "mps.db";
-
 
         // - Firmware configuration file
         std::string configurationFile = std::string(appConfigurationPath) + "config.yaml";
@@ -1118,15 +1134,15 @@ extern "C" int setMpsConfigurationPath(const char *path)
     if ( ( ! path ) || ( path[0] == '\0' ) )
     {
         fprintf( stderr, "Error: Path to MPS configuration is empty\n" );
-        fprintf( stderr, "Keeping default value (%s).\n", L2MPS::mpsConfigrationPath.c_str() );
+        fprintf( stderr, "Keeping default value (%s).\n", L2MPS::mpsConfigurationPath.c_str() );
         return asynError;
     }
     else
     {
-        L2MPS::mpsConfigrationPath = path;
+        L2MPS::mpsConfigurationPath = path;
 
         if ( path[ strlen( path ) - 1 ] != '/' )
-            L2MPS::mpsConfigrationPath += '/';
+            L2MPS::mpsConfigurationPath += '/';
 
         return asynSuccess;
     }
