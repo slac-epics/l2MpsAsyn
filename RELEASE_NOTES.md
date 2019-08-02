@@ -2,7 +2,7 @@
 
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
-* 'slot' branch changes:
+* 'app-info' branch changes:
   * Add support for changing cpu name/crate id/slot number
     that allows application to load mps configuration from
     other locations (see [README.database.md](README.database.md)
