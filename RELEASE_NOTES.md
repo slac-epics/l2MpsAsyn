@@ -3,6 +3,11 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __R2.3.1__: 2019-08-13 J. Vasquez
+  * Update l2Mps to version R2.1.2. That version includes a bug fix
+    where an argument name was shadowing the protected member name.
+    This was causing the polling thread to consume a lot of CPU.
+
 * __R2.3.0__: 2019-07-18 J. Vasquez
   * Use initHooks to request a threshold restore to the MpsManager
     when the IOC boots.
