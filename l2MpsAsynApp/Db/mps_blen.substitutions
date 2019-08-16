@@ -47,5 +47,5 @@ file "thr.template" { pattern
 ### Scale PVs ###
 file "scale.template" { pattern
 { R,        DESC,                           APP,        EGU,    PREC,   CH,     SCALE_SLOPE_PV,     SCALE_OFFSET_PV,    SCAN        }
-{ L,        "Bay $(BAY) Scale factor",      "BLEN",     "",     "4",    "0",    "$(P):L_FWSCL",     "",                 "1 second"  }
+{ L,        "Bay $(BAY) Scale factor",      "BLEN",     "",     "4",    "0",    "$(P):L_FWSLO",     "$(P):L_FWOFF",     "1 second"  }
 }
