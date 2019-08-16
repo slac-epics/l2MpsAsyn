@@ -3,6 +3,10 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __R2.3.2__: 2019-08-16 J. Vasquez
+  * Bug fix: Fix scale PV name for BCM and BLEN applications.
+  * Bug fix: add a missing colon in the mps_blm.substitution file.
+
 * __R2.3.1__: 2019-08-13 J. Vasquez
   * Update l2Mps to version R2.1.2. That version includes a bug fix
     where an argument name was shadowing the protected member name.
