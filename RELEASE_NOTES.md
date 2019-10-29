@@ -3,6 +3,10 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __R2.5.0__: 2019-10-29 J. Vasquez
+  * Update versions: CPSW framework to R4.3.1, l2Mps to R2.3.0 and
+    yamlLoader to R1.1.5.
+
 * __R2.4.0__: 2019-09-23 J. Vasquez
   * Update versions: CPSW framework to R4.2.0, l2Mps to R2.2.0 and
     yamlLoader to R1.1.4.
