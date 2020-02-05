@@ -3,6 +3,12 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __R2.6.0__: 2020-02-05 J. Vasquez
+  * Update buildroot to version 2019.08
+  * Update CPSW to version R4.4.1
+  * Update l2Mps to version R2.4.0
+  * Update yamlLoader to version R2.1.0
+
 * __R2.5.1__: 2019-11.18 K. Kim
   * build with asyn R4.32-1.0.0
 
