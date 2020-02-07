@@ -9,6 +9,7 @@ Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
     * buildroot to 2019.08, 
     * l2Mps to R3.3.0, and 
     * yamlLoader to R2.1.0
+    * asyn to R4.32-1.0.0
 
 * __R3.2.0__: 2019-09-24 J. Vasquez
   * Merge R2-branch into master. That updates CPSW framework to version
