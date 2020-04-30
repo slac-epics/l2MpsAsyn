@@ -228,9 +228,10 @@ L2MPS::L2MPS(const char *portName)
             1,                                                                          // Autoconnect
             0,                                                                          // Default priority
             0),                                                                         // Default stack size
-        driverName_(DRIVER_NAME),
-        portName_(portName),
-        node_(IMpsNode::create(cpswGetRoot()))  // MPS object
+        driverName_(DRIVER_NAME),                   // Driver name
+        portName_(portName),                        // Port name
+        node_(IMpsNode::create(cpswGetRoot())),     // MPS node object
+        mpsSoftInputs(node_->getMpsSoftInputs())    // Soft input object
 {
     try
     {
@@ -412,6 +413,35 @@ L2MPS::L2MPS(const char *portName)
                 InitBlmMaps(i);
             else
                 printf("ERROR: Application type %s not supported on bay %zu\n", appType_.c_str(), i);
+        }
+
+        // For link node application types, add parameters for the soft inputs
+        if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_6CH")) | (!appType_.compare("MPS_24CH")))
+        {
+            if (mpsSoftInputs)
+            {
+                int index;
+                std::stringstream paramName;
+                for (std::size_t i {0}; i < mpsSoftInputs->getNumInputs(); ++i)
+                {
+                    paramName.str("");
+                    paramName << "SOFT_CH_VALUE_" << std::setfill('0') << std::setw(2) << i;
+                    createParam(paramListSoftInputs, paramName.str().c_str(), asynParamUInt32Digital, &index);
+                    fMapSoftInputs.insert( std::make_pair( index, std::make_pair( &IMpsSoftInputs::setInput, i ) ) );
+
+
+                    paramName.str("");
+                    paramName << "SOFT_CH_ERROR_" << std::setfill('0') << std::setw(2) << i;
+                    createParam(paramListSoftInputs, paramName.str().c_str(), asynParamUInt32Digital, &index);
+                    fMapSoftInputs.insert( std::make_pair( index, std::make_pair( &IMpsSoftInputs::setErrorInput, i ) ) );
+                }
+            }
+            else
+            {
+                printf("ERROR: The MPS link node does not contain a MpsSoftInput object\n");
+                printf("The soft inputs asyn parameters were not created.");
+            }
+
         }
 
         // Load the EPICS database
@@ -870,9 +900,9 @@ asynStatus L2MPS::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epi
 
     static const char *functionName = "writeUInt32Digital";
 
-    // MPS node parameters
     if (addr == paramListMpsBase)
     {
+        // MPS node parameters
         try
         {
             if(function == mpsInfoParams.enable)
@@ -908,6 +938,7 @@ asynStatus L2MPS::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epi
     }
     else if ((addr == paramListAppBay0) or (addr == paramListAppBay1))
     {
+        // AMC application parameters
         try
         {
             bpm_fmap_w1_t::iterator bpm_it;
@@ -934,6 +965,31 @@ asynStatus L2MPS::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epi
             else if ((blm_it = fMapBlmW1.find(function)) != fMapBlmW1.end())
             {
                 ret = ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second, (value & mask));
+            }
+            else
+            {
+                if ( 0 == asynPortDriver::writeUInt32Digital(pasynUser, value, mask) )
+                    ret = true;
+            }
+        }
+        catch (CPSWError &e)
+        {
+            asynPrint(pasynUser, ASYN_TRACE_ERROR, "CPSW Error on %s writing parameter %s: %s\n", functionName, name, e.getInfo().c_str());
+        }
+        catch (std::runtime_error &e)
+        {
+            asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writing parameter %s: %s\n", functionName, name, e.what());
+        }
+    }
+    else if(addr == paramListSoftInputs)
+    {
+        // LN soft inputs parameters
+        try
+        {
+            ln_softInputsFuncMap_t::iterator si_it { fMapSoftInputs.find(function) };
+            if ( si_it != fMapSoftInputs.end() )
+            {
+                ret = ((*mpsSoftInputs).*(si_it->second.first))(si_it->second.second, (value & mask));
             }
             else
             {
