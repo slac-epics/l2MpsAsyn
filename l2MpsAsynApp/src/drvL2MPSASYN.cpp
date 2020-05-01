@@ -164,17 +164,17 @@ void L2MPS::updateMpsParametrs(mps_infoData_t info)
     callParamCallbacks(paramListMpsBase);
 
     // Update the soft inputs values (this will be available only for Link Node applications)
-    if (mpsSoftInputs)
+    if (mpsLinkNode)
     {
-        updateIntegerParam( paramListSoftInputs, lnSoftInputParams.inputWord, info.softInputs.inputWord );
-        updateIntegerParam( paramListSoftInputs, lnSoftInputParams.errorWord, info.softInputs.errorWord );
+        updateIntegerParam( paramListSoftInputs, lnSoftInputParams.inputWord, info.lnData.softInputData.inputWord );
+        updateIntegerParam( paramListSoftInputs, lnSoftInputParams.errorWord, info.lnData.softInputData.errorWord );
 
-        bool input_valid { info.softInputs.inputWord.first };
-        bool error_valid { info.softInputs.errorWord.first };
-        uint16_t input_word { info.softInputs.inputWord.second };
-        uint16_t error_word { info.softInputs.errorWord.second };
+        bool input_valid { info.lnData.softInputData.inputWord.first };
+        bool error_valid { info.lnData.softInputData.errorWord.first };
+        uint16_t input_word { info.lnData.softInputData.inputWord.second };
+        uint16_t error_word { info.lnData.softInputData.errorWord.second };
 
-        for (std::size_t i {0}; i < mpsSoftInputs->getNumInputs(); ++i)
+        for (std::size_t i {0}; i < mpsLinkNode->getMpsSoftInputs()->getNumInputs(); ++i)
         {
             std::pair<bool, bool> input_bit { input_valid, (input_word >> i) & 1 };
             std::pair<bool, bool> error_bit { error_valid, (error_word >> i) & 1 };
@@ -253,7 +253,7 @@ L2MPS::L2MPS(const char *portName)
         driverName_(DRIVER_NAME),                   // Driver name
         portName_(portName),                        // Port name
         node_(IMpsNode::create(cpswGetRoot())),     // MPS node object
-        mpsSoftInputs(node_->getMpsSoftInputs())    // Soft input object
+        mpsLinkNode(node_->getMpsLinkNode())        // Link node object
 {
     try
     {
@@ -440,7 +440,7 @@ L2MPS::L2MPS(const char *portName)
         // For link node application types, add parameters for the soft inputs
         if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_6CH")) | (!appType_.compare("MPS_24CH")))
         {
-            if (mpsSoftInputs)
+            if (mpsLinkNode)
             {
                 int index;
 
@@ -451,7 +451,7 @@ L2MPS::L2MPS(const char *portName)
                 lnSoftInputParams.errorWord = index;
 
                 std::stringstream paramName;
-                for (std::size_t i {0}; i < mpsSoftInputs->getNumInputs(); ++i)
+                for (std::size_t i {0}; i < mpsLinkNode->getMpsSoftInputs()->getNumInputs(); ++i)
                 {
                     paramName.str("");
                     paramName << "SOFT_CH_VALUE_" << std::setfill('0') << std::setw(2) << i;
@@ -1019,7 +1019,7 @@ asynStatus L2MPS::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epi
             ln_softInputsFuncMap_t::iterator si_it { fMapSoftInputs.find(function) };
             if ( si_it != fMapSoftInputs.end() )
             {
-                ret = ((*mpsSoftInputs).*(si_it->second.first))(si_it->second.second, (value & mask));
+                ret = ((*(mpsLinkNode->getMpsSoftInputs())).*(si_it->second.first))(si_it->second.second, (value & mask));
             }
             else
             {

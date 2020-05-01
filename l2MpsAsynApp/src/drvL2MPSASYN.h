@@ -36,7 +36,7 @@
 #include "l2Mps_blen.h"
 #include "l2Mps_bcm.h"
 #include "l2Mps_blm.h"
-#include "l2Mps_soft_inputs.h"
+#include "l2Mps_link_node.h"
 
 extern "C" {
     #include "mpsManagerInfo.h"
@@ -276,9 +276,9 @@ class L2MPS : public asynPortDriver {
     private:
         const char *driverName_;        // This driver name
         const char *portName_;          // Port name (passed from st.cmd)
-        MpsNode node_;                  // MPS node
-        boost::any amc[numberOfBays];   // AMC application objects
-        MpsSoftInputs mpsSoftInputs;    // Soft inputs object (used only by LN applications)
+        MpsNode     node_;              // MPS node
+        boost::any  amc[numberOfBays];  // AMC application objects
+        MpsLinkNode mpsLinkNode;        // Link node object (used only by LN applications)
 
         // BPM application function maps
         bpm_fmap_w32_t              fMapBpmW32;
