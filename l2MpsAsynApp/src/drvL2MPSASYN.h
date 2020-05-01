@@ -147,13 +147,17 @@ struct mps_infoParam_t
     int                 rstPll;
 };
 
-// Soft inputs parameter list
-struct ln_softInputsParam_t
+// Link node parameter list
+struct ln_param_t
 {
-    int                 inputWord;
-    int                 errorWord;
-    std::vector<int>    inputBit;
-    std::vector<int>    errorBit;
+    // Soft inputs
+    struct
+    {
+        int                 inputWord;
+        int                 errorWord;
+        std::vector<int>    inputBit;
+        std::vector<int>    errorBit;
+    } softInputs;
 };
 
 // Threshold table parameters data type
@@ -314,8 +318,8 @@ class L2MPS : public asynPortDriver {
         // MPS base parameters
         mps_infoParam_t             mpsInfoParams;
 
-        // Soft inputs parameters
-        ln_softInputsParam_t        lnSoftInputParams;
+        // Link node parameters
+        ln_param_t                  lnParams;
 
         // Application parameters
         paramMap_t                  paramMap;
