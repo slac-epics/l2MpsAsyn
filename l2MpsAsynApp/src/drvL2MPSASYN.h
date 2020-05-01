@@ -36,19 +36,21 @@
 #include "l2Mps_blen.h"
 #include "l2Mps_bcm.h"
 #include "l2Mps_blm.h"
+#include "l2Mps_link_node.h"
 
 extern "C" {
     #include "mpsManagerInfo.h"
 }
 
 #define DRIVER_NAME         "L2MPS"
-#define MAX_SIGNALS         (3)     // Max number of parameter list (number of bays)
+#define MAX_SIGNALS         (4)     // Max number of parameter list (number of bays)
 #define NUM_PARAMS          (1500)  // Max number of parameters
 
 // Asyn parameter list numbers
-const int paramListAppBay0 = 0; // Bay 0 application
-const int paramListAppBay1 = 1; // Bay 1 application
-const int paramListMpsBase = 2; // MPS base
+const int paramListAppBay0    = 0; // Bay 0 application
+const int paramListAppBay1    = 1; // Bay 1 application
+const int paramListMpsBase    = 2; // MPS base
+const int paramListSoftInputs = 3; // MPS LN Soft Inputs
 
 // BPM data types
 typedef bool (IMpsBpm::*BpmW32_t)(const bpmThr_channel_t&, const float) const;
@@ -102,6 +104,10 @@ typedef std::map<int, std::pair<blm_setScaleSlope_func_t, blm_channel_t>> blm_sc
 typedef std::map<int, std::pair<blm_setScaleOffset_func_t, blm_channel_t>> blm_scaleOffsetFuncMap_t;
 typedef std::map<int, std::pair<blm_setIdleEn_funct_t, blm_channel_t>> blm_setIdleEnMap_t;
 
+// LN soft inputs types
+typedef bool (IMpsSoftInputs::*ln_softInput_t)(std::size_t index, bool val) const;
+typedef std::map<int, std::pair<ln_softInput_t, std::size_t>> ln_softInputsFuncMap_t;
+
 // Types of register interfaces
 enum paramTypeList
 {
@@ -139,6 +145,19 @@ struct mps_infoParam_t
     std::vector<int>    rxPktRcvdCnt;
     int                 rstCnt;
     int                 rstPll;
+};
+
+// Link node parameter list
+struct ln_param_t
+{
+    // Soft inputs
+    struct
+    {
+        int                 inputWord;
+        int                 errorWord;
+        std::vector<int>    inputBit;
+        std::vector<int>    errorBit;
+    } softInputs;
 };
 
 // Threshold table parameters data type
@@ -259,10 +278,11 @@ class L2MPS : public asynPortDriver {
         static std::string mpsConfigrationPath;     // Default location of the MPS configuration
 
     private:
-        const char *driverName_;               // This driver name
-        const char *portName_;                 // Port name (passed from st.cmd)
-        MpsNode node_;
-        boost::any amc[numberOfBays];
+        const char *driverName_;        // This driver name
+        const char *portName_;          // Port name (passed from st.cmd)
+        MpsNode     node_;              // MPS node
+        boost::any  amc[numberOfBays];  // AMC application objects
+        MpsLinkNode mpsLinkNode;        // Link node object (used only by LN applications)
 
         // BPM application function maps
         bpm_fmap_w32_t              fMapBpmW32;
@@ -292,11 +312,17 @@ class L2MPS : public asynPortDriver {
         blm_scaleOffsetFuncMap_t    fMapBlmWScaleOffset;
         blm_setIdleEnMap_t          fMapBlmSetIdleEn;
 
+        // LN soft inputs function map
+        ln_softInputsFuncMap_t      fMapSoftInputs;
+
         // MPS base parameters
-        mps_infoParam_t     mpsInfoParams;
+        mps_infoParam_t             mpsInfoParams;
+
+        // Link node parameters
+        ln_param_t                  lnParams;
 
         // Application parameters
-        paramMap_t          paramMap;
+        paramMap_t                  paramMap;
 
         // Application initialization functions =
         void InitBpmMaps(const int bay);
