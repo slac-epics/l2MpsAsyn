@@ -242,7 +242,6 @@ L2MPS::L2MPS(const char *portName)
     : asynPortDriver(
             portName,
             MAX_SIGNALS,
-            NUM_PARAMS,
             asynInt32Mask | asynDrvUserMask | asynOctetMask | \
             asynUInt32DigitalMask | asynFloat64Mask,                                    // Interface Mask
             asynInt32Mask | asynUInt32DigitalMask | asynFloat64Mask | asynOctetMask,    // Interrupt Mask

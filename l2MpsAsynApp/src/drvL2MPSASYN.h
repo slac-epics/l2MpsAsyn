@@ -44,7 +44,6 @@ extern "C" {
 
 #define DRIVER_NAME         "L2MPS"
 #define MAX_SIGNALS         (4)     // Max number of parameter list (number of bays)
-#define NUM_PARAMS          (1500)  // Max number of parameters
 
 // Asyn parameter list numbers
 const int paramListAppBay0    = 0; // Bay 0 application
