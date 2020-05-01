@@ -166,8 +166,8 @@ void L2MPS::updateMpsParametrs(mps_infoData_t info)
     // Update the soft inputs values (this will be available only for Link Node applications)
     if (mpsLinkNode)
     {
-        updateIntegerParam( paramListSoftInputs, lnParams.softInputs.inputWord, info.lnData.softInputData.inputWord );
-        updateIntegerParam( paramListSoftInputs, lnParams.softInputs.errorWord, info.lnData.softInputData.errorWord );
+        updateIntegerParam( paramListLinkNode, lnParams.softInputs.inputWord, info.lnData.softInputData.inputWord );
+        updateIntegerParam( paramListLinkNode, lnParams.softInputs.errorWord, info.lnData.softInputData.errorWord );
 
         bool input_valid { info.lnData.softInputData.inputWord.first };
         bool error_valid { info.lnData.softInputData.errorWord.first };
@@ -178,11 +178,11 @@ void L2MPS::updateMpsParametrs(mps_infoData_t info)
         {
             std::pair<bool, bool> input_bit { input_valid, (input_word >> i) & 1 };
             std::pair<bool, bool> error_bit { error_valid, (error_word >> i) & 1 };
-            updateUIntDigitalParam( paramListSoftInputs, lnParams.softInputs.inputBit.at(i),  input_bit );
-            updateUIntDigitalParam( paramListSoftInputs, lnParams.softInputs.errorBit.at(i),  error_bit );
+            updateUIntDigitalParam( paramListLinkNode, lnParams.softInputs.inputBit.at(i),  input_bit );
+            updateUIntDigitalParam( paramListLinkNode, lnParams.softInputs.errorBit.at(i),  error_bit );
         }
 
-        callParamCallbacks(paramListSoftInputs);
+        callParamCallbacks(paramListLinkNode);
     }
 }
 
@@ -443,10 +443,10 @@ L2MPS::L2MPS(const char *portName)
             {
                 int index;
 
-                createParam(paramListSoftInputs, "SOFT_CH_VALUE_WORD",  asynParamInt32, &index);
+                createParam(paramListLinkNode, "SOFT_CH_VALUE_WORD",  asynParamInt32, &index);
                 lnParams.softInputs.inputWord = index;
 
-                createParam(paramListSoftInputs, "SOFT_CH_ERROR_WORD",  asynParamInt32, &index);
+                createParam(paramListLinkNode, "SOFT_CH_ERROR_WORD",  asynParamInt32, &index);
                 lnParams.softInputs.errorWord = index;
 
                 std::stringstream paramName;
@@ -454,13 +454,13 @@ L2MPS::L2MPS(const char *portName)
                 {
                     paramName.str("");
                     paramName << "SOFT_CH_VALUE_" << std::setfill('0') << std::setw(2) << i;
-                    createParam(paramListSoftInputs, paramName.str().c_str(), asynParamUInt32Digital, &index);
+                    createParam(paramListLinkNode, paramName.str().c_str(), asynParamUInt32Digital, &index);
                     fMapSoftInputs.insert( std::make_pair( index, std::make_pair( &IMpsSoftInputs::setInput, i ) ) );
                     lnParams.softInputs.inputBit.push_back(index);
 
                     paramName.str("");
                     paramName << "SOFT_CH_ERROR_" << std::setfill('0') << std::setw(2) << i;
-                    createParam(paramListSoftInputs, paramName.str().c_str(), asynParamUInt32Digital, &index);
+                    createParam(paramListLinkNode, paramName.str().c_str(), asynParamUInt32Digital, &index);
                     fMapSoftInputs.insert( std::make_pair( index, std::make_pair( &IMpsSoftInputs::setErrorInput, i ) ) );
                     lnParams.softInputs.errorBit.push_back(index);
                 }
@@ -1010,7 +1010,7 @@ asynStatus L2MPS::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epi
             asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writing parameter %s: %s\n", functionName, name, e.what());
         }
     }
-    else if(addr == paramListSoftInputs)
+    else if(addr == paramListLinkNode)
     {
         // LN soft inputs parameters
         try

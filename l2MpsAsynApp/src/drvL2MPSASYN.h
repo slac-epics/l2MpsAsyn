@@ -46,10 +46,10 @@ extern "C" {
 #define MAX_SIGNALS         (4)     // Max number of parameter list (number of bays)
 
 // Asyn parameter list numbers
-const int paramListAppBay0    = 0; // Bay 0 application
-const int paramListAppBay1    = 1; // Bay 1 application
-const int paramListMpsBase    = 2; // MPS base
-const int paramListSoftInputs = 3; // MPS LN Soft Inputs
+const int paramListAppBay0  = 0; // Bay 0 application
+const int paramListAppBay1  = 1; // Bay 1 application
+const int paramListMpsBase  = 2; // MPS base
+const int paramListLinkNode = 3; // MPS LN
 
 // BPM data types
 typedef bool (IMpsBpm::*BpmW32_t)(const bpmThr_channel_t&, const float) const;
