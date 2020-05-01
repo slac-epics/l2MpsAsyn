@@ -3,11 +3,15 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __R3.4.0__: 2020-05-02 J. Vasquez
+  * Update l2Mps to version R3.4.0.
+  * Add support for the Link Node's software inputs.
+
 * __R3.3.0__: 2020-02-07 J. Vasquez
-  * Update versions: 
-    * CPSW framework to R4.4.1, 
-    * buildroot to 2019.08, 
-    * l2Mps to R3.3.0, and 
+  * Update versions:
+    * CPSW framework to R4.4.1,
+    * buildroot to 2019.08,
+    * l2Mps to R3.3.0, and
     * yamlLoader to R2.1.0
     * asyn to R4.32-1.0.0
 
