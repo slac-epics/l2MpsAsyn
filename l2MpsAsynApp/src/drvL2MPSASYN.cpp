@@ -309,69 +309,69 @@ L2MPS::L2MPS(const char *portName)
         int index;
 
         // Integer variables
-        createParam(2, "APP_ID", asynParamInt32, &index);
+        createParam(paramListMpsBase, "APP_ID", asynParamInt32, &index);
         mpsInfoParams.appId = index;
 
-        createParam(2, "MPS_VER", asynParamInt32, &index);
+        createParam(paramListMpsBase, "MPS_VER", asynParamInt32, &index);
         mpsInfoParams.version = index;
 
-        createParam(2, "BYTE_COUNT", asynParamInt32, &index);
+        createParam(paramListMpsBase, "BYTE_COUNT", asynParamInt32, &index);
         mpsInfoParams.byteCount = index;
 
-        createParam(2, "BEAM_DEST_MASK", asynParamInt32, &index);
+        createParam(paramListMpsBase, "BEAM_DEST_MASK", asynParamInt32, &index);
         mpsInfoParams.beamDestMask = index;
 
-        createParam(2, "ALT_DEST_MASK", asynParamInt32, &index);
+        createParam(paramListMpsBase, "ALT_DEST_MASK", asynParamInt32, &index);
         mpsInfoParams.altDestMask = index;
 
-        createParam(2, "MSG_CNT", asynParamInt32, &index);
+        createParam(paramListMpsBase, "MSG_CNT", asynParamInt32, &index);
         mpsInfoParams.msgCnt = index;
 
-        createParam(2, "LAST_MSG_APPID", asynParamInt32, &index);
+        createParam(paramListMpsBase, "LAST_MSG_APPID", asynParamInt32, &index);
         mpsInfoParams.lastMsgAppId = index;
 
-        createParam(2, "LAST_MSG_TMSTMP", asynParamInt32, &index);
+        createParam(paramListMpsBase, "LAST_MSG_TMSTMP", asynParamInt32, &index);
         mpsInfoParams.lastMsgTimestamp = index;
 
-        createParam(2, "TX_LINK_UP_CNT", asynParamInt32, &index);
+        createParam(paramListMpsBase, "TX_LINK_UP_CNT", asynParamInt32, &index);
         mpsInfoParams.txLinkUpCnt = index;
 
-        createParam(2, "ROLL_OVER_EN", asynParamInt32, &index);
+        createParam(paramListMpsBase, "ROLL_OVER_EN", asynParamInt32, &index);
         mpsInfoParams.rollOverEn = index;
 
-        createParam(2, "TX_PKT_SENT_CNT", asynParamInt32, &index);
+        createParam(paramListMpsBase, "TX_PKT_SENT_CNT", asynParamInt32, &index);
         mpsInfoParams.txPktSentCnt = index;
 
         // String variables
-        createParam(2, "APP_TYPE", asynParamOctet, &index);
+        createParam(paramListMpsBase, "APP_TYPE", asynParamOctet, &index);
         mpsInfoParams.appType = index;
 
         // Digital variables
-        createParam(2, "MPS_EN", asynParamUInt32Digital, &index);
+        createParam(paramListMpsBase, "MPS_EN", asynParamUInt32Digital, &index);
         mpsInfoParams.enable = index;
 
-        createParam(2, "LCLS1_MODE", asynParamUInt32Digital, &index);
+        createParam(paramListMpsBase, "LCLS1_MODE", asynParamUInt32Digital, &index);
         mpsInfoParams.lcls1Mode = index;
 
-        createParam(2, "DIGITAL_EN", asynParamUInt32Digital, &index);
+        createParam(paramListMpsBase, "DIGITAL_EN", asynParamUInt32Digital, &index);
         mpsInfoParams.digitalEn = index;
 
-        createParam(2, "LAST_MSG_LCLS", asynParamUInt32Digital, &index);
+        createParam(paramListMpsBase, "LAST_MSG_LCLS", asynParamUInt32Digital, &index);
         mpsInfoParams.lastMsgLcls = index;
 
-        createParam(2, "TX_LINK_UP", asynParamUInt32Digital, &index);
+        createParam(paramListMpsBase, "TX_LINK_UP", asynParamUInt32Digital, &index);
         mpsInfoParams.txLinkUp = index;
 
-        createParam(2, "MPS_SLOT", asynParamUInt32Digital, &index);
+        createParam(paramListMpsBase, "MPS_SLOT", asynParamUInt32Digital, &index);
         mpsInfoParams.mpsSlot = index;
 
-        createParam(2, "PLL_LOCKED", asynParamUInt32Digital, &index);
+        createParam(paramListMpsBase, "PLL_LOCKED", asynParamUInt32Digital, &index);
         mpsInfoParams.pllLocked = index;
 
-        createParam(2, "SALT_RST_CNT", asynParamUInt32Digital, &index);
+        createParam(paramListMpsBase, "SALT_RST_CNT", asynParamUInt32Digital, &index);
         mpsInfoParams.rstCnt = index;
 
-        createParam(2, "SALT_RST_PLL", asynParamUInt32Digital, &index);
+        createParam(paramListMpsBase, "SALT_RST_PLL", asynParamUInt32Digital, &index);
         mpsInfoParams.rstPll = index;
 
 
@@ -384,7 +384,7 @@ L2MPS::L2MPS(const char *portName)
             {
                 paramName.str("");
                 paramName << "LAST_MSG_BYTE_" << i;
-                createParam(2, paramName.str().c_str(), asynParamInt32, &index);
+                createParam(paramListMpsBase, paramName.str().c_str(), asynParamInt32, &index);
                 mpsInfoParams.lastMsgByte.push_back(index);
             }
         }
@@ -397,12 +397,12 @@ L2MPS::L2MPS(const char *portName)
             {
                 paramName.str("");
                 paramName << "RX_LINK_UP_" << i;
-                createParam(2, paramName.str().c_str(), asynParamUInt32Digital, &index);
+                createParam(paramListMpsBase, paramName.str().c_str(), asynParamUInt32Digital, &index);
                 mpsInfoParams.rxLinkUp.push_back(index);
 
                 paramName.str("");
                 paramName << "RX_LINK_UP_CNT_" << i;
-                createParam(2, paramName.str().c_str(), asynParamInt32, &index);
+                createParam(paramListMpsBase, paramName.str().c_str(), asynParamInt32, &index);
                 mpsInfoParams.rxLinkUpCnt.push_back(index);
             }
         }
@@ -415,7 +415,7 @@ L2MPS::L2MPS(const char *portName)
             {
                 paramName.str("");
                 paramName << "RX_PKT_RCV_CNT_" << i;
-                createParam(2, paramName.str().c_str(), asynParamInt32, &index);
+                createParam(paramListMpsBase, paramName.str().c_str(), asynParamInt32, &index);
                 mpsInfoParams.rxPktRcvdCnt.push_back(index);
             }
         }
