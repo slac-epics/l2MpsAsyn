@@ -166,8 +166,8 @@ void L2MPS::updateMpsParametrs(mps_infoData_t info)
     // Update the soft inputs values (this will be available only for Link Node applications)
     if (mpsLinkNode)
     {
-        updateIntegerParam( paramListSoftInputs, lnParams.softInputs.inputWord, info.lnData.softInputData.inputWord );
-        updateIntegerParam( paramListSoftInputs, lnParams.softInputs.errorWord, info.lnData.softInputData.errorWord );
+        updateIntegerParam( paramListLinkNode, lnParams.softInputs.inputWord, info.lnData.softInputData.inputWord );
+        updateIntegerParam( paramListLinkNode, lnParams.softInputs.errorWord, info.lnData.softInputData.errorWord );
 
         bool input_valid { info.lnData.softInputData.inputWord.first };
         bool error_valid { info.lnData.softInputData.errorWord.first };
@@ -178,11 +178,11 @@ void L2MPS::updateMpsParametrs(mps_infoData_t info)
         {
             std::pair<bool, bool> input_bit { input_valid, (input_word >> i) & 1 };
             std::pair<bool, bool> error_bit { error_valid, (error_word >> i) & 1 };
-            updateUIntDigitalParam( paramListSoftInputs, lnParams.softInputs.inputBit.at(i),  input_bit );
-            updateUIntDigitalParam( paramListSoftInputs, lnParams.softInputs.errorBit.at(i),  error_bit );
+            updateUIntDigitalParam( paramListLinkNode, lnParams.softInputs.inputBit.at(i),  input_bit );
+            updateUIntDigitalParam( paramListLinkNode, lnParams.softInputs.errorBit.at(i),  error_bit );
         }
 
-        callParamCallbacks(paramListSoftInputs);
+        callParamCallbacks(paramListLinkNode);
     }
 }
 
@@ -242,7 +242,6 @@ L2MPS::L2MPS(const char *portName)
     : asynPortDriver(
             portName,
             MAX_SIGNALS,
-            NUM_PARAMS,
             asynInt32Mask | asynDrvUserMask | asynOctetMask | \
             asynUInt32DigitalMask | asynFloat64Mask,                                    // Interface Mask
             asynInt32Mask | asynUInt32DigitalMask | asynFloat64Mask | asynOctetMask,    // Interrupt Mask
@@ -310,69 +309,69 @@ L2MPS::L2MPS(const char *portName)
         int index;
 
         // Integer variables
-        createParam(2, "APP_ID", asynParamInt32, &index);
+        createParam(paramListMpsBase, "APP_ID", asynParamInt32, &index);
         mpsInfoParams.appId = index;
 
-        createParam(2, "MPS_VER", asynParamInt32, &index);
+        createParam(paramListMpsBase, "MPS_VER", asynParamInt32, &index);
         mpsInfoParams.version = index;
 
-        createParam(2, "BYTE_COUNT", asynParamInt32, &index);
+        createParam(paramListMpsBase, "BYTE_COUNT", asynParamInt32, &index);
         mpsInfoParams.byteCount = index;
 
-        createParam(2, "BEAM_DEST_MASK", asynParamInt32, &index);
+        createParam(paramListMpsBase, "BEAM_DEST_MASK", asynParamInt32, &index);
         mpsInfoParams.beamDestMask = index;
 
-        createParam(2, "ALT_DEST_MASK", asynParamInt32, &index);
+        createParam(paramListMpsBase, "ALT_DEST_MASK", asynParamInt32, &index);
         mpsInfoParams.altDestMask = index;
 
-        createParam(2, "MSG_CNT", asynParamInt32, &index);
+        createParam(paramListMpsBase, "MSG_CNT", asynParamInt32, &index);
         mpsInfoParams.msgCnt = index;
 
-        createParam(2, "LAST_MSG_APPID", asynParamInt32, &index);
+        createParam(paramListMpsBase, "LAST_MSG_APPID", asynParamInt32, &index);
         mpsInfoParams.lastMsgAppId = index;
 
-        createParam(2, "LAST_MSG_TMSTMP", asynParamInt32, &index);
+        createParam(paramListMpsBase, "LAST_MSG_TMSTMP", asynParamInt32, &index);
         mpsInfoParams.lastMsgTimestamp = index;
 
-        createParam(2, "TX_LINK_UP_CNT", asynParamInt32, &index);
+        createParam(paramListMpsBase, "TX_LINK_UP_CNT", asynParamInt32, &index);
         mpsInfoParams.txLinkUpCnt = index;
 
-        createParam(2, "ROLL_OVER_EN", asynParamInt32, &index);
+        createParam(paramListMpsBase, "ROLL_OVER_EN", asynParamInt32, &index);
         mpsInfoParams.rollOverEn = index;
 
-        createParam(2, "TX_PKT_SENT_CNT", asynParamInt32, &index);
+        createParam(paramListMpsBase, "TX_PKT_SENT_CNT", asynParamInt32, &index);
         mpsInfoParams.txPktSentCnt = index;
 
         // String variables
-        createParam(2, "APP_TYPE", asynParamOctet, &index);
+        createParam(paramListMpsBase, "APP_TYPE", asynParamOctet, &index);
         mpsInfoParams.appType = index;
 
         // Digital variables
-        createParam(2, "MPS_EN", asynParamUInt32Digital, &index);
+        createParam(paramListMpsBase, "MPS_EN", asynParamUInt32Digital, &index);
         mpsInfoParams.enable = index;
 
-        createParam(2, "LCLS1_MODE", asynParamUInt32Digital, &index);
+        createParam(paramListMpsBase, "LCLS1_MODE", asynParamUInt32Digital, &index);
         mpsInfoParams.lcls1Mode = index;
 
-        createParam(2, "DIGITAL_EN", asynParamUInt32Digital, &index);
+        createParam(paramListMpsBase, "DIGITAL_EN", asynParamUInt32Digital, &index);
         mpsInfoParams.digitalEn = index;
 
-        createParam(2, "LAST_MSG_LCLS", asynParamUInt32Digital, &index);
+        createParam(paramListMpsBase, "LAST_MSG_LCLS", asynParamUInt32Digital, &index);
         mpsInfoParams.lastMsgLcls = index;
 
-        createParam(2, "TX_LINK_UP", asynParamUInt32Digital, &index);
+        createParam(paramListMpsBase, "TX_LINK_UP", asynParamUInt32Digital, &index);
         mpsInfoParams.txLinkUp = index;
 
-        createParam(2, "MPS_SLOT", asynParamUInt32Digital, &index);
+        createParam(paramListMpsBase, "MPS_SLOT", asynParamUInt32Digital, &index);
         mpsInfoParams.mpsSlot = index;
 
-        createParam(2, "PLL_LOCKED", asynParamUInt32Digital, &index);
+        createParam(paramListMpsBase, "PLL_LOCKED", asynParamUInt32Digital, &index);
         mpsInfoParams.pllLocked = index;
 
-        createParam(2, "SALT_RST_CNT", asynParamUInt32Digital, &index);
+        createParam(paramListMpsBase, "SALT_RST_CNT", asynParamUInt32Digital, &index);
         mpsInfoParams.rstCnt = index;
 
-        createParam(2, "SALT_RST_PLL", asynParamUInt32Digital, &index);
+        createParam(paramListMpsBase, "SALT_RST_PLL", asynParamUInt32Digital, &index);
         mpsInfoParams.rstPll = index;
 
 
@@ -385,7 +384,7 @@ L2MPS::L2MPS(const char *portName)
             {
                 paramName.str("");
                 paramName << "LAST_MSG_BYTE_" << i;
-                createParam(2, paramName.str().c_str(), asynParamInt32, &index);
+                createParam(paramListMpsBase, paramName.str().c_str(), asynParamInt32, &index);
                 mpsInfoParams.lastMsgByte.push_back(index);
             }
         }
@@ -398,12 +397,12 @@ L2MPS::L2MPS(const char *portName)
             {
                 paramName.str("");
                 paramName << "RX_LINK_UP_" << i;
-                createParam(2, paramName.str().c_str(), asynParamUInt32Digital, &index);
+                createParam(paramListMpsBase, paramName.str().c_str(), asynParamUInt32Digital, &index);
                 mpsInfoParams.rxLinkUp.push_back(index);
 
                 paramName.str("");
                 paramName << "RX_LINK_UP_CNT_" << i;
-                createParam(2, paramName.str().c_str(), asynParamInt32, &index);
+                createParam(paramListMpsBase, paramName.str().c_str(), asynParamInt32, &index);
                 mpsInfoParams.rxLinkUpCnt.push_back(index);
             }
         }
@@ -416,7 +415,7 @@ L2MPS::L2MPS(const char *portName)
             {
                 paramName.str("");
                 paramName << "RX_PKT_RCV_CNT_" << i;
-                createParam(2, paramName.str().c_str(), asynParamInt32, &index);
+                createParam(paramListMpsBase, paramName.str().c_str(), asynParamInt32, &index);
                 mpsInfoParams.rxPktRcvdCnt.push_back(index);
             }
         }
@@ -444,10 +443,10 @@ L2MPS::L2MPS(const char *portName)
             {
                 int index;
 
-                createParam(paramListSoftInputs, "SOFT_CH_VALUE_WORD",  asynParamInt32, &index);
+                createParam(paramListLinkNode, "SOFT_CH_VALUE_WORD",  asynParamInt32, &index);
                 lnParams.softInputs.inputWord = index;
 
-                createParam(paramListSoftInputs, "SOFT_CH_ERROR_WORD",  asynParamInt32, &index);
+                createParam(paramListLinkNode, "SOFT_CH_ERROR_WORD",  asynParamInt32, &index);
                 lnParams.softInputs.errorWord = index;
 
                 std::stringstream paramName;
@@ -455,13 +454,13 @@ L2MPS::L2MPS(const char *portName)
                 {
                     paramName.str("");
                     paramName << "SOFT_CH_VALUE_" << std::setfill('0') << std::setw(2) << i;
-                    createParam(paramListSoftInputs, paramName.str().c_str(), asynParamUInt32Digital, &index);
+                    createParam(paramListLinkNode, paramName.str().c_str(), asynParamUInt32Digital, &index);
                     fMapSoftInputs.insert( std::make_pair( index, std::make_pair( &IMpsSoftInputs::setInput, i ) ) );
                     lnParams.softInputs.inputBit.push_back(index);
 
                     paramName.str("");
                     paramName << "SOFT_CH_ERROR_" << std::setfill('0') << std::setw(2) << i;
-                    createParam(paramListSoftInputs, paramName.str().c_str(), asynParamUInt32Digital, &index);
+                    createParam(paramListLinkNode, paramName.str().c_str(), asynParamUInt32Digital, &index);
                     fMapSoftInputs.insert( std::make_pair( index, std::make_pair( &IMpsSoftInputs::setErrorInput, i ) ) );
                     lnParams.softInputs.errorBit.push_back(index);
                 }
@@ -1011,7 +1010,7 @@ asynStatus L2MPS::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epi
             asynPrint(pasynUser, ASYN_TRACE_ERROR, "Runtime error on %s writing parameter %s: %s\n", functionName, name, e.what());
         }
     }
-    else if(addr == paramListSoftInputs)
+    else if(addr == paramListLinkNode)
     {
         // LN soft inputs parameters
         try
