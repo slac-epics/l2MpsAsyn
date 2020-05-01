@@ -18,3 +18,4 @@ File                                                    | Description
 [README.scaleFactor.md](README.scaleFactor.md)          | How do apply scale factor to the threshold so they are expressed in engineering units.
 [README.thresholds.md](README.thresholds.md)            | How are values set for thresholds managed.
 [README.database.md](README.database.md)                | How does the MPS driver gets information from the MPS database.
+[README.softInputs.md](README.softInputs.md)            | How to use the Link Node software inputs.
