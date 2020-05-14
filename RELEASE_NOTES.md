@@ -5,6 +5,8 @@ Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 ## Releases:
 * __R3.4.1__: 2020-05-13 J. Vasquez
   * Update l2Mps to version R3.4.1.
+  * Relay on the l2Mps instantiation of a `MpsLinkNode` object to
+    determine when to create the sof inputs parameters.
 
 * __R3.4.0__: 2020-05-02 J. Vasquez
   * Update l2Mps to version R3.4.0.
