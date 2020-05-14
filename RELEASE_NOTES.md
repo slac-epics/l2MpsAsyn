@@ -3,6 +3,9 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __R3.4.1__: 2020-05-13 J. Vasquez
+  * Update l2Mps to version R3.4.1.
+
 * __R3.4.0__: 2020-05-02 J. Vasquez
   * Update l2Mps to version R3.4.0.
   * Add support for the Link Node's software inputs.
