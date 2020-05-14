@@ -436,41 +436,33 @@ L2MPS::L2MPS(const char *portName)
                 printf("ERROR: Application type %s not supported on bay %zu\n", appType_.c_str(), i);
         }
 
-        // For link node application types, add parameters for the soft inputs
-        if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_6CH")) | (!appType_.compare("MPS_24CH")))
+        // For link node application types, add parameters for the soft inputs.
+        // We rely in the fact that only Link Nodes will have a MpsLinkNode object instantiated.
+        if (mpsLinkNode)
         {
-            if (mpsLinkNode)
+            int index;
+
+            createParam(paramListLinkNode, "SOFT_CH_VALUE_WORD",  asynParamInt32, &index);
+            lnParams.softInputs.inputWord = index;
+
+            createParam(paramListLinkNode, "SOFT_CH_ERROR_WORD",  asynParamInt32, &index);
+            lnParams.softInputs.errorWord = index;
+
+            std::stringstream paramName;
+            for (std::size_t i {0}; i < mpsLinkNode->getMpsSoftInputs()->getNumInputs(); ++i)
             {
-                int index;
+                paramName.str("");
+                paramName << "SOFT_CH_VALUE_" << std::setfill('0') << std::setw(2) << i;
+                createParam(paramListLinkNode, paramName.str().c_str(), asynParamUInt32Digital, &index);
+                fMapSoftInputs.insert( std::make_pair( index, std::make_pair( &IMpsSoftInputs::setInput, i ) ) );
+                lnParams.softInputs.inputBit.push_back(index);
 
-                createParam(paramListLinkNode, "SOFT_CH_VALUE_WORD",  asynParamInt32, &index);
-                lnParams.softInputs.inputWord = index;
-
-                createParam(paramListLinkNode, "SOFT_CH_ERROR_WORD",  asynParamInt32, &index);
-                lnParams.softInputs.errorWord = index;
-
-                std::stringstream paramName;
-                for (std::size_t i {0}; i < mpsLinkNode->getMpsSoftInputs()->getNumInputs(); ++i)
-                {
-                    paramName.str("");
-                    paramName << "SOFT_CH_VALUE_" << std::setfill('0') << std::setw(2) << i;
-                    createParam(paramListLinkNode, paramName.str().c_str(), asynParamUInt32Digital, &index);
-                    fMapSoftInputs.insert( std::make_pair( index, std::make_pair( &IMpsSoftInputs::setInput, i ) ) );
-                    lnParams.softInputs.inputBit.push_back(index);
-
-                    paramName.str("");
-                    paramName << "SOFT_CH_ERROR_" << std::setfill('0') << std::setw(2) << i;
-                    createParam(paramListLinkNode, paramName.str().c_str(), asynParamUInt32Digital, &index);
-                    fMapSoftInputs.insert( std::make_pair( index, std::make_pair( &IMpsSoftInputs::setErrorInput, i ) ) );
-                    lnParams.softInputs.errorBit.push_back(index);
-                }
+                paramName.str("");
+                paramName << "SOFT_CH_ERROR_" << std::setfill('0') << std::setw(2) << i;
+                createParam(paramListLinkNode, paramName.str().c_str(), asynParamUInt32Digital, &index);
+                fMapSoftInputs.insert( std::make_pair( index, std::make_pair( &IMpsSoftInputs::setErrorInput, i ) ) );
+                lnParams.softInputs.errorBit.push_back(index);
             }
-            else
-            {
-                printf("ERROR: The MPS link node does not contain a MpsSoftInput object\n");
-                printf("The soft inputs asyn parameters were not created.");
-            }
-
         }
 
         // Load the EPICS database
