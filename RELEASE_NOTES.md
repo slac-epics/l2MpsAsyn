@@ -3,6 +3,12 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __R3.5.0__: 2021-02-05 J. Vasquez
+  * Update l2Mps to version R3.5.0.
+  * Add support for the new Digital Link Node. The new type is `MPS_DN`.
+  * Update list of app types for MPS nodes, to match FW definitions.
+    The new types are `MPS_LN` (for link nodes), and `MPS_AN` for application nodes.
+
 * __R3.4.1__: 2020-05-13 J. Vasquez
   * Update l2Mps to version R3.4.1.
   * Relay on the l2Mps instantiation of a `MpsLinkNode` object to
