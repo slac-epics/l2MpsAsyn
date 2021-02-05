@@ -432,6 +432,8 @@ L2MPS::L2MPS(const char *portName)
                 InitBcmMaps(i);
             else if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_6CH")) | (!appType_.compare("MPS_24CH")))
                 InitBlmMaps(i);
+            else if (!appType_.compare("MPS_DN"))
+                ; // The Digital AMC does not contain any settings. So, there is nothing to initialize here.
             else
                 printf("ERROR: Application type %s not supported on bay %zu\n", appType_.c_str(), i);
         }
@@ -495,6 +497,10 @@ L2MPS::L2MPS(const char *portName)
             {
                 auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<blm_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
                 boost::any_cast<MpsBlm>(amc[i])->startPollThread(1, fpa);
+            }
+            else if (!appType_.compare("MPS_DN"))
+            {
+                ; // The Digital AMC does not contain any settings. So, there it not polling thread for it.
             }
         }
 
