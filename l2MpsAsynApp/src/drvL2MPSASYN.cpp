@@ -430,7 +430,7 @@ L2MPS::L2MPS(const char *portName)
                 InitBlenMaps(i);
             else if (!appType_.compare("BCM"))
                 InitBcmMaps(i);
-            else if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_LN")) | (!appType_.compare("MPS_AN")))
+            else if ((!appType_.compare("MPS_LN")) | (!appType_.compare("MPS_AN")))
                 InitBlmMaps(i);
             else if (!appType_.compare("MPS_DN"))
                 ; // The Digital AMC does not contain any settings. So, there is nothing to initialize here.
@@ -493,7 +493,7 @@ L2MPS::L2MPS(const char *portName)
                 auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<bcm_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
                 boost::any_cast<MpsBcm>(amc[i])->startPollThread(1, fpa);
             }
-            else if ((!appType_.compare("BLM")) | (!appType_.compare("MPS_LN")) | (!appType_.compare("MPS_AN")))
+            else if ((!appType_.compare("MPS_LN")) | (!appType_.compare("MPS_AN")))
             {
                 auto fpa = std::bind(&L2MPS::updateAppParameters<std::map<blm_channel_t, thr_ch_t>>, this, std::placeholders::_1, std::placeholders::_2);
                 boost::any_cast<MpsBlm>(amc[i])->startPollThread(1, fpa);
