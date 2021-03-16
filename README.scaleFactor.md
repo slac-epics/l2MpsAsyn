@@ -2,7 +2,7 @@
 
 Threshold are applied in firmware in raw units (ADC counts for example). But the threshold PVs can represent engineering units is a scale factor is provided by the application.
 
-The MPS application has two PVs called **`$(APP_PREFIX):$(PROPERTY)_SS`**  amd **`$(APP_PREFIX):$(PROPERTY)_SO`** which read the scale slope and offset value, respectively, from tow PVs provided by the application. The MPS PVs read the values from the application PVs and the values to the low level driver where the scaling is applied. Readback values are also provided in the PVs **`$(APP_PREFIX):$(PROPERTY)_SS_RBV`** and **`$(APP_PREFIX):$(PROPERTY)_SO_RBV`** respectively.
+The MPS application has two PVs called **`$(APP_PREFIX):$(PROPERTY)_SS`**  and **`$(APP_PREFIX):$(PROPERTY)_SO`** which read the scale slope and offset value, respectively, from tow PVs provided by the application. The MPS PVs read the values from the application PVs and the values to the low level driver where the scaling is applied. Readback values are also provided in the PVs **`$(APP_PREFIX):$(PROPERTY)_SS_RBV`** and **`$(APP_PREFIX):$(PROPERTY)_SO_RBV`** respectively.
 
 The name of application PVs are **`$(APP_PREFIX):$(PROPERTY)_FWSLO`**  for the slope value, and **`$(APP_PREFIX):$(PROPERTY)_FWOFF`** for the offset value. BPM applications is an exception to this rule; it only provides a slope value PV named **`$(APP_PREFIX):$(PROPERTY)_FWSCL`**.
 
@@ -28,9 +28,9 @@ BPM applications can provide, for example:
 
 **`$(APP_PREFIX):X_FWSCL`** [mm/raw]
 **`$(APP_PREFIX):Y_FWSCL`** [mm/raw]
-**`$(APP_PREFIX):TMIT_FWSCL`** [Nel/raw]
+**`$(APP_PREFIX):CHRG_FWSCL`** [pC/raw]
 
-Then the threshold for **X** and **Y** will be expressed in **mm**, and the thresholds for **TMIT** will be expressed in **Nel**.
+Then the threshold for **X** and **Y** will be expressed in **mm**, and the thresholds for **CHRG** will be expressed in **pC**.
 
 A BLM application, on the other hand, used to read a solenoid device, can provide, for example:
 
