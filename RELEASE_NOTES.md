@@ -3,6 +3,11 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+
+  * Update BPM TMIT threshold. BPMs now use TMIT difference, expressed in `pC`. So, for the TMIT
+    threshold related PVs rename the PVs, replacing `TMIT` with `CHRG`, change units from `Nel`
+    to `pC`, and change the scale factor PV from `$(P):TMIT_FWSCL` to `$(P):CHRG_FWSCL`.
+
 * __R2.6.0__: 2020-02-05 J. Vasquez
   * Update buildroot to version 2019.08
   * Update CPSW to version R4.4.1
