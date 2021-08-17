@@ -4,6 +4,7 @@ Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
 
+  * Add readback value of the SALT register `MpsChEnable`.
   * Add new SALT diagnostic registers: `MpsTxPktPeriod`, `MpsRxPktPeriod`, `MpsTxPktPeriodMax`,
     `MpsRxPktPeriodMax`, `MpsTxPktPeriodMin`, `MpsRxPktPeriodMin`, `DiagnosticStrbCnt`,
     `MpsPllLockCnt`, `MpsTxEofeSentCnt`, and `MpsRxErrDetCnt`.
