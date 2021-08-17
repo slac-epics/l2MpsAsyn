@@ -142,6 +142,16 @@ struct mps_infoParam_t
     int                 rollOverEn;
     int                 txPktSentCnt;
     std::vector<int>    rxPktRcvdCnt;
+    int                 txPktPeriod;
+    int                 txPktPeriodMin;
+    int                 txPktPeriodMax;
+    std::vector<int>    rxPktPeriod;
+    std::vector<int>    rxPktPeriodMin;
+    std::vector<int>    rxPktPeriodMax;
+    int                 diagStrbCnt;
+    int                 pllLockCnt;
+    int                 txEofeSentCnt;
+    std::vector<int>    rxErrDetCnt;
     int                 rstCnt;
     int                 rstPll;
 };

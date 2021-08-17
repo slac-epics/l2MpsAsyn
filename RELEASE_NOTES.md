@@ -4,6 +4,9 @@ Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
 
+  * Add new SALT diagnostic registers: `MpsTxPktPeriod`, `MpsRxPktPeriod`, `MpsTxPktPeriodMax`,
+    `MpsRxPktPeriodMax`, `MpsTxPktPeriodMin`, `MpsRxPktPeriodMin`, `DiagnosticStrbCnt`,
+    `MpsPllLockCnt`, `MpsTxEofeSentCnt`, and `MpsRxErrDetCnt`.
   * Update BPM TMIT threshold. BPMs now use TMIT difference, expressed in `pC`. So, for the TMIT
     threshold related PVs rename the PVs, replacing `TMIT` with `CHRG`, change units from `Nel`
     to `pC`, and change the scale factor PV from `$(P):TMIT_FWSCL` to `$(P):CHRG_FWSCL`.
