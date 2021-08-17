@@ -18,3 +18,4 @@ record(waveform, "$(P):$(R)") {
     field(FTVL,    "CHAR")
     field(INP,     "@asyn($(PORT),$(ADDR))$(PARAM)")
 }
+

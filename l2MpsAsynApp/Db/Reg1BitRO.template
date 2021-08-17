@@ -20,3 +20,4 @@ record(bi, "$(P):$(R)") {
     field(ZNAM, "$(ZNAM)")
     field(ONAM, "$(ONAM)")
 }
+

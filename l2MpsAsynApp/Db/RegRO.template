@@ -16,3 +16,4 @@ record(longin, "$(P):$(R)") {
     field(DTYP, "asynInt32")
     field(INP,  "@asyn($(PORT),$(ADDR))$(PARAM)")
 }
+

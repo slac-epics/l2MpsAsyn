@@ -30,3 +30,4 @@ record(bi, "$(P):$(R)_RBV") {
     field(ZNAM, "$(ZNAM)")
     field(ONAM, "$(ONAM)")
 }
+
