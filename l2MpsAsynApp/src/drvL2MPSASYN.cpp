@@ -151,6 +151,7 @@ void L2MPS::updateMpsParametrs(mps_infoData_t info)
     updateIntegerParam( paramListMpsBase, mpsInfoParams.diagStrbCnt,      info.diagStrbCnt      );
     updateIntegerParam( paramListMpsBase, mpsInfoParams.pllLockCnt,       info.pllLockCnt       );
     updateIntegerParam( paramListMpsBase, mpsInfoParams.txEofeSentCnt,    info.txEofeSentCnt    );
+    updateIntegerParam( paramListMpsBase, mpsInfoParams.chEnable,         info.chEnable         );
 
     updateStringParam( paramListMpsBase, mpsInfoParams.appType,           info.appType );
 
@@ -369,6 +370,9 @@ L2MPS::L2MPS(const char *portName)
 
         createParam(paramListMpsBase, "TX_EOFE_SENT_CNT", asynParamInt32, &index);
         mpsInfoParams.txEofeSentCnt = index;
+
+        createParam(paramListMpsBase, "CH_ENABLE", asynParamInt32, &index);
+        mpsInfoParams.chEnable = index;
 
         // String variables
         createParam(paramListMpsBase, "APP_TYPE", asynParamOctet, &index);

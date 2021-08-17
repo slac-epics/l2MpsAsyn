@@ -152,6 +152,7 @@ struct mps_infoParam_t
     int                 pllLockCnt;
     int                 txEofeSentCnt;
     std::vector<int>    rxErrDetCnt;
+    int                 chEnable;
     int                 rstCnt;
     int                 rstPll;
 };

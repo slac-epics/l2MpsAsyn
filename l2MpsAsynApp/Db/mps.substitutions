@@ -104,6 +104,7 @@ file "RegRO.template" { pattern
 { RX_ERR_DET_CNT_11,    "Rx Error Detected Counter",            RX_ERR_DET_CNT_11,      "2"     }
 { RX_ERR_DET_CNT_12,    "Rx Error Detected Counter",            RX_ERR_DET_CNT_12,      "2"     }
 { RX_ERR_DET_CNT_13,    "Rx Error Detected Counter",            RX_ERR_DET_CNT_13,      "2"     }
+{ CH_ENABLE,            "Rx Channel enable bitmask",            CH_ENABLE,              "2"     }
 }
 
 file "Reg1BitRO.template" { pattern
