@@ -138,3 +138,4 @@ record(bi,      "$(P):$(R)_H_EN_RBV") {
     field(ZNAM, "Disabled")
     field(ONAM, "Enabled")
 }
+

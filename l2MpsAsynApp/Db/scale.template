@@ -66,3 +66,4 @@ record(ai,      "$(P):$(R)_SO_RBV") {
     field(DTYP, "asynFloat64")
     field(INP,  "@asyn($(PORT),$(BAY))$(APP)_SCALEOFFSET_$(CH)")
 }
+
