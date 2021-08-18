@@ -519,6 +519,8 @@ L2MPS::L2MPS(const char *portName)
                 ; // The Digital AMC does not contain any settings. So, there is nothing to initialize here.
             else if (!appType_.compare("LLRF"))
                 ; // The LLRF application does not contain any settings. So, there is nothing to initialize here.
+            else if (!appType_.compare("FWS"))
+                ; // The Fast Wire Scanner application does not contain any settings. So, there is nothing to initialize here.
             else
                 printf("ERROR: Application type %s not supported on bay %zu\n", appType_.c_str(), i);
         }
