@@ -517,6 +517,8 @@ L2MPS::L2MPS(const char *portName)
                 InitBlmMaps(i);
             else if (!appType_.compare("MPS_DN"))
                 ; // The Digital AMC does not contain any settings. So, there is nothing to initialize here.
+            else if (!appType_.compare("LLRF"))
+                ; // The LLRF application does not contain any settings. So, there is nothing to initialize here.
             else
                 printf("ERROR: Application type %s not supported on bay %zu\n", appType_.c_str(), i);
         }
