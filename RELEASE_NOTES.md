@@ -3,6 +3,8 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __R3.8.0__: 2021-11-15 J. Mock
+  * Build against YAMLLOADED R2.2.0
 * __R3.7.0__: 2021-08-18 J. Vasquez
   * Update `l2Mps` to version `R3.7.0`.
   * Add support for the Fast Wire Scanner (FWS) application type. This type of application
