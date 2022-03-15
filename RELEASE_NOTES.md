@@ -3,6 +3,9 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __R2.9.1__: 2022-3-15 J. Mock
+  * Change CHRG fault name to CHRGDIFF
+
 * __R2.9.0__: 2022-1-26 J. Mock
   * Build against asyn R4.39-1.0.1
 
