@@ -3,6 +3,9 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __R2.10.0__: 2022-04-14 J. Mock
+  * Revert CHRGDIFF in BPM back to TMIT after discussions of requirements with users
+
 * __R2.9.1__: 2022-3-15 J. Mock
   * Change CHRG fault name to CHRGDIFF
 
@@ -11,6 +14,7 @@ Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 * __R2.8.0__: 2021-11-15 J. Mock
   * Build against YAMLLOADER R2.2.0
+
 * __R2.7.0__: 2021-03-16 J. Vasquez
   * Update BPM TMIT threshold. BPMs now use TMIT difference, expressed in `pC`. So, for the TMIT
     threshold related PVs rename the PVs, replacing `TMIT` with `CHRG`, change units from `Nel`

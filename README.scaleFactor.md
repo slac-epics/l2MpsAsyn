@@ -28,9 +28,9 @@ BPM applications can provide, for example:
 
 **`$(APP_PREFIX):X_FWSCL`** [mm/raw]
 **`$(APP_PREFIX):Y_FWSCL`** [mm/raw]
-**`$(APP_PREFIX):CHRG_FWSCL`** [pC/raw]
+**`$(APP_PREFIX):TMIT_FWSCL`** [pC/raw]
 
-Then the threshold for **X** and **Y** will be expressed in **mm**, and the thresholds for **CHRG** will be expressed in **pC**.
+Then the threshold for **X** and **Y** will be expressed in **mm**, and the thresholds for **TMIT** will be expressed in **Nel**.
 
 A BLM application, on the other hand, used to read a solenoid device, can provide, for example:
 
