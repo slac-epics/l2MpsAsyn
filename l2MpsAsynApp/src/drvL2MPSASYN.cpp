@@ -1171,22 +1171,18 @@ asynStatus L2MPS::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
             bpm_fmap_w32_t::iterator bpm_it;
             bpm_scaleSlopeFuncMap_t::iterator bpm_scaleSlopeIt;
             bpm_scaleOffsetFuncMap_t::iterator bpm_scaleOffsetIt;
-//            bpm_setIdleEnMap_t::iterator bpm_idleIt;
 
             blen_fmap_w32_t::iterator blen_it;
             blen_scaleSlopeFuncMap_t::iterator blen_scaleSlopeIt;
             blen_scaleOffsetFuncMap_t::iterator blen_scaleOffsetIt;
-//            blen_setIdleEnMap_t::iterator blen_idleIt;
 
             bcm_fmap_w32_t::iterator bcm_it;
             bcm_scaleSlopeFuncMap_t::iterator bcm_scaleSlopeIt;
             bcm_scaleOffsetFuncMap_t::iterator bcm_scaleOffsetIt;
-//            bcm_setIdleEnMap_t::iterator bcm_idleIt;
 
             blm_fmap_w32_t::iterator blm_it;
             blm_scaleSlopeFuncMap_t::iterator blm_scaleSlopeIt;
             blm_scaleOffsetFuncMap_t::iterator blm_scaleOffsetIt;
-//            blm_setIdleEnMap_t::iterator blm_idleIt;
 
             // BPM parameters
             if ((bpm_it = fMapBpmW32.find(function)) != fMapBpmW32.end())
@@ -1201,12 +1197,6 @@ asynStatus L2MPS::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
             {
                 ret = ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_scaleOffsetIt->second.first))(bpm_scaleOffsetIt->second.second, value);
             }
-/*
-            else if ((bpm_idleIt = fMapBpmSetIdleEn.find(function)) != fMapBpmSetIdleEn.end())
-            {
-                ret = ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_idleIt->second.first))(bpm_idleIt->second.second, value);
-            }
-*/
             // BLEN parameters
             else if ((blen_it = fMapBlenW32.find(function)) != fMapBlenW32.end())
             {
@@ -1220,12 +1210,6 @@ asynStatus L2MPS::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
             {
                 ret = ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_scaleOffsetIt->second.first))(blen_scaleOffsetIt->second.second, value);
             }
-/*
-            else if ((blen_idleIt = fMapBlenSetIdleEn.find(function)) != fMapBlenSetIdleEn.end())
-            {
-                ret = ((*boost::any_cast<MpsBlen>(amc[addr])).*(blen_idleIt->second.first))(blen_idleIt->second.second, value);
-            }
-*/
             // BCM parameters
             else if ((bcm_it = fMapBcmW32.find(function)) != fMapBcmW32.end())
             {
@@ -1239,23 +1223,11 @@ asynStatus L2MPS::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
             {
                 ret = ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_scaleOffsetIt->second.first))(bcm_scaleOffsetIt->second.second, value);
             }
-/*
-            else if ((bcm_idleIt = fMapBcmSetIdleEn.find(function)) != fMapBcmSetIdleEn.end())
-            {
-                ret = ((*boost::any_cast<MpsBcm>(amc[addr])).*(bcm_idleIt->second.first))(bcm_idleIt->second.second, value);
-            }
-*/
             // BLM parameters
             else if ((blm_it = fMapBlmW32.find(function)) != fMapBlmW32.end())
             {
                 ret = ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_it->second.first))(blm_it->second.second, value);
             }
-/*
-            else if ((blm_idleIt = fMapBlmSetIdleEn.find(function)) != fMapBlmSetIdleEn.end())
-            {
-                ret = ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_idleIt->second.first))(blm_idleIt->second.second, value);
-            }
-*/
             else if ((blm_scaleSlopeIt = fMapBlmWScaleSlope.find(function)) != fMapBlmWScaleSlope.end())
             {
                 ret = ((*boost::any_cast<MpsBlm>(amc[addr])).*(blm_scaleSlopeIt->second.first))(blm_scaleSlopeIt->second.second, value);
