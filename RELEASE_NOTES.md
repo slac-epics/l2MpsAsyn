@@ -3,6 +3,11 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __R2.10.2__: 2022-04-14 J. Mock
+  * Remove from mps_bpm.substitutions all thresholds that are not loaded in FW:
+      Any X > T1
+      Any Y > T1
+
 * __R2.10.1__: 2022-04-14 J. Mock
   * Fix IDLE table Enable type to be UInt32Digital everywhere - functionality was 
     originally with float64 type in l2MpsAsynApp/src/drvL2MPSASYN.cpp
