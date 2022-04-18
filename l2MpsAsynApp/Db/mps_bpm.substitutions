@@ -46,20 +46,8 @@ file "thr.template" { pattern
 
 { X_T0,         "BPM, Bay $(BAY), X, STD, Threshold 0",     "BPM",  "mm",   "2",    "0",    "2",    "0",    }
 { X_T1,         "BPM, Bay $(BAY), X, STD, Threshold 1",     "BPM",  "mm",   "2",    "0",    "2",    "1",    }
-{ X_T2,         "BPM, Bay $(BAY), X, STD, Threshold 2",     "BPM",  "mm",   "2",    "0",    "2",    "2",    }
-{ X_T3,         "BPM, Bay $(BAY), X, STD, Threshold 3",     "BPM",  "mm",   "2",    "0",    "2",    "3",    }
-{ X_T4,         "BPM, Bay $(BAY), X, STD, Threshold 4",     "BPM",  "mm",   "2",    "0",    "2",    "4",    }
-{ X_T5,         "BPM, Bay $(BAY), X, STD, Threshold 5",     "BPM",  "mm",   "2",    "0",    "2",    "5",    }
-{ X_T6,         "BPM, Bay $(BAY), X, STD, Threshold 6",     "BPM",  "mm",   "2",    "0",    "2",    "6",    }
-{ X_T7,         "BPM, Bay $(BAY), X, STD, Threshold 7",     "BPM",  "mm",   "2",    "0",    "2",    "7",    }
 { Y_T0,         "BPM, Bay $(BAY), Y, STD, Threshold 0",     "BPM",  "mm",   "2",    "1",    "2",    "0",    }
 { Y_T1,         "BPM, Bay $(BAY), Y, STD, Threshold 1",     "BPM",  "mm",   "2",    "1",    "2",    "1",    }
-{ Y_T2,         "BPM, Bay $(BAY), Y, STD, Threshold 2",     "BPM",  "mm",   "2",    "1",    "2",    "2",    }
-{ Y_T3,         "BPM, Bay $(BAY), Y, STD, Threshold 3",     "BPM",  "mm",   "2",    "1",    "2",    "3",    }
-{ Y_T4,         "BPM, Bay $(BAY), Y, STD, Threshold 4",     "BPM",  "mm",   "2",    "1",    "2",    "4",    }
-{ Y_T5,         "BPM, Bay $(BAY), Y, STD, Threshold 5",     "BPM",  "mm",   "2",    "1",    "2",    "5",    }
-{ Y_T6,         "BPM, Bay $(BAY), Y, STD, Threshold 6",     "BPM",  "mm",   "2",    "1",    "2",    "6",    }
-{ Y_T7,         "BPM, Bay $(BAY), Y, STD, Threshold 7",     "BPM",  "mm",   "2",    "1",    "2",    "7",    }
 { TMIT_T0,      "BPM, Bay $(BAY), C, STD, Threshold 0",     "BPM",  "Nel",  "2",    "2",    "2",    "0",    }
 { TMIT_T1,      "BPM, Bay $(BAY), C, STD, Threshold 1",     "BPM",  "Nel",  "2",    "2",    "2",    "1",    }
 { TMIT_T2,      "BPM, Bay $(BAY), C, STD, Threshold 2",     "BPM",  "Nel",  "2",    "2",    "2",    "2",    }
@@ -71,20 +59,8 @@ file "thr.template" { pattern
 
 { X_T0_ALT,     "BPM, Bay $(BAY), X, ALT, Threshold 0",     "BPM",  "mm",   "2",    "0",    "3",    "0",    }
 { X_T1_ALT,     "BPM, Bay $(BAY), X, ALT, Threshold 1",     "BPM",  "mm",   "2",    "0",    "3",    "1",    }
-{ X_T2_ALT,     "BPM, Bay $(BAY), X, ALT, Threshold 2",     "BPM",  "mm",   "2",    "0",    "3",    "2",    }
-{ X_T3_ALT,     "BPM, Bay $(BAY), X, ALT, Threshold 3",     "BPM",  "mm",   "2",    "0",    "3",    "3",    }
-{ X_T4_ALT,     "BPM, Bay $(BAY), X, ALT, Threshold 4",     "BPM",  "mm",   "2",    "0",    "3",    "4",    }
-{ X_T5_ALT,     "BPM, Bay $(BAY), X, ALT, Threshold 5",     "BPM",  "mm",   "2",    "0",    "3",    "5",    }
-{ X_T6_ALT,     "BPM, Bay $(BAY), X, ALT, Threshold 6",     "BPM",  "mm",   "2",    "0",    "3",    "6",    }
-{ X_T7_ALT,     "BPM, Bay $(BAY), X, ALT, Threshold 7",     "BPM",  "mm",   "2",    "0",    "3",    "7",    }
 { Y_T0_ALT,     "BPM, Bay $(BAY), Y, ALT, Threshold 0",     "BPM",  "mm",   "2",    "1",    "3",    "0",    }
 { Y_T1_ALT,     "BPM, Bay $(BAY), Y, ALT, Threshold 1",     "BPM",  "mm",   "2",    "1",    "3",    "1",    }
-{ Y_T2_ALT,     "BPM, Bay $(BAY), Y, ALT, Threshold 2",     "BPM",  "mm",   "2",    "1",    "3",    "2",    }
-{ Y_T3_ALT,     "BPM, Bay $(BAY), Y, ALT, Threshold 3",     "BPM",  "mm",   "2",    "1",    "3",    "3",    }
-{ Y_T4_ALT,     "BPM, Bay $(BAY), Y, ALT, Threshold 4",     "BPM",  "mm",   "2",    "1",    "3",    "4",    }
-{ Y_T5_ALT,     "BPM, Bay $(BAY), Y, ALT, Threshold 5",     "BPM",  "mm",   "2",    "1",    "3",    "5",    }
-{ Y_T6_ALT,     "BPM, Bay $(BAY), Y, ALT, Threshold 6",     "BPM",  "mm",   "2",    "1",    "3",    "6",    }
-{ Y_T7_ALT,     "BPM, Bay $(BAY), Y, ALT, Threshold 7",     "BPM",  "mm",   "2",    "1",    "3",    "7",    }
 { TMIT_T0_ALT,  "BPM, Bay $(BAY), C, ALT, Threshold 0",     "BPM",  "Nel",  "2",    "2",    "3",    "0",    }
 { TMIT_T1_ALT,  "BPM, Bay $(BAY), C, ALT, Threshold 1",     "BPM",  "Nel",  "2",    "2",    "3",    "1",    }
 { TMIT_T2_ALT,  "BPM, Bay $(BAY), C, ALT, Threshold 2",     "BPM",  "Nel",  "2",    "2",    "3",    "2",    }
