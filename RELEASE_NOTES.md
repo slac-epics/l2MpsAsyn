@@ -3,6 +3,9 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __R2.11.0__: 2022-05-03 J. Mock
+  * Build against l2Mps R2.5.0 to change how idle table is initialized
+
 * __R2.10.2__: 2022-04-14 J. Mock
   * Remove from mps_bpm.substitutions all thresholds that are not loaded in FW:
       Any X > T1
