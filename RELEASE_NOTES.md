@@ -3,6 +3,10 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __R3.11.0__: 2022-05-03 J. Mock
+  * Build against l2Mps R3.8.0 to change how idle tables are initialized.
+
+
 * __R3.10.1__: 2022-04-18 J. Mock
   * Fix IDLE table Enable type to be UInt32Digital everywhere - functionality was 
     originally with float64 type in l2MpsAsynApp/src/drvL2MPSASYN.cpp
