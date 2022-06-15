@@ -3,6 +3,9 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __R2.12.0__: 2022-06-15 J. Mock
+  * Make MPS_EN PV autosaved
+
 * __R2.11.0__: 2022-05-03 J. Mock
   * Build against l2Mps R2.5.0 to change how idle table is initialized
 
