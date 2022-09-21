@@ -3,6 +3,11 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __R2.13.0__: 2022-09-21 J. Mock
+  * Add new SALT diagnostic registers: `MpsTxPktPeriod`, `MpsRxPktPeriod`, `MpsTxPktPeriodMax`,
+    `MpsRxPktPeriodMax`, `MpsTxPktPeriodMin`, `MpsRxPktPeriodMin`, `DiagnosticStrbCnt`,
+    `MpsPllLockCnt`, `MpsTxEofeSentCnt`, and `MpsRxErrDetCnt`.
+
 * __R2.12.0__: 2022-06-15 J. Mock
   * Make MPS_EN PV autosaved
 
