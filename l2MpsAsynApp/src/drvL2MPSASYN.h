@@ -140,6 +140,16 @@ struct mps_infoParam_t
     int                 txLinkUpCnt;
     std::vector<int>    rxLinkUp;
     std::vector<int>    rxLinkUpCnt;
+    int                 txPktPeriod;
+    int                 txPktPeriodMin;
+    int                 txPktPeriodMax;
+    std::vector<int>    rxPktPeriod;
+    std::vector<int>    rxPktPeriodMin;
+    std::vector<int>    rxPktPeriodMax;
+    int                 diagStrbCnt;
+    int                 pllLockCnt;
+    int                 txEofeSentCnt;
+    std::vector<int>    rxErrDetCnt;
     int                 mpsSlot;
     int                 appType;
     int                 pllLocked;

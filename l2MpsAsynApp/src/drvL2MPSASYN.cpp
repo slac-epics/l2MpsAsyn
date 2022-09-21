@@ -140,6 +140,12 @@ void L2MPS::updateMpsParametrs(mps_infoData_t info)
     updateIntegerParam( paramListMpsBase, mpsInfoParams.txLinkUpCnt,      info.txLinkUpCnt      );
     updateIntegerParam( paramListMpsBase, mpsInfoParams.rollOverEn,       info.rollOverEn       );
     updateIntegerParam( paramListMpsBase, mpsInfoParams.txPktSentCnt,     info.txPktSentCnt     );
+    updateIntegerParam( paramListMpsBase, mpsInfoParams.txPktPeriod,      info.txPktPeriod      );
+    updateIntegerParam( paramListMpsBase, mpsInfoParams.txPktPeriodMin,   info.txPktPeriodMin   );
+    updateIntegerParam( paramListMpsBase, mpsInfoParams.txPktPeriodMax,   info.txPktPeriodMax   );
+    updateIntegerParam( paramListMpsBase, mpsInfoParams.diagStrbCnt,      info.diagStrbCnt      );
+    updateIntegerParam( paramListMpsBase, mpsInfoParams.pllLockCnt,       info.pllLockCnt       );
+    updateIntegerParam( paramListMpsBase, mpsInfoParams.txEofeSentCnt,    info.txEofeSentCnt    );
 
     updateStringParam( paramListMpsBase, mpsInfoParams.appType,           info.appType );
 
@@ -151,10 +157,14 @@ void L2MPS::updateMpsParametrs(mps_infoData_t info)
     updateUIntDigitalParam( paramListMpsBase, mpsInfoParams.mpsSlot,     info.mpsSlot     );
     updateUIntDigitalParam( paramListMpsBase, mpsInfoParams.pllLocked,   info.pllLocked   );
 
-    updateParamArray( PARAM_TYPE_INT, paramListMpsBase, mpsInfoParams.lastMsgByte,  info.lastMsgByte  );
-    updateParamArray( PARAM_TYPE_DIG, paramListMpsBase, mpsInfoParams.rxLinkUp,     info.rxLinkUp     );
-    updateParamArray( PARAM_TYPE_INT, paramListMpsBase, mpsInfoParams.rxLinkUpCnt,  info.rxLinkUpCnt  );
-    updateParamArray( PARAM_TYPE_INT, paramListMpsBase, mpsInfoParams.rxPktRcvdCnt, info.rxPktRcvdCnt );
+    updateParamArray( PARAM_TYPE_INT, paramListMpsBase, mpsInfoParams.lastMsgByte,    info.lastMsgByte    );
+    updateParamArray( PARAM_TYPE_DIG, paramListMpsBase, mpsInfoParams.rxLinkUp,       info.rxLinkUp       );
+    updateParamArray( PARAM_TYPE_INT, paramListMpsBase, mpsInfoParams.rxLinkUpCnt,    info.rxLinkUpCnt    );
+    updateParamArray( PARAM_TYPE_INT, paramListMpsBase, mpsInfoParams.rxPktRcvdCnt,   info.rxPktRcvdCnt   );
+    updateParamArray( PARAM_TYPE_INT, paramListMpsBase, mpsInfoParams.rxPktPeriod,    info.rxPktPeriod    );
+    updateParamArray( PARAM_TYPE_INT, paramListMpsBase, mpsInfoParams.rxPktPeriodMin, info.rxPktPeriodMin );
+    updateParamArray( PARAM_TYPE_INT, paramListMpsBase, mpsInfoParams.rxPktPeriodMax, info.rxPktPeriodMax );
+    updateParamArray( PARAM_TYPE_INT, paramListMpsBase, mpsInfoParams.rxErrDetCnt,    info.rxErrDetCnt    );
 
     callParamCallbacks(paramListMpsBase);
 }
@@ -288,6 +298,24 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
         createParam(2, "TX_PKT_SENT_CNT", asynParamInt32, &index);
         mpsInfoParams.txPktSentCnt = index;
 
+        createParam(2, "TX_PKT_PERIOD", asynParamInt32, &index);
+        mpsInfoParams.txPktPeriod = index;
+
+        createParam(2, "TX_PKT_PERIOD_MIN", asynParamInt32, &index);
+        mpsInfoParams.txPktPeriodMin = index;
+
+        createParam(2, "TX_PKT_PERIOD_MAX", asynParamInt32, &index);
+        mpsInfoParams.txPktPeriodMax = index;
+
+        createParam(2, "DIAG_STRB_CNT", asynParamInt32, &index);
+        mpsInfoParams.diagStrbCnt = index;
+
+        createParam(2, "PLL_LOCK_CNT", asynParamInt32, &index);
+        mpsInfoParams.pllLockCnt = index;
+
+        createParam(2, "TX_EOFE_SENT_CNT", asynParamInt32, &index);
+        mpsInfoParams.txEofeSentCnt = index;
+
         // String variables
         createParam(2, "APP_TYPE", asynParamOctet, &index);
         mpsInfoParams.appType = index;
@@ -363,6 +391,58 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
                 paramName << "RX_PKT_RCV_CNT_" << i;
                 createParam(2, paramName.str().c_str(), asynParamInt32, &index);
                 mpsInfoParams.rxPktRcvdCnt.push_back(index);
+            }
+        }
+
+std::size_t rxPktPeriodSize = node_->getRxPktPeriodSize();
+        if (rxPktPeriodSize > 0)
+        {
+            std::stringstream paramName;
+            for (std::size_t i {0}; i < rxPktPeriodSize; ++i)
+            {
+                paramName.str("");
+                paramName << "RX_PKT_PERIOD_" << i;
+                createParam(paramListMpsBase, paramName.str().c_str(), asynParamInt32, &index);
+                mpsInfoParams.rxPktPeriod.push_back(index);
+            }
+        }
+
+        std::size_t rxPktPeriodMinSize = node_->getRxPktPeriodMinSize();
+        if (rxPktPeriodMinSize > 0)
+        {
+            std::stringstream paramName;
+            for (std::size_t i {0}; i < rxPktPeriodMinSize; ++i)
+            {
+                paramName.str("");
+                paramName << "RX_PKT_PERIOD_MIN_" << i;
+                createParam(paramListMpsBase, paramName.str().c_str(), asynParamInt32, &index);
+                mpsInfoParams.rxPktPeriodMin.push_back(index);
+            }
+        }
+
+        std::size_t rxPktPeriodMaxSize = node_->getRxPktPeriodMaxSize();
+        if (rxPktPeriodMaxSize > 0)
+        {
+            std::stringstream paramName;
+            for (std::size_t i {0}; i < rxPktPeriodMaxSize; ++i)
+            {
+                paramName.str("");
+                paramName << "RX_PKT_PERIOD_MAX_" << i;
+                createParam(paramListMpsBase, paramName.str().c_str(), asynParamInt32, &index);
+                mpsInfoParams.rxPktPeriodMax.push_back(index);
+            }
+        }
+
+        std::size_t rxErrDetCntSize = node_->getRxErrDetCntSize();
+        if (rxErrDetCntSize > 0)
+        {
+            std::stringstream paramName;
+            for (std::size_t i {0}; i < rxErrDetCntSize; ++i)
+            {
+                paramName.str("");
+                paramName << "RX_ERR_DET_CNT_" << i;
+                createParam(paramListMpsBase, paramName.str().c_str(), asynParamInt32, &index);
+                mpsInfoParams.rxErrDetCnt.push_back(index);
             }
         }
 
