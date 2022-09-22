@@ -3,6 +3,11 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __R2.13.1__: 2022-09-21 J. Mock
+  * Build against l2Mps 2.6.1 to fix a bug in register address names for SALT diagnostics
+  * Remove TMIT ALT threshold PVs - TMIT is not building ALT tables anymore
+  * Remove X / Y Idle threshold PVs - X/Y no longer building IDL table
+
 * __R2.13.0__: 2022-09-21 J. Mock
   * Add new SALT diagnostic registers: `MpsTxPktPeriod`, `MpsRxPktPeriod`, `MpsTxPktPeriodMax`,
     `MpsRxPktPeriodMax`, `MpsTxPktPeriodMin`, `MpsRxPktPeriodMin`, `DiagnosticStrbCnt`,
