@@ -17,8 +17,6 @@ file "RegRO.template" { pattern
 ### Tables enable PVs ###
 file "Reg1BitRW.template" { pattern
 { R,            DESC,                               PARAM,              ADDR,       ZNAM,           ONAM        }
-{ X_IDL_EN,     "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_0,       "$(BAY)",   "Disabled",     "Enabled"   }
-{ Y_IDL_EN,     "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_1,       "$(BAY)",   "Disabled",     "Enabled"   }
 { TMIT_IDL_EN,  "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_2,       "$(BAY)",   "Disabled",     "Enabled"   }
 }
 
@@ -26,7 +24,6 @@ file "Reg1BitRO.template" { pattern
 { R,            DESC,                               PARAM,              ADDR,       ZNAM,           ONAM        }
 { X_ALT_EN,     "Bay $(BAY) ALT table enabled",     BPM_ALTEN_0,        "$(BAY)",   "Disabled",     "Enabled"   }
 { Y_ALT_EN,     "Bay $(BAY) ALT table enabled",     BPM_ALTEN_1,        "$(BAY)",   "Disabled",     "Enabled"   }
-{ TMIT_ALT_EN,  "Bay $(BAY) ALT table enabled",     BPM_ALTEN_2,        "$(BAY)",   "Disabled",     "Enabled"   }
 
 { X_LC1_EN,     "Bay $(BAY) LCLS1 table enabled",   BPM_LCLS1EN_0,      "$(BAY)",   "Disabled",     "Enabled"   }
 { Y_LC1_EN,     "Bay $(BAY) LCLS1 table enabled",   BPM_LCLS1EN_1,      "$(BAY)",   "Disabled",     "Enabled"   }
@@ -40,8 +37,6 @@ file "thr.template" { pattern
 { Y_T0_LC1,     "BPM, Bay $(BAY), Y, LCLS1, Threshold",     "BPM",  "mm",   "2",    "1",    "0",    "0",    }
 { TMIT_T0_LC1,  "BPM, Bay $(BAY), C, LCLS1, Threshold",     "BPM",  "Nel",  "2",    "2",    "0",    "0",    }
 
-{ X_T0_IDL,     "BPM, Bay $(BAY), X, IDLE, Threshold",      "BPM",  "mm",   "2",    "0",    "1",    "0",    }
-{ Y_T0_IDL,     "BPM, Bay $(BAY), Y, IDLE, Threshold",      "BPM",  "mm",   "2",    "1",    "1",    "0",    }
 { TMIT_T0_IDL,  "BPM, Bay $(BAY), C, IDLE, Threshold",      "BPM",  "Nel",  "2",    "2",    "1",    "0",    }
 
 { X_T0,         "BPM, Bay $(BAY), X, STD, Threshold 0",     "BPM",  "mm",   "2",    "0",    "2",    "0",    }
@@ -61,14 +56,6 @@ file "thr.template" { pattern
 { X_T1_ALT,     "BPM, Bay $(BAY), X, ALT, Threshold 1",     "BPM",  "mm",   "2",    "0",    "3",    "1",    }
 { Y_T0_ALT,     "BPM, Bay $(BAY), Y, ALT, Threshold 0",     "BPM",  "mm",   "2",    "1",    "3",    "0",    }
 { Y_T1_ALT,     "BPM, Bay $(BAY), Y, ALT, Threshold 1",     "BPM",  "mm",   "2",    "1",    "3",    "1",    }
-{ TMIT_T0_ALT,  "BPM, Bay $(BAY), C, ALT, Threshold 0",     "BPM",  "Nel",  "2",    "2",    "3",    "0",    }
-{ TMIT_T1_ALT,  "BPM, Bay $(BAY), C, ALT, Threshold 1",     "BPM",  "Nel",  "2",    "2",    "3",    "1",    }
-{ TMIT_T2_ALT,  "BPM, Bay $(BAY), C, ALT, Threshold 2",     "BPM",  "Nel",  "2",    "2",    "3",    "2",    }
-{ TMIT_T3_ALT,  "BPM, Bay $(BAY), C, ALT, Threshold 3",     "BPM",  "Nel",  "2",    "2",    "3",    "3",    }
-{ TMIT_T4_ALT,  "BPM, Bay $(BAY), C, ALT, Threshold 4",     "BPM",  "Nel",  "2",    "2",    "3",    "4",    }
-{ TMIT_T5_ALT,  "BPM, Bay $(BAY), C, ALT, Threshold 5",     "BPM",  "Nel",  "2",    "2",    "3",    "5",    }
-{ TMIT_T6_ALT,  "BPM, Bay $(BAY), C, ALT, Threshold 6",     "BPM",  "Nel",  "2",    "2",    "3",    "6",    }
-{ TMIT_T7_ALT,  "BPM, Bay $(BAY), C, ALT, Threshold 7",     "BPM",  "Nel",  "2",    "2",    "3",    "7",    }
 }
 
 ### Scale PVs ###
