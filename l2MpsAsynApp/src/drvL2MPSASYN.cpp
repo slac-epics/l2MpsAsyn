@@ -394,7 +394,7 @@ L2MPS::L2MPS(const char *portName, const uint16_t appId, const std::string recor
             }
         }
 
-std::size_t rxPktPeriodSize = node_->getRxPktPeriodSize();
+        std::size_t rxPktPeriodSize = node_->getRxPktPeriodSize();
         if (rxPktPeriodSize > 0)
         {
             std::stringstream paramName;
@@ -402,7 +402,7 @@ std::size_t rxPktPeriodSize = node_->getRxPktPeriodSize();
             {
                 paramName.str("");
                 paramName << "RX_PKT_PERIOD_" << i;
-                createParam(paramListMpsBase, paramName.str().c_str(), asynParamInt32, &index);
+                createParam(2, paramName.str().c_str(), asynParamInt32, &index);
                 mpsInfoParams.rxPktPeriod.push_back(index);
             }
         }
@@ -415,7 +415,7 @@ std::size_t rxPktPeriodSize = node_->getRxPktPeriodSize();
             {
                 paramName.str("");
                 paramName << "RX_PKT_PERIOD_MIN_" << i;
-                createParam(paramListMpsBase, paramName.str().c_str(), asynParamInt32, &index);
+                createParam(2, paramName.str().c_str(), asynParamInt32, &index);
                 mpsInfoParams.rxPktPeriodMin.push_back(index);
             }
         }
@@ -428,7 +428,7 @@ std::size_t rxPktPeriodSize = node_->getRxPktPeriodSize();
             {
                 paramName.str("");
                 paramName << "RX_PKT_PERIOD_MAX_" << i;
-                createParam(paramListMpsBase, paramName.str().c_str(), asynParamInt32, &index);
+                createParam(2, paramName.str().c_str(), asynParamInt32, &index);
                 mpsInfoParams.rxPktPeriodMax.push_back(index);
             }
         }
@@ -441,7 +441,7 @@ std::size_t rxPktPeriodSize = node_->getRxPktPeriodSize();
             {
                 paramName.str("");
                 paramName << "RX_ERR_DET_CNT_" << i;
-                createParam(paramListMpsBase, paramName.str().c_str(), asynParamInt32, &index);
+                createParam(2, paramName.str().c_str(), asynParamInt32, &index);
                 mpsInfoParams.rxErrDetCnt.push_back(index);
             }
         }
