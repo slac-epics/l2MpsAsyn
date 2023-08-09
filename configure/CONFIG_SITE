@@ -46,7 +46,12 @@ STATIC_BUILD=YES
 # =============================
 # Define the archiecture versions
 # =============================
+# Note using PACKAGE_SITE_TOP from LCLS for PCDS as well
+PACKAGE_SITE_TOP=/afs/slac/g/lcls/package
+
 LINUXRT_BUILDROOT_VERSION=buildroot-2019.08
+
+# Build for any RHEL where "make" is being used
 ifdef T_A
 PKG_ARCH=$(T_A)
 endif
