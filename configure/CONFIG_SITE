@@ -47,7 +47,9 @@ STATIC_BUILD=YES
 # Define the archiecture versions
 # =============================
 LINUXRT_BUILDROOT_VERSION=buildroot-2019.08
-LINUX_VERSION=rhel6
+ifdef T_A
+PKG_ARCH=$(T_A)
+endif
 
 # ========================================================================================================================
 # Support for CPSW
