@@ -3,6 +3,12 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __R3.11.1__: 2023-08-09 M. Donadio
+  * Using yamlLoader/R2.3.5.
+  * Added support for RHEL7 and to build in both PCDS and EED.
+  * Added checks with error messages in build-time in case
+    packages are missing.
+
 * __R3.11.0__: 2022-05-03 J. Mock
   * Build against l2Mps R3.8.0 to change how idle tables are initialized.
 
