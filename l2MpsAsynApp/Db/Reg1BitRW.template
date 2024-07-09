@@ -9,6 +9,8 @@
 #   - PARAM : Asyn parameter name                                                #
 #   - ZNAM  : Label for the "0" state                                            #
 #   - ONAM  : Label for the "1" state                                            #
+#   - ZSV   : Label for the "0" severity, default none                           #
+#   - OSV   : Label for the "1" severity, default none                           #
 #================================================================================#
 
 record(bo, "$(P):$(R)") {
@@ -19,6 +21,8 @@ record(bo, "$(P):$(R)") {
     field(OUT,  "@asynMask($(PORT),$(ADDR),0x01)$(PARAM)")
     field(ZNAM, "$(ZNAM)")
     field(ONAM, "$(ONAM)")
+    field(ZSV,  "$(ZSV="")")
+    field(OSV,  "$(OSV="")")
 }
 
 record(bi, "$(P):$(R)_RBV") {
@@ -29,5 +33,7 @@ record(bi, "$(P):$(R)_RBV") {
     field(INP,  "@asynMask($(PORT),$(ADDR),0x01)$(PARAM)")
     field(ZNAM, "$(ZNAM)")
     field(ONAM, "$(ONAM)")
+    field(ZSV,  "$(ZSV="")")
+    field(OSV,  "$(OSV="")")
 }
 
