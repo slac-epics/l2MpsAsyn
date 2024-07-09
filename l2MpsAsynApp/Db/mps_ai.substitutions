@@ -1,0 +1,91 @@
+#================================================================================#
+# LCLS-II MPS Threshold PVs                                                      #
+# Macro description:                                                             #
+#   - P     : Record name prefix                                                 #
+#   - ATTR  : Fault Attribute                                                    #
+#   - PORT  : Asyn port name                                                     #
+#   - BAY   : Bay number (0 or 1)                                                #
+#   - INP   : Input channel(0-2)                                                 #
+#   - EGU   : Engineering Units                                                  #
+#================================================================================#
+### Threshold information ###
+file "RegRO.template" { pattern
+{ R,                        DESC,                                               PARAM,                  ADDR        }
+{ I0_$(ATTR)_THR_CH,        "Bay $(BAY) Ch $(INP) Int 0 Threshold channel",     BLM_THRNUM_$(INP)0,     "$(BAY)"    }
+{ I0_$(ATTR)_THR_CNT,       "Bay $(BAY) Ch $(INP) Int 0 Threshold count",       BLM_THRCNT_$(INP)0,     "$(BAY)"    }
+{ I0_$(ATTR)_THR_BYTEMAP,   "Bay $(BAY) Ch $(INP) Int 0 Threshold byte map",    BLM_BYTEMAP_$(INP)0,    "$(BAY)"    }
+{ I0_$(ATTR)_LATCHED_RAW,   "Bay $(BAY) Ch $(INP) Int 0 Latched Val",           BLM_TRIP_VALUER_$(INP)0,"$(BAY)"    }
+{ I1_$(ATTR)_THR_CH,        "Bay $(BAY) Ch $(INP) Int 1 Threshold channel",     BLM_THRNUM_$(INP)1,     "$(BAY)"    }
+{ I1_$(ATTR)_THR_CNT,       "Bay $(BAY) Ch $(INP) Int 1 Threshold count",       BLM_THRCNT_$(INP)1,     "$(BAY)"    }
+{ I1_$(ATTR)_THR_BYTEMAP,   "Bay $(BAY) Ch $(INP) Int 1 Threshold byte map",    BLM_BYTEMAP_$(INP)1,    "$(BAY)"    }
+{ I1_$(ATTR)_LATCHED_RAW,   "Bay $(BAY) Ch $(INP) Int 1 Latched Val",           BLM_TRIP_VALUER_$(INP)1,"$(BAY)"    }
+}
+
+file "RegROFloat.template" { pattern
+{ R,                     DESC,                                      EGU,     PARAM,                   ADDR          }
+{ I0_$(ATTR)_LATCHED,    "Bay $(BAY) Ch $(INP) Int 0 Latched Val",  "$(EGU)",    BLM_TRIP_VALUE_$(INP)0,  "$(BAY)"  }
+{ I1_$(ATTR)_LATCHED,    "Bay $(BAY) Ch $(INP) Int 1 Latched Val",  "$(EGU)",    BLM_TRIP_VALUE_$(INP)1,  "$(BAY)"  }
+}
+
+file "RegRO64.template" { pattern
+{ R,                DESC,                                          PARAM,                  ADDR        }
+{ I0_LATCHED_PID,   "Bay $(BAY) Ch $(INP) Int 0 Latched PID",      BLM_TRIP_PID_$(INP)0,   "$(BAY)"    }
+{ I1_LATCHED_PID,   "Bay $(BAY) Ch $(INP) Int 1 Latched PID",      BLM_TRIP_PID_$(INP)1,   "$(BAY)"    }
+}
+
+
+### Tables enable PVs ###
+file "Reg1BitRW.template" { pattern
+{ R,                        DESC,                                               PARAM,                  ADDR,       ZNAM,           ONAM,      }
+{ I0_$(ATTR)_NO_BEAM_EN,    "Bay $(BAY) Ch $(INP) Int 0 IDLE table enabled",    BLM_IDLEEN_$(INP)0,     "$(BAY)",   "Disabled",     "Enabled"  }
+{ I1_$(ATTR)_NO_BEAM_EN,    "Bay $(BAY) Ch $(INP) Int 0 IDLE table enabled",    BLM_IDLEEN_$(INP)1,     "$(BAY)",   "Disabled",     "Enabled"  }
+}
+
+file "Reg1BitRO.template" { pattern
+{ R,                     DESC,                                               PARAM,                  ADDR,       ZNAM,           ONAM,      }
+{ I0_$(ATTR)_ALT_EN,     "Bay $(BAY) Ch $(INP) Int 0 ALT table enabled",     BLM_ALTEN_$(INP)0,      "$(BAY)",   "Disabled",     "Enabled"  }
+{ I0_$(ATTR)_NC_EN,      "Bay $(BAY) Ch $(INP) Int 0 NC table enabled",      BLM_LCLS1EN_$(INP)0,    "$(BAY)",   "Disabled",     "Enabled"  }
+{ I1_$(ATTR)_ALT_EN,     "Bay $(BAY) Ch $(INP) Int 1 ALT table enabled",     BLM_ALTEN_$(INP)1,      "$(BAY)",   "Disabled",     "Enabled"  }
+{ I1_$(ATTR)_NC_EN,      "Bay $(BAY) Ch $(INP) Int 1 NC table enabled",      BLM_LCLS1EN_$(INP)1,    "$(BAY)",   "Disabled",     "Enabled"  }
+}
+
+### Threshold PVs ###
+file "thr.template" { pattern
+{ R,                   DESC,                                            APP,        EGU,          PREC,   CH,           TABLE,  THR,    }
+{ I0_$(ATTR)_T0_NC,    "Bay $(BAY) Ch $(INP) Int 0 NC, Threshold",      "BLM",      "$(EGU)",     "2",    "$(INP)0",    "0",    "0",    }
+{ I1_$(ATTR)_T0_NC,    "Bay $(BAY) Ch $(INP) Int 0 NC, Threshold",      "BLM",      "$(EGU)",     "2",    "$(INP)1",    "0",    "0",    }
+
+{ I0_$(ATTR)_NO_BEAM,  "Bay $(BAY) Ch $(INP) Int 0 IDLE, Threshold",    "BLM",      "$(EGU)",     "2",    "$(INP)0",    "1",    "0",    }
+{ I1_$(ATTR)_NO_BEAM,  "Bay $(BAY) Ch $(INP) Int 1 IDLE, Threshold",    "BLM",      "$(EGU)",     "2",    "$(INP)1",    "1",    "0",    }
+
+{ I0_$(ATTR)_T0,       "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 0",   "BLM",      "$(EGU)",     "2",    "$(INP)0",    "2",    "0",    }
+{ I0_$(ATTR)_T1,       "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 1",   "BLM",      "$(EGU)",     "2",    "$(INP)0",    "2",    "1",    }
+{ I0_$(ATTR)_T2,       "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 2",   "BLM",      "$(EGU)",     "2",    "$(INP)0",    "2",    "2",    }
+{ I0_$(ATTR)_T3,       "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 3",   "BLM",      "$(EGU)",     "2",    "$(INP)0",    "2",    "3",    }
+{ I0_$(ATTR)_T4,       "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 4",   "BLM",      "$(EGU)",     "2",    "$(INP)0",    "2",    "4",    }
+{ I0_$(ATTR)_T5,       "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 5",   "BLM",      "$(EGU)",     "2",    "$(INP)0",    "2",    "5",    }
+{ I0_$(ATTR)_T6,       "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 6",   "BLM",      "$(EGU)",     "2",    "$(INP)0",    "2",    "6",    }
+{ I0_$(ATTR)_T7,       "Bay $(BAY) Ch $(INP) Int 0 STD, Threshold 7",   "BLM",      "$(EGU)",     "2",    "$(INP)0",    "2",    "7",    }
+
+{ I1_$(ATTR)_T0,       "Bay $(BAY) Ch $(INP) Int 1 STD, Threshold 0",   "BLM",      "$(EGU)",     "2",    "$(INP)1",    "2",    "0",    }
+{ I1_$(ATTR)_T1,       "Bay $(BAY) Ch $(INP) Int 1 STD, Threshold 1",   "BLM",      "$(EGU)",     "2",    "$(INP)1",    "2",    "1",    }
+{ I1_$(ATTR)_T2,       "Bay $(BAY) Ch $(INP) Int 1 STD, Threshold 2",   "BLM",      "$(EGU)",     "2",    "$(INP)1",    "2",    "2",    }
+{ I1_$(ATTR)_T3,       "Bay $(BAY) Ch $(INP) Int 1 STD, Threshold 3",   "BLM",      "$(EGU)",     "2",    "$(INP)1",    "2",    "3",    }
+{ I1_$(ATTR)_T4,       "Bay $(BAY) Ch $(INP) Int 1 STD, Threshold 4",   "BLM",      "$(EGU)",     "2",    "$(INP)1",    "2",    "4",    }
+{ I1_$(ATTR)_T5,       "Bay $(BAY) Ch $(INP) Int 1 STD, Threshold 5",   "BLM",      "$(EGU)",     "2",    "$(INP)1",    "2",    "5",    }
+{ I1_$(ATTR)_T6,       "Bay $(BAY) Ch $(INP) Int 1 STD, Threshold 6",   "BLM",      "$(EGU)",     "2",    "$(INP)1",    "2",    "6",    }
+{ I1_$(ATTR)_T7,       "Bay $(BAY) Ch $(INP) Int 1 STD, Threshold 7",   "BLM",      "$(EGU)",     "2",    "$(INP)1",    "2",    "7",    }
+}
+
+### Scale PVs ###
+file "scale.template" { pattern
+{ R,            DESC,                                   APP,        EGU,       PREC,       CH,           SCALE_SLOPE_PV,   SCALE_OFFSET_PV,    SCAN        }
+{ I0_$(ATTR),   "Bay $(BAY) Ch $(INP) Int 0 Scale ",    "BLM",      "$(EGU)",  "4",        "$(INP)0",    "$(P):I0_FWSLO",  "$(P):I0_FWOFF",    "1 second"  }
+{ I1_$(ATTR),   "Bay $(BAY) Ch $(INP) Int 1 Scale ",    "BLM",      "$(EGU)",  "4",        "$(INP)1",    "$(P):I0_FWSLO",  "$(P):I0_FWOFF",    "1 second"  }
+}
+
+file "mps_scale_factor.db" { pattern
+{ PROPERTY,         EGU,       PREC, SLOPE, OFFSET }
+{ I0_$(ATTR),          "$(EGU)",      "4",  1,     0      }
+{ I1_$(ATTR),          "$(EGU)",      "4",  1,     0      }
+}
