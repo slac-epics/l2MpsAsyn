@@ -82,6 +82,13 @@ void L2MPS::updateIntegerParam(int list, int index, std::pair<bool, T> p)
 }
 
 template<typename T>
+void L2MPS::updateInteger64Param(int list, int index, std::pair<bool, T> p)
+{
+    updateAlarmParam( list, index, p.first );
+    setInteger64Param( list, index, static_cast<int64_t>(p.second) );
+}
+
+template<typename T>
 void L2MPS::updateStringParam(int list, int index, std::pair<bool, T> p)
 {
     updateAlarmParam( list, index, p.first );
@@ -157,6 +164,7 @@ void L2MPS::updateMpsParametrs(mps_infoData_t info)
 
     updateUIntDigitalParam( paramListMpsBase, mpsInfoParams.enable,      info.enable      );
     updateUIntDigitalParam( paramListMpsBase, mpsInfoParams.lcls1Mode,   info.lcls1Mode   );
+    updateUIntDigitalParam( paramListMpsBase, mpsInfoParams.rstTripValue,info.rstTripValue);
     updateUIntDigitalParam( paramListMpsBase, mpsInfoParams.digitalEn,   info.digitalEn   );
     updateUIntDigitalParam( paramListMpsBase, mpsInfoParams.lastMsgLcls, info.lastMsgLcls );
     updateUIntDigitalParam( paramListMpsBase, mpsInfoParams.txLinkUp,    info.txLinkUp    );
@@ -212,14 +220,17 @@ void L2MPS::updateAppParameters(int bay, T data)
             thr_chInfoData_t  infoData  = (dataIt->second).info;
             thr_chInfoParam_t infoParam = (paramIt->second).info;
 
-            setIntegerParam(        bay,    infoParam.ch,           infoData.ch          );
-            updateIntegerParam(     bay,    infoParam.count,        infoData.count       );
-            updateIntegerParam(     bay,    infoParam.byteMap,      infoData.byteMap     );
-            updateUIntDigitalParam( bay,    infoParam.idleEn,       infoData.idleEn      );
-            updateUIntDigitalParam( bay,    infoParam.altEn,        infoData.altEn       );
-            updateUIntDigitalParam( bay,    infoParam.lcls1En,      infoData.lcls1En     );
-            setDoubleParam(         bay,    infoParam.scaleSlope,   infoData.scaleSlope  );
-            setDoubleParam(         bay,    infoParam.scaleOffset,  infoData.scaleOffset );
+            setIntegerParam(        bay,  infoParam.ch,              infoData.ch             );
+            updateIntegerParam(     bay,  infoParam.count,           infoData.count          );
+            updateIntegerParam(     bay,  infoParam.byteMap,         infoData.byteMap        );
+            updateUIntDigitalParam( bay,  infoParam.idleEn,          infoData.idleEn         );
+            updateUIntDigitalParam( bay,  infoParam.altEn,           infoData.altEn          );
+            updateUIntDigitalParam( bay,  infoParam.lcls1En,         infoData.lcls1En        );
+            setDoubleParam(         bay,  infoParam.scaleSlope,      infoData.scaleSlope     );
+            setDoubleParam(         bay,  infoParam.scaleOffset,     infoData.scaleOffset    );
+            updateIntegerParam(     bay,  infoParam.mpsTripValueRaw, infoData.mpsTripValueRaw);
+            updateDoubleParam(      bay,  infoParam.mpsTripValue,    infoData.mpsTripValue   );
+            updateInteger64Param(   bay,  infoParam.mpsTripPulseId,  infoData.mpsTripPulseId );
 
             thr_chData_t  data_thr  = (dataIt->second).data;
             thr_chParam_t param_thr = (paramIt->second).data;
@@ -254,12 +265,13 @@ L2MPS::L2MPS(const char *portName)
             portName,
             MAX_SIGNALS,
             asynInt32Mask | asynDrvUserMask | asynOctetMask | \
-            asynUInt32DigitalMask | asynFloat64Mask,                                    // Interface Mask
-            asynInt32Mask | asynUInt32DigitalMask | asynFloat64Mask | asynOctetMask,    // Interrupt Mask
-            ASYN_MULTIDEVICE | ASYN_CANBLOCK,                                           // asynFlags
-            1,                                                                          // Autoconnect
-            0,                                                                          // Default priority
-            0),                                                                         // Default stack size
+            asynUInt32DigitalMask | asynFloat64Mask | asynInt64Mask,        // Interface Mask
+            asynInt32Mask | asynUInt32DigitalMask | asynFloat64Mask | \
+            asynOctetMask | asynInt64Mask,                                  // Interrupt Mask
+            ASYN_MULTIDEVICE | ASYN_CANBLOCK,                               // asynFlags
+            1,                                                              // Autoconnect
+            0,                                                              // Default priority
+            0),                                                             // Default stack size
         driverName_(DRIVER_NAME),                   // Driver name
         portName_(portName),                        // Port name
         node_(IMpsNode::create(cpswGetRoot())),     // MPS node object
@@ -384,6 +396,9 @@ L2MPS::L2MPS(const char *portName)
 
         createParam(paramListMpsBase, "LCLS1_MODE", asynParamUInt32Digital, &index);
         mpsInfoParams.lcls1Mode = index;
+
+        createParam(paramListMpsBase, "RST_TRIP_VAL", asynParamUInt32Digital, &index);
+        mpsInfoParams.rstTripValue = index;
 
         createParam(paramListMpsBase, "DIGITAL_EN", asynParamUInt32Digital, &index);
         mpsInfoParams.digitalEn = index;
@@ -643,6 +658,15 @@ void L2MPS::InitBpmMaps(const int bay)
             thrParam.info.scaleOffset = index;
             fMapBpmWScaleOffset.insert( std::make_pair( index, std::make_pair( &IMpsBpm::setScaleOffset, thisBpmCh ) ) );
 
+            createParam(bay, ("BPM_TRIP_VALUE" + pName.str()).c_str(), asynParamFloat64, &index);
+            thrParam.info.mpsTripValue = index;
+
+            createParam(bay, ("BPM_TRIP_VALUER" + pName.str()).c_str(), asynParamInt32, &index);
+            thrParam.info.mpsTripValueRaw = index;
+
+            createParam(bay, ("BPM_TRIP_PID" + pName.str()).c_str(), asynParamInt64, &index);
+            thrParam.info.mpsTripPulseId = index;
+
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
             {
@@ -728,6 +752,15 @@ void L2MPS::InitBlenMaps(const int bay)
             thrParam.info.scaleOffset = index;
             fMapBlenWScaleOffset.insert( std::make_pair( index, std::make_pair( &IMpsBlen::setScaleOffset, thisBlenCh ) ) );
 
+            createParam(bay, ("BLEN_TRIP_VALUE" + pName.str()).c_str(), asynParamFloat64, &index);
+            thrParam.info.mpsTripValue = index;
+
+            createParam(bay, ("BLEN_TRIP_VALUER" + pName.str()).c_str(), asynParamInt32, &index);
+            thrParam.info.mpsTripValueRaw = index;
+
+            createParam(bay, ("BLEN_TRIP_PID" + pName.str()).c_str(), asynParamInt64, &index);
+            thrParam.info.mpsTripPulseId = index;
+
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
             {
@@ -812,6 +845,15 @@ void L2MPS::InitBcmMaps(const int bay)
             createParam(bay, ("BCM_SCALEOFFSET" + pName.str()).c_str(), asynParamFloat64, &index);
             thrParam.info.scaleOffset = index;
             fMapBcmWScaleOffset.insert( std::make_pair( index, std::make_pair( &IMpsBcm::setScaleOffset, thisBcmCh ) ) );
+
+            createParam(bay, ("BCM_TRIP_VALUE" + pName.str()).c_str(), asynParamFloat64, &index);
+            thrParam.info.mpsTripValue = index;
+
+            createParam(bay, ("BCM_TRIP_VALUER" + pName.str()).c_str(), asynParamInt32, &index);
+            thrParam.info.mpsTripValueRaw = index;
+
+            createParam(bay, ("BCM_TRIP_PID" + pName.str()).c_str(), asynParamInt64, &index);
+            thrParam.info.mpsTripPulseId = index;
 
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
@@ -899,6 +941,15 @@ void L2MPS::InitBlmMaps(const int bay)
             createParam(bay, ("BLM_SCALEOFFSET" + pName.str()).c_str(), asynParamFloat64, &index);
             thrParam.info.scaleOffset = index;
             fMapBlmWScaleOffset.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setScaleOffset, thisBlmCh ) ) );
+
+            createParam(bay, ("BLM_TRIP_VALUE" + pName.str()).c_str(), asynParamFloat64, &index);
+            thrParam.info.mpsTripValue = index;
+
+            createParam(bay, ("BLM_TRIP_VALUER" + pName.str()).c_str(), asynParamInt32, &index);
+            thrParam.info.mpsTripValueRaw = index;
+
+            createParam(bay, ("BLM_TRIP_PID" + pName.str()).c_str(), asynParamInt64, &index);
+            thrParam.info.mpsTripPulseId = index;
 
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
@@ -1034,6 +1085,11 @@ asynStatus L2MPS::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epi
             else if (function == mpsInfoParams.rstPll)
             {
                 ret = node_->resetSaltPll();
+            }
+            else if (function == mpsInfoParams.rstTripValue)
+            {
+                ret = node_->resetTripVals(1);
+                ret = node_->resetTripVals(0);
             }
             else
             {

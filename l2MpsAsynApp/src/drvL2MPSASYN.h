@@ -123,6 +123,7 @@ struct mps_infoParam_t
     int                 version;
     int                 enable;
     int                 lcls1Mode;
+    int                 rstTripValue;
     int                 byteCount;
     int                 digitalEn;
     int                 beamDestMask;
@@ -194,6 +195,9 @@ struct thr_chInfoParam_t
     int  lcls1En;
     int  scaleSlope;
     int  scaleOffset;
+    int  mpsTripValue;
+    int  mpsTripValueRaw;
+    int  mpsTripPulseId;
 };
 
 // Threshold parameter (information + table data) data type
@@ -268,6 +272,8 @@ class L2MPS : public asynPortDriver {
         void updateAlarmParam(int list, int index, bool valid);
         template<typename T>
         void updateIntegerParam(int list, int index, std::pair<bool, T> p);
+        template<typename T>
+        void updateInteger64Param(int list, int index, std::pair<bool, T> p);
         template<typename T>
         void updateStringParam(int list, int index, std::pair<bool, T> p);
         template<typename T>
