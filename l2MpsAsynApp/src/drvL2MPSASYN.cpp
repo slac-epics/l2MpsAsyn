@@ -55,9 +55,6 @@
 
 #include "yamlLoader.h"
 
-// Default values
-//std::string L2MPS::mpsConfigrationPath = "/afs/slac/g/lcls/physics/mps_configuration/current/";
-
 // Update single parameter status and severity
 void L2MPS::updateAlarmParam(int list, int index, bool valid)
 {
@@ -1321,47 +1318,9 @@ static void configCallFunc(const iocshArgBuf *args)
 }
 // - L2MPSASYNConfig //
 
-// + setMpsConfigurationPath //
-/*
-extern "C" int setMpsConfigurationPath(const char *path)
-{
-    if ( ( ! path ) || ( path[0] == '\0' ) )
-    {
-        fprintf( stderr, "Error: Path to MPS configuration is empty\n" );
-        fprintf( stderr, "Keeping default value (%s).\n", L2MPS::mpsConfigrationPath.c_str() );
-        return asynError;
-    }
-    else
-    {
-        L2MPS::mpsConfigrationPath = path;
-
-        if ( path[ strlen( path ) - 1 ] != '/' )
-            L2MPS::mpsConfigrationPath += '/';
-
-        return asynSuccess;
-    }
-}
-
-static const iocshArg mpsConfigurationPathArg0 = { "Path", iocshArgString };
-
-static const iocshArg * const mpsConfigurationPathArgs[] =
-{
-    &mpsConfigurationPathArg0
-};
-
-static const iocshFuncDef mpsConfigurationPathFuncDef = { "setMpsConfigurationPath", 1, mpsConfigurationPathArgs };
-
-static void mpsConfigurationPathCallFunc(const iocshArgBuf *args)
-{
-    setMpsConfigurationPath(args[0].sval);
-}
-// - setMpsConfigurationPath //
-*/
-
 void drvL2MPSASYNRegister(void)
 {
     iocshRegister( &configFuncDef,               configCallFunc               );
-    //iocshRegister( &mpsConfigurationPathFuncDef, mpsConfigurationPathCallFunc );
 }
 
 extern "C" {

@@ -290,9 +290,6 @@ class L2MPS : public asynPortDriver {
         template<typename T>
         void updateAppParameters(int bay, T data);
 
-        // Default parameters, which can be changed from the IOC shell
-        //static std::string mpsConfigrationPath;     // Default location of the MPS configuration
-
     private:
         const char *driverName_;        // This driver name
         const char *portName_;          // Port name (passed from st.cmd)
