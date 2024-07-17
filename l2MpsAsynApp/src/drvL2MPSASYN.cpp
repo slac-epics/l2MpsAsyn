@@ -56,7 +56,7 @@
 #include "yamlLoader.h"
 
 // Default values
-std::string L2MPS::mpsConfigrationPath = "/afs/slac/g/lcls/physics/mps_configuration/current/";
+//std::string L2MPS::mpsConfigrationPath = "/afs/slac/g/lcls/physics/mps_configuration/current/";
 
 // Update single parameter status and severity
 void L2MPS::updateAlarmParam(int list, int index, bool valid)
@@ -260,7 +260,7 @@ void L2MPS::updateAppParameters(int bay, T data)
     }
 }
 
-L2MPS::L2MPS(const char *portName)
+L2MPS::L2MPS(const char *portName, const uint16_t appIdSet, const std::string recordPrefixMps)
     : asynPortDriver(
             portName,
             MAX_SIGNALS,
@@ -275,7 +275,8 @@ L2MPS::L2MPS(const char *portName)
         driverName_(DRIVER_NAME),                   // Driver name
         portName_(portName),                        // Port name
         node_(IMpsNode::create(cpswGetRoot())),     // MPS node object
-        mpsLinkNode(node_->getMpsLinkNode())        // Link node object
+        mpsLinkNode(node_->getMpsLinkNode()),       // Link node object
+        recordPrefixMps_(recordPrefixMps)           // MPS record prefix, used for manager
 {
     try
     {
@@ -296,22 +297,9 @@ L2MPS::L2MPS(const char *portName)
         if ((!crateIdValid) | (!slotNumberValid))
             throw std::runtime_error("Error while reading the crateID and Slot number.");
 
-        // - Application configuration folder
-        char appConfigurationPath[256];
-        sprintf(appConfigurationPath, "%s/app_db/%s/%04X/%02X/", mpsConfigrationPath.c_str(), cpuName, crateId, slotNumber);
-
-        // - EPICS database file
-        std::string recordFile = std::string(appConfigurationPath) + "mps.db";
-
-
-        // - Firmware configuration file
-        std::string configurationFile = std::string(appConfigurationPath) + "config.yaml";
-
-        // - Environmental setting file
-        std::string envFile = std::string(appConfigurationPath) + "mps.env";
-
-        // Load application configuration
-        node_->loadConfigFile(configurationFile);
+        // Set the AppID
+        printf("Setting App ID for \'%s to %i\'...\n", recordPrefixMps_.c_str(),appIdSet);
+        node_->setAppId(appIdSet);
 
         // Get the application type
         std::string appType_ = node_->getAppType().second;
@@ -569,11 +557,6 @@ L2MPS::L2MPS(const char *portName)
             }
         }
 
-        // Load the EPICS database
-        printf("Loading MPS EPICS database file \'%s\'...\n", recordFile.c_str());
-        std::string dbParams = ",PORT=" + std::string(portName_);
-        dbLoadRecords(recordFile.c_str(), dbParams.c_str());
-
         // Start polling threads
         auto fp = std::bind(&L2MPS::updateMpsParametrs, this, std::placeholders::_1);
         node_->startPollThread(1, fp);
@@ -605,10 +588,6 @@ L2MPS::L2MPS(const char *portName)
                 ; // The Digital AMC does not contain any settings. So, there it not polling thread for it.
             }
         }
-
-        // Load the environmental variables
-        std::string envSetCmd = std::string("< ") + envFile;
-        iocshCmd(envSetCmd.c_str());
     }
     catch (CPSWError &e)
     {
@@ -1317,28 +1296,33 @@ asynStatus L2MPS::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
 }
 
 // + L2MPSASYNConfig //
-extern "C" int L2MPSASYNConfig(const char *portName)
+extern "C" int L2MPSASYNConfig(const char *portName, const uint16_t appIdSet, const std::string recordPrefixMps)
 {
-    new L2MPS(portName);
+    new L2MPS(portName, appIdSet, recordPrefixMps);
 
     return asynSuccess;
 }
 
 static const iocshArg confArg0 = { "portName", iocshArgString };
+static const iocshArg confArg1 = { "appId", iocshArgInt };
+static const iocshArg confArg2 = { "mpsPrefix", iocshArgString };
 
 static const iocshArg * const confArgs[] = {
-    &confArg0
+    &confArg0,
+    &confArg1,
+    &confArg2
 };
 
-static const iocshFuncDef configFuncDef = { "L2MPSASYNConfig", 1, confArgs };
+static const iocshFuncDef configFuncDef = { "L2MPSASYNConfig", 3, confArgs };
 
 static void configCallFunc(const iocshArgBuf *args)
 {
-    L2MPSASYNConfig(args[0].sval);
+    L2MPSASYNConfig(args[0].sval, args[1].ival,args[2].sval);
 }
 // - L2MPSASYNConfig //
 
 // + setMpsConfigurationPath //
+/*
 extern "C" int setMpsConfigurationPath(const char *path)
 {
     if ( ( ! path ) || ( path[0] == '\0' ) )
@@ -1372,11 +1356,12 @@ static void mpsConfigurationPathCallFunc(const iocshArgBuf *args)
     setMpsConfigurationPath(args[0].sval);
 }
 // - setMpsConfigurationPath //
+*/
 
 void drvL2MPSASYNRegister(void)
 {
     iocshRegister( &configFuncDef,               configCallFunc               );
-    iocshRegister( &mpsConfigurationPathFuncDef, mpsConfigurationPathCallFunc );
+    //iocshRegister( &mpsConfigurationPathFuncDef, mpsConfigurationPathCallFunc );
 }
 
 extern "C" {

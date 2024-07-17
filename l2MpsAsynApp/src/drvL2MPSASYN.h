@@ -261,7 +261,7 @@ typedef std::map<boost::any, thr_param_t, cmp> paramMap_t;
 class L2MPS : public asynPortDriver {
     public:
         // Constructor
-        L2MPS(const char *portName);
+        L2MPS(const char *portName, const uint16_t appIdSet, const std::string recordPrefixMps);
 
         // Methods that we override from asynPortDriver
         virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
@@ -291,11 +291,12 @@ class L2MPS : public asynPortDriver {
         void updateAppParameters(int bay, T data);
 
         // Default parameters, which can be changed from the IOC shell
-        static std::string mpsConfigrationPath;     // Default location of the MPS configuration
+        //static std::string mpsConfigrationPath;     // Default location of the MPS configuration
 
     private:
         const char *driverName_;        // This driver name
         const char *portName_;          // Port name (passed from st.cmd)
+        std::string recordPrefixMps_;   // Passed from st.cmd
         MpsNode     node_;              // MPS node
         boost::any  amc[numberOfBays];  // AMC application objects
         MpsLinkNode mpsLinkNode;        // Link node object (used only by LN applications)
