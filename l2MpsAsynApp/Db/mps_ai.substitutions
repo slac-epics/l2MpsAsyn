@@ -29,8 +29,8 @@ file "RegROFloat.template" { pattern
 
 file "RegRO64.template" { pattern
 { R,                DESC,                                          PARAM,                  ADDR        }
-{ I0_LATCHED_PID,   "Bay $(BAY) Ch $(INP) Int 0 Latched PID",      BLM_TRIP_PID_$(INP)0,   "$(BAY)"    }
-{ I1_LATCHED_PID,   "Bay $(BAY) Ch $(INP) Int 1 Latched PID",      BLM_TRIP_PID_$(INP)1,   "$(BAY)"    }
+{ I0_$(ATTR)_LATCHED_PID,   "Bay $(BAY) Ch $(INP) Int 0 Latched PID",      BLM_TRIP_PID_$(INP)0,   "$(BAY)"    }
+{ I1_$(ATTR)_LATCHED_PID,   "Bay $(BAY) Ch $(INP) Int 1 Latched PID",      BLM_TRIP_PID_$(INP)1,   "$(BAY)"    }
 }
 
 
