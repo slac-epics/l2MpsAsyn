@@ -15,5 +15,9 @@ record(longin, "$(P):$(R)") {
     field(PINI, "NO")
     field(DTYP, "asynInt32")
     field(INP,  "@asyn($(PORT),$(ADDR))$(PARAM)")
+    field(HIHI, "$(HIHI="")")
+    field(HHSV, "$(HHSV="")")
+    field(LOLO, "$(LOLO="")")
+    field(LLSV, "$(LLSV="")")
 }
 
