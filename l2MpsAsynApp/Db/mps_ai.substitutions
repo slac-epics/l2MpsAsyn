@@ -22,9 +22,9 @@ file "RegRO.template" { pattern
 }
 
 file "RegROFloat.template" { pattern
-{ R,                     DESC,                                      EGU,     PARAM,                   ADDR          }
-{ I0_$(ATTR)_LATCHED,    "Bay $(BAY) Ch $(INP) Int 0 Latched Val",  "$(EGU)",    BLM_TRIP_VALUE_$(INP)0,  "$(BAY)"  }
-{ I1_$(ATTR)_LATCHED,    "Bay $(BAY) Ch $(INP) Int 1 Latched Val",  "$(EGU)",    BLM_TRIP_VALUE_$(INP)1,  "$(BAY)"  }
+{ R,                     DESC,                                      EGU,       PARAM,                   ADDR      }
+{ I0_$(ATTR)_LATCHED,    "Bay $(BAY) Ch $(INP) Int 0 Latched Val",  "$(EGU)",  BLM_TRIP_VALUE_$(INP)0,  "$(BAY)"  }
+{ I1_$(ATTR)_LATCHED,    "Bay $(BAY) Ch $(INP) Int 1 Latched Val",  "$(EGU)",  BLM_TRIP_VALUE_$(INP)1,  "$(BAY)"  }
 }
 
 file "RegRO64.template" { pattern
@@ -79,13 +79,13 @@ file "thr.template" { pattern
 
 ### Scale PVs ###
 file "scale.template" { pattern
-{ R,            DESC,                                   APP,        EGU,       PREC,       CH,           SCALE_SLOPE_PV,   SCALE_OFFSET_PV,    SCAN        }
-{ I0_$(ATTR),   "Bay $(BAY) Ch $(INP) Int 0 Scale ",    "BLM",      "$(EGU)",  "4",        "$(INP)0",    "$(P):I0_FWSLO",  "$(P):I0_FWOFF",    "1 second"  }
-{ I1_$(ATTR),   "Bay $(BAY) Ch $(INP) Int 1 Scale ",    "BLM",      "$(EGU)",  "4",        "$(INP)1",    "$(P):I0_FWSLO",  "$(P):I0_FWOFF",    "1 second"  }
+{ R,            DESC,                                APP,   EGU,       PREC, CH,        SCALE_SLOPE_PV,          SCALE_OFFSET_PV,            SCAN        }
+{ I0_$(ATTR),   "Bay $(BAY) Ch $(INP) Int 0 Scale ", "BLM", "$(EGU)",  "4",  "$(INP)0", "$(P):I0_$(ATTR)_FWSLO", "$(P):I0_$(ATTR)_FWOFF",    "Passive"   }
+{ I1_$(ATTR),   "Bay $(BAY) Ch $(INP) Int 1 Scale ", "BLM", "$(EGU)",  "4",  "$(INP)1", "$(P):I0_$(ATTR)_FWSLO", "$(P):I0_$(ATTR)_FWOFF",    "Passive"   }
 }
 
 file "mps_scale_factor.db" { pattern
 { PROPERTY,         EGU,       PREC, SLOPE, OFFSET }
-{ I0_$(ATTR),          "$(EGU)",      "4",  1,     0      }
-{ I1_$(ATTR),          "$(EGU)",      "4",  1,     0      }
+{ I0_$(ATTR),       "$(EGU)",  "4",  1,     0      }
+{ I1_$(ATTR),       "$(EGU)",  "4",  1,     0      }
 }
