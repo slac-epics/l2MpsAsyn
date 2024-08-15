@@ -1,0 +1,14 @@
+#================================================================================#
+# LCLS-II MPS PV template to store string                                        #
+# Macro description:                                                             #
+#   - P     : Record name prefix                                                 #
+#   - R     : Record name                                                        #
+#================================================================================#
+
+record(ao, "$(P):$(R)") {
+    field(DESC,    "1=save thresholds, 0=error")
+    field(PINI,    "YES")
+    field(SCAN,    "Passive")
+    field(DTYP,    "Soft Channel")
+    field(VAL,     "0")
+}
