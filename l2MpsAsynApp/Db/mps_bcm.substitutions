@@ -9,6 +9,20 @@ file "RegRO.template" { pattern
 
 { CHARGE_THR_BYTEMAP,   "Bay $(BAY) Charge Threshold byte map",         BCM_BYTEMAP_0,      "$(BAY)"    }
 { DIFF_THR_BYTEMAP,     "Bay $(BAY) Difference Threshold byte map",     BCM_BYTEMAP_1,      "$(BAY)"    }
+{ CHARGE_LATCHED_RAW,   "Bay $(BAY) Charge Latched Val",                BCM_TRIP_VALUER_0,  "$(BAY)"    }
+{ DIFF_LATCHED_RAW,     "Bay $(BAY) Difference Latched Val",            BCM_TRIP_VALUER_1,  "$(BAY)"    }
+}
+
+file "RegROFloat.template" { pattern
+{ R,                  DESC,                                EGU,     PARAM,                   ADDR        }
+{ CHARGE_LATCHED,    "Bay $(BAY) Charge Latched Val",     "pC",    BCM_TRIP_VALUE_0,        "$(BAY)"    }
+{ DIFF_LATCHED,      "Bay $(BAY) Difference Latched Val", "pC",    BCM_TRIP_VALUE_1,        "$(BAY)"    }
+}
+
+file "RegRO64.template" { pattern
+{ R,                      DESC,                                 PARAM,                  ADDR        }
+{ CHARGE_LATCHED_PID,     "Bay $(BAY) Charge Latched PID",      BCM_TRIP_PID_0,         "$(BAY)"    }
+{ DIFF_LATCHED_PID,       "Bay $(BAY) Difference Latched PID",  BCM_TRIP_PID_1,         "$(BAY)"    }
 }
 
 ### Tables enable PVs ###

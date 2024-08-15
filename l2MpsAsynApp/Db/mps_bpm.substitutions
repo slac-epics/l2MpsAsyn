@@ -12,6 +12,24 @@ file "RegRO.template" { pattern
 { X_THR_BYTEMAP,    "Bay $(BAY) X Threshold byte map",  BPM_BYTEMAP_0,      "$(BAY)"    }
 { Y_THR_BYTEMAP,    "Bay $(BAY) Y Threshold byte map",  BPM_BYTEMAP_1,      "$(BAY)"    }
 { TMIT_THR_BYTEMAP, "Bay $(BAY) C Threshold byte map",  BPM_BYTEMAP_2,      "$(BAY)"    }
+
+{ X_LATCHED_RAW,    "Bay $(BAY) X Latched Val",         BPM_TRIP_VALUER_0,  "$(BAY)"    }
+{ Y_LATCHED_RAW,    "Bay $(BAY) Y Latched Val",         BPM_TRIP_VALUER_1,  "$(BAY)"    }
+{ TMIT_LATCHED_RAW, "Bay $(BAY) TMIT Latched Val",      BPM_TRIP_VALUER_2,  "$(BAY)"    }
+}
+
+file "RegROFloat.template" { pattern
+{ R,                DESC,                                      EGU,     PARAM,             ADDR        }
+{ X_LATCHED,       "Bay $(BAY) Ch $(INP) X Latched Val",       "mm",    BPM_TRIP_VALUE_0,  "$(BAY)"    }
+{ Y_LATCHED,       "Bay $(BAY) Ch $(INP) X Latched Val",       "mm",    BPM_TRIP_VALUE_1,  "$(BAY)"    }
+{ TMIT_LATCHED,    "Bay $(BAY) Ch $(INP) TMIT Latched Val",    "Nel",   BPM_TRIP_VALUE_2,  "$(BAY)"    }
+}
+
+file "RegRO64.template" { pattern
+{ R,                 DESC,                           PARAM,            ADDR        }
+{ X_LATCHED_PID,    "Bay $(BAY) X Latched PID",      BPM_TRIP_PID_0,   "$(BAY)"    }
+{ Y_LATCHED_PID,    "Bay $(BAY) Y Latched PID",      BPM_TRIP_PID_0,   "$(BAY)"    }
+{ TMIT_LATCHED_PID, "Bay $(BAY) TMIT Latched PID",   BPM_TRIP_PID_0,   "$(BAY)"    }
 }
 
 ### Tables enable PVs ###
