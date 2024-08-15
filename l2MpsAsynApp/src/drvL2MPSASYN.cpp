@@ -42,9 +42,6 @@
 #include <epicsEvent.h>
 #include <iocsh.h>
 
-#include <dbAccess.h>
-#include <dbStaticLib.h>
-
 #include "drvL2MPSASYN.h"
 #include "asynPortDriver.h"
 #include <epicsExport.h>
@@ -312,6 +309,7 @@ L2MPS::L2MPS(const char *portName, const uint16_t appIdSet, const std::string re
             throw std::runtime_error("Error while trying to read the AppID.");
 
         setMpsManagerAppId(appId.second);
+        setMpsManagerPrefix(recordPrefixMps_.c_str());
 
         // Create parameters for the MPS node
         int index;
@@ -516,11 +514,11 @@ L2MPS::L2MPS(const char *portName, const uint16_t appIdSet, const std::string re
             else if ((!appType_.compare("MPS_LN")) | (!appType_.compare("MPS_AN")))
                 InitBlmMaps(i);
             else if (!appType_.compare("MPS_DN"))
-                ; // The Digital AMC does not contain any settings. So, there is nothing to initialize here.
+                setMpsManagerRestoreFalse(); // The Digital AMC does not contain any settings. So, there is nothing to initialize here.
             else if (!appType_.compare("LLRF"))
-                ; // The LLRF application does not contain any settings. So, there is nothing to initialize here.
+                setMpsManagerRestoreFalse(); // The LLRF application does not contain any settings. So, there is nothing to initialize here.
             else if (!appType_.compare("FWS"))
-                ; // The Fast Wire Scanner application does not contain any settings. So, there is nothing to initialize here.
+                setMpsManagerRestoreFalse(); // The Fast Wire Scanner application does not contain any settings. So, there is nothing to initialize here.
             else
                 printf("ERROR: Application type %s not supported on bay %zu\n", appType_.c_str(), i);
         }
@@ -692,6 +690,8 @@ void L2MPS::InitBlenMaps(const int bay)
     int index;
     std::stringstream pName;
 
+    setMpsManagerNcFalse();
+
     for (int i = 0; i < numBlenChs; ++i)
     {
             blen_channel_t thisBlenCh = i;
@@ -785,6 +785,8 @@ void L2MPS::InitBcmMaps(const int bay)
 {
     int index;
     std::stringstream pName;
+
+    setMpsManagerNcFalse();
 
     for (int i = 0; i < numBcmChs; ++i)
     {
