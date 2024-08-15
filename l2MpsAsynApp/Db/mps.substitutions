@@ -159,3 +159,8 @@ file "RegStringRO.template" { pattern
 { R,              DESC,                             PARAM,          ADDR    }
 { APP_TYPE,       "Application type",               APP_TYPE,       "2"     }
 }
+
+file "restore_thresholds.db" { pattern
+{ R           }
+{ THR_LOADED }
+}
