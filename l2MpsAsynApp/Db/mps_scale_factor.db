@@ -18,6 +18,7 @@ record(ao,      "$(P):$(PROPERTY)_FWSLO") {
     field(PHAS, "0")
     field(PINI, "YES")
     field(VAL,  "$(SLOPE)")
+    field(FLNK, "$(P):$(PROPERTY)_SS")
     info(autosaveFields, "VAL")
 }
 
@@ -30,5 +31,6 @@ record(ao,      "$(P):$(PROPERTY)_FWOFF") {
     field(PHAS, "0")
     field(PINI, "YES")
     field(VAL,  "$(OFFSET)")
+    field(FLNK, "$(P):$(PROPERTY)_SO")
     info(autosaveFields, "VAL")
 }
