@@ -23,6 +23,8 @@ record(bo, "$(P):$(R)") {
     field(ONAM, "$(ONAM)")
     field(ZSV,  "$(ZSV="")")
     field(OSV,  "$(OSV="")")
+    field(DOL,  "$(DOL="")")
+    field(OMSL, "$(OMSL="")")
 }
 
 record(bi, "$(P):$(R)_RBV") {
