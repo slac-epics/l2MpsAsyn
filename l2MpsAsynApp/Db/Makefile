@@ -14,8 +14,9 @@ DB += mps.db
 DB += mps_bpm.db
 DB += mps_blen.db
 DB += mps_bcm.db
-DB += mps_blm.db
+DB += mps_ai.db
 DB += mps_scale_factor.db
+DB += mps_soft.db
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
