@@ -293,10 +293,10 @@ class L2MPS : public asynPortDriver {
     private:
         const char *driverName_;        // This driver name
         const char *portName_;          // Port name (passed from st.cmd)
-        std::string recordPrefixMps_;   // Passed from st.cmd
         MpsNode     node_;              // MPS node
-        boost::any  amc[numberOfBays];  // AMC application objects
         MpsLinkNode mpsLinkNode;        // Link node object (used only by LN applications)
+        std::string recordPrefixMps_;   // Passed from st.cmd
+        boost::any  amc[numberOfBays];  // AMC application objects      
 
         // BPM application function maps
         bpm_fmap_w32_t              fMapBpmW32;

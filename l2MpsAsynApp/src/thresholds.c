@@ -1,36 +1,101 @@
 #include <thresholds.h>
 
-int pvPut(const char* pv_name, dbr_double_t value) {
+int pvPut(char* pv_name, dbr_double_t value) {
     chid cid;
-    SEVCHK(ca_create_channel(pv_name, NULL,NULL,10,&cid), "pvPut: Create channel failed\n");
-    SEVCHK(ca_pend_io(1.0),"pvPut: Search failed\n");
-    SEVCHK(ca_put(DBR_DOUBLE, cid, &value),"pvPut: Put Failed\n");
-    SEVCHK(ca_pend_io(1.0), "pvPut: Pend I/O failed\n");
-    SEVCHK(ca_clear_channel(cid),"pvPut: Clear channel failed\n");
-    return 0;
-}
-
-dbr_double_t pvGet(const char* pv_name) {
-    chid cid;
-    dbr_double_t value;
-    SEVCHK(ca_create_channel(pv_name, NULL,NULL,10,&cid), "pvGet: Create channel failed\n");
-    SEVCHK(ca_pend_io(1.0),"pvGet: Search failed\n");
-    SEVCHK(ca_get(DBR_DOUBLE, cid, &value),"pvGet: Get Failed\n");
-    SEVCHK(ca_pend_io(1.0), "pvGet: Pend I/O failed\n");
-    SEVCHK(ca_clear_channel(cid),"pvGet: Clear channel failed\n");
-    return value;
-}
-
-int restoreThreshold(const char* thr_pv, const char* restore_pv) {
-    dbr_double_t restore_val = pvGet(restore_pv);
-    if (pvPut(thr_pv, restore_val) < 0) {
-        printf("L2MPSAsyn: Failed to put restore val for %s\n",thr_pv);
-       return -1;
+    if(ca_create_channel(pv_name, NULL,NULL,10,&cid) != ECA_NORMAL) {
+        printf("ERROR: pvPut: Channel not created\n");
+        return -1;
     }
-    return 0;
+    else{
+        if(ca_pend_io(1.0) != ECA_NORMAL) {
+            printf("ERROR: pvPut: Channel not found\n");
+            return -1; 
+        }
+        else {
+            if(ca_put(DBR_DOUBLE, cid, &value) != ECA_NORMAL) {
+                printf("ERROR: pvPut: Channel not put\n");
+                return -1; 
+            }
+            else{
+                if(ca_pend_io(1.0) != ECA_NORMAL) {
+                    printf("ERROR: pvPut: Channel not flushed\n");
+                    return -1; 
+                }
+                else {
+                    if (ca_clear_channel(cid) != ECA_NORMAL) {
+                        printf("ERROR: pvPut: Channel not cleared\n");
+                        return -1; 
+                    }
+                    else {
+                        return 0;
+                    }
+                }
+            }
+        }
+    }
+    printf("ERROR: pvPut fail!\n");
+    return -1;
 }
 
-int buildPvNames(const char* fault_name, char* thr_name) {
+int pvGet(char* pv_name, double *value) {
+    chid cid;
+    dbr_double_t data;
+    if(ca_create_channel(pv_name, NULL,NULL,10,&cid) != ECA_NORMAL) {
+        printf("ERROR: pvGet: Channel not created\n");
+        return -1;
+    }
+    else{
+        if(ca_pend_io(1.0) != ECA_NORMAL) {
+            printf("ERROR: pvGet: Channel not found\n");
+            return -1; 
+        }
+        else {
+            if(ca_get(DBR_DOUBLE, cid, &data) != ECA_NORMAL) {
+                printf("ERROR: pvGet: Channel not put\n");
+                return -1; 
+            }
+            else{
+                if(ca_pend_io(1.0) != ECA_NORMAL) {
+                    printf("ERROR: pvGet: Channel not flushed\n");
+                    return -1; 
+                }
+                else {
+                    if (ca_clear_channel(cid) != ECA_NORMAL) {
+                        printf("ERROR: pvGet: Channel not cleared\n");
+                        return -1; 
+                    }
+                    else {
+                        *value = data;
+                        return 0;
+                    }
+                }
+            }
+        }
+    }
+    printf("ERROR: pvGet fail!\n");
+    return -1;
+}
+
+int restoreThreshold(char* thr_pv,char* restore_pv) {
+    double restore_val;
+    if (pvGet(restore_pv, &restore_val) <0) {
+        printf("ERROR: Cannot get %s from manager\n",restore_pv);
+        return -1;
+    }
+    else{
+        if (pvPut(thr_pv, restore_val) < 0) {
+            printf("L2MPSAsyn: Failed to put restore val for %s\n",thr_pv);
+            return -1;
+        }
+        else {
+            return 0;
+        }
+    }
+    printf("ERROR: restoreThreshold failed at %s\n",thr_pv);
+    return -1;
+}
+
+int buildPvNames(char* fault_name, char* thr_name) {
     char thr_pv[256];
     char restore_pv[256];
     // L_EN
@@ -65,7 +130,7 @@ int buildPvNames(const char* fault_name, char* thr_name) {
     return 0;
 }
 
-int restoreThresholds(const char *fault_name,const char* prefix,int numThr,int alt,int idl,int nc)
+int restoreThresholds(char *fault_name,char* prefix,int numThr,int alt,int idl,int nc)
 {
     char thr[256];
     int err = 0;

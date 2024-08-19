@@ -3,15 +3,15 @@
 // Information needed to contact the MPS Manager.
 // This are the default values which can be changes
 // using the provided functions.
-uint16_t mpsManagerAppId      = 0;
-char*    mpsAppPrefix         = "MPLN:GUNB:MP10:1";
-char*    mpsFaultNames[12]    = {"","","","","","","","","","","",""};
-int      mpsThrNums[12]       = {0,0,0,0,0,0,0,0,0,0,0,0};
-int      mpsAlt[12]           = {0,0,0,0,0,0,0,0,0,0,0,0};
-int      mpsIdl[12]           = {1,1,1,1,1,1,1,1,1,1,1,1};
-int      mpsNc[12]            = {1,1,1,1,1,1,1,1,1,1,1,1};
-int      mpsRestore           = 1;
-int      thr_count            = 0;
+uint16_t mpsManagerAppId       = 0;
+char     mpsAppPrefix[20]      = "\0";
+char     mpsFaultNames[12][50] = {"\0","\0","\0","\0","\0","\0","\0","\0","\0","\0","\0","\0"};
+int      mpsThrNums[12]        = {0,0,0,0,0,0,0,0,0,0,0,0};
+int      mpsAlt[12]            = {0,0,0,0,0,0,0,0,0,0,0,0};
+int      mpsIdl[12]            = {1,1,1,1,1,1,1,1,1,1,1,1};
+int      mpsNc[12]             = {1,1,1,1,1,1,1,1,1,1,1,1};
+int      mpsRestore            = 1;
+int      thr_count             = 0;
 
 static void printErrorMessage(char *extraInfo) {
     printf("l2MpsAsynInitHooks ERROR:\n");
@@ -23,17 +23,15 @@ static void printErrorMessage(char *extraInfo) {
 }
 
 static int enableMps() {
-    char *prefix=NULL;
-    char *PV[256];
-    char *PV_RBV[256];
+    char PV[256];
+    char PV_RBV[256];
     int ret;
-    getMpsManagerPrefix(&prefix);
-    snprintf(PV,sizeof(PV),"%s:THR_LOADED",prefix);
+    snprintf(PV,sizeof(PV),"%s:THR_LOADED",mpsAppPrefix);
     if (pvPut(PV,1) < 0) {
         printf("L2MPSASYN: Failed to set %s\n",PV);
     }    
-    snprintf(PV, sizeof(PV), "%s:MPS_EN",prefix);
-    snprintf(PV_RBV, sizeof(PV_RBV), "%s:MPS_EN_RBV",prefix);
+    snprintf(PV, sizeof(PV), "%s:MPS_EN",mpsAppPrefix);
+    snprintf(PV_RBV, sizeof(PV_RBV), "%s:MPS_EN_RBV",mpsAppPrefix);
     ret = pvPut(PV, 1.0);
     if (ret > -1) {
         printf("L2MPSASYN: Successfully enabled MPS\n");
@@ -45,13 +43,15 @@ static int enableMps() {
 }
 
 static int checkAppId(uint16_t aid) {
-    char *prefix=NULL;
-    char *PV[256];
-    getMpsManagerPrefix(&prefix);
+    printf("L2MPSASYN: Working on %s...\n",mpsAppPrefix);
+    char PV[256];
     uint16_t aid_mgr = 0;
     if (aid > 0) {
-        snprintf(PV, sizeof(PV), "%s:APP_ID_MGR",prefix);
-        dbr_double_t aid_mgr_d = pvGet(PV);
+        snprintf(PV, sizeof(PV), "%s:APP_ID_MGR",mpsAppPrefix);
+        double aid_mgr_d;
+        if (pvGet(PV,&aid_mgr_d) < 0) {
+            return 0;
+        }
         aid_mgr = (uint16_t)aid_mgr_d;
     }
     if(aid == aid_mgr) {
@@ -75,10 +75,6 @@ uint16_t getMpsManagerAppId() {
     return mpsManagerAppId;
 }
 
-int getMpsRestore() {
-    return mpsRestore;
-}
-
 int setMpsManagerNcFalse() {
     int i;
     for (i = 0; i < 12; i++)
@@ -98,16 +94,10 @@ int setMpsManagerPrefix(const char* pre) {
         fprintf( stderr, "ERROR: L2MPSASYN - MPS Prefix must be defined\n");
     }
     else {
-        mpsAppPrefix = (char*) malloc(strlen(pre) * sizeof(char));
         strcpy(mpsAppPrefix,pre);
         printf("L2MPSASYN: Setting MPS Prefix to: %s\n",mpsAppPrefix);
     }
     return 0;
-}
-
-void getMpsManagerPrefix(char** pre) {
-    *pre = (char*) malloc(strlen(mpsAppPrefix)*sizeof(char));
-    strcpy(*pre, mpsAppPrefix);
 }
 
 int registerMpsManagerFault(const char* fault)
@@ -115,10 +105,12 @@ int registerMpsManagerFault(const char* fault)
     if ( ( ! fault ) || ( fault[0] == '\0' ) )
     {
         fprintf(stderr, "ERROR: Cannot register empty MPS fault.\n");
+        return -1;
     }
     else if ( strlen(mpsFaultNames[thr_count]) > 0 )
     {
-        fprintf(stderr, "ERROR: MPS Fault Channel %i already registered.\n", thr_count);
+        fprintf(stderr, "ERROR: MPS Fault Channel %i already registered as %s.\n", thr_count,mpsFaultNames[thr_count]);
+        return -1;
     }
     else 
     {
@@ -133,43 +125,23 @@ int registerMpsManagerFault(const char* fault)
         {
             thrNum = 8;
         }
-        mpsFaultNames[thr_count] = (char*) malloc( strlen(fault) * sizeof(char) );
         strcpy(mpsFaultNames[thr_count],fault);
         mpsThrNums[thr_count] = thrNum;
-        printf("Registering MPS Fault %s with %i thresholds\n",mpsFaultNames[thr_count],mpsThrNums[thr_count]);
+        printf("Registering MPS Fault %s with %i thresholds at index %i\n",mpsFaultNames[thr_count],mpsThrNums[thr_count],thr_count);
         thr_count = thr_count + 1;
+        return 0;
     }
 }
-
-void getMpsManagerInfo(int chan, char** fault, int* thr, int* alt, int* idl, int* nc, int* restore)
-{
-    *fault = mpsFaultNames[chan];
-    *thr = mpsThrNums[chan];
-    *alt = mpsAlt[chan];
-    *idl = mpsIdl[chan];
-    *nc = mpsNc[chan];
-    *restore = mpsRestore;
-}
-
 void mpsManagerRestoreThresholds() {
     ca_context_create(ca_enable_preemptive_callback);
     int cont = checkAppId(getMpsManagerAppId());
-    if (cont) {
-        char *prefix = NULL;
-        getMpsManagerPrefix(&prefix);
+    if (cont > 0) {
         int err = 0;
-        if (getMpsRestore()) {
+        if (mpsRestore) {
             int i;
             for (i = 0; i < 12; i++) {
-                char     *mpsFaultName = NULL;
-                int      mpsThrNum;
-                int      mpsAlt;
-                int      mpsIdl;
-                int      mpsNc;
-                int      mpsRestore;
-                getMpsManagerInfo(i,&mpsFaultName, &mpsThrNum, &mpsAlt, &mpsIdl, &mpsNc, &mpsRestore);
-                if (strlen(mpsFaultName) > 0) {
-                    if (restoreThresholds(mpsFaultName,prefix,mpsThrNum,mpsAlt,mpsIdl,mpsNc) != 0) {
+                if (strlen(mpsFaultNames[i]) > 0) {
+                    if (restoreThresholds(mpsFaultNames[i],mpsAppPrefix,mpsThrNums[i],mpsAlt[i],mpsIdl[i],mpsNc[i]) != 0) {
                         err++;
                     }
                 }                    

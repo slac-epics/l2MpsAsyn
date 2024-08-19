@@ -8,12 +8,6 @@
 // when contacting the MPS Manager.
 int setMpsManagerAppId(const uint16_t id);
 
-// This function is used to get the information needed to contact the
-// MPS Manager.
-void getMpsManagerInfo(int chan, char** fault, int* thr, int* alt, int* idl, int* nc, int* restore);
-
-int getMpsRestore();
-
 // This function is used to set the NC present flag to false for
 // threshold restoration
 int setMpsManagerNcFalse();
@@ -24,8 +18,6 @@ int registerMpsManagerFault(const char* fault);
 
 // Some app types do not restore thresholds but need MpsEnable set to true.
 int setMpsManagerRestoreFalse();
-
-void getMpsManagerPrefix(char** pre);
 
 int setMpsManagerPrefix(const char* pre);
 

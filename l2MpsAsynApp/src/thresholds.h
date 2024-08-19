@@ -11,7 +11,7 @@
 #include <caerr.h>
 #include <db_access.h>
 
-int pvPut(const char* pv_name, dbr_double_t value);
-dbr_double_t pvGet(const char* pv_name);
+int pvPut(char* pv_name, dbr_double_t value);
+int pvGet(char* pv_name, double *value);
 
-int restoreThresholds(const char *fault_name,const char* prefix,int numThr,int alt,int idl,int nc);
+int restoreThresholds(char *fault_name,char* prefix,int numThr,int alt,int idl,int nc);
