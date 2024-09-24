@@ -47,7 +47,7 @@ L2MPS_INCLUDE=$(L2MPS_TOP)/$(PKG_ARCH)/include
 PKG_ARCH=$(LINUXRT_BUILDROOT_VERSION)-x86_64
 ```
 
-## configure/CONFIG_SITE.Common.rhel6-x86_64
+## configure/CONFIG_SITE.Common.rhel7-x86_64
 
 ```
 PKG_ARCH=$(LINUX_VERSION)-x86_64
