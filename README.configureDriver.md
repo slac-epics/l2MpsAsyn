@@ -14,16 +14,19 @@ In order to use *l2MpsAsyn* in your application you must call **L2MPSASYNConfig*
 
 With the following parameters
 
-L2MPSASYNConfig(PORT_NAME, APP_ID, PREFIX_BASE, PREFIX_BAY0, PREFIX_BAY1, MPS_ROOT_PATH)
+L2MPSASYNConfig(PORT_NAME, APP_ID, PREFIX_BASE )
 
 | Parameter                  | Description
 |----------------------------|-----------------------------
 | PORT_NAME                  | The name given to this port driver.
+|----------------------------|-----------------------------
+| APP_ID                     | Application ID. Unique for each carrier.  Assigned by MPS, loaded by user
+|----------------------------|-----------------------------
+| PREFIX_BASE                | Used for PVs that carry MPS information common to all applications.  Assigned by MPS, loaded by user
 
 **Notes:**
 - *APP_ID* is defined in the MPS Central Database.
 - *PREFIX_BASE* is used for the MPS information common to all applications, so it belongs to the MPS system.
-- *PREFIX_BAY[0,1]* is used for the MPS threshold information which belong to the application.
 
 ## Use of the yamlLoader Module
 
