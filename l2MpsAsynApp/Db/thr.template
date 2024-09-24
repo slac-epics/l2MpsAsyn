@@ -25,15 +25,25 @@
 record(ao, "$(P):$(R)_L") {
     field(DESC, "$(DESC)")
     field(SCAN, "Passive")
-    field(PINI, "YES")
     field(PHAS, "2")
     field(DTYP, "asynFloat64")
     field(EGU,  "$(EGU)")
     field(PREC, "$(PREC)")
     field(OUT,  "@asyn($(PORT),$(BAY))$(APP)_THRMIN_$(CH)$(TABLE)$(THR)")
+    field(FLNK, "$(P):$(R)_L_OUT")
     #info(autosaveFields, "VAL")
 }
-
+record(ao, "$(P):$(R)_L_OUT") {
+    field(DESC, "$(DESC) Out")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(EGU,  "$(EGU)")
+    field(PREC, "$(PREC)")
+    field(OMSL, "closed_loop")
+    field(DOL,  "$(P):$(R)_L")
+    field(OUT,  "$(P):$(R)_L_MGR")
+    field(FLNK, "$(P):$(R)_L_MGR.PROC")
+}
 record(ai,  "$(P):$(R)_L_RBV") {
     field(DESC, "$(DESC)")
     field(SCAN, "I/O Intr")
@@ -43,21 +53,29 @@ record(ai,  "$(P):$(R)_L_RBV") {
     field(PREC, "$(PREC)")
     field(INP,  "@asyn($(PORT),$(BAY))$(APP)_THRMIN_$(CH)$(TABLE)$(THR)")
 }
-
 # MAXIMUM (Set and RBV)
-
 record(ao, "$(P):$(R)_H") {
     field(DESC, "$(DESC)")
     field(SCAN, "Passive")
-    field(PINI, "YES")
     field(PHAS, "2")
     field(DTYP, "asynFloat64")
     field(EGU,  "$(EGU)")
     field(PREC, "$(PREC)")
     field(OUT,  "@asyn($(PORT),$(BAY))$(APP)_THRMAX_$(CH)$(TABLE)$(THR)")
+    field(FLNK, "$(P):$(R)_H_OUT")
     #info(autosaveFields, "VAL")
 }
-
+record(ao, "$(P):$(R)_H_OUT") {
+    field(DESC, "$(DESC) Out")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(EGU,  "$(EGU)")
+    field(PREC, "$(PREC)")
+    field(OMSL, "closed_loop")
+    field(DOL,  "$(P):$(R)_H")
+    field(OUT,  "$(P):$(R)_H_MGR")
+    field(FLNK, "$(P):$(R)_H_MGR.PROC")
+}
 record(ai,  "$(P):$(R)_H_RBV") {
     field(DESC, "$(DESC)")
     field(SCAN, "I/O Intr")
@@ -67,7 +85,6 @@ record(ai,  "$(P):$(R)_H_RBV") {
     field(PREC, "$(PREC)")
     field(INP,  "@asyn($(PORT),$(BAY))$(APP)_THRMAX_$(CH)$(TABLE)$(THR)")
 }
-
 #### RAW VALUES ####
 
 # Minimum
@@ -97,14 +114,24 @@ record(longin,  "$(P):$(R)_H_RAW") {
 record(bo, "$(P):$(R)_L_EN") {
     field(DESC, "$(DESC)")
     field(SCAN, "Passive")
-    field(PINI, "YES")
     field(DTYP, "asynUInt32Digital")
     field(OUT,  "@asynMask($(PORT),$(BAY),0x01)$(APP)_THRMINEN_$(CH)$(TABLE)$(THR)")
     field(ZNAM, "Disable")
     field(ONAM, "Enable")
+    field(FLNK, "$(P):$(R)_L_EN_OUT")
     #info(autosaveFields, "VAL")
 }
-
+record(ao, "$(P):$(R)_L_EN_OUT") {
+    field(DESC, "$(DESC) Out")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(EGU,  "$(EGU)")
+    field(PREC, "$(PREC)")
+    field(OMSL, "closed_loop")
+    field(DOL,  "$(P):$(R)_L_EN")
+    field(OUT,  "$(P):$(R)_L_EN_MGR")
+    field(FLNK, "$(P):$(R)_L_EN_MGR.PROC")
+}
 record(bi, "$(P):$(R)_L_EN_RBV") {
     field(DESC, "$(DESC)")
     field(SCAN, "I/O Intr")
@@ -121,14 +148,24 @@ record(bi, "$(P):$(R)_L_EN_RBV") {
 record(bo,      "$(P):$(R)_H_EN") {
     field(DESC, "$(DESC)")
     field(SCAN, "Passive")
-    field(PINI, "YES")
     field(DTYP, "asynUInt32Digital")
     field(OUT,  "@asynMask($(PORT),$(BAY),0x01)$(APP)_THRMAXEN_$(CH)$(TABLE)$(THR)")
     field(ZNAM, "Disable")
     field(ONAM, "Enable")
+    field(FLNK, "$(P):$(R)_H_EN_OUT")
     #info(autosaveFields, "VAL")
 }
-
+record(ao, "$(P):$(R)_H_EN_OUT") {
+    field(DESC, "$(DESC) Out")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(EGU,  "$(EGU)")
+    field(PREC, "$(PREC)")
+    field(OMSL, "closed_loop")
+    field(DOL,  "$(P):$(R)_H_EN")
+    field(OUT,  "$(P):$(R)_H_EN_MGR")
+    field(FLNK, "$(P):$(R)_H_EN_MGR.PROC")
+}
 record(bi,      "$(P):$(R)_H_EN_RBV") {
     field(DESC, "$(DESC)")
     field(SCAN, "I/O Intr")
