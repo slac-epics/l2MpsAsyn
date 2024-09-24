@@ -19,9 +19,7 @@ L2MPSASYNConfig(PORT_NAME, APP_ID, PREFIX_BASE )
 | Parameter                  | Description
 |----------------------------|-----------------------------
 | PORT_NAME                  | The name given to this port driver.
-|----------------------------|-----------------------------
 | APP_ID                     | Application ID. Unique for each carrier.  Assigned by MPS, loaded by user
-|----------------------------|-----------------------------
 | PREFIX_BASE                | Used for PVs that carry MPS information common to all applications.  Assigned by MPS, loaded by user
 
 **Notes:**
