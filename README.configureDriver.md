@@ -31,10 +31,23 @@ L2MPSASYNConfig(PORT_NAME, APP_ID, PREFIX_BASE )
 You must the **yamlLoader** module with this module. You need to call **cpswLoadYamlFile()** before **L2MPSASYNConfig()** in your **st.cmd**.
 
 
-## iocBoot/<ioc>/st.cmd
+## iocBoot/ioc/st.cmd
 
   ```
+# ==========================================
+#     Load MPS Driver
+# ==========================================
+## Configure asyn port driver
+# L2MPSASYNConfig(
+#    Port Name,    # the name given to this port driver
+#    APP ID,       # the unique application ID
+#    MPS Prefix)   # the MPS PV prefix
   L2MPSASYNConfig("${L2MPSASYN_PORT}","${APPID}","${L2MPS_PREFIX}")
+
+# ==========================================
+#     Load MPS Databases
+# ==========================================
+
   dbLoadRecords("db/mps.db","P=${L2MPS_PREFIX},PORT=${L2MPSASYN_PORT}")
   dbLoadRecords("db/mps_ai.db","P=CBLM:UNDH:1375,ATTR=LOSS,BAY=0,INP=0")  # Generic Analog Input (MPS LN/AN IOC Application, INP=0,1,2)
   dbLoadRecords("db/mps_bcm.db","P=TORO:GUNB:212,BAY=0")  # BCM Application (Bay 0=Right, 1=Left)
