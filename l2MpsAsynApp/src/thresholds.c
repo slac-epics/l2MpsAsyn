@@ -126,13 +126,13 @@ int buildPvNames(char* fault_name, char* thr_name) {
         printf("L2MPSASYN: Failed to restore %s\n",thr_pv);
         return -1;
     }
-    // Reset Latched bit.
     return 0;
 }
 
 int restoreThresholds(char *fault_name,char* prefix,int numThr,int alt,int idl,int nc)
 {
     char thr[256];
+    char name_pv[256];
     int err = 0;
     printf("L2MPSASYN: Restoring thresholds for %s\n",fault_name);
     int i = 0;
@@ -158,6 +158,12 @@ int restoreThresholds(char *fault_name,char* prefix,int numThr,int alt,int idl,i
         snprintf(thr,sizeof(thr),"T0_NC");
         if (buildPvNames(fault_name,thr) < 0) {
             err++;
+        }
+    }
+    if (err == 0) {
+        snprintf(name_pv, sizeof(name_pv),"%s_NAME.DISA",fault_name);
+        if (pvPut(name_pv, 1) < 0) {
+            printf("L2MPSAsyn: Failed to put restore val for %s\n",name_pv);
         }
     }
     return err;
