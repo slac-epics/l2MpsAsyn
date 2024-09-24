@@ -5,24 +5,6 @@
 #   - PORT  : Asyn port name                                                     #
 #   - CH    : Soft channel number, two digit (00-15)                             #
 #================================================================================#
-record(bo,      "$(P):SW_CH_$(CH)_INP") {
-    field(DESC, "SW Ch $(CH) Input")
-    field(ONAM, "ACTIVE")
-    field(ZNAM, "INACTIVE")
-    field(OMSL, "closed_loop")
-    field(DOL,  "$(P):SW_CH_$(CH)_MGR CA")
-    field(SCAN, ".1 second")
-    field(FLNK, "$(P):SW_CH_$(CH)_CALC")
-}
-record(calcout, "$(P):SW_CH_$(CH)_CALC") {
-    field(DESC, "SW Ch $(CH) conn calc")
-    field(SCAN, "Passive")
-    field(INPA, "$(P):SW_CH_$(CH)_INP.STAT")
-    field(INPA, "$(P):SW_CH_$(CH)_INP.SEVR")
-    field(INPC, "$(P):SW_CH_$(CH)_INP")
-    field(CALC, "(A+B)>0?0:C")
-    field(FLNK, "$(P):SW_CH_$(CH)")
-}
 record(bo,      "$(P):SW_CH_$(CH)") {
     field(DESC, "SW Inp $(CH)")
     field(SCAN, "Passive")
@@ -33,8 +15,7 @@ record(bo,      "$(P):SW_CH_$(CH)") {
     field(ONAM, "ACTIVE")
     field(ZSV,  "MAJOR")
     field(OSV,  "NO_ALARM")
-    field(DOL,  "$(P):SW_CH_$(CH)_CALC")
-    field(OMSL, "closed_loop")
+    field(VAL,  "0")
 }
 record(bi,      "$(P):SW_CH_$(CH)_RBV") {
     field(DESC, "SW Inp $(CH)")
