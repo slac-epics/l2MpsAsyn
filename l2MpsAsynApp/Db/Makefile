@@ -17,6 +17,9 @@ DB += mps_bcm.db
 DB += mps_ai.db
 DB += mps_scale_factor.db
 DB += mps_soft.db
+DB += lc2_analog_sw.db
+DB += lc2_bpm_sw.db
+DB += lc2_watchdog.db
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
