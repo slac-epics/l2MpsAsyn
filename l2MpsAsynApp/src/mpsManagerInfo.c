@@ -43,7 +43,7 @@ static int enableMps() {
 }
 
 static int checkAppId(uint16_t aid) {
-    printf("L2MPSASYN: Working on %s...\n",mpsAppPrefix);
+    printf("L2MPSASYN: Working on App %i, %s...\n",mpsManagerAppId,mpsAppPrefix);
     char PV[256];
     uint16_t aid_mgr = 0;
     if (aid > 0) {
@@ -107,9 +107,20 @@ int registerMpsManagerFault(const char* fault)
         fprintf(stderr, "ERROR: Cannot register empty MPS fault.\n");
         return -1;
     }
-    else if ( strlen(mpsFaultNames[thr_count]) > 0 )
+    if (thr_count > 11) {
+        fprintf(stderr, "ERROR: Too many MPS faults registered.\n");
+        return -1;
+    }
+    int i;
+    int cont = 1;
+    for (i = 0; i < 12; i++) {
+        if (strcmp(fault,mpsFaultNames[i]) == 0) {
+            cont = 0;
+        }
+    }
+    if ( !cont )
     {
-        fprintf(stderr, "ERROR: MPS Fault Channel %i already registered as %s.\n", thr_count,mpsFaultNames[thr_count]);
+        fprintf(stderr, "ERROR: MPS Fault %s already registered as.\n", fault);
         return -1;
     }
     else 
@@ -158,38 +169,3 @@ void mpsManagerRestoreThresholds() {
         printErrorMessage("\t\tAPP ID is not correct");
     }   
 }
-
-static const iocshArg * const restoreThreshArgs[] = {};
-static const iocshFuncDef restoreThreshFuncDef = {"L2MPSASYNRestoreThresholds",0,restoreThreshArgs};
-static void restoreThreshCallFunc(const iocshArgBuf *args) {
-    mpsManagerRestoreThresholds();
-}
-void restoreThreshFaultRegister (void) {
-    iocshRegister(&restoreThreshFuncDef, restoreThreshCallFunc);
-}
-
-
-/* The registerMpsManagerFault is exposed to the IOC shell
-   so that the user can call it from st.cmd */
-static const iocshArg registerMpsManagerFaultArgs0 = { "MpsManagerFaultName",   iocshArgString };
-
-static const iocshArg * const registerMpsManagerFaultArgs[] =
-{
-    &registerMpsManagerFaultArgs0
-};
-
-static const iocshFuncDef registerMpsManagerFaultFuncDef = { "L2MPSASYNRegisterFault", 1, registerMpsManagerFaultArgs };
-
-static void registerMpsManagerFaultCallFunc(const iocshArgBuf *args)
-{
-    registerMpsManagerFault(args[0].sval);
-}
-
-void registerMpsManagerFaultRegister(void)
-{
-   iocshRegister(&registerMpsManagerFaultFuncDef, registerMpsManagerFaultCallFunc);
-}
-
-epicsExportRegistrar(registerMpsManagerFaultRegister);
-epicsExportRegistrar(restoreThreshFaultRegister);
-
