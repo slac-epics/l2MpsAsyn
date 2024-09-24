@@ -1,15 +1,16 @@
 #================================================================================#
-# LCLS-II MPS PV template to store string                                        #
+# LCLS-II MPS PV template to store fault name and register with manager          #
 # Macro description:                                                             #
 #   - P     : Record name prefix                                                 #
 #   - R     : Record name                                                        #
 #================================================================================#
 
-record(stringin, "$(P):$(R)") {
+record(stringout, "$(P):$(R)_NAME") {
     field(DESC,    "Channel name")
-    field(PINI,    "NO")
+    field(PINI,    "YES")
     field(SCAN,    "Passive")
-    field(DTYP,    "Soft Channel")
-    field(VAL,     "$(P)")
+    field(DTYP,    "asynOctetWrite")
+    field(VAL,     "$(P):$(R)")
+    field(OUT,     "@asyn($(PORT),$(ADDR))$(PARAM)")
 }
 
