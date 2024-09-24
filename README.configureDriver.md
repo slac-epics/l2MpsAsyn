@@ -29,3 +29,15 @@ L2MPSASYNConfig(PORT_NAME, APP_ID, PREFIX_BASE )
 ## Use of the yamlLoader Module
 
 You must the **yamlLoader** module with this module. You need to call **cpswLoadYamlFile()** before **L2MPSASYNConfig()** in your **st.cmd**.
+
+
+## iocBoot/<ioc>/st.cmd
+
+  ```
+  L2MPSASYNConfig("${L2MPSASYN_PORT}","${APPID}","${L2MPS_PREFIX}")
+  dbLoadRecords("db/mps.db","P=${L2MPS_PREFIX},PORT=${L2MPSASYN_PORT}")
+  dbLoadRecords("db/mps_ai.db","P=CBLM:UNDH:1375,ATTR=LOSS,BAY=0,INP=0")  # Generic Analog Input (MPS LN/AN IOC Application, INP=0,1,2)
+  dbLoadRecords("db/mps_bcm.db","P=TORO:GUNB:212,BAY=0")  # BCM Application (Bay 0=Right, 1=Left)
+  dbLoadRecords("db/mps_blen.db","P=BLEN:GUNB:200,BAY=0")  # BLEN Application (Bay 0=Right, 1=Left)
+  dbLoadRecords("db/mps_bpm.db","P=BPMS:GUNB:212,BAY=0")  # BPM Application (Bay 0=Right, 1=Left)
+```
