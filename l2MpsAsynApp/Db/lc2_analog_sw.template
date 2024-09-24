@@ -1,0 +1,31 @@
+#================================================================================#
+# LCLS-II MPS PV template for Analog Software Inputs                             #
+# Macro description:                                                             #
+#   - P     : MPS MPLN Prefix                                                    #
+#   - CH    : SW channel (00-15)                                                 #
+#   - INPV  : Input PV to Monitor                                                #
+#   - NAME  : Input PV Name, many cases same as INPV                             #
+#================================================================================#
+record(ao, "$(NAME)_THR") {
+    field(DESC, "Input")
+    field(PINI, "YES")	
+    field(OMSL, "closed_loop")
+    field(SCAN, ".1 second")
+    field(OIF,  "Full")
+    field(DOL,  "$(INPV) CA")
+    field(FLNK, "$(NAME)_CALC")
+    field(LLSV, "MAJOR")
+    field(HHSV, "MAJOR")
+    info(autosaveFields, "HIHI LOLO")
+}
+record(calcout, "$(NAME)_CALC") {
+    field(DESC, "Input CALC")
+    field(PINI, "YES")	
+    field(SCAN, "Passive")
+    field(FLNK, "$(P):SW_CH_$(CH)_MGR")
+    field(INPA, "$(NAME)_THR.SEVR")
+    field(INPB, "$(NAME)_THR.STAT")
+    field(CALC, "(A+B)>0?0:1")
+    field(FLNK, "$(P):SW_CH_$(CH)")
+    field(OUT,  "$(P):SW_CH_$(CH)")
+}

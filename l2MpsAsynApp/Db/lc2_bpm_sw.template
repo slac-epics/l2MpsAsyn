@@ -1,0 +1,47 @@
+#================================================================================#
+# LCLS-II MPS PV template for Analog Software Inputs                             #
+# Macro description:                                                             #
+#   - P     : MPS MPLN Prefix                                                    #
+#   - CH    : SW channel (00-15)                                                 #
+#   - INPV  : Input PV to Monitor                                                #
+#================================================================================#
+record(ao, "$(INPV)_RAW") {
+    field(DESC, "Input")
+    field(PINI, "YES")	
+    field(OMSL, "closed_loop")
+    field(SCAN, ".1 second")
+    field(OIF,  "Full")
+    field(DOL,  "$(INPV) CA")
+    field(FLNK, "$(INPV)_CALC_NAN")
+}
+record(calcout, "$(INPV)_CALC_NAN") {
+    field(DESC, "Get rid of BPM NaN")
+    field(PINI, "YES")	
+    field(SCAN, "Passive")
+    field(FLNK, "$(INPV)_THR")
+    field(INPA, "$(INPV)_RAW")
+    field(CALC, "ISNAN(A)?0:A")
+}
+record(ao, "$(INPV)_THR") {
+    field(DESC, "Input")
+    field(PINI, "YES")	
+    field(OMSL, "closed_loop")
+    field(SCAN, "Passive")
+    field(OIF,  "Full")
+    field(DOL,  "$(INPV)_CALC_NAN")
+    field(FLNK, "$(INPV)_CALC")
+    field(LLSV, "MAJOR")
+    field(HHSV, "MAJOR")
+    info(autosaveFields, "HIHI LOLO")
+}
+record(calcout, "$(INPV)_CALC") {
+    field(DESC, "Input CALC")
+    field(PINI, "YES")	
+    field(SCAN, "Passive")
+    field(FLNK, "$(P):SW_CH_$(CH)_MGR")
+    field(INPA, "$(INPV)_THR.SEVR")
+    field(INPB, "$(INPV)_THR.STAT")
+    field(CALC, "(A+B)>0?0:1")
+    field(FLNK, "$(P):SW_CH_$(CH)")
+    field(OUT,  "$(P):SW_CH_$(CH)")
+}
