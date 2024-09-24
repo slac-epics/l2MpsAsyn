@@ -1,0 +1,52 @@
+#================================================================================#
+# LCLS-II MPS PV template for LN software input                                  #
+# Macro description:                                                             #
+#   - P     : Record name prefix                                                 #
+#   - PORT  : Asyn port name                                                     #
+#   - CH    : Soft channel number, two digit (00-15)                             #
+#================================================================================#
+record(bo,      "$(P):SW_CH_$(CH)") {
+    field(DESC, "SW Inp $(CH)")
+    field(SCAN, "Passive")
+    field(PINI, "YES")
+    field(DTYP, "asynUInt32Digital")
+    field(OUT,  "@asynMask($(PORT),3,0x01)SOFT_CH_VALUE_$(CH)")
+    field(ZNAM, "INACTIVE")
+    field(ONAM, "ACTIVE")
+    field(ZSV,  "MAJOR")
+    field(OSV,  "NO_ALARM")
+    field(VAL,  "0")
+}
+record(bi,      "$(P):SW_CH_$(CH)_RBV") {
+    field(DESC, "SW Inp $(CH)")
+    field(SCAN, "I/O Intr")
+    field(PINI, "NO")
+    field(DTYP, "asynUInt32Digital")
+    field(INP,  "@asynMask($(PORT),3,0x01)SOFT_CH_VALUE_$(CH)")
+    field(ZNAM, "INACTIVE")
+    field(ONAM, "ACTIVE")
+    field(ZSV,  "MAJOR")
+    field(OSV,  "NO_ALARM")
+}
+record(bo,      "$(P):SW_ERR_$(CH)") {
+    field(DESC, "SW Err $(CH)")
+    field(SCAN, "Passive")
+    field(PINI, "YES")
+    field(DTYP, "asynUInt32Digital")
+    field(OUT,  "@asynMask($(PORT),3,0x01)SOFT_CH_ERROR_$(CH)")
+    field(ZNAM, "INACTIVE")
+    field(ONAM, "ACTIVE")
+    field(ZSV,  "MAJOR")
+    field(OSV,  "NO_ALARM")
+}
+record(bi,      "$(P):SW_ERR_$(CH)_RBV") {
+    field(DESC, "SW Err $(CH)")
+    field(SCAN, "I/O Intr")
+    field(PINI, "NO")
+    field(DTYP, "asynUInt32Digital")
+    field(INP,  "@asynMask($(PORT),3,0x01)SOFT_CH_ERROR_$(CH)")
+    field(ZNAM, "INACTIVE")
+    field(ONAM, "ACTIVE")
+    field(ZSV,  "MAJOR")
+    field(OSV,  "NO_ALARM")
+}

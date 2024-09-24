@@ -4,6 +4,17 @@ file "RegRO.template" { pattern
 { L_THR_CH,         "Bay $(BAY) Threshold channel",     BLEN_THRNUM_0,      "$(BAY)"    }
 { L_THR_CNT,        "Bay $(BAY) Threshold count",       BLEN_THRCNT_0,      "$(BAY)"    }
 { L_THR_BYTEMAP,    "Bay $(BAY) Threshold byte map",    BLEN_BYTEMAP_0,     "$(BAY)"    }
+{ L_LATCHED_RAW,    "Bay $(BAY) Latched Value",         BLEN_TRIP_VALUER_0, "$(BAY)"    }
+}
+
+file "RegROFloat.template" { pattern
+{ R,                DESC,                                      EGU,     PARAM,              ADDR        }
+{ L_LATCHED,       "Bay $(BAY) Latched Value",                 "",      BLEN_TRIP_VALUE_0,  "$(BAY)"    }
+}
+
+file "RegRO64.template" { pattern
+{ R,                DESC,                                          PARAM,             ADDR        }
+{ L_LATCHED_PID,    "Bay $(BAY) Latched PID",                      BLEN_TRIP_PID_0,   "$(BAY)"    }
 }
 
 ### Tables enable PVs ###
@@ -48,4 +59,9 @@ file "thr.template" { pattern
 file "scale.template" { pattern
 { R,        DESC,                           APP,        EGU,    PREC,   CH,     SCALE_SLOPE_PV,     SCALE_OFFSET_PV,    SCAN        }
 { L,        "Bay $(BAY) Scale factor",      "BLEN",     "",     "4",    "0",    "$(P):L_FWSLO",     "$(P):L_FWOFF",     "1 second"  }
+}
+
+file "name.template" { pattern
+{ R,   PARAM,         ADDR    }
+{ L,   "BLEN_NAME_0", "$(BAY)"}
 }

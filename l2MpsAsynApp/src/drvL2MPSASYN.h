@@ -123,6 +123,7 @@ struct mps_infoParam_t
     int                 version;
     int                 enable;
     int                 lcls1Mode;
+    int                 rstTripValue;
     int                 byteCount;
     int                 digitalEn;
     int                 beamDestMask;
@@ -194,6 +195,10 @@ struct thr_chInfoParam_t
     int  lcls1En;
     int  scaleSlope;
     int  scaleOffset;
+    int  mpsTripValue;
+    int  mpsTripValueRaw;
+    int  mpsTripPulseId;
+    int  name;
 };
 
 // Threshold parameter (information + table data) data type
@@ -257,17 +262,20 @@ typedef std::map<boost::any, thr_param_t, cmp> paramMap_t;
 class L2MPS : public asynPortDriver {
     public:
         // Constructor
-        L2MPS(const char *portName);
+        L2MPS(const char *portName, const uint16_t appIdSet, const std::string recordPrefixMps);
 
         // Methods that we override from asynPortDriver
         virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
         virtual asynStatus writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epicsUInt32 mask);
         virtual asynStatus writeFloat64 (asynUser *pasynUser, epicsFloat64 value);
+        virtual asynStatus writeOctet (asynUser *pasynUser, const char *value, size_t maxChars, size_t *nActual);
 
         // Update single parameter value, status and severity
         void updateAlarmParam(int list, int index, bool valid);
         template<typename T>
         void updateIntegerParam(int list, int index, std::pair<bool, T> p);
+        template<typename T>
+        void updateInteger64Param(int list, int index, std::pair<bool, T> p);
         template<typename T>
         void updateStringParam(int list, int index, std::pair<bool, T> p);
         template<typename T>
@@ -284,15 +292,13 @@ class L2MPS : public asynPortDriver {
         template<typename T>
         void updateAppParameters(int bay, T data);
 
-        // Default parameters, which can be changed from the IOC shell
-        static std::string mpsConfigrationPath;     // Default location of the MPS configuration
-
     private:
         const char *driverName_;        // This driver name
         const char *portName_;          // Port name (passed from st.cmd)
         MpsNode     node_;              // MPS node
-        boost::any  amc[numberOfBays];  // AMC application objects
         MpsLinkNode mpsLinkNode;        // Link node object (used only by LN applications)
+        std::string recordPrefixMps_;   // Passed from st.cmd
+        boost::any  amc[numberOfBays];  // AMC application objects      
 
         // BPM application function maps
         bpm_fmap_w32_t              fMapBpmW32;

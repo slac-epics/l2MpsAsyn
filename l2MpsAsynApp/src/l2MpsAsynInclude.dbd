@@ -1,3 +1,2 @@
 registrar(drvL2MPSASYNRegister)
 registrar(l2MpsAsynInitHooksRegister)
-registrar(setMpsManagerRegister)

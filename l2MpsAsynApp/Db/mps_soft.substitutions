@@ -1,0 +1,26 @@
+### SW Input Word information ###
+file "RegRO.template" { pattern
+{ R,                DESC,                 PARAM,                ADDR    }
+{ DIG_SWBITERR_RBV, "SW Bit Error",       SOFT_CH_ERROR_WORD,   3       }
+{ DIG_SWBIT_RBV,    "SW Bit",             SOFT_CH_VALUE_WORD,   3       }
+}
+### Individual Input Channels ###
+file "mps_soft_channel.template" { pattern
+{ CH }
+{ 00 }
+{ 01 }
+{ 02 }
+{ 03 }
+{ 04 }
+{ 05 }
+{ 06 }
+{ 07 }
+{ 08 }
+{ 09 }
+{ 10 }
+{ 11 }
+{ 12 }
+{ 13 }
+{ 14 }
+{ 15 }
+}

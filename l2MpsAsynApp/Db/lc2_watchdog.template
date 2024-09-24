@@ -1,0 +1,44 @@
+#================================================================================#
+# LCLS-II MPS PV template for Software Watchdog Inputs                           #
+# Macro description:                                                             #
+#   - P     : MPS MPLN Prefix                                                    #
+#   - CH    : SW channel (00-15)                                                 #
+#   - INPV  : Input PV to Monitor                                                #
+#================================================================================#
+record(compress, "$(INPV)_BUFF") {
+  field(DESC, "Circular Bufffer")
+  field(SCAN, ".2 second")
+  field(INP,  "$(INPV) CA")
+  field(ALG,  "Circular Buffer")
+  field(NSAM, "10")
+  field(FLNK, "$(INPV)_BUFMAX")
+  field(ASG,  "NOWRITE")
+}
+record(compress, "$(INPV)_BUFMAX") {
+  field(DESC, "Bufffer Max")
+  field(INP,  "$(INPV)_BUFF.VAL NPP MS")
+  field(ALG,  "N to 1 High Value")
+  field(N,    "10")
+  field(FLNK, "$(INPV)_BUFMIN")
+  field(ASG,  "NOWRITE")
+}
+
+record(compress, "$(INPV)_BUFMIN") {
+  field(DESC, "Bufffer Min")
+  field(INP,  "$(INPV)_BUFF.VAL NPP MS")
+  field(ALG,  "N to 1 Low Value")
+  field(N,    "10")
+  field(FLNK, "$(INPV)_WDOG")
+  field(ASG,  "NOWRITE")
+}
+record(calcout, "$(INPV)_WDOG") {
+  field(DESC, "Stale data watchdog")
+  field(CALC, "(C=3)?0:((A = B)?0:1)")
+  field(INPA, "$(INPV)_BUFMIN.VAL")
+  field(INPB, "$(INPV)_BUFMAX.VAL")
+  field(INPC, "$(INPV)_BUFF.SEVR")
+  field(FLNK, "$(P):SW_CH_$(CH)_MGR")
+  field(ASG,  "NOWRITE")
+  field(FLNK, "$(P):SW_CH_$(CH)")
+  field(OUT,  "$(P):SW_CH_$(CH)")
+}

@@ -33,7 +33,6 @@ record(ao,      "$(P):$(R)_SS") {
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT),$(BAY))$(APP)_SCALESLOPE_$(CH)")
 }
-
 record(ai,      "$(P):$(R)_SS_RBV") {
     field(DESC, "$(DESC) slope")
     field(SCAN, "I/O Intr")
@@ -42,7 +41,6 @@ record(ai,      "$(P):$(R)_SS_RBV") {
     field(DTYP, "asynFloat64")
     field(INP,  "@asyn($(PORT),$(BAY))$(APP)_SCALESLOPE_$(CH)")
 }
-
 # Scale Offset PVs
 record(ao,      "$(P):$(R)_SO") {
     field(DESC, "$(DESC) offset")
@@ -57,7 +55,6 @@ record(ao,      "$(P):$(R)_SO") {
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT),$(BAY))$(APP)_SCALEOFFSET_$(CH)")
 }
-
 record(ai,      "$(P):$(R)_SO_RBV") {
     field(DESC, "$(DESC)")
     field(SCAN, "I/O Intr")

@@ -42,9 +42,6 @@
 #include <epicsEvent.h>
 #include <iocsh.h>
 
-#include <dbAccess.h>
-#include <dbStaticLib.h>
-
 #include "drvL2MPSASYN.h"
 #include "asynPortDriver.h"
 #include <epicsExport.h>
@@ -54,9 +51,6 @@
 #include <yaml-cpp/yaml.h>
 
 #include "yamlLoader.h"
-
-// Default values
-std::string L2MPS::mpsConfigrationPath = "/afs/slac/g/lcls/physics/mps_configuration/current/";
 
 // Update single parameter status and severity
 void L2MPS::updateAlarmParam(int list, int index, bool valid)
@@ -79,6 +73,13 @@ void L2MPS::updateIntegerParam(int list, int index, std::pair<bool, T> p)
 {
     updateAlarmParam( list, index, p.first );
     setIntegerParam( list, index, static_cast<int>(p.second) );
+}
+
+template<typename T>
+void L2MPS::updateInteger64Param(int list, int index, std::pair<bool, T> p)
+{
+    updateAlarmParam( list, index, p.first );
+    setInteger64Param( list, index, static_cast<int64_t>(p.second) );
 }
 
 template<typename T>
@@ -157,6 +158,7 @@ void L2MPS::updateMpsParametrs(mps_infoData_t info)
 
     updateUIntDigitalParam( paramListMpsBase, mpsInfoParams.enable,      info.enable      );
     updateUIntDigitalParam( paramListMpsBase, mpsInfoParams.lcls1Mode,   info.lcls1Mode   );
+    updateUIntDigitalParam( paramListMpsBase, mpsInfoParams.rstTripValue,info.rstTripValue);
     updateUIntDigitalParam( paramListMpsBase, mpsInfoParams.digitalEn,   info.digitalEn   );
     updateUIntDigitalParam( paramListMpsBase, mpsInfoParams.lastMsgLcls, info.lastMsgLcls );
     updateUIntDigitalParam( paramListMpsBase, mpsInfoParams.txLinkUp,    info.txLinkUp    );
@@ -212,14 +214,17 @@ void L2MPS::updateAppParameters(int bay, T data)
             thr_chInfoData_t  infoData  = (dataIt->second).info;
             thr_chInfoParam_t infoParam = (paramIt->second).info;
 
-            setIntegerParam(        bay,    infoParam.ch,           infoData.ch          );
-            updateIntegerParam(     bay,    infoParam.count,        infoData.count       );
-            updateIntegerParam(     bay,    infoParam.byteMap,      infoData.byteMap     );
-            updateUIntDigitalParam( bay,    infoParam.idleEn,       infoData.idleEn      );
-            updateUIntDigitalParam( bay,    infoParam.altEn,        infoData.altEn       );
-            updateUIntDigitalParam( bay,    infoParam.lcls1En,      infoData.lcls1En     );
-            setDoubleParam(         bay,    infoParam.scaleSlope,   infoData.scaleSlope  );
-            setDoubleParam(         bay,    infoParam.scaleOffset,  infoData.scaleOffset );
+            setIntegerParam(        bay,  infoParam.ch,              infoData.ch             );
+            updateIntegerParam(     bay,  infoParam.count,           infoData.count          );
+            updateIntegerParam(     bay,  infoParam.byteMap,         infoData.byteMap        );
+            updateUIntDigitalParam( bay,  infoParam.idleEn,          infoData.idleEn         );
+            updateUIntDigitalParam( bay,  infoParam.altEn,           infoData.altEn          );
+            updateUIntDigitalParam( bay,  infoParam.lcls1En,         infoData.lcls1En        );
+            setDoubleParam(         bay,  infoParam.scaleSlope,      infoData.scaleSlope     );
+            setDoubleParam(         bay,  infoParam.scaleOffset,     infoData.scaleOffset    );
+            updateIntegerParam(     bay,  infoParam.mpsTripValueRaw, infoData.mpsTripValueRaw);
+            updateDoubleParam(      bay,  infoParam.mpsTripValue,    infoData.mpsTripValue   );
+            updateInteger64Param(   bay,  infoParam.mpsTripPulseId,  infoData.mpsTripPulseId );
 
             thr_chData_t  data_thr  = (dataIt->second).data;
             thr_chParam_t param_thr = (paramIt->second).data;
@@ -249,21 +254,23 @@ void L2MPS::updateAppParameters(int bay, T data)
     }
 }
 
-L2MPS::L2MPS(const char *portName)
+L2MPS::L2MPS(const char *portName, const uint16_t appIdSet, const std::string recordPrefixMps)
     : asynPortDriver(
             portName,
             MAX_SIGNALS,
             asynInt32Mask | asynDrvUserMask | asynOctetMask | \
-            asynUInt32DigitalMask | asynFloat64Mask,                                    // Interface Mask
-            asynInt32Mask | asynUInt32DigitalMask | asynFloat64Mask | asynOctetMask,    // Interrupt Mask
-            ASYN_MULTIDEVICE | ASYN_CANBLOCK,                                           // asynFlags
-            1,                                                                          // Autoconnect
-            0,                                                                          // Default priority
-            0),                                                                         // Default stack size
+            asynUInt32DigitalMask | asynFloat64Mask | asynInt64Mask,        // Interface Mask
+            asynInt32Mask | asynUInt32DigitalMask | asynFloat64Mask | \
+            asynOctetMask | asynInt64Mask,                                  // Interrupt Mask
+            ASYN_MULTIDEVICE | ASYN_CANBLOCK,                               // asynFlags
+            1,                                                              // Autoconnect
+            0,                                                              // Default priority
+            0),                                                             // Default stack size
         driverName_(DRIVER_NAME),                   // Driver name
         portName_(portName),                        // Port name
         node_(IMpsNode::create(cpswGetRoot())),     // MPS node object
-        mpsLinkNode(node_->getMpsLinkNode())        // Link node object
+        mpsLinkNode(node_->getMpsLinkNode()),       // Link node object
+        recordPrefixMps_(recordPrefixMps)           // MPS record prefix, used for manager
 {
     try
     {
@@ -284,22 +291,9 @@ L2MPS::L2MPS(const char *portName)
         if ((!crateIdValid) | (!slotNumberValid))
             throw std::runtime_error("Error while reading the crateID and Slot number.");
 
-        // - Application configuration folder
-        char appConfigurationPath[256];
-        sprintf(appConfigurationPath, "%s/app_db/%s/%04X/%02X/", mpsConfigrationPath.c_str(), cpuName, crateId, slotNumber);
-
-        // - EPICS database file
-        std::string recordFile = std::string(appConfigurationPath) + "mps.db";
-
-
-        // - Firmware configuration file
-        std::string configurationFile = std::string(appConfigurationPath) + "config.yaml";
-
-        // - Environmental setting file
-        std::string envFile = std::string(appConfigurationPath) + "mps.env";
-
-        // Load application configuration
-        node_->loadConfigFile(configurationFile);
+        // Set the AppID
+        printf("Setting App ID for \'%s to %i\'...\n", recordPrefixMps_.c_str(),appIdSet);
+        node_->setAppId(appIdSet);
 
         // Get the application type
         std::string appType_ = node_->getAppType().second;
@@ -315,6 +309,7 @@ L2MPS::L2MPS(const char *portName)
             throw std::runtime_error("Error while trying to read the AppID.");
 
         setMpsManagerAppId(appId.second);
+        setMpsManagerPrefix(recordPrefixMps_.c_str());
 
         // Create parameters for the MPS node
         int index;
@@ -384,6 +379,9 @@ L2MPS::L2MPS(const char *portName)
 
         createParam(paramListMpsBase, "LCLS1_MODE", asynParamUInt32Digital, &index);
         mpsInfoParams.lcls1Mode = index;
+
+        createParam(paramListMpsBase, "RST_TRIP_VAL", asynParamUInt32Digital, &index);
+        mpsInfoParams.rstTripValue = index;
 
         createParam(paramListMpsBase, "DIGITAL_EN", asynParamUInt32Digital, &index);
         mpsInfoParams.digitalEn = index;
@@ -516,11 +514,11 @@ L2MPS::L2MPS(const char *portName)
             else if ((!appType_.compare("MPS_LN")) | (!appType_.compare("MPS_AN")))
                 InitBlmMaps(i);
             else if (!appType_.compare("MPS_DN"))
-                ; // The Digital AMC does not contain any settings. So, there is nothing to initialize here.
+                setMpsManagerRestoreFalse(); // The Digital AMC does not contain any settings. So, there is nothing to initialize here.
             else if (!appType_.compare("LLRF"))
-                ; // The LLRF application does not contain any settings. So, there is nothing to initialize here.
+                setMpsManagerRestoreFalse(); // The LLRF application does not contain any settings. So, there is nothing to initialize here.
             else if (!appType_.compare("FWS"))
-                ; // The Fast Wire Scanner application does not contain any settings. So, there is nothing to initialize here.
+                setMpsManagerRestoreFalse(); // The Fast Wire Scanner application does not contain any settings. So, there is nothing to initialize here.
             else
                 printf("ERROR: Application type %s not supported on bay %zu\n", appType_.c_str(), i);
         }
@@ -554,11 +552,6 @@ L2MPS::L2MPS(const char *portName)
             }
         }
 
-        // Load the EPICS database
-        printf("Loading MPS EPICS database file \'%s\'...\n", recordFile.c_str());
-        std::string dbParams = ",PORT=" + std::string(portName_);
-        dbLoadRecords(recordFile.c_str(), dbParams.c_str());
-
         // Start polling threads
         auto fp = std::bind(&L2MPS::updateMpsParametrs, this, std::placeholders::_1);
         node_->startPollThread(1, fp);
@@ -590,10 +583,6 @@ L2MPS::L2MPS(const char *portName)
                 ; // The Digital AMC does not contain any settings. So, there it not polling thread for it.
             }
         }
-
-        // Load the environmental variables
-        std::string envSetCmd = std::string("< ") + envFile;
-        iocshCmd(envSetCmd.c_str());
     }
     catch (CPSWError &e)
     {
@@ -642,6 +631,18 @@ void L2MPS::InitBpmMaps(const int bay)
             createParam(bay, ("BPM_SCALEOFFSET" + pName.str()).c_str(), asynParamFloat64, &index);
             thrParam.info.scaleOffset = index;
             fMapBpmWScaleOffset.insert( std::make_pair( index, std::make_pair( &IMpsBpm::setScaleOffset, thisBpmCh ) ) );
+
+            createParam(bay, ("BPM_TRIP_VALUE" + pName.str()).c_str(), asynParamFloat64, &index);
+            thrParam.info.mpsTripValue = index;
+
+            createParam(bay, ("BPM_TRIP_VALUER" + pName.str()).c_str(), asynParamInt32, &index);
+            thrParam.info.mpsTripValueRaw = index;
+
+            createParam(bay, ("BPM_TRIP_PID" + pName.str()).c_str(), asynParamInt64, &index);
+            thrParam.info.mpsTripPulseId = index;
+
+            createParam(bay, ("BPM_NAME" + pName.str()).c_str(), asynParamOctet, &index);
+            thrParam.info.name = index;
 
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
@@ -692,6 +693,8 @@ void L2MPS::InitBlenMaps(const int bay)
     int index;
     std::stringstream pName;
 
+    setMpsManagerNcFalse();
+
     for (int i = 0; i < numBlenChs; ++i)
     {
             blen_channel_t thisBlenCh = i;
@@ -727,6 +730,18 @@ void L2MPS::InitBlenMaps(const int bay)
             createParam(bay, ("BLEN_SCALEOFFSET" + pName.str()).c_str(), asynParamFloat64, &index);
             thrParam.info.scaleOffset = index;
             fMapBlenWScaleOffset.insert( std::make_pair( index, std::make_pair( &IMpsBlen::setScaleOffset, thisBlenCh ) ) );
+
+            createParam(bay, ("BLEN_TRIP_VALUE" + pName.str()).c_str(), asynParamFloat64, &index);
+            thrParam.info.mpsTripValue = index;
+
+            createParam(bay, ("BLEN_TRIP_VALUER" + pName.str()).c_str(), asynParamInt32, &index);
+            thrParam.info.mpsTripValueRaw = index;
+
+            createParam(bay, ("BLEN_TRIP_PID" + pName.str()).c_str(), asynParamInt64, &index);
+            thrParam.info.mpsTripPulseId = index;
+
+            createParam(bay, ("BLEN_NAME" + pName.str()).c_str(), asynParamOctet, &index);
+            thrParam.info.name = index;
 
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
@@ -777,6 +792,8 @@ void L2MPS::InitBcmMaps(const int bay)
     int index;
     std::stringstream pName;
 
+    setMpsManagerNcFalse();
+
     for (int i = 0; i < numBcmChs; ++i)
     {
             bcm_channel_t thisBcmCh = i;
@@ -812,6 +829,18 @@ void L2MPS::InitBcmMaps(const int bay)
             createParam(bay, ("BCM_SCALEOFFSET" + pName.str()).c_str(), asynParamFloat64, &index);
             thrParam.info.scaleOffset = index;
             fMapBcmWScaleOffset.insert( std::make_pair( index, std::make_pair( &IMpsBcm::setScaleOffset, thisBcmCh ) ) );
+
+            createParam(bay, ("BCM_TRIP_VALUE" + pName.str()).c_str(), asynParamFloat64, &index);
+            thrParam.info.mpsTripValue = index;
+
+            createParam(bay, ("BCM_TRIP_VALUER" + pName.str()).c_str(), asynParamInt32, &index);
+            thrParam.info.mpsTripValueRaw = index;
+
+            createParam(bay, ("BCM_TRIP_PID" + pName.str()).c_str(), asynParamInt64, &index);
+            thrParam.info.mpsTripPulseId = index;
+
+            createParam(bay, ("BCM_NAME" + pName.str()).c_str(), asynParamOctet, &index);
+            thrParam.info.name = index;
 
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
@@ -900,6 +929,18 @@ void L2MPS::InitBlmMaps(const int bay)
             thrParam.info.scaleOffset = index;
             fMapBlmWScaleOffset.insert( std::make_pair( index, std::make_pair( &IMpsBlm::setScaleOffset, thisBlmCh ) ) );
 
+            createParam(bay, ("BLM_TRIP_VALUE" + pName.str()).c_str(), asynParamFloat64, &index);
+            thrParam.info.mpsTripValue = index;
+
+            createParam(bay, ("BLM_TRIP_VALUER" + pName.str()).c_str(), asynParamInt32, &index);
+            thrParam.info.mpsTripValueRaw = index;
+
+            createParam(bay, ("BLM_TRIP_PID" + pName.str()).c_str(), asynParamInt64, &index);
+            thrParam.info.mpsTripPulseId = index;
+
+            createParam(bay, ("BLM_NAME" + pName.str()).c_str(), asynParamOctet, &index);
+            thrParam.info.name = index;
+
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
             {
@@ -943,6 +984,30 @@ void L2MPS::InitBlmMaps(const int bay)
             paramMap.insert(std::make_pair( thisBlmCh, thrParam ));
         }
     }
+}
+
+asynStatus L2MPS::writeOctet(asynUser *pasynUser, const char *value, size_t maxChars, size_t *nActual) 
+{
+    bool ret = false;
+    int addr;
+    int function = pasynUser->reason;
+    const char *name;
+    this->getAddress(pasynUser, &addr);
+    getParamName(addr, function, &name);
+    if ((addr == paramListAppBay0) or (addr == paramListAppBay1)) {
+        std::string substr = "_NAME_";
+        std::string name_str = name;
+        if (name_str.find(substr) != std::string::npos) {
+            if (0 == registerMpsManagerFault(value)) {
+                ret = true;
+            }
+        }
+    }
+    else {
+        if ( 0 == asynPortDriver::writeOctet(pasynUser, value, maxChars, nActual) )
+            ret = true;
+    }
+    return ( ret ) ? asynSuccess : asynError;
 }
 
 asynStatus L2MPS::writeInt32(asynUser *pasynUser, epicsInt32 value)
@@ -1034,6 +1099,11 @@ asynStatus L2MPS::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epi
             else if (function == mpsInfoParams.rstPll)
             {
                 ret = node_->resetSaltPll();
+            }
+            else if (function == mpsInfoParams.rstTripValue)
+            {
+                ret = node_->resetTripVals(1);
+                ret = node_->resetTripVals(0);
             }
             else
             {
@@ -1261,66 +1331,34 @@ asynStatus L2MPS::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
 }
 
 // + L2MPSASYNConfig //
-extern "C" int L2MPSASYNConfig(const char *portName)
+extern "C" int L2MPSASYNConfig(const char *portName, const uint16_t appIdSet, const std::string recordPrefixMps)
 {
-    new L2MPS(portName);
+    new L2MPS(portName, appIdSet, recordPrefixMps);
 
     return asynSuccess;
 }
 
 static const iocshArg confArg0 = { "portName", iocshArgString };
+static const iocshArg confArg1 = { "appId", iocshArgInt };
+static const iocshArg confArg2 = { "mpsPrefix", iocshArgString };
 
 static const iocshArg * const confArgs[] = {
-    &confArg0
+    &confArg0,
+    &confArg1,
+    &confArg2
 };
 
-static const iocshFuncDef configFuncDef = { "L2MPSASYNConfig", 1, confArgs };
+static const iocshFuncDef configFuncDef = { "L2MPSASYNConfig", 3, confArgs };
 
 static void configCallFunc(const iocshArgBuf *args)
 {
-    L2MPSASYNConfig(args[0].sval);
+    L2MPSASYNConfig(args[0].sval, args[1].ival,args[2].sval);
 }
 // - L2MPSASYNConfig //
-
-// + setMpsConfigurationPath //
-extern "C" int setMpsConfigurationPath(const char *path)
-{
-    if ( ( ! path ) || ( path[0] == '\0' ) )
-    {
-        fprintf( stderr, "Error: Path to MPS configuration is empty\n" );
-        fprintf( stderr, "Keeping default value (%s).\n", L2MPS::mpsConfigrationPath.c_str() );
-        return asynError;
-    }
-    else
-    {
-        L2MPS::mpsConfigrationPath = path;
-
-        if ( path[ strlen( path ) - 1 ] != '/' )
-            L2MPS::mpsConfigrationPath += '/';
-
-        return asynSuccess;
-    }
-}
-
-static const iocshArg mpsConfigurationPathArg0 = { "Path", iocshArgString };
-
-static const iocshArg * const mpsConfigurationPathArgs[] =
-{
-    &mpsConfigurationPathArg0
-};
-
-static const iocshFuncDef mpsConfigurationPathFuncDef = { "setMpsConfigurationPath", 1, mpsConfigurationPathArgs };
-
-static void mpsConfigurationPathCallFunc(const iocshArgBuf *args)
-{
-    setMpsConfigurationPath(args[0].sval);
-}
-// - setMpsConfigurationPath //
 
 void drvL2MPSASYNRegister(void)
 {
     iocshRegister( &configFuncDef,               configCallFunc               );
-    iocshRegister( &mpsConfigurationPathFuncDef, mpsConfigurationPathCallFunc );
 }
 
 extern "C" {
