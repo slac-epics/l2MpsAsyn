@@ -28,11 +28,16 @@ file "RegROFloat.template" { pattern
 }
 
 file "RegRO64.template" { pattern
-{ R,                DESC,                                          PARAM,                  ADDR        }
+{ R,                        DESC,                                          PARAM,                  ADDR        }
 { I0_$(ATTR)_LATCHED_PID,   "Bay $(BAY) Ch $(INP) Int 0 Latched PID",      BLM_TRIP_PID_$(INP)0,   "$(BAY)"    }
 { I1_$(ATTR)_LATCHED_PID,   "Bay $(BAY) Ch $(INP) Int 1 Latched PID",      BLM_TRIP_PID_$(INP)1,   "$(BAY)"    }
 }
 
+file "name.template" { pattern
+{ R,           PARAM,              ADDR    }
+{ I0_$(ATTR),  "BLM_NAME_$(INP)0", "$(BAY)"}
+{ I1_$(ATTR),  "BLM_NAME_$(INP)1", "$(BAY)"}
+}
 
 ### Tables enable PVs ###
 file "Reg1BitRW.template" { pattern

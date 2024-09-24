@@ -28,8 +28,15 @@ file "RegROFloat.template" { pattern
 file "RegRO64.template" { pattern
 { R,                 DESC,                           PARAM,            ADDR        }
 { X_LATCHED_PID,    "Bay $(BAY) X Latched PID",      BPM_TRIP_PID_0,   "$(BAY)"    }
-{ Y_LATCHED_PID,    "Bay $(BAY) Y Latched PID",      BPM_TRIP_PID_0,   "$(BAY)"    }
-{ TMIT_LATCHED_PID, "Bay $(BAY) TMIT Latched PID",   BPM_TRIP_PID_0,   "$(BAY)"    }
+{ Y_LATCHED_PID,    "Bay $(BAY) Y Latched PID",      BPM_TRIP_PID_1,   "$(BAY)"    }
+{ TMIT_LATCHED_PID, "Bay $(BAY) TMIT Latched PID",   BPM_TRIP_PID_2,   "$(BAY)"    }
+}
+
+file "name.template" { pattern
+{ R,    PARAM,        ADDR    }
+{ X,    "BPM_NAME_0", "$(BAY)"}
+{ Y,    "BPM_NAME_1", "$(BAY)"}
+{ TMIT, "BPM_NAME_2", "$(BAY)"}
 }
 
 ### Tables enable PVs ###

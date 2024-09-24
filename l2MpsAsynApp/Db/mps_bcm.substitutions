@@ -93,3 +93,9 @@ file "scale.template" { pattern
 { CHARGE,   "Bay $(BAY) Charge Scale factor",           "BCM",      "pC",   "8",    "0",    "$(P):CHARGE_FWSLO",    "$(P):CHARGE_FWOFF",    "1 second"  }
 { DIFF,     "Bay $(BAY) Difference Scale factor",       "BCM",      "pC",   "8",    "1",    "$(P):DIFF_FWSLO",      "$(P):DIFF_FWOFF",      "1 second"  }
 }
+
+file "name.template" { pattern
+{ R,      PARAM,        ADDR    }
+{ CHARGE, "BCM_NAME_0", "$(BAY)"}
+{ DIFF,   "BCM_NAME_1", "$(BAY)"}
+}

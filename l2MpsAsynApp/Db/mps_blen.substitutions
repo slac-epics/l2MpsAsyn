@@ -60,3 +60,8 @@ file "scale.template" { pattern
 { R,        DESC,                           APP,        EGU,    PREC,   CH,     SCALE_SLOPE_PV,     SCALE_OFFSET_PV,    SCAN        }
 { L,        "Bay $(BAY) Scale factor",      "BLEN",     "",     "4",    "0",    "$(P):L_FWSLO",     "$(P):L_FWOFF",     "1 second"  }
 }
+
+file "name.template" { pattern
+{ R,   PARAM,         ADDR    }
+{ L,   "BLEN_NAME_0", "$(BAY)"}
+}
