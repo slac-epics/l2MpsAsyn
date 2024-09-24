@@ -198,6 +198,7 @@ struct thr_chInfoParam_t
     int  mpsTripValue;
     int  mpsTripValueRaw;
     int  mpsTripPulseId;
+    int  name;
 };
 
 // Threshold parameter (information + table data) data type
@@ -267,6 +268,7 @@ class L2MPS : public asynPortDriver {
         virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
         virtual asynStatus writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epicsUInt32 mask);
         virtual asynStatus writeFloat64 (asynUser *pasynUser, epicsFloat64 value);
+        virtual asynStatus writeOctet (asynUser *pasynUser, const char *value, size_t maxChars, size_t *nActual);
 
         // Update single parameter value, status and severity
         void updateAlarmParam(int list, int index, bool valid);

@@ -641,6 +641,9 @@ void L2MPS::InitBpmMaps(const int bay)
             createParam(bay, ("BPM_TRIP_PID" + pName.str()).c_str(), asynParamInt64, &index);
             thrParam.info.mpsTripPulseId = index;
 
+            createParam(bay, ("BPM_NAME" + pName.str()).c_str(), asynParamOctet, &index);
+            thrParam.info.name = index;
+
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
             {
@@ -736,6 +739,9 @@ void L2MPS::InitBlenMaps(const int bay)
 
             createParam(bay, ("BLEN_TRIP_PID" + pName.str()).c_str(), asynParamInt64, &index);
             thrParam.info.mpsTripPulseId = index;
+
+            createParam(bay, ("BLEN_NAME" + pName.str()).c_str(), asynParamOctet, &index);
+            thrParam.info.name = index;
 
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
@@ -833,6 +839,9 @@ void L2MPS::InitBcmMaps(const int bay)
             createParam(bay, ("BCM_TRIP_PID" + pName.str()).c_str(), asynParamInt64, &index);
             thrParam.info.mpsTripPulseId = index;
 
+            createParam(bay, ("BCM_NAME" + pName.str()).c_str(), asynParamOctet, &index);
+            thrParam.info.name = index;
+
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
             {
@@ -929,6 +938,9 @@ void L2MPS::InitBlmMaps(const int bay)
             createParam(bay, ("BLM_TRIP_PID" + pName.str()).c_str(), asynParamInt64, &index);
             thrParam.info.mpsTripPulseId = index;
 
+            createParam(bay, ("BLM_NAME" + pName.str()).c_str(), asynParamOctet, &index);
+            thrParam.info.name = index;
+
             thr_chParam_t thrChParamMap;
             for (int k = 0; k < numThrTables; ++k)
             {
@@ -972,6 +984,30 @@ void L2MPS::InitBlmMaps(const int bay)
             paramMap.insert(std::make_pair( thisBlmCh, thrParam ));
         }
     }
+}
+
+asynStatus L2MPS::writeOctet(asynUser *pasynUser, const char *value, size_t maxChars, size_t *nActual) 
+{
+    bool ret = false;
+    int addr;
+    int function = pasynUser->reason;
+    const char *name;
+    this->getAddress(pasynUser, &addr);
+    getParamName(addr, function, &name);
+    if ((addr == paramListAppBay0) or (addr == paramListAppBay1)) {
+        std::string substr = "_NAME_";
+        std::string name_str = name;
+        if (name_str.find(substr) != std::string::npos) {
+            if (0 == registerMpsManagerFault(value)) {
+                ret = true;
+            }
+        }
+    }
+    else {
+        if ( 0 == asynPortDriver::writeOctet(pasynUser, value, maxChars, nActual) )
+            ret = true;
+    }
+    return ( ret ) ? asynSuccess : asynError;
 }
 
 asynStatus L2MPS::writeInt32(asynUser *pasynUser, epicsInt32 value)
