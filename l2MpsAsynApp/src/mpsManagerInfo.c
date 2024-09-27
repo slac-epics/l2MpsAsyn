@@ -25,11 +25,7 @@ static void printErrorMessage(char *extraInfo) {
 static int enableMps() {
     char PV[256];
     char PV_RBV[256];
-    int ret;
-    snprintf(PV,sizeof(PV),"%s:THR_LOADED",mpsAppPrefix);
-    if (pvPut(PV,1) < 0) {
-        printf("L2MPSASYN: Failed to set %s\n",PV);
-    }    
+    int ret;   
     snprintf(PV, sizeof(PV), "%s:MPS_EN",mpsAppPrefix);
     snprintf(PV_RBV, sizeof(PV_RBV), "%s:MPS_EN_RBV",mpsAppPrefix);
     ret = pvPut(PV, 1.0);
