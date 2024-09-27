@@ -3,6 +3,12 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __4.0.1__: 2024-09-27 J. Mock
+  * Remove THR_LOADED PV - no longer needed by manager
+  * Fix up bcm PVs to include only faults that are actually valid
+  * Fix bug in L2MPS::writeOctet to stop runtime command line warning
+  * Update version numbers in README files
+
 * __4.0.0__: 2024-09-24 J. Mock
   * Add support for latched analog values and reset
   * Refactor MPS Manager into a soft IOC

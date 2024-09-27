@@ -1002,6 +1002,7 @@ asynStatus L2MPS::writeOctet(asynUser *pasynUser, const char *value, size_t maxC
                 ret = true;
             }
         }
+        *nActual = maxChars;
     }
     else {
         if ( 0 == asynPortDriver::writeOctet(pasynUser, value, maxChars, nActual) )
