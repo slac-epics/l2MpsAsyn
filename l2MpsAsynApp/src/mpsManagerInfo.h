@@ -19,6 +19,8 @@ int registerMpsManagerFault(const char* fault);
 // Some app types do not restore thresholds but need MpsEnable set to true.
 int setMpsManagerRestoreFalse();
 
+int setMpsDriverInitialized();
+
 int setMpsManagerPrefix(const char* pre);
 
 void mpsManagerRestoreThresholds();

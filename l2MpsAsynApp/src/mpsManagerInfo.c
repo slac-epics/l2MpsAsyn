@@ -12,6 +12,7 @@ int      mpsIdl[12]            = {1,1,1,1,1,1,1,1,1,1,1,1};
 int      mpsNc[12]             = {1,1,1,1,1,1,1,1,1,1,1,1};
 int      mpsRestore            = 1;
 int      thr_count             = 0;
+int      driverInitialized     = 0;
 
 static void printErrorMessage(char *extraInfo) {
     printf("l2MpsAsynInitHooks ERROR:\n");
@@ -80,6 +81,11 @@ int setMpsManagerNcFalse() {
     return 0;
 }
 
+int setMpsDriverInitialized() {
+    driverInitialized = 1;
+    return 0;
+}
+
 int setMpsManagerRestoreFalse() {
     mpsRestore = 0;
     return 0;
@@ -134,34 +140,36 @@ int registerMpsManagerFault(const char* fault)
         }
         strcpy(mpsFaultNames[thr_count],fault);
         mpsThrNums[thr_count] = thrNum;
-        printf("Registering MPS Fault %s with %i thresholds at index %i\n",mpsFaultNames[thr_count],mpsThrNums[thr_count],thr_count);
+        printf("L2MPSASYN: Registering MPS Fault %s with %i thresholds at index %i\n",mpsFaultNames[thr_count],mpsThrNums[thr_count],thr_count);
         thr_count = thr_count + 1;
         return 0;
     }
 }
 void mpsManagerRestoreThresholds() {
-    ca_context_create(ca_enable_preemptive_callback);
-    int cont = checkAppId(getMpsManagerAppId());
-    if (cont > 0) {
-        int err = 0;
-        if (mpsRestore) {
-            int i;
-            for (i = 0; i < 12; i++) {
-                if (strlen(mpsFaultNames[i]) > 0) {
-                    if (restoreThresholds(mpsFaultNames[i],mpsAppPrefix,mpsThrNums[i],mpsAlt[i],mpsIdl[i],mpsNc[i]) != 0) {
-                        err++;
-                    }
-                }                    
+    if (driverInitialized) {
+        ca_context_create(ca_enable_preemptive_callback);
+        int cont = checkAppId(getMpsManagerAppId());
+        if (cont > 0) {
+            int err = 0;
+            if (mpsRestore) {
+                int i;
+                for (i = 0; i < 12; i++) {
+                    if (strlen(mpsFaultNames[i]) > 0) {
+                        if (restoreThresholds(mpsFaultNames[i],mpsAppPrefix,mpsThrNums[i],mpsAlt[i],mpsIdl[i],mpsNc[i]) != 0) {
+                            err++;
+                        }
+                    }                    
+                }
             }
-        }
-        if (err == 0) {
-            enableMps();
+            if (err == 0) {
+                enableMps();
+            }
+            else {
+            printErrorMessage("\t\tFailed to restore all thresholds");
+            }  
         }
         else {
-        printErrorMessage("\t\tFailed to restore all thresholds");
-        }  
+            printErrorMessage("\t\tAPP ID is not correct");
+        }
     }
-    else {
-        printErrorMessage("\t\tAPP ID is not correct");
-    }   
 }
