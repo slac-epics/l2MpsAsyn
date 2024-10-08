@@ -20,9 +20,9 @@ file "RegRO.template" { pattern
 
 file "RegROFloat.template" { pattern
 { R,                DESC,                                      EGU,     PARAM,             ADDR        }
-{ X_LATCHED,       "Bay $(BAY) Ch $(INP) X Latched Val",       "mm",    BPM_TRIP_VALUE_0,  "$(BAY)"    }
-{ Y_LATCHED,       "Bay $(BAY) Ch $(INP) X Latched Val",       "mm",    BPM_TRIP_VALUE_1,  "$(BAY)"    }
-{ TMIT_LATCHED,    "Bay $(BAY) Ch $(INP) TMIT Latched Val",    "Nel",   BPM_TRIP_VALUE_2,  "$(BAY)"    }
+{ X_LATCHED,       "Bay $(BAY) X Latched Val",       "mm",    BPM_TRIP_VALUE_0,  "$(BAY)"    }
+{ Y_LATCHED,       "Bay $(BAY) X Latched Val",       "mm",    BPM_TRIP_VALUE_1,  "$(BAY)"    }
+{ TMIT_LATCHED,    "Bay $(BAY) TMIT Latched Val",    "Nel",   BPM_TRIP_VALUE_2,  "$(BAY)"    }
 }
 
 file "RegRO64.template" { pattern
@@ -41,65 +41,57 @@ file "name.template" { pattern
 
 ### Tables enable PVs ###
 file "Reg1BitRW.template" { pattern
-{ R,            DESC,                               PARAM,              ADDR,       ZNAM,           ONAM        }
-{ X_IDL_EN,     "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_0,       "$(BAY)",   "Disabled",     "Enabled"   }
-{ Y_IDL_EN,     "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_1,       "$(BAY)",   "Disabled",     "Enabled"   }
-{ TMIT_IDL_EN,  "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_2,       "$(BAY)",   "Disabled",     "Enabled"   }
+{ R,                DESC,                               PARAM,              ADDR,       ZNAM,           ONAM        }
+{ X_NO_BEAM_EN,     "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_0,       "$(BAY)",   "Disabled",     "Enabled"   }
+{ Y_NO_BEAM_EN,     "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_1,       "$(BAY)",   "Disabled",     "Enabled"   }
+{ TMIT_NO_BEAM_EN,  "Bay $(BAY) IDLE table enabled",    BPM_IDLEEN_2,       "$(BAY)",   "Disabled",     "Enabled"   }
 }
 
 file "Reg1BitRO.template" { pattern
-{ R,            DESC,                               PARAM,              ADDR,       ZNAM,           ONAM        }
-{ X_ALT_EN,     "Bay $(BAY) ALT table enabled",     BPM_ALTEN_0,        "$(BAY)",   "Disabled",     "Enabled"   }
-{ Y_ALT_EN,     "Bay $(BAY) ALT table enabled",     BPM_ALTEN_1,        "$(BAY)",   "Disabled",     "Enabled"   }
-{ TMIT_ALT_EN,  "Bay $(BAY) ALT table enabled",     BPM_ALTEN_2,        "$(BAY)",   "Disabled",     "Enabled"   }
+{ R,            DESC,                           PARAM,              ADDR,       ZNAM,           ONAM        }
+{ X_ALT_EN,     "Bay $(BAY) ALT table enabled", BPM_ALTEN_0,        "$(BAY)",   "Disabled",     "Enabled"   }
+{ Y_ALT_EN,     "Bay $(BAY) ALT table enabled", BPM_ALTEN_1,        "$(BAY)",   "Disabled",     "Enabled"   }
+{ TMIT_ALT_EN,  "Bay $(BAY) ALT table enabled", BPM_ALTEN_2,        "$(BAY)",   "Disabled",     "Enabled"   }
 
-{ X_LC1_EN,     "Bay $(BAY) LCLS1 table enabled",   BPM_LCLS1EN_0,      "$(BAY)",   "Disabled",     "Enabled"   }
-{ Y_LC1_EN,     "Bay $(BAY) LCLS1 table enabled",   BPM_LCLS1EN_1,      "$(BAY)",   "Disabled",     "Enabled"   }
-{ TMIT_LC1_EN,  "Bay $(BAY) LCLS1 table enabled",   BPM_LCLS1EN_2,      "$(BAY)",   "Disabled",     "Enabled"   }
+{ X_NC_EN,     "Bay $(BAY) NC table enabled",   BPM_LCLS1EN_0,      "$(BAY)",   "Disabled",     "Enabled"   }
+{ Y_NC_EN,     "Bay $(BAY) NC table enabled",   BPM_LCLS1EN_1,      "$(BAY)",   "Disabled",     "Enabled"   }
+{ TMIT_NC_EN,  "Bay $(BAY) NC table enabled",   BPM_LCLS1EN_2,      "$(BAY)",   "Disabled",     "Enabled"   }
 }
 
 ### Threshold PVs ###
 file "thr.template" { pattern
-{ R,            DESC,                                       APP,    EGU,    PREC,   CH,     TABLE,  THR,    }
-{ X_T0_LC1,     "BPM, Bay $(BAY), X, LCLS1, Threshold",     "BPM",  "mm",   "2",    "0",    "0",    "0",    }
-{ Y_T0_LC1,     "BPM, Bay $(BAY), Y, LCLS1, Threshold",     "BPM",  "mm",   "2",    "1",    "0",    "0",    }
-{ TMIT_T0_LC1,  "BPM, Bay $(BAY), C, LCLS1, Threshold",     "BPM",  "Nel",  "2",    "2",    "0",    "0",    }
+{ R,               DESC,                              APP,    EGU,    PREC,   CH,     TABLE,  THR,    }
+{ X_T0_NC,         "BPM, Bay $(BAY), X, NC, Thr",     "BPM",  "mm",   "2",    "0",    "0",    "0",    }
+{ Y_T0_NC,         "BPM, Bay $(BAY), Y, NC, Thr",     "BPM",  "mm",   "2",    "1",    "0",    "0",    }
+{ TMIT_T0_NC,      "BPM, Bay $(BAY), C, NC, Thr",     "BPM",  "Nel",  "2",    "2",    "0",    "0",    }
 
-{ X_T0_IDL,     "BPM, Bay $(BAY), X, IDLE, Threshold",      "BPM",  "mm",   "2",    "0",    "1",    "0",    }
-{ Y_T0_IDL,     "BPM, Bay $(BAY), Y, IDLE, Threshold",      "BPM",  "mm",   "2",    "1",    "1",    "0",    }
-{ TMIT_T0_IDL,  "BPM, Bay $(BAY), C, IDLE, Threshold",      "BPM",  "Nel",  "2",    "2",    "1",    "0",    }
+{ X_NO_BEAM,    "BPM, Bay $(BAY), X, IDLE, Thr",   "BPM",  "mm",   "2",    "0",    "1",    "0",    }
+{ Y_NO_BEAM,    "BPM, Bay $(BAY), Y, IDLE, Thr",   "BPM",  "mm",   "2",    "1",    "1",    "0",    }
+{ TMIT_NO_BEAM, "BPM, Bay $(BAY), C, IDLE, Thr",   "BPM",  "Nel",  "2",    "2",    "1",    "0",    }
 
-{ X_T0,         "BPM, Bay $(BAY), X, STD, Threshold 0",     "BPM",  "mm",   "2",    "0",    "2",    "0",    }
-{ X_T1,         "BPM, Bay $(BAY), X, STD, Threshold 1",     "BPM",  "mm",   "2",    "0",    "2",    "1",    }
-{ Y_T0,         "BPM, Bay $(BAY), Y, STD, Threshold 0",     "BPM",  "mm",   "2",    "1",    "2",    "0",    }
-{ Y_T1,         "BPM, Bay $(BAY), Y, STD, Threshold 1",     "BPM",  "mm",   "2",    "1",    "2",    "1",    }
-{ TMIT_T0,      "BPM, Bay $(BAY), C, STD, Threshold 0",     "BPM",  "Nel",  "2",    "2",    "2",    "0",    }
-{ TMIT_T1,      "BPM, Bay $(BAY), C, STD, Threshold 1",     "BPM",  "Nel",  "2",    "2",    "2",    "1",    }
-{ TMIT_T2,      "BPM, Bay $(BAY), C, STD, Threshold 2",     "BPM",  "Nel",  "2",    "2",    "2",    "2",    }
-{ TMIT_T3,      "BPM, Bay $(BAY), C, STD, Threshold 3",     "BPM",  "Nel",  "2",    "2",    "2",    "3",    }
-{ TMIT_T4,      "BPM, Bay $(BAY), C, STD, Threshold 4",     "BPM",  "Nel",  "2",    "2",    "2",    "4",    }
-{ TMIT_T5,      "BPM, Bay $(BAY), C, STD, Threshold 5",     "BPM",  "Nel",  "2",    "2",    "2",    "5",    }
-{ TMIT_T6,      "BPM, Bay $(BAY), C, STD, Threshold 6",     "BPM",  "Nel",  "2",    "2",    "2",    "6",    }
-{ TMIT_T7,      "BPM, Bay $(BAY), C, STD, Threshold 7",     "BPM",  "Nel",  "2",    "2",    "2",    "7",    }
+{ X_T0,            "BPM, Bay $(BAY), X, STD, T0",     "BPM",  "mm",   "2",    "0",    "2",    "0",    }
+{ X_T1,            "BPM, Bay $(BAY), X, STD, T1",     "BPM",  "mm",   "2",    "0",    "2",    "1",    }
+{ Y_T0,            "BPM, Bay $(BAY), Y, STD, T0",     "BPM",  "mm",   "2",    "1",    "2",    "0",    }
+{ Y_T1,            "BPM, Bay $(BAY), Y, STD, T1",     "BPM",  "mm",   "2",    "1",    "2",    "1",    }
+{ TMIT_T0,         "BPM, Bay $(BAY), C, STD, T0",     "BPM",  "Nel",  "2",    "2",    "2",    "0",    }
+{ TMIT_T1,         "BPM, Bay $(BAY), C, STD, T1",     "BPM",  "Nel",  "2",    "2",    "2",    "1",    }
+{ TMIT_T2,         "BPM, Bay $(BAY), C, STD, T2",     "BPM",  "Nel",  "2",    "2",    "2",    "2",    }
+{ TMIT_T3,         "BPM, Bay $(BAY), C, STD, T3",     "BPM",  "Nel",  "2",    "2",    "2",    "3",    }
+{ TMIT_T4,         "BPM, Bay $(BAY), C, STD, T4",     "BPM",  "Nel",  "2",    "2",    "2",    "4",    }
+{ TMIT_T5,         "BPM, Bay $(BAY), C, STD, T5",     "BPM",  "Nel",  "2",    "2",    "2",    "5",    }
+{ TMIT_T6,         "BPM, Bay $(BAY), C, STD, T6",     "BPM",  "Nel",  "2",    "2",    "2",    "6",    }
+{ TMIT_T7,         "BPM, Bay $(BAY), C, STD, T7",     "BPM",  "Nel",  "2",    "2",    "2",    "7",    }
 
-{ X_T0_ALT,     "BPM, Bay $(BAY), X, ALT, Threshold 0",     "BPM",  "mm",   "2",    "0",    "3",    "0",    }
-{ X_T1_ALT,     "BPM, Bay $(BAY), X, ALT, Threshold 1",     "BPM",  "mm",   "2",    "0",    "3",    "1",    }
-{ Y_T0_ALT,     "BPM, Bay $(BAY), Y, ALT, Threshold 0",     "BPM",  "mm",   "2",    "1",    "3",    "0",    }
-{ Y_T1_ALT,     "BPM, Bay $(BAY), Y, ALT, Threshold 1",     "BPM",  "mm",   "2",    "1",    "3",    "1",    }
-{ TMIT_T0_ALT,  "BPM, Bay $(BAY), C, ALT, Threshold 0",     "BPM",  "Nel",  "2",    "2",    "3",    "0",    }
-{ TMIT_T1_ALT,  "BPM, Bay $(BAY), C, ALT, Threshold 1",     "BPM",  "Nel",  "2",    "2",    "3",    "1",    }
-{ TMIT_T2_ALT,  "BPM, Bay $(BAY), C, ALT, Threshold 2",     "BPM",  "Nel",  "2",    "2",    "3",    "2",    }
-{ TMIT_T3_ALT,  "BPM, Bay $(BAY), C, ALT, Threshold 3",     "BPM",  "Nel",  "2",    "2",    "3",    "3",    }
-{ TMIT_T4_ALT,  "BPM, Bay $(BAY), C, ALT, Threshold 4",     "BPM",  "Nel",  "2",    "2",    "3",    "4",    }
-{ TMIT_T5_ALT,  "BPM, Bay $(BAY), C, ALT, Threshold 5",     "BPM",  "Nel",  "2",    "2",    "3",    "5",    }
-{ TMIT_T6_ALT,  "BPM, Bay $(BAY), C, ALT, Threshold 6",     "BPM",  "Nel",  "2",    "2",    "3",    "6",    }
-{ TMIT_T7_ALT,  "BPM, Bay $(BAY), C, ALT, Threshold 7",     "BPM",  "Nel",  "2",    "2",    "3",    "7",    }
+{ X_T0_ALT,        "BPM, Bay $(BAY), X, ALT, T0",     "BPM",  "mm",   "2",    "0",    "3",    "0",    }
+{ X_T1_ALT,        "BPM, Bay $(BAY), X, ALT, T1",     "BPM",  "mm",   "2",    "0",    "3",    "1",    }
+{ Y_T0_ALT,        "BPM, Bay $(BAY), Y, ALT, T0",     "BPM",  "mm",   "2",    "1",    "3",    "0",    }
+{ Y_T1_ALT,        "BPM, Bay $(BAY), Y, ALT, T1",     "BPM",  "mm",   "2",    "1",    "3",    "1",    }
 }
 
 ### Scale PVs ###
 file "scale.template" { pattern
-{ R,        DESC,                           APP,        EGU,    PREC,   CH,     SCALE_SLOPE_PV,     SCALE_OFFSET_PV,    SCAN        }
-{ X,        "Bay $(BAY) X Scale factor",    "BPM",      "mm",   "4",    "0",    "$(P):X_FWSCL",     "",                 "1 second"  }
-{ Y,        "Bay $(BAY) Y Scale factor",    "BPM",      "mm",   "4",    "1",    "$(P):Y_FWSCL",     "",                 "1 second"  }
-{ TMIT,     "Bay $(BAY) C Scale factor",    "BPM",      "Nel",  "4",    "2",    "$(P):TMIT_FWSCL",  "",                 "1 second"  }
+{ R,        DESC,                           APP,        EGU,    PREC,   CH,     SCALE_SLOPE_PV,     SCALE_OFFSET_PV,    SCAN       }
+{ X,        "Bay $(BAY) X Scale factor",    "BPM",      "mm",   "4",    "0",    "$(P):X_FWSCL",     "",                 "Passive"  }
+{ Y,        "Bay $(BAY) Y Scale factor",    "BPM",      "mm",   "4",    "1",    "$(P):Y_FWSCL",     "",                 "Passive"  }
+{ TMIT,     "Bay $(BAY) C Scale factor",    "BPM",      "Nel",  "4",    "2",    "$(P):TMIT_FWSCL",  "",                 "Passive"  }
 }
