@@ -310,6 +310,7 @@ L2MPS::L2MPS(const char *portName, const uint16_t appIdSet, const std::string re
 
         setMpsManagerAppId(appId.second);
         setMpsManagerPrefix(recordPrefixMps_.c_str());
+        setMpsDriverInitialized();
 
         // Create parameters for the MPS node
         int index;
@@ -1262,6 +1263,7 @@ asynStatus L2MPS::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
             }
             else if ((bpm_scaleSlopeIt = fMapBpmWScaleSlope.find(function)) != fMapBpmWScaleSlope.end())
             {
+                if (value == 0) { value = 1; } // Do not write a slope of 0, would return asynError
                 ret = ((*boost::any_cast<MpsBpm>(amc[addr])).*(bpm_scaleSlopeIt->second.first))(bpm_scaleSlopeIt->second.second, value);
             }
             else if ((bpm_scaleOffsetIt = fMapBpmWScaleOffset.find(function)) != fMapBpmWScaleOffset.end())
