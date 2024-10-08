@@ -159,3 +159,8 @@ file "RegStringRO.template" { pattern
 { R,              DESC,                             PARAM,          ADDR    }
 { APP_TYPE,       "Application type",               APP_TYPE,       "2"     }
 }
+
+file "mps_soft_pv.template" { pattern 
+{ GLOBAL         }
+{ SIOC:SYS0:MP00 }
+}

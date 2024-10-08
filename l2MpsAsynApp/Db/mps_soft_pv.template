@@ -1,0 +1,7 @@
+record(bo, "$(P):TRIP_VAL_RST_INP") {
+    field(DESC, "Reset latched value")
+    field(OUT,  "$(P):TRIP_VAL_RST")
+    field(DOL,  "$(GLOBAL):TRIP_VAL_RST CPP MSI")
+    field(OMSL, "closed_loop")
+    field(FLNK,  "$(P):TRIP_VAL_RST")
+}
