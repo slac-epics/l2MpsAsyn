@@ -8,7 +8,7 @@ int pvPut(char* pv_name, dbr_double_t value) {
     }
     else{
         if(ca_pend_io(1.0) != ECA_NORMAL) {
-            printf("ERROR: pvPut: Channel not found\n");
+            printf("ERROR: pvPut: Channel %s not found\n",pv_name);
             return -1; 
         }
         else {
