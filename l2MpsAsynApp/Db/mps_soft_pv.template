@@ -1,7 +1,21 @@
 record(bo, "$(P):TRIP_VAL_RST_INP") {
     field(DESC, "Reset latched value")
     field(OUT,  "$(P):TRIP_VAL_RST")
-    field(DOL,  "$(GLOBAL):TRIP_VAL_RST CPP MSI")
+    field(DOL,  "$(GLOBAL):TRIP_VAL_RST CPP NMS")
     field(OMSL, "closed_loop")
     field(FLNK,  "$(P):TRIP_VAL_RST")
+}
+record(bo, "$(P):SALT_RST_CNT_INP") {
+    field(DESC, "Reset latched value")
+    field(OUT,  "$(P):SALT_RST_CNT")
+    field(DOL,  "$(GLOBAL):RESET_ALL CPP NMS")
+    field(OMSL, "closed_loop")
+    field(FLNK,  "$(P):SALT_RST_CNT")
+}
+record(bo, "$(P):SALT_RST_PLL_INP") {
+    field(DESC, "Reset latched value")
+    field(OUT,  "$(P):SALT_RST_PLL")
+    field(DOL,  "$(GLOBAL):RESET_PLL CPP NMS")
+    field(OMSL, "closed_loop")
+    field(FLNK,  "$(P):SALT_RST_PLL")
 }
