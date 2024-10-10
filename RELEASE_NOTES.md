@@ -3,6 +3,9 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __4.1.1__: 2024-10-08 J. Mock
+  * Add PVs to listen to global reset and apply to local application
+
 * __4.1.0__: 2024-10-08 J. Mock
   * Update mps_bpm.substitutios for BPM app
   * Edit scale.template to only write to driver (HW) upon change
