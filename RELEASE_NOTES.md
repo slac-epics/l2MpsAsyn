@@ -3,6 +3,9 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __4.1.2__: 2024-10-14 J. Mock
+  * Add PVs to maintain SALT up count PVs that don't reset to 0.
+
 * __4.1.1__: 2024-10-08 J. Mock
   * Add PVs to listen to global reset and apply to local application
 

@@ -92,7 +92,7 @@ file "RegRO.template" { pattern
 { CH_ENABLE,            "Rx Channel enable bitmask",            CH_ENABLE,              "2"     }
 }
 
-file "RegRO.template" { pattern
+file "salt_status.template" { pattern
 { R,                    DESC,                    PARAM,             ADDR, HIHI, HHSV  }
 { TX_LINK_UP_CNT,       "MPS TX LinkUp Counter", TX_LINK_UP_CNT,    "2",  1,    MAJOR }
 { RX_LINK_UP_CNT_0,     "MPS RX LinkUp Counter", RX_LINK_UP_CNT_0,  "2",  1,    MAJOR }
