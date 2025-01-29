@@ -3,6 +3,10 @@
 Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
+* __4.2.0__: 2025-01-28 J. Lorelli 
+  * Upgrade to asyn/R4.39-1.0.2, yamlLoader/R2.3.8, l2Mps/3.10.0
+  * Removed hardcoded PACKAGE\_SITE\_TOP pointing at AFS
+
 * __4.1.2__: 2024-10-14 J. Mock
   * Add PVs to maintain SALT up count PVs that don't reset to 0.
 
