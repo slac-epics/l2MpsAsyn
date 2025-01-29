@@ -46,8 +46,6 @@ STATIC_BUILD=YES
 # =============================
 # Define the archiecture versions
 # =============================
-# Note using PACKAGE_SITE_TOP from LCLS for PCDS as well
-PACKAGE_SITE_TOP=/afs/slac/g/lcls/package
 
 LINUXRT_BUILDROOT_VERSION=buildroot-2019.08
 
@@ -60,7 +58,7 @@ endif
 # Support for CPSW
 # ========================================================================================================================
 CPSW_FRAMEWORK_PACKAGE_NAME=cpsw/framework
-CPSW_FRAMEWORK_VERSION=R4.4.1
+CPSW_FRAMEWORK_VERSION=R4.5.2
 CPSW_FRAMEWORK_TOP=$(PACKAGE_SITE_TOP)/$(CPSW_FRAMEWORK_PACKAGE_NAME)/$(CPSW_FRAMEWORK_VERSION)
 CPSW_FRAMEWORK_LIB = $(CPSW_FRAMEWORK_TOP)/$(PKG_ARCH)/lib
 CPSW_FRAMEWORK_INCLUDE = $(CPSW_FRAMEWORK_TOP)/$(PKG_ARCH)/include
@@ -78,7 +76,7 @@ BOOST_LIB = $(BOOST_TOP)/$(PKG_ARCH)/lib
 BOOST_INCLUDE = $(BOOST_TOP)/$(PKG_ARCH)/include
 
 L2MPS_PACKAGE_NAME=l2Mps
-L2MPS_VERSION=3.9.0
+L2MPS_VERSION=3.10.0
 L2MPS_TOP=$(PACKAGE_SITE_TOP)/$(L2MPS_PACKAGE_NAME)/$(L2MPS_VERSION)
 L2MPS_LIB=$(L2MPS_TOP)/$(PKG_ARCH)/lib
 L2MPS_INCLUDE=$(L2MPS_TOP)/$(PKG_ARCH)/include
