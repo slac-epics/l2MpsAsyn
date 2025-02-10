@@ -20,20 +20,7 @@
 #================================================================================#
 
 # Scale Factor PVs
-record(calcout, "$(P):$(R)_SS") {
-    field(DESC, "$(DESC) slope")
-    field(SCAN, "$(SCAN)")
-    field(PHAS, "1")
-    field(PINI, "NO")
-    field(EGU,  "$(EGU)/raw")
-    field(PREC, "$(PREC)")
-    field(INPA, "$(SCALE_SLOPE_PV)")
-    field(CALC, "A")
-    field(DTYP, "Soft Channel")
-    field(OUT,  "$(P):$(R)_SS_OUT PP")
-    field(OOPT, "On Change")
-}
-record(ao,      "$(P):$(R)_SS_OUT") {
+record(ao,      "$(P):$(R)_SS") {
     field(DESC, "$(DESC) slope")
     field(SCAN, "Passive")
     field(PHAS, "1")
@@ -55,20 +42,7 @@ record(ai,      "$(P):$(R)_SS_RBV") {
     field(INP,  "@asyn($(PORT),$(BAY))$(APP)_SCALESLOPE_$(CH)")
 }
 # Scale Offset PVs
-record(calcout, "$(P):$(R)_SO") {
-    field(DESC, "$(DESC) slope")
-    field(SCAN, "$(SCAN)")
-    field(PHAS, "1")
-    field(PINI, "NO")
-    field(EGU,  "raw")
-    field(PREC, "$(PREC)")
-    field(INPA, "$(SCALE_OFFSET_PV)")
-    field(CALC, "A")
-    field(DTYP, "Soft Channel")
-    field(OUT,  "$(P):$(R)_SO_OUT PP")
-    field(OOPT, "On Change")
-}
-record(ao,      "$(P):$(R)_SO_OUT") {
+record(ao,      "$(P):$(R)_SO") {
     field(DESC, "$(DESC) offset")
     field(SCAN, "Passive")
     field(PHAS, "1")
