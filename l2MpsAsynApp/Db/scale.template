@@ -29,7 +29,7 @@ record(ao,      "$(P):$(R)_SS") {
     field(PREC, "$(PREC)")
     field(OMSL, "closed_loop")
     field(OIF,  "Full")
-    field(DOL,  "$(P):$(R)_SS")
+    field(DOL,  "$(SCALE_SLOPE_PV)")
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT),$(BAY))$(APP)_SCALESLOPE_$(CH)")
 }
