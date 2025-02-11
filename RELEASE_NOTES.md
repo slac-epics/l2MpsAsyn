@@ -4,6 +4,9 @@ Release notes for the SLAC's LCLS2 HPS MPS EPICS Module.
 
 ## Releases:
 
+* __4.3.1__: 2025-02-11 J. Mock
+  * Fix typo in scale.template.  SS PV was referencing itself in DOL field
+
 * __4.3.0__: 2025-02-10 J. Mock
   * Change processing of \_SS and \_SO PVs to process
     each time they are FLNKed rather than process on change
